@@ -75,6 +75,56 @@ frame2 = ttk.Frame(notebook, width = 1300, height = 510, borderwidth = 5, relief
 notebook.add(frame2, text = 'MODELAGEM')
 frame3 = ttk.Frame(notebook, width = 1300, height = 510, borderwidth = 5, relief = tk.SUNKEN)
 notebook.add(frame3, text = 'DOCUMENTAÇÃO')
+def notebook_sem_inib():
+    notebook_sem_inib = ttk.Notebook(frame2)
+    notebook_sem_inib.grid(row=3, column =4, sticky=tk.E + tk.W + tk.N + tk.S, padx=50, pady=85)
+    global frame4
+    frame4 = ttk.Frame(notebook_sem_inib, width = 313, height = 320, borderwidth = 5, relief = tk.GROOVE)
+    notebook_sem_inib.add(frame4, text = 'CONTOIS')
+    global frame5
+    frame5 = ttk.Frame(notebook_sem_inib, width = 313, height = 320, borderwidth = 5, relief = tk.GROOVE)
+    notebook_sem_inib.add(frame5, text = 'MONOD')
+    global frame6
+    frame6 = ttk.Frame(notebook_sem_inib, width = 313, height = 320, borderwidth = 5, relief = tk.GROOVE)
+    notebook_sem_inib.add(frame6, text = 'MOSER')
+def notebook_inib_subs():
+    notebook_inib_subs = ttk.Notebook(frame2)
+    notebook_inib_subs.grid(row=3, column =4, sticky=tk.E + tk.W + tk.N + tk.S, padx=50, pady=85)
+    global frame7
+    frame7 = ttk.Frame(notebook_inib_subs, width = 313, height = 320, borderwidth = 5, relief = tk.GROOVE)
+    notebook_inib_subs.add(frame7, text = 'ANDREWS')
+    global frame8
+    frame8 = ttk.Frame(notebook_inib_subs, width = 313, height = 320, borderwidth = 5, relief = tk.GROOVE)
+    notebook_inib_subs.add(frame8, text = 'WU ET AL')
+def notebook_inib_prod():
+    notebook_inib_prod = ttk.Notebook(frame2)
+    notebook_inib_prod.grid(row=3, column =4, sticky=tk.E + tk.W + tk.N + tk.S, padx=50, pady=85)
+    global frame9
+    frame9 = ttk.Frame(notebook_inib_prod, width = 313, height = 320, borderwidth = 5, relief = tk.GROOVE)
+    notebook_inib_prod.add(frame9, text = 'AIBA ET AL')
+    global frame10
+    frame10 = ttk.Frame(notebook_inib_prod, width = 313, height = 320, borderwidth = 5, relief = tk.GROOVE)
+    notebook_inib_prod.add(frame10, text = 'HOPE & HANSFORD')
+    global frame11
+    frame11 = ttk.Frame(notebook_inib_prod, width = 313, height = 320, borderwidth = 5, relief = tk.GROOVE)
+    notebook_inib_prod.add(frame11, text = 'LEVENSPIEL')
+def notebook_inib_biomas():
+    notebook_inib_biomas = ttk.Notebook(frame2)
+    notebook_inib_biomas.grid(row=3, column =4, sticky=tk.E + tk.W + tk.N + tk.S, padx=50, pady=85)
+    global frame12
+    frame12 = ttk.Frame(notebook_inib_biomas, width = 313, height = 320, borderwidth = 5, relief = tk.GROOVE)
+    notebook_inib_biomas.add(frame12, text = 'LEE ET AL')
+
+  
+# Função para impressão de imagens:
+def image(imagem, num_frame, x, y):
+    load = Image.open(imagem)
+    render = ImageTk.PhotoImage(load)
+    img_contois = Label(num_frame, image = render, border = 0)
+    img_contois.image = render
+    img_contois.place(x = x, y = y)
+    
+
 
                                 ## PARA A REALIZAÇÃO DA MODELAGEM ##
 # Importação módulos - modelagem:
@@ -616,7 +666,7 @@ def explorer():
         def fig_concent():
             plot_graf(frame2)
             graf_cor(x = "red", p = "green", s = "blue") 
-            l
+            
             
         # Cálculo produtividade - células e produto:
         # Experimental: 
@@ -1002,94 +1052,56 @@ def explorer():
         tab_fun_cin()
         #func_sai()
         load = Image.open("Equacao_Contois.png")
-        render = ImageTk.PhotoImage(load)
-        img_contois = Label(frame2, image = render, border = 0)
-        img_contois.image = render
-        img_contois.place(x = 50, y = 360)  
         Label(frame2, text = u"\u03bcmáx(h\u207b\u00b9)     KSX(g.L\u207b\u00b9)", font = "arial 10 bold", justify = "center", fg = "black", bg = "grey", width = 21).place(x = 930, y = 220)
         Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gx.gp\u207b\u00b9)    \u03B2[±gx.(gp.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "grey", justify = "center", width = 41).place(x = 932, y = 380)
-        modelagem(cont_model = 1)
+        #modelagem(cont_model = 1)
 
     def click_monod(): 
         tab_fun_cin()
         #func_sai()
-        load = Image.open("Equacao_Monod.png")
-        render = ImageTk.PhotoImage(load)
-        img_monod = Label(frame2, image = render, border = 0)
-        img_monod.image = render
-        img_monod.place(x = 50, y = 360)      
         Label(frame2, text = u"\u03bcmáx(h\u207b\u00b9)     Ks(g.L\u207b\u00b9)", font = "arial 10 bold", fg = "black", bg = "grey", justify = "center", width = 20).place(x = 930, y = 220)
         Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gx.gp\u207b\u00b9)    \u03B2[±gx.(gp.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "grey", justify = "center", width = 41).place(x = 932, y = 380)
-        modelagem(cont_model = 0)
+        #modelagem(cont_model = 0)
         
     def click_moser(): 
         tab_fun_cin()
-        #func_sai()
-        load = Image.open("Equacao_Moser.png")
-        render = ImageTk.PhotoImage(load)
-        img_moser = Label(frame2, image = render, border = 0)
-        img_moser.image = render
-        img_moser.place(x = 50, y = 360)    
+        #func_sai()    
         Label(frame2, text = u"\u03bcmáx(h\u207b\u00b9)     Ks(g.L\u207b\u00b9)     u(adim)", font = "arial 10 bold", fg = "black", bg = "grey", justify = "center", width = 28).place(x = 930, y = 220)
         Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gx.gp\u207b\u00b9)    \u03B2[±gx.(gp.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "grey", justify = "center", width = 41).place(x = 932, y = 380)
-        modelagem(cont_model = 4)
+        #modelagem(cont_model = 4)
         
     def click_aiba(): 
-        load = Image.open("Tabela_6_gl.png")
-        render = ImageTk.PhotoImage(load)
-        img = Label(frame2, image = render, border = 0)
-        img.image = render
-        img.place(x = 960, y = 205)  
+        tab_fun_cin()
         Label(frame2, text = u"\u03bcmáx(h\u207b\u00b9)     Ks(g.L\u207b\u00b9)     Kp(g.L\u207b\u00b9)", font = "arial 10 bold", justify = "center", fg = "black", bg = "lightgrey", width = 28).place(x = 962, y = 220)
         Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gx.gp\u207b\u00b9)    \u03B2[±gx.(gp.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "lightgrey", justify = "center", width = 41).place(x = 932, y = 380)
         #modelagem(cont_model = 3)
 
     def click_hope_hansford(): 
-        load = Image.open("Tabela_6_gl.png")
-        render = ImageTk.PhotoImage(load)
-        img = Label(frame2, image = render, border = 0)
-        img.image = render
-        img.place(x = 960, y = 205)      
+        tab_fun_cin()   
         Label(frame2, text = u"\u03bcmáx(h\u207b\u00b9)     Ks(g.L\u207b\u00b9)     Kp(g.L\u207b\u00b9)", font = "arial 10 bold", fg = "black", bg = "lightgrey", justify = "center", width = 28).place(x = 962, y = 220)
         Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gx.gp\u207b\u00b9)    \u03B2[±gx.(gp.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "lightgrey", justify = "center", width = 41).place(x = 932, y = 380)
         #modelagem(cont_model = 5)
         
     def click_levenspiel(): 
-        load = Image.open("Tabela_6_gl.png")
-        render = ImageTk.PhotoImage(load)
-        img = Label(frame2, image = render, border = 0)
-        img.image = render
-        img.place(x = 960, y = 205)    
+        tab_fun_cin()   
         Label(frame2, text = u"\u03bcmáx(h\u207b\u00b9)    Ks(g.L\u207b\u00b9)     n(adim)     Cp*(g.L\u207b\u00b9)", font = "arial 10 bold", fg = "black", bg = "lightgrey", justify = "center", width = 37).place(x = 932, y = 220)
         Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gx.gp\u207b\u00b9)   \u03B2[±gx.(gp.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "lightgrey", justify = "center", width = 41).place(x = 962, y = 380)
         #modelagem(cont_model = 7)
         
     def click_andrews(): 
-        load = Image.open("Tabela_6_gl.png")
-        render = ImageTk.PhotoImage(load)
-        img = Label(frame2, image = render, border = 0)
-        img.image = render
-        img.place(x = 960, y = 205)    
+        tab_fun_cin()   
         Label(frame2, text = u"\u03bcmáx(h\u207b\u00b9)      Ks(g.L\u207b\u00b9)     KIS(g.L\u207b\u00b9)", font = "arial 10 bold", fg = "black", bg = "lightgrey", justify = "center", width = 30).place(x = 932, y = 220)
         Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gx.gp\u207b\u00b9)    \u03B2[±gx.(gp.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "lightgrey", justify = "center", width = 41).place(x = 962, y = 380)
         #modelagem(cont_model = 2)
         
     def click_wu(): 
-        load = Image.open("Tabela_6_gl.png")
-        render = ImageTk.PhotoImage(load)
-        img = Label(frame2, image = render, border = 0)
-        img.image = render
-        img.place(x = 960, y = 205)    
+        tab_fun_cin()   
         Label(frame2, text = u"\u03bcmáx(h\u207b\u00b9)     Ks(g.L\u207b\u00b9)     KE(g.L\u207b\u00b9)     v(adim)", font = "arial 10 bold", fg = "black", bg = "lightgrey", justify = "center", width = 40).place(x = 932, y = 220)
         Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gx.gp\u207b\u00b9)    \u03B2[±gx.(gp.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "lightgrey", justify = "center", width = 41).place(x = 962, y = 380)
         #modelagem(cont_model = 6)
         
     def click_lee(): 
-        load = Image.open("Tabela_6_gl.png")
-        render = ImageTk.PhotoImage(load)
-        img = Label(frame2, image = render, border = 0)
-        img.image = render
-        img.place(x = 960, y = 205)    
+        tab_fun_cin()
         Label(frame2, text = u"\u03bcmáx(h\u207b\u00b9)    Ks(g.L\u207b\u00b9)     m(adim )     Cx*(g.L\u207b\u00b9)", font = "arial 10 bold", fg = "black", bg = "lightgrey", justify = "center", width = 37).place(x = 932, y = 220)
         Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gx.gp\u207b\u00b9)    \u03B2[gx.(gp.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "white", justify = "center", width = 41).place(x = 962, y = 380)
         #modelagem(cont_model = 8)
@@ -1098,10 +1110,60 @@ def explorer():
         value_2 = combo_2.get()
         print(value_2)
         if value_2 == "AUSÊNCIA DE INIBIÇÃO":
-            Button(frame2, text = "CONTOIS", bg = "gray20", fg="white", borderwidth=2, relief="ridge", font="batang 12", width = 8, command = click_contois).place(x = 172, y = 120)
-            Button(frame2, text = "MONOD", bg = "gray20", fg="white", borderwidth=2, relief="ridge", font="batang 12", width = 8, command = click_monod).place(x = 172, y = 200)
-            Button(frame2, text = "MOSER", bg = "gray20", fg="white", borderwidth=2, relief="ridge", font="batang 12", width = 8, command = click_moser).place(x = 172, y = 280)
-
+            notebook_sem_inib()
+            image(imagem = "Equacao_Contois_mod.png", num_frame = frame4, x = 60, y = 92)
+            tex_mimax = Label(frame4, text = u"\u03bcmáx(h\u207b\u00b9) = taxa específica máxima de crescimento ", font = 'arial 9 italic', fg = "black").place(x = 0, y = 184)
+            tex_ksx = Label(frame4, text = "KSX = constante de saturação (massa/volume)", font = 'arial 9 italic', fg = "black").place(x = 0, y = 214)
+            image(imagem = "Equacao_Monod_mod.png", num_frame = frame5, x = 60, y = 92)
+            tex_mimax = Label(frame5, text = u"\u03bcmáx(h\u207b\u00b9) = taxa específica máxima de crescimento ", font = 'arial 9 italic', fg = "black").place(x = 0, y = 184)
+            tex_ks = Label(frame5, text = "Ks = constante de saturação (massa/volume)", font = 'arial 9 italic', fg = "black").place(x = 0, y = 214)
+            image(imagem = "Equacao_Moser_mod.png", num_frame = frame6, x = 60, y = 92)
+            tex_mimax = Label(frame6, text = u"\u03bcmáx(h\u207b\u00b9) = taxa específica máxima de crescimento ", font = 'arial 9 italic', fg = "black").place(x = 0, y = 184)
+            tex_ks = Label(frame6, text = "Ks = constante de saturação (massa/volume)", font = 'arial 9 italic', fg = "black").place(x = 0, y = 214)
+            tex_n = Label(frame6, text = "n = parâmetro expoente (adimensional)", font = 'arial 9 italic', fg = "black").place(x = 0, y = 244)
+            Button(frame4, text = "MODELAR", bg = "gray20", fg="white", borderwidth=2, relief="ridge", font="batang 11", width = 8, command = click_contois).place(x = 112, y = 28)
+            Button(frame5, text = "MODELAR", bg = "gray20", fg="white", borderwidth=2, relief="ridge", font="batang 11", width = 8, command = click_monod).place(x = 112, y = 28)
+            Button(frame6, text = "MODELAR", bg = "gray20", fg="white", borderwidth=2, relief="ridge", font="batang 11", width = 8, command = click_moser).place(x = 112, y = 28)
+        if value_2 == "INIBIÇÃO PELO SUBSTRATO": 
+            notebook_inib_subs()
+            image(imagem = "Equacao_Andrews_mod.png", num_frame = frame7, x = 45, y = 90)
+            tex_mimax = Label(frame7, text = u"\u03bcmáx(h\u207b\u00b9) = taxa específica máxima de crescimento ", font = 'arial 9 italic', fg = "black").place(x = 0, y = 184)
+            tex_ks = Label(frame7, text = "Ks = constante de saturação (massa/volume)", font = 'arial 9 italic', fg = "black").place(x = 0, y = 214)
+            tex_kis = Label(frame7, text = "KIS = constante inibição por substrato (massa/volume)", font = 'arial 9 italic', fg = "black").place(x = 0, y = 244)
+            image(imagem = "Equacao_Wu_mod.png", num_frame = frame8, x = 26, y = 90)
+            tex_mimax = Label(frame8, text = u"\u03bcmáx(h\u207b\u00b9) = taxa específica máxima de crescimento ", font = 'arial 9 italic', fg = "black").place(x = 0, y = 184)
+            tex_ks = Label(frame8, text = "Ks = constante de saturação (massa/volume)", font = 'arial 9 italic', fg = "black").place(x = 0, y = 214)
+            tex_ke = Label(frame8, text = "Ke = constante inibição por substrato (massa/volume)", font = 'arial 9 italic', fg = "black").place(x = 0, y = 244)
+            tex_v = Label(frame8, text = "v = parâmetro expoente (adimensional)", font = 'arial 9 italic', fg = "black").place(x = 0, y = 244)
+            Button(frame7, text = "MODELAR", bg = "gray20", fg="white", borderwidth=2, relief="ridge", font="batang 11", width = 8, command = click_andrews).place(x = 112, y = 28)
+            Button(frame8, text = "MODELAR", bg = "gray20", fg="white", borderwidth=2, relief="ridge", font="batang 11", width = 8, command = click_wu).place(x = 112, y = 28)
+        if value_2 == "INIBIÇÃO PELO PRODUTO": 
+            notebook_inib_prod()
+            image(imagem = "Equacao_Aiba_mod.png", num_frame = frame9, x = 35, y = 92) 
+            tex_mimax = Label(frame9, text = u"\u03bcmáx(h\u207b\u00b9) = taxa específica máxima de crescimento ", font = 'arial 9 italic', fg = "black").place(x = 0, y = 184)
+            tex_ks = Label(frame9, text = "Ks = constante de saturação (massa/volume)", font = 'arial 9 italic', fg = "black").place(x = 0, y = 214)
+            tex_kp = Label(frame9, text = "Kp = parâmetro expoente de inibição (volume/massa)", font = 'arial 9 italic', fg = "black").place(x = 0, y = 244)
+            Button(frame9, text = "MODELAR", bg = "gray20", fg="white", borderwidth=2, relief="ridge", font="batang 11", width = 8, command = click_aiba).place(x = 112, y = 28)
+            Button(frame10, text = "MODELAR", bg = "gray20", fg="white", borderwidth=2, relief="ridge", font="batang 11", width = 8, command = click_hope_hansford).place(x = 112, y = 28)
+            Button(frame11, text = "MODELAR", bg = "gray20", fg="white", borderwidth=2, relief="ridge", font="batang 11", width = 8, command = click_levenspiel).place(x = 112, y = 28)
+            image(imagem = "Equacao_Hope_Hansford_mod.png", num_frame = frame10, x = 37, y = 92) 
+            tex_mimax = Label(frame10, text = u"\u03bcmáx(h\u207b\u00b9) = taxa específica máxima de crescimento ", font = 'arial 9 italic', fg = "black").place(x = 0, y = 184)
+            tex_ks = Label(frame10, text = "Ks = constante de saturação (massa/volume)", font = 'arial 9 italic', fg = "black").place(x = 0, y = 214)
+            tex_kp = Label(frame10, text = "Kp = constante inibição por produto (massa/volume)", font = 'arial 9 italic', fg = "black").place(x = 0, y = 244)
+            image(imagem = "Equacao_Levenspiel_mod.png", num_frame = frame11, x = 26, y = 92) 
+            tex_mimax = Label(frame11, text = u"\u03bcmáx(h\u207b\u00b9) = taxa específica máxima de crescimento ", font = 'arial 9 italic', fg = "black").place(x = 0, y = 184)
+            tex_ks = Label(frame11, text = "Ks = constante de saturação (massa/volume)", font = 'arial 9 italic', fg = "black").place(x = 0, y = 214)
+            tex_cpestr = Label(frame11, text = "Cp* = concentração produto crítica (massa/volume)", font = 'arial 9 italic', fg = "black").place(x = 0, y = 244)
+            tex_n_lev = Label(frame11, text = "n = constante de Levenspiel (adimensional)", font = 'arial 9 italic', fg = "black").place(x = 0, y = 274)
+        if value_2 == "INIBIÇÃO PELA BIOMASSA": 
+            notebook_inib_biomas()
+            image(imagem = "Equacao_Lee_mod.png", num_frame = frame12, x = 26, y = 92) 
+            tex_mimax = Label(frame12, text = u"\u03bcmáx(h\u207b\u00b9) = taxa específica máxima de crescimento ", font = 'arial 9 italic', fg = "black").place(x = 0, y = 184)
+            tex_ks = Label(frame12, text = "Ks = constante de saturação (massa/volume)", font = 'arial 9 italic', fg = "black").place(x = 0, y = 214)
+            tex_cxestr = Label(frame12, text = "Cx* = concentração celular crítica (massa/volume)", font = 'arial 9 italic', fg = "black").place(x = 0, y = 244)
+            tex_m = Label(frame12, text = "m = constante de Lee et al (adimensional)", font = 'arial 9 italic', fg = "black").place(x = 0, y = 274)
+            Button(frame12, text = "MODELAR", bg = "gray20", fg="white", borderwidth=2, relief="ridge", font="batang 11", width = 8, command = click_lee).place(x = 112, y = 28)
+        
     Button(frame2, text="Pronto", bg = "black", fg="white", font="batang 12", command = print_me_2).place(x = 315, y = 29)
 Button(frame2, text = "Carregar arquivo",  font="Batang 12", fg="white", bg="gray17", borderwidth=2, relief="raised", command = explorer).place(x = 568, y = 15) 
 Label(frame2, borderwidth=2, relief="ridge", justify = "center", width = 40).place(x = 500, y = 50)
