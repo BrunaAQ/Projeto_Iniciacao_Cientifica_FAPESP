@@ -1,5 +1,5 @@
 # Projeto de pesquisa Iniciação Científica N°2019/24737-9
-As pastas que contêm os arquivos escritos em Python (.py) ou ainda salvos em outra extensão (.xlsx e .png) e que contemplam os resultados apresentados e discutidos no Relatório Parcial submetido à FAPESP para análise foram criadas seguindo o esquema descrito abaixo (o repositório utilizado na rotina de trabalho para desenvolvimento do projeto, com todos os commits (alterações e versionamentos) realizados, encontra-se nomeado por "Projeto_fermenpy" e associado à mesma conta deste aqui tratado):
+As pastas que contêm os arquivos escritos em _Python_ (.py) ou ainda salvos em outra extensão (.xlsx e .png) e que contemplam os resultados apresentados e discutidos no Relatório Parcial submetido à FAPESP para análise foram criadas seguindo o esquema descrito abaixo (o repositório utilizado na rotina de trabalho para desenvolvimento do projeto, com todos os commits (alterações e versionamentos) realizados, encontra-se nomeado por "Projeto_fermenpy" e associado à mesma conta deste aqui tratado):
 
 - ___"Partes_Modulares.py":___ Guardam os códigos cujas linhas de comandos descrevem funções que permitem a importação automatizada dos valores fornecidos a cada um dos parâmetros cinéticos envolvidos  nos equacionamentos cinéticos estudados, bem como a de funções objetivas e dos sistemas de equações não lineares empregadas para as etapas de simulação e modelagem computacional. São importados para os códigos .py principais;
 
@@ -11,6 +11,6 @@ As pastas que contêm os arquivos escritos em Python (.py) ou ainda salvos em ou
 
 - ___"Graficos_Documentos_Submetidos":___ Aqui estão os arquivos desenvolvidos em linguagem Python que permitiram a criação, por autoria própria, das figuras gráficas empregadas com fins ilustrativos e demonstrativos das fases do crescimento microbiano (submetido juntamente com o projeto de pesquisa aqui relacionado) e da influência exercida pela constante de Moser "u" na velocidade do crescimento microbiano.
 
-__Adicional__: Todos os códigos implementados em linguagem Python de programação contidos neste repositório foram escritos, executados, testados e validados por meio da utilização do ambiente de programação científica _Spyder_, acessado por meio do _software open source Anaconda Navigator_.
+__Adicional__: Todos os códigos implementados em linguagem _Python_ de programação contidos neste repositório foram escritos, executados, testados e validados por meio da utilização do ambiente de programação científica _Spyder_, acessado por meio do _software open source Anaconda Navigator_.
 Os modelos cinéticos estão divididos, no interior das pastas, de acordo com a presença, ausência e tipo de inibição que descrevem, conforme abordado no Relatório Parcial e documentos a ele anexados na plataforma SAGE.
 
