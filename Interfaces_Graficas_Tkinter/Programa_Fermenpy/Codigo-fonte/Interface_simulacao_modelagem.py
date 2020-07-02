@@ -54,10 +54,10 @@ def image(imagem, num_frame, x, y):
     img_contois.image = render
     img_contois.place(x = x, y = y)
 
-def image_dif(imagem, num_frame, x, y):
+def image_docum(imagem, num_frame, borda, x, y):
     load = Image.open(imagem)
     render = ImageTk.PhotoImage(load)
-    img_contois = Label(num_frame, image = render, border = 0, borderwidth = 2, relief = "sunken")
+    img_contois = Label(num_frame, image = render, border = 0, borderwidth = borda, relief = "sunken")
     img_contois.image = render
     img_contois.place(x = x, y = y)
 
@@ -191,31 +191,31 @@ def notebook_docum():
     notebook_docum = ttk.Notebook(frame3)
     notebook_docum.place(x = 30, y = 165)
     global frame26
-    frame26 = ttk.Frame(notebook_docum, width = 600, height = 310, borderwidth = 5, relief = tk.GROOVE)
+    frame26 = ttk.Frame(notebook_docum, width = 602, height = 310, borderwidth = 5, relief = tk.GROOVE)
     notebook_docum.add(frame26, text = 'Contois')
     global frame27
-    frame27 = ttk.Frame(notebook_docum, width = 100, height = 1, borderwidth = 5, relief = tk.GROOVE)
+    frame27 = ttk.Frame(notebook_docum, width = 602, height = 31, borderwidth = 5, relief = tk.GROOVE)
     notebook_docum.add(frame27, text = 'Monod')
     global frame28
-    frame28 = ttk.Frame(notebook_docum, width = 100, height = 1, borderwidth = 5, relief = tk.GROOVE)
+    frame28 = ttk.Frame(notebook_docum, width = 602, height = 310, borderwidth = 5, relief = tk.GROOVE)
     notebook_docum.add(frame28, text = 'Moser')
     global frame29
-    frame29 = ttk.Frame(notebook_docum, width = 100, height = 1, borderwidth = 5, relief = tk.GROOVE)
+    frame29 = ttk.Frame(notebook_docum, width = 602, height = 310, borderwidth = 5, relief = tk.GROOVE)
     notebook_docum.add(frame29, text = 'Andrews')
     global frame30
-    frame30 = ttk.Frame(notebook_docum, width = 100, height = 1, borderwidth = 5, relief = tk.GROOVE)
+    frame30 = ttk.Frame(notebook_docum, width = 602, height = 310, borderwidth = 5, relief = tk.GROOVE)
     notebook_docum.add(frame30, text = 'Wu et al')
     global frame31
-    frame31 = ttk.Frame(notebook_docum, width = 100, height = 1, borderwidth = 5, relief = tk.GROOVE)
+    frame31 = ttk.Frame(notebook_docum, width = 602, height = 310, borderwidth = 5, relief = tk.GROOVE)
     notebook_docum.add(frame31, text = 'Aiba et al')
     global frame32
-    frame32 = ttk.Frame(notebook_docum, width = 100, height = 1, borderwidth = 5, relief = tk.GROOVE)
+    frame32 = ttk.Frame(notebook_docum, width = 602, height = 310, borderwidth = 5, relief = tk.GROOVE)
     notebook_docum.add(frame32, text = 'Hope & Hansford')
     global frame33
-    frame33 = ttk.Frame(notebook_docum, width = 100, height = 1, borderwidth = 5, relief = tk.GROOVE)
+    frame33 = ttk.Frame(notebook_docum, width = 602, height = 310, borderwidth = 5, relief = tk.GROOVE)
     notebook_docum.add(frame33, text = 'Levenspiel')
     global frame34
-    frame34 = ttk.Frame(notebook_docum, width = 100, height = 1, borderwidth = 5, relief = tk.GROOVE)
+    frame34 = ttk.Frame(notebook_docum, width = 602, height = 310, borderwidth = 5, relief = tk.GROOVE)
     notebook_docum.add(frame34, text = 'Lee et al')
     
 def notebook_algorit():
@@ -276,31 +276,57 @@ Label(frame3, text = "Entrada - Saída + Geração - Consumo = Acúmulo", font =
 Label(frame3, text = "0 - 0 + Gerado - 0 = Acúmulo", font = "Times 8 bold italic", fg = "black", bg = "grey77", borderwidth = 2, relief = "flat").place(x = 684, y = 56)
 Label(frame3, text = "Cx = conc. de células", font = "Times 8", fg = "black", bg = "grey77", borderwidth = 2, relief = "flat").place(x = 727, y = 77)
 Label(frame3, text = u"\u03bc = taxa de crescimento", font = "Times 8", fg = "black", bg = "grey77").place(x = 727, y = 92)
-image_dif(imagem = "Diferencial_cx.png", num_frame = frame3, x = 658, y = 77)
+image_docum(imagem = "Diferencial_cx.png", num_frame = frame3, borda = 2, x = 658, y = 77)
 # Substrato:
 Label(frame3, text = "0 - 0 + 0 - Consumo = Acúmulo", font = "Times 8 bold italic", fg = "black", bg = "grey79", borderwidth = 2, relief = "flat").place(x = 885, y = 56)
 Label(frame3, text = "Cs = conc. de subst", font = "Times 8", fg = "black", bg = "grey79", borderwidth = 2, relief = "flat").place(x = 964, y = 77)
 Label(frame3, text = "Yxs = coef. rendim", font = "Times 8", fg = "black", bg = "grey79", borderwidth = 2, relief = "flat").place(x = 964, y = 92)
-image_dif(imagem = "Diferencial_cs.png", num_frame = frame3, x = 863, y = 77)
+image_docum(imagem = "Diferencial_cs.png", num_frame = frame3, borda = 2, x = 863, y = 77)
 # Produto:
 Label(frame3, text = "0 - 0 + Gerado - 0 = Acúmulo", font = "Times 8 bold italic", fg = "black", bg = "grey81", borderwidth = 2, relief = "flat").place(x = 1092, y = 56)
 Label(frame3, text = u"\u03B1 e \u03B2 = coef. prod" , font = "Times 8", fg = "black", bg = "grey81", borderwidth = 2, relief = "flat").place(x = 1172, y = 92)
 Label(frame3, text = "Cp = conc. de prod", font = "Times 8", fg = "black", bg = "grey81", borderwidth = 2, relief = "flat").place(x = 1172, y = 77)
-image_dif(imagem = "Diferencial_cp.png", num_frame = frame3, x = 1069, y = 77)
+image_docum(imagem = "Diferencial_cp.png", num_frame = frame3, borda = 2, x = 1069, y = 77)
 ## Textos para documentação
 # Batelada:
 Modulo_documentacao.caixa_texto_batelada(frame = frame3, altura = 5, largura = 56, x = 35, y = 30)
 # Modelos Cinéticos:
-Modulo_documentacao.caixa_texto_modelo_contois(frame = frame26, altura = 19, largura = 95, x = 4, y = 0)
-Modulo_documentacao.caixa_texto_modelo_monod(frame = frame27, altura = 19, largura = 95, x = 4, y = 0)
-Modulo_documentacao.caixa_texto_modelo_moser(frame = frame28, altura = 19, largura = 95, x = 4, y = 0)
-Modulo_documentacao.caixa_texto_modelo_andrews(frame = frame29, altura = 19, largura = 95, x = 4, y = 0)
-Modulo_documentacao.caixa_texto_modelo_wu(frame = frame30, altura = 19, largura = 95, x = 4, y = 0)
-Modulo_documentacao.caixa_texto_modelo_aiba(frame = frame31, altura = 19, largura = 95, x = 4, y = 0)
-Modulo_documentacao.caixa_texto_modelo_h_h(frame = frame32, altura = 19, largura = 95, x = 4, y = 0)
-Modulo_documentacao.caixa_texto_modelo_levenspiel(frame = frame33, altura = 19, largura = 95, x = 4, y = 0)
-Modulo_documentacao.caixa_texto_modelo_lee(frame = frame34, altura = 19, largura = 95, x = 4, y = 0)
-
+## Contois:
+Modulo_documentacao.caixa_texto_modelo_contois(frame = frame26, altura = 19, largura = 97, x = 0, y = 0)
+Modulo_documentacao.caixa_texto_equacao_contois(frame = frame26, altura = 5, largura = 51, x = 250, y = 187)
+image_docum(imagem = "Equacao_Contois_mod.png", num_frame = frame26, borda = 5, x = 50, y = 200)
+## Monod:
+Modulo_documentacao.caixa_texto_modelo_monod(frame = frame27, altura = 19, largura = 97, x = 0, y = 0)
+Modulo_documentacao.caixa_texto_equacao_monod(frame = frame27, altura = 5, largura = 51, x = 250, y = 187)
+image_docum(imagem = "Equacao_Monod_mod.png", num_frame = frame27, borda = 5, x = 50, y = 200)
+## Moser:
+Modulo_documentacao.caixa_texto_modelo_moser(frame = frame28, altura = 19, largura = 97, x = 0, y = 0)
+Modulo_documentacao.caixa_texto_equacao_moser(frame = frame28, altura = 6, largura = 51, x = 250, y = 180)
+image_docum(imagem = "Equacao_Moser_mod.png", num_frame = frame28, borda = 5, x = 50, y = 200)
+## Andrews:
+Modulo_documentacao.caixa_texto_modelo_andrews(frame = frame29, altura = 19, largura = 97, x = 0, y = 0)
+Modulo_documentacao.caixa_texto_equacao_andrews(frame = frame29, altura = 6, largura = 51, x = 250, y = 180)
+image_docum(imagem = "Equacao_Andrews_mod.png", num_frame = frame29, borda = 5, x = 20, y = 195)
+## Wu:
+Modulo_documentacao.caixa_texto_modelo_wu(frame = frame30, altura = 19, largura = 97, x = 0, y = 0)
+Modulo_documentacao.caixa_texto_equacao_wu(frame = frame30, altura = 7, largura = 51, x = 262, y = 172)
+image_docum(imagem = "Equacao_Wu_mod.png", num_frame = frame30, borda = 5, x = 10, y = 195)
+## Aiba:
+Modulo_documentacao.caixa_texto_modelo_aiba(frame = frame31, altura = 19, largura = 97, x = 0, y = 0)
+Modulo_documentacao.caixa_texto_equacao_aiba(frame = frame31, altura = 6, largura = 51, x = 260, y = 180)
+image_docum(imagem = "Equacao_Aiba_mod.png", num_frame = frame31, borda = 5, x = 15, y = 200)
+## Hope & Hansford:
+Modulo_documentacao.caixa_texto_modelo_h_h(frame = frame32, altura = 19, largura = 97, x = 0, y = 0)
+Modulo_documentacao.caixa_texto_equacao_h_h(frame = frame32, altura = 6, largura = 51, x = 260, y = 180)
+image_docum(imagem = "Equacao_Hope_Hansford_mod.png", num_frame = frame32, borda = 5, x = 15, y = 200)
+## Levenspiel:
+Modulo_documentacao.caixa_texto_modelo_levenspiel(frame = frame33, altura = 19, largura = 97, x = 0, y = 0)
+Modulo_documentacao.caixa_texto_equacao_levenspiel(frame = frame33, altura = 7, largura = 51, x = 268, y = 172)
+image_docum(imagem = "Equacao_Levenspiel_mod.png", num_frame = frame33, borda = 5, x = 12, y = 200)
+## Lee:
+Modulo_documentacao.caixa_texto_modelo_lee(frame = frame34, altura = 19, largura = 97, x = 0, y = 0)
+Modulo_documentacao.caixa_texto_equacao_levenspiel(frame = frame34, altura = 7, largura = 51, x = 268, y = 172)
+image_docum(imagem = "Equacao_Lee_mod.png", num_frame = frame34, borda = 5, x = 12, y = 200)
  
 # Função botôes gráficos - simulacao:
 def botao_com_graf(frame, comando_salvar, comando_destroy):
@@ -2546,119 +2572,119 @@ def labels(frame, texto, fonte, borda, x, y):
 # Defindo as entradas para o console:
 def entr_contois(frame):
     global entr_Cx0_contois, entr_Cs0_contois, entr_Cp0_contois, entr_t0_contois, entr_tf_contois
-    entr_Cx0_contois = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey30", fg = "white")
+    entr_Cx0_contois = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "white", fg = "black")
     entr_Cx0_contois.place(x = 50, y = 257)
-    entr_Cs0_contois = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey40", fg = "white")
+    entr_Cs0_contois = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "white", fg = "black")
     entr_Cs0_contois.place(x = 140, y = 257)
-    entr_Cp0_contois = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey50", fg = "white")
+    entr_Cp0_contois = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "white", fg = "black")
     entr_Cp0_contois.place(x = 230, y = 257)
-    entr_t0_contois = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey30", fg = "white")
+    entr_t0_contois = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "white", fg = "black")
     entr_t0_contois.place(x = 50, y = 287)
-    entr_tf_contois = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey40", fg = "white")
+    entr_tf_contois = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "white", fg = "black")
     entr_tf_contois.place(x = 140, y = 287)    
 
 def entr_monod(frame):
     global entr_Cx0_monod, entr_Cs0_monod, entr_Cp0_monod, entr_t0_monod, entr_tf_monod
-    entr_Cx0_monod = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey30", fg = "white")
+    entr_Cx0_monod = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "white", fg = "black")
     entr_Cx0_monod.place(x = 50, y = 257)
-    entr_Cs0_monod = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey40", fg = "white")
+    entr_Cs0_monod = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "white", fg = "black")
     entr_Cs0_monod.place(x = 140, y = 257)
-    entr_Cp0_monod = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey50", fg = "white")
+    entr_Cp0_monod = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "white", fg = "black")
     entr_Cp0_monod.place(x = 230, y = 257)
-    entr_t0_monod = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey30", fg = "white")
+    entr_t0_monod = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "white", fg = "black")
     entr_t0_monod.place(x = 50, y = 287)
-    entr_tf_monod = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey40", fg = "white")
+    entr_tf_monod = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "white", fg = "black")
     entr_tf_monod.place(x = 140, y = 287) 
     
 def entr_moser(frame):
     global entr_Cx0_moser, entr_Cs0_moser, entr_Cp0_moser, entr_t0_moser, entr_tf_moser
-    entr_Cx0_moser = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey30", fg = "white")
+    entr_Cx0_moser = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "white", fg = "black")
     entr_Cx0_moser.place(x = 50, y = 257)
-    entr_Cs0_moser = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey40", fg = "white")
+    entr_Cs0_moser = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "white", fg = "black")
     entr_Cs0_moser.place(x = 140, y = 257)
-    entr_Cp0_moser = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey50", fg = "white")
+    entr_Cp0_moser = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "white", fg = "black")
     entr_Cp0_moser.place(x = 230, y = 257)
-    entr_t0_moser = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey30", fg = "white")
+    entr_t0_moser = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "white", fg = "black")
     entr_t0_moser.place(x = 50, y = 287)
-    entr_tf_moser = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey40", fg = "white")
+    entr_tf_moser = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "white", fg = "black")
     entr_tf_moser.place(x = 140, y = 287) 
 
 def entr_andrews(frame):
     global entr_Cx0_andrews, entr_Cs0_andrews, entr_Cp0_andrews, entr_t0_andrews, entr_tf_andrews
-    entr_Cx0_andrews = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey30", fg = "white")
+    entr_Cx0_andrews = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "white", fg = "black")
     entr_Cx0_andrews.place(x = 50, y = 257)
-    entr_Cs0_andrews = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey40", fg = "white")
+    entr_Cs0_andrews = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "white", fg = "black")
     entr_Cs0_andrews.place(x = 140, y = 257)
-    entr_Cp0_andrews = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey50", fg = "white")
+    entr_Cp0_andrews = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "white", fg = "black")
     entr_Cp0_andrews.place(x = 230, y = 257)
-    entr_t0_andrews = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey30", fg = "white")
+    entr_t0_andrews = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "white", fg = "black")
     entr_t0_andrews.place(x = 50, y = 287)
-    entr_tf_andrews = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey40", fg = "white")
+    entr_tf_andrews = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "white", fg = "black")
     entr_tf_andrews.place(x = 140, y = 287)
 
 def entr_wu(frame):
     global entr_Cx0_wu, entr_Cs0_wu, entr_Cp0_wu, entr_t0_wu, entr_tf_wu
-    entr_Cx0_wu = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey30", fg = "white")
+    entr_Cx0_wu = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "white", fg = "black")
     entr_Cx0_wu.place(x = 50, y = 257)
-    entr_Cs0_wu = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey40", fg = "white")
+    entr_Cs0_wu = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "white", fg = "black")
     entr_Cs0_wu.place(x = 140, y = 257)
-    entr_Cp0_wu = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey50", fg = "white")
+    entr_Cp0_wu = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "white", fg = "black")
     entr_Cp0_wu.place(x = 230, y = 257)
-    entr_t0_wu = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey30", fg = "white")
+    entr_t0_wu = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "white", fg = "black")
     entr_t0_wu.place(x = 50, y = 287)
-    entr_tf_wu = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey40", fg = "white")
+    entr_tf_wu = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "white", fg = "black")
     entr_tf_wu.place(x = 140, y = 287)
     
 def entr_aiba(frame):
     global entr_Cx0_aiba, entr_Cs0_aiba, entr_Cp0_aiba, entr_t0_aiba, entr_tf_aiba
-    entr_Cx0_aiba = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey30", fg = "white")
+    entr_Cx0_aiba = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "white", fg = "black")
     entr_Cx0_aiba.place(x = 50, y = 257)
-    entr_Cs0_aiba = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey40", fg = "white")
+    entr_Cs0_aiba = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "white", fg = "black")
     entr_Cs0_aiba.place(x = 140, y = 257)
-    entr_Cp0_aiba = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey50", fg = "white")
+    entr_Cp0_aiba = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "white", fg = "black")
     entr_Cp0_aiba.place(x = 230, y = 257)
-    entr_t0_aiba = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey30", fg = "white")
+    entr_t0_aiba = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "white", fg = "black")
     entr_t0_aiba.place(x = 50, y = 287)
-    entr_tf_aiba = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey40", fg = "white")
+    entr_tf_aiba = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "white", fg = "black")
     entr_tf_aiba.place(x = 140, y = 287)
 
 def entr_h_h(frame):
     global entr_Cx0_h_h, entr_Cs0_h_h, entr_Cp0_h_h, entr_t0_h_h, entr_tf_h_h
-    entr_Cx0_h_h = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey30", fg = "white")
+    entr_Cx0_h_h = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "white", fg = "black")
     entr_Cx0_h_h.place(x = 50, y = 257)
-    entr_Cs0_h_h = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey40", fg = "white")
+    entr_Cs0_h_h = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "white", fg = "black")
     entr_Cs0_h_h.place(x = 140, y = 257)
-    entr_Cp0_h_h = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey50", fg = "white")
+    entr_Cp0_h_h = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "white", fg = "black")
     entr_Cp0_h_h.place(x = 230, y = 257)
-    entr_t0_h_h = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey30", fg = "white")
+    entr_t0_h_h = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "white", fg = "black")
     entr_t0_h_h.place(x = 50, y = 287)
-    entr_tf_h_h = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey40", fg = "white")
+    entr_tf_h_h = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "white", fg = "black")
     entr_tf_h_h.place(x = 140, y = 287)
 
 def entr_levenspiel(frame):
     global entr_Cx0_levenspiel, entr_Cs0_levenspiel, entr_Cp0_levenspiel, entr_t0_levenspiel, entr_tf_levenspiel
-    entr_Cx0_levenspiel = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey30", fg = "white")
+    entr_Cx0_levenspiel = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "white", fg = "black")
     entr_Cx0_levenspiel.place(x = 50, y = 257)
-    entr_Cs0_levenspiel = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey40", fg = "white")
+    entr_Cs0_levenspiel = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "white", fg = "black")
     entr_Cs0_levenspiel.place(x = 140, y = 257)
-    entr_Cp0_levenspiel = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey50", fg = "white")
+    entr_Cp0_levenspiel = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "white", fg = "black")
     entr_Cp0_levenspiel.place(x = 230, y = 257)
-    entr_t0_levenspiel = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey30", fg = "white")
+    entr_t0_levenspiel = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "white", fg = "black")
     entr_t0_levenspiel.place(x = 50, y = 287)
-    entr_tf_levenspiel = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey40", fg = "white")
+    entr_tf_levenspiel = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "white", fg = "black")
     entr_tf_levenspiel.place(x = 140, y = 287)
 
 def entr_lee(frame):
     global entr_Cx0_lee, entr_Cs0_lee, entr_Cp0_lee, entr_t0_lee, entr_tf_lee
-    entr_Cx0_lee = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey30", fg = "white")
+    entr_Cx0_lee = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "white", fg = "black")
     entr_Cx0_lee.place(x = 50, y = 257)
-    entr_Cs0_lee = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey40", fg = "white")
+    entr_Cs0_lee = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "white", fg = "black")
     entr_Cs0_lee.place(x = 140, y = 257)
-    entr_Cp0_lee = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey50", fg = "white")
+    entr_Cp0_lee = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "white", fg = "black")
     entr_Cp0_lee.place(x = 230, y = 257)
-    entr_t0_lee = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey30", fg = "white")
+    entr_t0_lee = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "white", fg = "black")
     entr_t0_lee.place(x = 50, y = 287)
-    entr_tf_lee = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey40", fg = "white")
+    entr_tf_lee = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "white", fg = "black")
     entr_tf_lee.place(x = 140, y = 287)
 
 # Função para definição dos labels - títulos de definição:
