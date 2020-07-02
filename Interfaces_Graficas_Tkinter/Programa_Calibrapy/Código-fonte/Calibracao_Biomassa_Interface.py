@@ -26,6 +26,8 @@ import winsound
 from tkinter import ttk
 from tkinter import filedialog
 import statistics
+import math
+import webbrowser
 
 # Criação da interface:
 interface = Tk()
@@ -43,15 +45,10 @@ saida_arquivo.place(x = 449, y = 189)
 
 ## Escrita do template excel para entrada dos dados:
 def excel_template():
-    df_do1 = pd.DataFrame({'D.O._01':[]})
-    df_cx1 = pd.DataFrame({'Cx(g/L)_01':[]})
-    df_do2 = pd.DataFrame({'D.O._02':[]})
-    df_cx2 = pd.DataFrame({'Cx(g/L)_02':[]})
-    df_dad_exp = pd.concat([df_do1, df_do2, df_cx1, df_cx2], axis=1)
-    with pd.ExcelWriter('Template_Entrada_Dados.xlsx') as writer:
-        df_dad_exp.to_excel(writer, sheet_name="Dados_brutos")
-        writer.save()
-    os.system("start EXCEL Template_Entrada_Dados.xlsx")  
+    template_Cx_DO_calibrar = pd.read_excel("Template_Cx_DO_calibrar.xlsx", "Template_modelo")
+    template_DO_quanticificar_Cx = pd.read_excel("Template_DO_quantificar_Cx.xlsx","Template_modelo")
+    os.system("start EXCEL Template_Cx_DO_calibrar.xlsx")  
+    os.system("start EXCEL Template_DO_quantificar_Cx.xlsx")  
 # Template Excel - botão de acesso:
 load = Image.open("Excel_template.png")
 render = ImageTk.PhotoImage(load)
@@ -60,6 +57,11 @@ img.image = render
 img.grid(row = 2, column = 4, padx = 6)
 Button(interface, text = "Baixe nosso template", font = "arial 7 bold", fg = "black", bg = "white", borderwidth = 2, relief = "raised", command = excel_template).grid(row = 3, column = 4, padx = 10)
  
+# Ajuda - link com a página web do projeto:
+botao_ajuda = Button(interface, text = "AJUDA", font="georgia 10 bold", fg = "white", bg = "grey20", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/tutorial.html'))
+botao_ajuda.grid(row=0, column = 4, sticky = E+N)
+
+# Função construção botões alocados para ferramentas gráficas:
 def botao_com_graf(comando_salvar, comando_destroy):
       load = Image.open("Salvar_mod.png")
       render = ImageTk.PhotoImage(load)
@@ -73,7 +75,6 @@ def botao_com_graf(comando_salvar, comando_destroy):
       img.place(x = 867, y = 426)  
      
     
-
 # Seleção da ação desejada:
 Label(interface, text = "SELECIONE A AÇÃO DESEJADA:", font = "times 10 bold italic", bg = "gray75").grid(row = 2, column = 2, sticky=W+S)
 v = ("CONSTRUIR CURVA DE CALIBRAÇÃO", "UTILIZAR CURVA PRÉ-EXISTENTE")
@@ -154,8 +155,8 @@ entr_b.grid(row = 5, column = 0, padx = 134, pady = 130, sticky=S+E)
 entr_b.configure(state = "disabled")
 botao_ok_calc = Button(interface, text = "Enviar", font = "batang 8 bold", fg = "gray30", bg = "gray70", borderwidth=2, relief="sunken")
 botao_ok_calc.grid(row = 5, column = 0, padx = 62, pady = 124, sticky=S+E)
-botao_puxar = Button(interface, text = "Puxar", font = "arial 6 bold", fg = "gray30", bg = "gray70", borderwidth=2, relief="sunken")
-botao_puxar.grid(row = 5, column = 0, padx = 61, pady = 184, sticky=S+E)
+#botao_puxar = Button(interface, text = "Puxar", font = "arial 6 bold", fg = "gray30", bg = "gray70", borderwidth=2, relief="sunken")
+#botao_puxar.grid(row = 5, column = 0, padx = 61, pady = 184, sticky=S+E)
 
 ## Parte funcional do código:
 
@@ -164,10 +165,11 @@ arquivo_excel.grid(row = 5, column = 0, pady = 68, sticky=N)
 # Explorador para carregar o arquivo de entrada:
 def explorador():
     explorador = askopenfilename()
+    print(explorador)
     nome_arquivo = os.path.basename(explorador)
     arquivo_excel.configure(text=nome_arquivo)
     # Captura dos dados de entrada - formato dataframe:
-    excel_entrada = pd.read_excel(nome_arquivo)
+    excel_entrada = pd.read_excel(explorador)
     global excel_entrada_np
     excel_entrada_np = excel_entrada.values
     print(excel_entrada_np)
@@ -214,8 +216,7 @@ def entr_leit():
     botao_dupl.config(bg = "gray40")
     botao_tripl.config(bg = "gray40")
     botao_outra.config(bg = "black")
-    
-    
+     
 # Leitura única:
 def unica():
     global do_exp, cx_exp, cont
@@ -248,6 +249,11 @@ def duplicata():
     do_2 = excel_entrada_np[:,2] #eixo x
     cx_1 = excel_entrada_np[:,1] #eixo y
     cx_2 = excel_entrada_np[:,3] #eixo y
+    
+    
+    
+    
+    
     # Cálculo da média:
     do_exp = (do_1 + do_2)/cont
     cx_exp = (cx_1 + cx_2)/cont
@@ -260,7 +266,6 @@ def duplicata():
     ## Função std para o desvio padrão da dispersão ##
     do_desv_pad = np.std(matriz_do_t, axis=1)
     cx_desv_pad = np.std(matriz_cx_t, axis=1)
-    print(do_desv_pad, cx_desv_pad)
     # Botões para a interface:
     botao_unic.config(bg = "gray40")
     botao_dupl.config(bg = "black")
@@ -303,7 +308,7 @@ def triplicata():
     ## Cx - eixo y ##
     int_conf_cx = sc.norm.interval(0.05, loc = cx_exp, scale = cx_desv_pad)
     int_conf_cx = int_conf_cx[1] - int_conf_cx[0]
-    #print(int_conf_do, int_conf_cx)
+    print(int_conf_do, int_conf_cx)
     print(int_conf_do)
     
     # Botões para interface:
@@ -348,7 +353,7 @@ def outra():
     ## Função std para o desvio padrão da dispersão ##
     do_desv_pad = np.std(matriz_do_t, axis=1)
     cx_desv_pad = np.std(matriz_cx_t, axis=1)
-    print(do_desv_pad, cx_desv_pad)
+    #print(do_desv_pad, cx_desv_pad)
     # Botão para a interface:
     botao_unic.config(bg = "gray40")
     botao_dupl.config(bg = "gray40")
@@ -483,7 +488,7 @@ def puxar():
     entr_a.configure(text = pl[0].round(4))
     entr_b.configure(text = pl[1].round(4))
     print("bruna")
-botao_puxar.configure(command = puxar)
+#botao_puxar.configure(command = puxar)
 
 # Função para calcular Cx:
 def calc_cx():
