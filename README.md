@@ -1,11 +1,12 @@
 # Projeto de pesquisa Iniciação Científica N°2019/24737-9
 As pastas que contêm os arquivos escritos em Python (.py) ou ainda salvos em outra extensão (.xlsx e .png) e que contemplam os resultados apresentados e discutidos no Relatório Parcial submetido à FAPESP para análise foram criadas seguindo o esquema descrito abaixo (o repositório utilizado na rotina de trabalho para desenvolvimento do projeto, com todos os commits (alterações e versionamentos) realizados, encontra-se nomeado por "Projeto_fermenpy" e associado à mesma conta deste aqui tratado):
 
-- ___"Partes_Modulares.py":___ Guardam, em suas linhas de comandos, funções que permitem a importação automatizada dos valores forncecidos a cada um dos parâmetros cinéticos envolvidos  nos equacionamentos cinéticos estudados, bem como a de funções objetivas e dos sistemas de equações não lineares empregadas para as etapas de simulação e modelagem computacional. São importados nos códigos .py principais;
+- ___"Partes_Modulares.py":___ Guardam os códigos cujas linhas de comandos descrevem funções que permitem a importação automatizada dos valores fornecidos a cada um dos parâmetros cinéticos envolvidos  nos equacionamentos cinéticos estudados, bem como a de funções objetivas e dos sistemas de equações não lineares empregadas para as etapas de simulação e modelagem computacional. São importados para os códigos .py principais;
 
-- ___"Simulacao_Batelada_Modelos_Cineticos":___
+- ___"Simulacao_Batelada_Modelos_Cineticos":___ Traz os códigos a nível _backend_ (aqueles que são executados com apoio do terminal de apoio fornecido pelos programas editores de texto) responsáveis por realizar a predição matemática dos perfis temporais de concentração, produtividade e taxa específica de crescimento microbiano a partir da importação automatizada dos parâmetros cinéticos e operacionais requeridos pelas leis cinéticas implementadas pelos algoritmos feita diretamente através dos módulos criados em extensão .py e alocados na pasta anterior;
 
-- "Modelagem_Batelada_Modelos_Cineticos":
-- "Interfaces_Graficas_Tkinter":
+- ___"Modelagem_Batelada_Modelos_Cineticos":___ Traz os códigos a nível _backend_ (aqueles que são executados com apoio do terminal de apoio fornecido pelos programas editores de texto) responsáveis por implementar etapas de otimização computacional, retornando como saídas no console os perfis temporais de concentração, produtividade e taxa específica de crescimento microbiano simulados e modelados, bem como cálculos estatísticos que avaliam a performance do ajuste realizado, sendo a entrada de dados realizada a partir dos módulos. A pasta é composta ainda por diversas planilhas eletrônicas, em formato Excel, elaboradas para posterior aplicação nesses códigos de modelagem, além de contar com a disponibilização dos documentos empregados para a etapa de validação do algoritmo de otimização por alinhamento Algoritmo Genético (AG) - Algoritmo de Levenberg-Marquardt (ALM);
+
+- ___"Interfaces_Graficas_Tkinter":___ 
 - "Graficos_Documentos_Submetidos":
 
