@@ -29,7 +29,6 @@ from tkinter import Label, Button
 from tkinter.filedialog import askopenfilename # caixa externa - explorar files no computador
 import os # divisão de strings
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-from prettytable import PrettyTable
 from PIL import Image, ImageTk
 from tkinter.ttk import Combobox
 from tkinter.filedialog import asksaveasfilename
@@ -38,6 +37,7 @@ from tkinter import colorchooser
 import winsound
 from tkinter import ttk
 from tkinter import filedialog
+import webbrowser
 
 # Criação da interface:
 janela = Tk()
@@ -222,13 +222,13 @@ def notebook_algorit():
     notebook_algorit = ttk.Notebook(frame3)
     notebook_algorit.place(x = 660, y = 165)
     global frame35
-    frame35 = ttk.Frame(notebook_algorit, width = 600, height = 310, borderwidth = 5, relief = tk.GROOVE)
+    frame35 = ttk.Frame(notebook_algorit, width = 600, height = 230, borderwidth = 5, relief = tk.GROOVE)
     notebook_algorit.add(frame35, text = 'Integração Numérica')
     global frame36
-    frame36 = ttk.Frame(notebook_algorit, width = 600, height = 310, borderwidth = 5, relief = tk.GROOVE)
+    frame36 = ttk.Frame(notebook_algorit, width = 600, height = 230, borderwidth = 5, relief = tk.GROOVE)
     notebook_algorit.add(frame36, text = 'Algoritmo Genético')
     global frame37
-    frame37 = ttk.Frame(notebook_algorit, width = 600, height = 310, borderwidth = 5, relief = tk.GROOVE)
+    frame37 = ttk.Frame(notebook_algorit, width = 600, height = 230, borderwidth = 5, relief = tk.GROOVE)
     notebook_algorit.add(frame37, text = 'Algoritimo de Levenberg-Marquardt')
     
 def notebook_graf_model():
@@ -251,9 +251,11 @@ def notebook_graf_model():
 Label(frame3, text = "Modelos Cinéticos", font = "Times 10 bold", fg = "black", bg = "grey75", borderwidth = 2, relief = "groove").place(x = 5, y = 140)
 notebook_docum()
 # Documentação algoritmos utilizados:
-Label(frame3, text = "Implementação comptacional", font = "Times 10 bold", fg = "black", bg = "grey75", borderwidth = 2, relief = "groove").place(x = 632, y = 140)
+Label(frame3, text = "Implementação computacional", font = "Times 10 bold", fg = "black", bg = "grey75", borderwidth = 2, relief = "groove").place(x = 632, y = 140)
 notebook_algorit()   
-
+# Visite nossa página:
+Label(frame3, text = "Visite nossa página completa", font = "Times 10 bold", fg = "black", bg = "grey75", borderwidth = 2, relief = "groove").place(x = 1030, y = 458)
+Button(frame3, text="https://brunaaq.github.io/Documentacao_fermenpy/", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/')).place(x = 1030, y = 480)
 # Documentação batelada:
 Label(frame3, text = "Batelada", font = "Times 10 bold", fg = "black", bg = "grey75", borderwidth = 2, relief = "groove").place(x = 5, y = 0)
 Label(frame3, bg = "grey85", width = 50, height = 6, borderwidth = 2, relief = "groove").place(x = 30, y = 25)
@@ -268,66 +270,98 @@ Label(frame3, text = "Equação Geral", font = "Times 8 bold", fg = "white", bg 
 Label(frame3, text = "Células", font = "Times 8 bold", fg = "white", bg = "black", borderwidth = 2, relief = "groove").place(x = 657, y = 36)
 Label(frame3, text = "Substrato", font = "Times 8 bold", fg = "white", bg = "black", borderwidth = 2, relief = "groove").place(x = 863, y = 36)
 Label(frame3, text = "Produto", font = "Times 8 bold", fg = "white", bg = "black", borderwidth = 2, relief = "groove").place(x = 1069, y = 36)
+Label(frame3, text = "Os balanços completos estão disponíveis em:", font = "Times 8 bold", fg = "black").place(x = 683, y = 1)
+Button(frame3, text="https://brunaaq.github.io/Documentacao_fermenpy/#balanco%20massa", font = "calibri 8", fg = "blue", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#balanco%20massa')).place(x = 919, y = 0)
 ## Linhas para impressão das equações balanceadas:
 # Equação geral:
 Label(frame3, text = "Princípio da conservação de massa", font = "Times 8 bold", fg = "black", bg = "grey75", borderwidth = 2, relief = "flat").place(x = 450, y = 64)
 Label(frame3, text = "Entrada - Saída + Geração - Consumo = Acúmulo", font = "Times 7 bold italic", fg = "black", bg = "grey75", borderwidth = 2, relief = "flat").place(x = 451, y = 85)
 # Células:
 Label(frame3, text = "0 - 0 + Gerado - 0 = Acúmulo", font = "Times 8 bold italic", fg = "black", bg = "grey77", borderwidth = 2, relief = "flat").place(x = 684, y = 56)
-Label(frame3, text = "Cx = conc. de células", font = "Times 8", fg = "black", bg = "grey77", borderwidth = 2, relief = "flat").place(x = 727, y = 77)
-Label(frame3, text = u"\u03bc = taxa de crescimento", font = "Times 8", fg = "black", bg = "grey77").place(x = 727, y = 92)
-image_docum(imagem = "Diferencial_cx.png", num_frame = frame3, borda = 2, x = 658, y = 77)
+image_docum(imagem = "Diferencial_cx.png", num_frame = frame3, borda = 2, x = 705, y = 77)
 # Substrato:
 Label(frame3, text = "0 - 0 + 0 - Consumo = Acúmulo", font = "Times 8 bold italic", fg = "black", bg = "grey79", borderwidth = 2, relief = "flat").place(x = 885, y = 56)
-Label(frame3, text = "Cs = conc. de subst", font = "Times 8", fg = "black", bg = "grey79", borderwidth = 2, relief = "flat").place(x = 964, y = 77)
-Label(frame3, text = "Yxs = coef. rendim", font = "Times 8", fg = "black", bg = "grey79", borderwidth = 2, relief = "flat").place(x = 964, y = 92)
-image_docum(imagem = "Diferencial_cs.png", num_frame = frame3, borda = 2, x = 863, y = 77)
+image_docum(imagem = "Diferencial_cs.png", num_frame = frame3, borda = 2, x = 911, y = 77)
 # Produto:
 Label(frame3, text = "0 - 0 + Gerado - 0 = Acúmulo", font = "Times 8 bold italic", fg = "black", bg = "grey81", borderwidth = 2, relief = "flat").place(x = 1092, y = 56)
-Label(frame3, text = u"\u03B1 e \u03B2 = coef. prod" , font = "Times 8", fg = "black", bg = "grey81", borderwidth = 2, relief = "flat").place(x = 1172, y = 92)
-Label(frame3, text = "Cp = conc. de prod", font = "Times 8", fg = "black", bg = "grey81", borderwidth = 2, relief = "flat").place(x = 1172, y = 77)
-image_docum(imagem = "Diferencial_cp.png", num_frame = frame3, borda = 2, x = 1069, y = 77)
+image_docum(imagem = "Diferencial_cp.png", num_frame = frame3, borda = 2, x = 1111, y = 77)
 ## Textos para documentação
 # Batelada:
 Modulo_documentacao.caixa_texto_batelada(frame = frame3, altura = 5, largura = 56, x = 35, y = 30)
+Label(frame3, text = "Explicação completa em:", font = "Times 8 bold", fg = "black", bg = "gray80").place(x = 40, y = 70)
+Button(frame3, text="https://brunaaq.github.io/Documentacao_fermenpy/#batelada", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#batelada')).place(x = 40, y = 87)
 # Modelos Cinéticos:
 ## Contois:
-Modulo_documentacao.caixa_texto_modelo_contois(frame = frame26, altura = 19, largura = 97, x = 0, y = 0)
+Modulo_documentacao.caixa_texto_modelo_contois(frame = frame26, altura = 15, largura = 72, x = 0, y = 0)
 Modulo_documentacao.caixa_texto_equacao_contois(frame = frame26, altura = 5, largura = 51, x = 250, y = 187)
+Label(frame26, text = "Descrição completa em:", font = "Times 8 bold", fg = "black", bg = "gray90").place(x = 5, y = 120)
+Button(frame26, text="https://brunaaq.github.io/Documentacao_fermenpy/#ausencia%20inibicao", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#ausencia%20inibicao')).place(x = 132, y = 119)
 image_docum(imagem = "Equacao_Contois_mod.png", num_frame = frame26, borda = 5, x = 50, y = 200)
 ## Monod:
-Modulo_documentacao.caixa_texto_modelo_monod(frame = frame27, altura = 19, largura = 97, x = 0, y = 0)
+Modulo_documentacao.caixa_texto_modelo_monod(frame = frame27, altura = 15, largura = 72, x = 0, y = 0)
 Modulo_documentacao.caixa_texto_equacao_monod(frame = frame27, altura = 5, largura = 51, x = 250, y = 187)
+Label(frame27, text = "Descrição completa em:", font = "Times 8 bold", fg = "black", bg = "gray90").place(x = 5, y = 130)
+Button(frame27, text="https://brunaaq.github.io/Documentacao_fermenpy/#ausencia%20inibicao", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#ausencia%20inibicao')).place(x = 132, y = 129)
 image_docum(imagem = "Equacao_Monod_mod.png", num_frame = frame27, borda = 5, x = 50, y = 200)
 ## Moser:
-Modulo_documentacao.caixa_texto_modelo_moser(frame = frame28, altura = 19, largura = 97, x = 0, y = 0)
+Modulo_documentacao.caixa_texto_modelo_moser(frame = frame28, altura = 15, largura = 72, x = 0, y = 0)
 Modulo_documentacao.caixa_texto_equacao_moser(frame = frame28, altura = 6, largura = 51, x = 250, y = 180)
+Label(frame28, text = "Descrição completa em:", font = "Times 8 bold", fg = "black", bg = "gray90").place(x = 5, y = 120)
+Button(frame28, text="https://brunaaq.github.io/Documentacao_fermenpy/#ausencia%20inibicao", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#ausencia%20inibicao')).place(x = 132, y = 119)
 image_docum(imagem = "Equacao_Moser_mod.png", num_frame = frame28, borda = 5, x = 50, y = 200)
 ## Andrews:
-Modulo_documentacao.caixa_texto_modelo_andrews(frame = frame29, altura = 19, largura = 97, x = 0, y = 0)
+Modulo_documentacao.caixa_texto_modelo_andrews(frame = frame29, altura = 15, largura = 72, x = 0, y = 0)
 Modulo_documentacao.caixa_texto_equacao_andrews(frame = frame29, altura = 6, largura = 51, x = 250, y = 180)
+Label(frame29, text = "Descrição completa em:", font = "Times 8 bold", fg = "black", bg = "gray90").place(x = 5, y = 130)
+Button(frame29, text="https://brunaaq.github.io/Documentacao_fermenpy/#inibicao%20substrato", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#inibicao%20substrato')).place(x = 132, y = 129)
 image_docum(imagem = "Equacao_Andrews_mod.png", num_frame = frame29, borda = 5, x = 20, y = 195)
 ## Wu:
-Modulo_documentacao.caixa_texto_modelo_wu(frame = frame30, altura = 19, largura = 97, x = 0, y = 0)
+Modulo_documentacao.caixa_texto_modelo_wu(frame = frame30, altura = 15, largura = 72, x = 0, y = 0)
 Modulo_documentacao.caixa_texto_equacao_wu(frame = frame30, altura = 7, largura = 51, x = 262, y = 172)
+Label(frame30, text = "Descrição completa em:", font = "Times 8 bold", fg = "black", bg = "gray90").place(x = 5, y = 130)
+Button(frame30, text="https://brunaaq.github.io/Documentacao_fermenpy/#inibicao%20substrato", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#inibicao%20substrato')).place(x = 132, y = 129)
 image_docum(imagem = "Equacao_Wu_mod.png", num_frame = frame30, borda = 5, x = 10, y = 195)
 ## Aiba:
-Modulo_documentacao.caixa_texto_modelo_aiba(frame = frame31, altura = 19, largura = 97, x = 0, y = 0)
+Modulo_documentacao.caixa_texto_modelo_aiba(frame = frame31, altura = 15, largura = 72, x = 0, y = 0)
 Modulo_documentacao.caixa_texto_equacao_aiba(frame = frame31, altura = 6, largura = 51, x = 260, y = 180)
+Label(frame31, text = "Descrição completa em:", font = "Times 8 bold", fg = "black", bg = "gray90").place(x = 5, y = 120)
+Button(frame31, text="https://brunaaq.github.io/Documentacao_fermenpy/#inibicao%20produto", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#inibicao%20produto')).place(x = 132, y = 119)
 image_docum(imagem = "Equacao_Aiba_mod.png", num_frame = frame31, borda = 5, x = 15, y = 200)
 ## Hope & Hansford:
-Modulo_documentacao.caixa_texto_modelo_h_h(frame = frame32, altura = 19, largura = 97, x = 0, y = 0)
+Modulo_documentacao.caixa_texto_modelo_h_h(frame = frame32, altura = 15, largura = 72, x = 0, y = 0)
 Modulo_documentacao.caixa_texto_equacao_h_h(frame = frame32, altura = 6, largura = 51, x = 260, y = 180)
+Label(frame32, text = "Descrição completa em:", font = "Times 8 bold", fg = "black", bg = "gray90").place(x = 5, y = 120)
+Button(frame32, text="https://brunaaq.github.io/Documentacao_fermenpy/#inibicao%20produto", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#inibicao%20produto')).place(x = 132, y = 119)
 image_docum(imagem = "Equacao_Hope_Hansford_mod.png", num_frame = frame32, borda = 5, x = 15, y = 200)
 ## Levenspiel:
-Modulo_documentacao.caixa_texto_modelo_levenspiel(frame = frame33, altura = 19, largura = 97, x = 0, y = 0)
+Modulo_documentacao.caixa_texto_modelo_levenspiel(frame = frame33, altura = 15, largura = 72, x = 0, y = 0)
 Modulo_documentacao.caixa_texto_equacao_levenspiel(frame = frame33, altura = 7, largura = 51, x = 268, y = 172)
+Label(frame33, text = "Descrição completa em:", font = "Times 8 bold", fg = "black", bg = "gray90").place(x = 5, y = 130)
+Button(frame33, text="https://brunaaq.github.io/Documentacao_fermenpy/#inibicao%20produto", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#inibicao%20produto')).place(x = 132, y = 129)
 image_docum(imagem = "Equacao_Levenspiel_mod.png", num_frame = frame33, borda = 5, x = 12, y = 200)
 ## Lee:
-Modulo_documentacao.caixa_texto_modelo_lee(frame = frame34, altura = 19, largura = 97, x = 0, y = 0)
+Modulo_documentacao.caixa_texto_modelo_lee(frame = frame34, altura = 15, largura = 72, x = 0, y = 0)
 Modulo_documentacao.caixa_texto_equacao_levenspiel(frame = frame34, altura = 7, largura = 51, x = 268, y = 172)
+Label(frame34, text = "Descrição completa em:", font = "Times 8 bold", fg = "black", bg = "gray90").place(x = 5, y = 130)
+Button(frame34, text="https://brunaaq.github.io/Documentacao_fermenpy/#inibicao%20biomassa", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#inibicao%20biomassa')).place(x = 132, y = 129)
 image_docum(imagem = "Equacao_Lee_mod.png", num_frame = frame34, borda = 5, x = 12, y = 200)
- 
+# ALGORITMOS:
+## Integração numérica:
+Modulo_documentacao.caixa_texto_integ_num(frame = frame35, altura = 11, largura = 72, x = 0, y = 0)
+image_docum(imagem = "Diferencial_cx.png", num_frame = frame35, borda = 2, x = 110, y = 120)
+image_docum(imagem = "Diferencial_cs.png", num_frame = frame35, borda = 2, x = 240, y = 120)
+image_docum(imagem = "Diferencial_cp.png", num_frame = frame35, borda = 2, x = 370, y = 120)
+Label(frame35, text = "Documentação completa em:", font = "Times 8 bold", fg = "black", bg = "gray90").place(x = 5, y = 170)
+Button(frame35, text="https://brunaaq.github.io/Documentacao_fermenpy/#integracao%20numerica", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#integracao%20numerica')).place(x = 158, y = 169)
+## AG:
+Modulo_documentacao.caixa_texto_ag(frame = frame36, altura = 11, largura = 72, x = 0, y = 0)
+Label(frame36, text = "Documentação completa em:", font = "Times 8 bold", fg = "black", bg = "gray90").place(x = 5, y = 190)
+Button(frame36, text="https://brunaaq.github.io/Documentacao_fermenpy/#AG", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#AG')).place(x = 158, y = 189)
+## ALM:
+Modulo_documentacao.caixa_texto_alm(frame = frame37, altura = 11, largura = 72, x = 0, y = 0)
+Label(frame37, text = "Documentação completa em:", font = "Times 8 bold", fg = "black", bg = "gray90").place(x = 5, y = 170)
+Button(frame37, text="https://brunaaq.github.io/Documentacao_fermenpy/#ALM", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#ALM')).place(x = 158, y = 169)
+
 # Função botôes gráficos - simulacao:
 def botao_com_graf(frame, comando_salvar, comando_destroy):
       load = Image.open("Salvar_mod.png")
