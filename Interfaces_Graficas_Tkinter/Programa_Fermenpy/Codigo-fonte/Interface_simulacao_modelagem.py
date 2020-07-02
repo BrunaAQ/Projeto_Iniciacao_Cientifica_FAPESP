@@ -1337,13 +1337,13 @@ def explorer():
             plot.grid(True)
             f.patch.set_facecolor('white')                                   
             plt.style.use('default')
-            canvas = FigureCanvasTkAgg(f, frame37)
+            canvas = FigureCanvasTkAgg(f, frame38)
             a = canvas.get_tk_widget().place(x = 0, y = 0)
             def salvar():
                 a = asksaveasfilename(filetypes=(("PNG Image", "*.png"),("All Files", "*.*")), 
                 defaultextension='.png')
                 plt.savefig(a)
-            botao_com_graf(frame = frame37, comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy)
+            botao_com_graf(frame = frame38, comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy)
         imprimir_perfil_concentracao_model_otim_exp(t_exp, t, C_exp[:,0], C_exp[:,1], C_exp[:,2], C_otim[:,0], C_otim[:,1], C_otim[:,2])
         
         ## Gráfico para mudança de cor - perfil de concentração:
@@ -1366,13 +1366,13 @@ def explorer():
             plot.grid(True)
             f.patch.set_facecolor('white')                                   
             plt.style.use('default')
-            canvas = FigureCanvasTkAgg(f, frame37)
+            canvas = FigureCanvasTkAgg(f, frame38)
             a = canvas.get_tk_widget().place(x = 0, y = 0)
             def salvar():
                 a = asksaveasfilename(filetypes=(("PNG Image", "*.png"),("All Files", "*.*")), 
                 defaultextension='.png')
                 plt.savefig(a)
-            botao_com_graf(frame = frame37, comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy)
+            botao_com_graf(frame = frame38, comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy)
         
        ## Escolha das cores:
         def seletor_cores():
@@ -1383,26 +1383,26 @@ def explorer():
             cor_x = colorchooser.askcolor(title ="Editar cores")
             cor_x = cor_x[1]
             fig = graf_cor (x = cor_x, p = "green", s = "blue")
-            Button(frame37, text = "Cs", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_cs).place(x = 460, y = 255) 
+            Button(frame38, text = "Cs", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_cs).place(x = 460, y = 255) 
         def cores_cs():
             global cor_s
             cor_s = colorchooser.askcolor(title ="Editar cores")
             cor_s = cor_s[1]
             fig = graf_cor (x = cor_x, p = "green", s = cor_s)
-            Button(frame37, text = "Cs", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_cs).place(x = 460, y = 255)
-            Button(frame37, text = "Cp", bg = "gray40", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_cp).place(x = 460, y = 280)  
+            Button(frame38, text = "Cs", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_cs).place(x = 460, y = 255)
+            Button(frame38, text = "Cp", bg = "gray40", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_cp).place(x = 460, y = 280)  
         def cores_cp():
             global cor_p
             cor_p = colorchooser.askcolor(title ="Editar cores")
             cor_p = cor_p[1] 
             fig = graf_cor (x = cor_x, p = cor_p, s = cor_s)
-            Button(frame37, text = "Cp", bg = "gray40", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_cp).place(x = 460, y = 280)
+            Button(frame38, text = "Cp", bg = "gray40", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_cp).place(x = 460, y = 280)
         def cores_concent():
-            Button(frame37, text = "Cx", bg = "gray60", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_cx).place(x = 460, y = 230)
+            Button(frame38, text = "Cx", bg = "gray60", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_cx).place(x = 460, y = 230)
             botao_paleta_graf(frame = frame37, comando = cores_concent)
         
         # Botão para mudança de cor:
-        botao_paleta_graf(frame = frame37, comando = cores_concent)
+        botao_paleta_graf(frame = frame38, comando = cores_concent)
         
         # Cálculo produtividade - células e produto:
         # Experimental: 
@@ -1436,13 +1436,13 @@ def explorer():
                 plot.grid(True)
                 f.patch.set_facecolor('white')                                   
                 plt.style.use('default')    
-                canvas = FigureCanvasTkAgg(f, frame38)
+                canvas = FigureCanvasTkAgg(f, frame39)
                 a = canvas.get_tk_widget().place(x = 0, y = 0)
                 def salvar():
                     a = asksaveasfilename(filetypes=(("PNG Image", "*.png"),("All Files", "*.*")), 
                     defaultextension='.png')
                     plt.savefig(a)
-                botao_com_graf(frame = frame38, comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy)
+                botao_com_graf(frame = frame39, comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy)
             imprimir_produtividade_celular_produto_model_otim_exp(t_exp[1:], t[1:],Px_exp, Pp_exp, Px, Pp)
             # Cálculo R²:
             df_Px_Pp = pd.DataFrame({'Tempo(h)':t[1:], 'Px(gx/t)': Px, 'Pp(gp/t)': Pp})
@@ -1474,20 +1474,20 @@ def explorer():
             cor_px = colorchooser.askcolor(title ="Editar cores")
             cor_px = cor_px[1]
             fig = graf_produtiv(px = cor_px, pp = "green")
-            Button(frame38, text = "Pp", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_pp).place(x = 460, y = 255)   
+            Button(frame39, text = "Pp", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_pp).place(x = 460, y = 255)   
         def cores_pp():
             global cor_pp
             cor_pp = colorchooser.askcolor(title ="Editar cores")
             cor_pp = cor_pp[1]
             fig = graf_produtiv(px = cor_px, pp = cor_pp)
-            Button(frame38, text = "Pp", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_pp).place(x = 460, y = 255)
+            Button(frame39, text = "Pp", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_pp).place(x = 460, y = 255)
         def cores_produtiv():
-            Button(frame38, text = "Px", bg = "gray60", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_px).place(x = 460, y = 230)    
+            Button(frame39, text = "Px", bg = "gray60", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_px).place(x = 460, y = 230)    
        
         # Geração do gráfico:
         graf_produtiv(px = "red", pp = "green")
         ## Botão para seleção das cores:
-        botao_paleta_graf(frame38, comando = cores_produtiv)
+        botao_paleta_graf(frame39, comando = cores_produtiv)
     
         # Cálculo produtivida específica:
         ## Experimental:
@@ -1509,13 +1509,13 @@ def explorer():
                 plt.grid(True)  
                 f.patch.set_facecolor('white')                                   
                 plt.style.use('default')                       
-                canvas = FigureCanvasTkAgg(f, frame39)
+                canvas = FigureCanvasTkAgg(f, frame40)
                 a = canvas.get_tk_widget().place(x = 0, y = 0)
                 def salvar():
                     a = asksaveasfilename(filetypes=(("PNG Image", "*.png"),("All Files", "*.*")), 
                     defaultextension='.png')
                     plt.savefig(a)
-                botao_com_graf(frame = frame39, comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy)
+                botao_com_graf(frame = frame40, comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy)
             imprimir_produtividade_especifica_model_otim_exp(t_exp,t,Ppx_exp,Ppx)
             # Cálculo R²:
             df_Ppx = pd.DataFrame({'Tempo(h)':t, 'ppx(g/L)': Ppx})
@@ -1545,7 +1545,7 @@ def explorer():
         ## Geração do gráfico:
         graf_produtiv_espec(Ppx_cor = "red", Ppx_exp_cor = "red")
         ## Botão para seleção das cores:
-        botao_paleta_graf(frame39, comando = seletor_cores_Ppx)
+        botao_paleta_graf(frame40, comando = seletor_cores_Ppx)
         
         # Cálculo taxa mi:
         ## Experimental e modelado:
@@ -1593,13 +1593,13 @@ def explorer():
                 plt.grid(True)  
                 f.patch.set_facecolor('white')                                   
                 plt.style.use('default')   
-                canvas = FigureCanvasTkAgg(f, frame40)
+                canvas = FigureCanvasTkAgg(f, frame41)
                 a = canvas.get_tk_widget().place(x = 0, y = 0)
                 def salvar():
                     a = asksaveasfilename(filetypes=(("PNG Image", "*.png"),("All Files", "*.*")), 
                     defaultextension='.png')
                     plt.savefig(a)  
-                botao_com_graf(frame = frame40, comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy)
+                botao_com_graf(frame = frame41, comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy)
             imprimir_taxa_especifica_crescimento(t_exp,t,mi_exp,mi)
             # Cálculo R²:
             df_mi = pd.DataFrame({'Tempo(h)':t, 'mi(h-¹)': mi})
@@ -1629,7 +1629,7 @@ def explorer():
         ## Geração do gráfico:
         graf_mi(mi_cor = "red", mi_exp_cor = "red")
         ## Botão para seleção das cores:
-        botao_paleta_graf(frame40, comando = seletor_cores_mi)
+        botao_paleta_graf(frame41, comando = seletor_cores_mi)
             
         # Cálculo res final:
         res_final = odeint(list_funcs_args[cont_model], cond_inic, t_exp, args = (param_otim_alm)) - C_exp
