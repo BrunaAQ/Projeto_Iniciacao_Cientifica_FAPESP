@@ -6,6 +6,7 @@ import Modulos_Andrews
 import Modulos_Aiba_et_al
 import Modulos_Moser
 import Modulos_Hope__Hansford
+import Modulos_Hope_Hansford
 import Modulos_Wu_et_al
 import Modulos_Levenspiel
 import Modulos_Lee_et_al
@@ -163,24 +164,38 @@ def image(imagem, num_frame, x, y):
     img_contois.place(x = x, y = y)
     
 # Função botôes gráficos:
-def botao(comando_salvar, comando_destroy):
+def botao(frame, comando_salvar, comando_destroy):
       load = Image.open("Salvar_mod.png")
       render = ImageTk.PhotoImage(load)
-      img = Button(frame2, image = render, border = 0, command = comando_salvar)
+      img = Button(frame, image = render, border = 0, command = comando_salvar)
       img.image = render
       img.place(x = 852, y = 185)
       load = Image.open("Lixeira_mod.png")
       render = ImageTk.PhotoImage(load)
-      img = Button(frame2, image = render, border = 0, command = comando_destroy)
+      img = Button(frame, image = render, border = 0, command = comando_destroy)
       img.image = render
       img.place(x = 851, y = 281)
 
-def botao_paleta(comando):
+def botao_paleta(frame,comando):
     load = Image.open("Paleta_mod.png")
     render = ImageTk.PhotoImage(load)
-    img = Button(frame2, image = render, border = 0, command = comando)
+    img = Button(frame, image = render, border = 0, command = comando)
     img.image = render
     img.place(x = 851, y = 235)
+    
+                                    ## PARA A REALIZAÇÃO DA SIMULAÇÃO ##
+# Importação módulos - simulação:
+# Função com as equações modelo para integração numérica:
+func_integ_Monod = Modulos_Monod.simul_bat_Monod()
+func_integ_Contois = Modulos_Contois.simul_bat_Contois()
+func_integ_Andrews = Modulos_Andrews.simul_bat_Andrews()
+func_integ_Aiba_et_al = Modulos_Aiba_et_al.simul_bat_Aiba_et_al()
+func_integ_Moser = Modulos_Moser.simul_bat_Moser()
+func_integ_Hope_Hansford = Modulos_Hope_Hansford.simul_bat_Hope_Hansford()
+func_integ_Wu_et_al = Modulos_Wu_et_al.simul_bat_Wu_et_al()
+func_integ_Levenspiel = Modulos_Levenspiel.simul_bat_Levenspiel()
+func_integ_Lee_et_al = Modulos_Lee_et_al.simul_bat_Lee_et_al()
+list_funcs_integ = [func_integ_Monod, func_integ_Contois, func_integ_Andrews, func_integ_Aiba_et_al, func_integ_Moser, func_integ_Hope_Hansford, func_integ_Wu_et_al, func_integ_Levenspiel, func_integ_Lee_et_al]
     
                                 ## PARA A REALIZAÇÃO DA MODELAGEM ##
 # Importação módulos - modelagem:
@@ -291,6 +306,292 @@ def plot_graf(frame):
     Label(frame, text = "",  borderwidth=2.3, relief="ridge", width = 69, height = 22, bg = "white").place(x = 406, y = 115)
 plot_graf(frame1)
 plot_graf(frame2)
+
+# Programação da parte funcional do código - SIMULAÇÃO:
+def simulacao(cont):
+    # Vetor condição inicial:
+    inic_cond_simul = [Cx0, Cs0, Cp0]
+    print(inic_cond_simul)
+    # Vetor tempo:
+    t_simul = np.arange(t0,tf,0.1)
+    print(t_simul)
+    
+    if cont == 0:
+        def edos_int_bat_Monod(C,t):
+            Cx,Cs,Cp=C
+            mimax_sim = mimax
+            Ks_sim = Ks
+            Kd_sim = Kd
+            Yxs_sim = Yxs
+            alfa_sim = alfa
+            beta_sim = beta
+        
+            mi=mimax_sim*(Cs/(Ks_sim+Cs))
+            dCxdt=(mi-Kd_sim)*Cx
+            dCsdt=(-1/Yxs_sim)*mi*Cx
+            dCpdt=alfa_sim*mi*Cx+beta_sim*Cx
+            return(dCxdt,dCsdt,dCpdt)
+        # Integrando numericamente:
+        C_sim = odeint(edos_int_bat_Monod,inic_cond_simul,t_simul)
+        print(C_sim)
+    
+    if cont == 1:
+        def edos_int_bat_Contois(C,t):
+            Cx,Cs,Cp=C
+            mimax_sim = mimax
+            KSX_sim = KSX
+            Kd_sim = Kd
+            Yxs_sim = Yxs
+            alfa_sim = alfa
+            beta_sim = beta
+        
+            mi=mimax_sim*(Cs/((KSX_sim*Cx)+Cs))
+            dCxdt=(mi-Kd_sim)*Cx
+            dCsdt=(-1/Yxs_sim)*mi*Cx
+            dCpdt=alfa_sim*mi*Cx+beta_sim*Cx
+            return(dCxdt,dCsdt,dCpdt)
+        # Integrando numericamente:
+        C_sim = odeint(edos_int_bat_Contois,inic_cond_simul,t_simul)
+        print(C_sim)
+        
+    if cont == 2:
+        def edos_int_bat_Andrews(C,t):
+            Cx,Cs,Cp=C
+            mimax_sim = mimax
+            Ks_sim = Ks
+            Kd_sim = Kd
+            Yxs_sim = Yxs
+            alfa_sim = alfa
+            beta_sim = beta
+            KIS_sim = KIS
+    
+            mi=mimax_sim*(Cs/(Ks_sim+Cs+((Cs**2)/KIS_sim)))
+            dCxdt=(mi-Kd_sim)*Cx
+            dCsdt=(-1/Yxs_sim)*mi*Cx
+            dCpdt=alfa_sim*mi*Cx+beta_sim*Cx
+            return(dCxdt,dCsdt,dCpdt)
+        # Integrando numericamente:
+        C_sim = odeint(edos_int_bat_Andrews,inic_cond_simul,t_simul)
+        print(C_sim)
+        
+    if cont == 3:
+        def edos_int_bat_Aiba_et_al(C,t):
+            Cx,Cs,Cp=C
+            mimax_sim = mimax
+            Ks_sim = Ks
+            Kd_sim = Kd
+            Yxs_sim = Yxs
+            alfa_sim = alfa
+            beta_sim = beta
+            Kp_aiba_sim = Kp_aiba
+    
+            mult_exp = -Cs*Kp_aiba_sim
+            mi=mimax_sim*((Cs/(Ks_sim+Cs))*math.exp(mult_exp))
+            dCxdt=(mi-Kd_sim)*Cx
+            dCsdt=(-1/Yxs_sim)*mi*Cx
+            dCpdt=alfa_sim*mi*Cx+beta_sim*Cx
+            return(dCxdt,dCsdt,dCpdt)
+        # Integrando numericamente:
+        C_sim = odeint(edos_int_bat_Aiba_et_al,inic_cond_simul,t_simul)
+        print(C_sim)
+        
+    if cont == 4:
+        def edos_int_bat_Moser(C,t):
+            Cx,Cs,Cp=C
+            mimax_sim = mimax
+            Ks_sim = Ks
+            Kd_sim = Kd
+            Yxs_sim = Yxs
+            alfa_sim = alfa
+            beta_sim = beta
+            u_sim = u
+        
+            mi=mimax_sim*(((Cs)**u_sim)/(Ks_sim+((Cs)**u_sim)))
+            dCxdt=(mi-Kd_sim)*Cx
+            dCsdt=(-1/Yxs_sim)*mi*Cx
+            dCpdt=alfa_sim*mi*Cx+beta_sim*Cx
+            return(dCxdt,dCsdt,dCpdt)
+        # Integrando numericamente:
+        C_sim = odeint(edos_int_bat_Moser,inic_cond_simul,t_simul)
+        print(C_sim)
+        
+    if cont == 5:
+        def edos_int_bat_Hope_Hansford(C,t):
+            Cx,Cs,Cp=C
+            mimax_sim = mimax
+            Ks_sim = Ks
+            Kd_sim = Kd
+            Yxs_sim = Yxs
+            alfa_sim = alfa
+            beta_sim = beta
+            Kp_hope_sim = Kp_hh
+
+            mi=mimax_sim*(Cs/(Ks_sim+Cs))*(Kp_hope_sim/(Kp_hope_sim+Cp))
+            dCxdt=(mi-Kd_sim)*Cx
+            dCsdt=(-1/Yxs_sim)*mi*Cx
+            dCpdt=alfa_sim*mi*Cx+beta_sim*Cx
+            return(dCxdt,dCsdt,dCpdt)
+        # Integrando numericamente:
+        C_sim = odeint(edos_int_bat_Hope_Hansford,inic_cond_simul,t_simul)
+        print(C_sim)
+        
+    if cont == 6:
+        def edos_int_bat_Wu_et_al(C,t):
+            Cx,Cs,Cp=C
+            mimax_sim = mimax
+            Ks_sim = Ks
+            Kd_sim = Kd
+            Yxs_sim = Yxs
+            alfa_sim = alfa
+            beta_sim = beta
+            Ke_sim = Ke
+            v_sim = v
+
+            mi = mimax_sim * (Cs/(Ks_sim + Cs + Cs*((Cs/Ke_sim)**v_sim)))
+            dCxdt=(mi-Kd_sim)*Cx
+            dCsdt=(-1/Yxs_sim)*mi*Cx
+            dCpdt=alfa_sim*mi*Cx+beta_sim*Cx
+            return(dCxdt,dCsdt,dCpdt)
+        # Integrando numericamente:
+        C_sim = odeint(edos_int_bat_Wu_et_al,inic_cond_simul,t_simul)
+        print(C_sim)
+    
+    if cont == 7:
+        def edos_int_bat_Levenspiel(C,t):
+            Cx,Cs,Cp=C
+            mimax_sim = mimax
+            Ks_sim = Ks
+            Kd_sim = Kd
+            Yxs_sim = Yxs
+            alfa_sim = alfa
+            beta_sim = beta
+            Cp_estr_sim = Cp_estr
+            n_sim = n
+        
+            mi=mimax_sim*((Cs/(Ks_sim+Cs))*((1-(Cp/Cp_estr_sim))**n_sim))
+            dCxdt=(mi-Kd_sim)*Cx
+            dCsdt=(-1/Yxs_sim)*mi*Cx
+            dCpdt=alfa_sim*mi*Cx+beta_sim*Cx
+            return(dCxdt,dCsdt,dCpdt)
+        # Integrando numericamente:
+        C_sim = odeint(edos_int_bat_Levenspiel,inic_cond_simul,t_simul)
+        print(C_sim)
+
+    if cont == 8:
+        def edos_int_bat_Lee_et_al(C,t):
+            Cx,Cs,Cp=C
+            mimax_sim = mimax
+            Ks_sim = Ks
+            Kd_sim = Kd
+            Yxs_sim = Yxs
+            alfa_sim = alfa
+            beta_sim = beta
+            Cx_estr_sim = Cx_estr
+            m_sim = m
+        
+            mi=mimax_sim*((Cs/(Ks_sim+Cs))*((1-(Cx/Cx_estr_sim))**m_sim))
+            dCxdt=(mi-Kd_sim)*Cx
+            dCsdt=(-1/Yxs_sim)*mi*Cx
+            dCpdt=alfa_sim*mi*Cx+beta_sim*Cx
+            return(dCxdt,dCsdt,dCpdt)
+        # Integrando numericamente:
+        C_sim = odeint(edos_int_bat_Lee_et_al,inic_cond_simul,t_simul)
+        print(C_sim)
+
+    # Gráfico - perfil de concentração:       
+    x = "red"
+    p = "green"
+    s = "blue"
+    def imprimir_perfil_concentracao_model_otim_exp (t_m, Cx_m, Cs_m, Cp_m):
+        f = plt.figure(figsize=(8,6), dpi = 54) 
+        plot = f.add_subplot(111) 
+        lns1 = plot.plot(t_m ,Cx_m, color = x, linewidth=3,label='Cx modelo')
+        lns2 = plot.plot(t_m,Cp_m, linestyle="--", color=p,linewidth=3,label='Cp modelo')
+        ax2 = plot.twinx()
+        lns3 = ax2.plot(t_m,Cs_m,linestyle=":", color=s,linewidth=3,label='Cs modelo') 
+        plot.set_xlabel('Tempo de cultivo (h)',weight='bold')               
+        plot.set_ylabel('Cx e Cp (g/L)', weight='bold')
+        ax2.set_ylabel('Cs (g/L)', weight='bold') 
+        lns = lns1+lns2+lns3
+        labs = [l.get_label() for l in lns]
+        plot.legend(lns, labs, loc='upper center', bbox_to_anchor=(0.5, 1.12),ncol=3, fancybox=True, shadow=True)                                                
+        plot.grid(True)
+        f.patch.set_facecolor('white')                                   
+        plt.style.use('default')
+        canvas = FigureCanvasTkAgg(f, frame1)
+        a = canvas.get_tk_widget().place(x = 420, y = 123)
+        def salvar():
+            a = asksaveasfilename(filetypes=(("PNG Image", "*.png"),("All Files", "*.*")), 
+            defaultextension='.png')
+            plt.savefig(a)
+        botao(frame = frame1, comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy)
+    imprimir_perfil_concentracao_model_otim_exp(t_simul, C_sim[:,0], C_sim[:,1], C_sim[:,2])
+    
+    def graf_cor (x,p,s): 
+        Button(frame1, text = "Concentração", font = "arial 7 bold", borderwidth=1, relief="solid", fg = "black", bg = "white", command = fig_concent).place(x = 407, y = 455)
+        #Button(frame1, text = "Produtividade X e P", font = "arial 7 bold", borderwidth=1, relief="solid", fg = "black", bg = "white", command = fig_produtiv).place(x = 480, y = 455)
+        #Button(frame1, text = u"Produtividade P.X\u207b\u00b9", font = "arial 7 bold", borderwidth=1, relief="solid", fg = "black", bg = "white", command = fig_produtiv_espec).place(x = 580, y = 455)
+        #Button(frame1, text = "Velocidade de Crescimento", font = "arial 7 bold", borderwidth=1, relief="solid", fg = "black", bg = "white", command = fig_mi).place(x = 681, y = 455)
+        f = plt.figure(figsize=(8,6), dpi = 54) 
+        plot = f.add_subplot(111) 
+        lns1 = plot.plot(t_simul ,C_sim[:,0], color = x, linewidth=3,label='Cx modelo')
+        lns2 = plot.plot(t_simul,C_sim[:,2], linestyle="--", color=p,linewidth=3,label='Cp modelo')
+        ax2 = plot.twinx()
+        lns3 = ax2.plot(t_simul,C_sim[:,1],linestyle=":", color=s,linewidth=3,label='Cs modelo') 
+        plot.set_xlabel('Tempo de cultivo (h)',weight='bold')               
+        plot.set_ylabel('Cx e Cp (g/L)', weight='bold')
+        ax2.set_ylabel('Cs (g/L)', weight='bold') 
+        lns = lns1+lns2+lns3
+        labs = [l.get_label() for l in lns]
+        plot.legend(lns, labs, loc='upper center', bbox_to_anchor=(0.5, 1.12),ncol=3, fancybox=True, shadow=True)                                                
+        plot.grid(True)
+        f.patch.set_facecolor('white')                                   
+        plt.style.use('default')
+        canvas = FigureCanvasTkAgg(f, frame1)
+        a = canvas.get_tk_widget().place(x = 420, y = 123)
+        def salvar():
+            a = asksaveasfilename(filetypes=(("PNG Image", "*.png"),("All Files", "*.*")), 
+            defaultextension='.png')
+            plt.savefig(a)
+        botao(frame = frame1, comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy)
+        Button(frame1, text = "Concentração", font = "arial 7 bold", borderwidth=1, relief="solid", fg = "white", bg = "black").place(x = 407, y = 455)
+        
+        
+    ## Escolha das cores:
+    def seletor_cores():
+        cor = colorchooser.askcolor(title = "Editar cores")
+        return(cor[1])
+    def cores_cx():
+        global cor_x
+        cor_x = colorchooser.askcolor(title ="Editar cores")
+        cor_x = cor_x[1]
+        fig = graf_cor (x = cor_x, p = "green", s = "blue")
+        Button(frame1, text = "Cs", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_cs).place(x = 858, y = 356) 
+    def cores_cs():
+        global cor_s
+        cor_s = colorchooser.askcolor(title ="Editar cores")
+        cor_s = cor_s[1]
+        fig = graf_cor (x = cor_x, p = "green", s = cor_s)
+        Button(frame1, text = "Cs", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_cs).place(x = 858, y = 356)
+        Button(frame1, text = "Cp", bg = "gray40", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_cp).place(x = 858, y = 376)  
+    def cores_cp():
+        global cor_p
+        cor_p = colorchooser.askcolor(title ="Editar cores")
+        cor_p = cor_p[1] 
+        fig = graf_cor (x = cor_x, p = cor_p, s = cor_s)
+        Button(frame1, text = "Cp", bg = "gray40", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_cp).place(x = 858, y = 376)
+    def cores_concent():
+        Button(frame1, text = "Cx", bg = "gray60", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_cx).place(x = 858, y = 333)
+        botao_paleta(frame = frame1, comando = cores_concent)
+    def fig_concent():
+        plot_graf(frame1)
+        graf_cor(x = "red", p = "green", s = "blue") 
+    botao_paleta(frame = frame1, comando = cores_concent)
+    Button(frame1, text = "Concentração", font = "arial 7 bold", borderwidth=1, relief="solid", fg = "black", bg = "white", command = fig_concent).place(x = 407, y = 455)
+            
+        
+    
+    
 
 # Programação da parte funcional do código - MODELAGEM: 
 def explorer():
@@ -1160,7 +1461,7 @@ def explorer():
             tex_mimax = Label(frame8, text = u"\u03bcmáx(h\u207b\u00b9) = taxa específica máxima de crescimento ", font = 'arial 9 italic', fg = "black").place(x = 0, y = 184)
             tex_ks = Label(frame8, text = "Ks = constante de saturação (massa/volume)", font = 'arial 9 italic', fg = "black").place(x = 0, y = 214)
             tex_ke = Label(frame8, text = "Ke = constante inibição por substrato (massa/volume)", font = 'arial 9 italic', fg = "black").place(x = 0, y = 244)
-            tex_v = Label(frame8, text = "v = parâmetro expoente (adimensional)", font = 'arial 9 italic', fg = "black").place(x = 0, y = 244)
+            tex_v = Label(frame8, text = "v = parâmetro expoente (adimensional)", font = 'arial 9 italic', fg = "black").place(x = 0, y = 274)
             Button(frame7, text = "MODELAR", bg = "gray20", fg="white", borderwidth=2, relief="ridge", font="batang 11", width = 8, command = click_andrews).place(x = 112, y = 28)
             Button(frame8, text = "MODELAR", bg = "gray20", fg="white", borderwidth=2, relief="ridge", font="batang 11", width = 8, command = click_wu).place(x = 112, y = 28)
         if value_2 == "INIBIÇÃO PELO PRODUTO": 
@@ -1196,133 +1497,598 @@ Label(frame2, borderwidth=2, relief="ridge", justify = "center", width = 40).pla
 
 # Função para capturar os valores de entrada - SIMULAÇÃO
 def capt_val_esc_contois():
-    Cx0 = entr_Cx0_contois.get()
-    Cs0 = entr_Cs0_contois.get()
-    Cp0 = entr_Cp0_contois.get()
-    t0 = entr_t0_contois.get()
-    tf = entr_tf_contois.get()
-    #ks_ = slider_ks_.get()
-    #kd = slider_kd.get()
-    #yxs = slider_yxs.get()
-    #alfa = slider_alfa.get()
-    #beta = slider_beta.get()
-    #u = slider_u.get()
-    print(Cx0, Cs0, Cp0, t0, tf)
+    global Cx0, Cs0, Cp0, t0, tf, mimax, KSX, Kd, Yxs, alfa, beta
+    Cx0 = float(entr_Cx0_contois.get())
+    Cs0 = float(entr_Cs0_contois.get())
+    Cp0 = float(entr_Cp0_contois.get())
+    t0 = float(entr_t0_contois.get())
+    tf = float(entr_tf_contois.get())
+    mimax = float(slider_mimax_contois.get())
+    KSX = float(slider_ks_contois.get())
+    Kd = float(slider_kd_contois.get())
+    Yxs = float(slider_yxs_contois.get())
+    alfa = float(slider_alfa_contois.get())
+    beta = float(slider_beta_contois.get())
+    print(Cx0, Cs0, Cp0, t0, tf, mimax, KSX, Kd, Yxs, alfa, beta)
+    simulacao(cont = 1)
 
 def capt_val_esc_monod():
-    Cx0 = entr_Cx0_monod.get()
-    Cs0 = entr_Cs0_monod.get()
-    Cp0 = entr_Cp0_monod.get()
-    t0 = entr_t0_monod.get()
-    tf = entr_tf_monod.get()
-    print(Cx0, Cs0, Cp0, t0, tf)
+    global Cx0, Cs0, Cp0, t0, tf, mimax, Ks, Kd, Yxs, alfa, beta
+    Cx0 = float(entr_Cx0_monod.get())
+    Cs0 = float(entr_Cs0_monod.get())
+    Cp0 = float(entr_Cp0_monod.get())
+    t0 = float(entr_t0_monod.get())
+    tf = float(entr_tf_monod.get())
+    mimax = float(slider_mimax_monod.get())
+    Ks = float(slider_ks_monod.get())
+    Kd = float(slider_kd_monod.get())
+    Yxs = float(slider_yxs_monod.get())
+    alfa = float(slider_alfa_monod.get())
+    beta = float(slider_beta_monod.get())
+    print(Cx0, Cs0, Cp0, t0, tf, mimax, Ks, Kd, Yxs, alfa, beta)
+    simulacao(cont = 0)
     
 def capt_val_esc_moser():
-    Cx0 = entr_Cx0_moser.get()
-    Cs0 = entr_Cs0_moser.get()
-    Cp0 = entr_Cp0_moser.get()
-    t0 = entr_t0_moser.get()
-    tf = entr_tf_moser.get()
-    print(Cx0, Cs0, Cp0, t0, tf)
+    global Cx0, Cs0, Cp0, t0, tf, mimax, Ks, Kd, Yxs, alfa, beta, u
+    Cx0 = float(entr_Cx0_moser.get())
+    Cs0 = float(entr_Cs0_moser.get())
+    Cp0 = float(entr_Cp0_moser.get())
+    t0 = float(entr_t0_moser.get())
+    tf = float(entr_tf_moser.get())
+    mimax = float(slider_mimax_moser.get())
+    Ks = float(slider_ks_moser.get())
+    Kd = float(slider_kd_moser.get())
+    Yxs = float(slider_yxs_moser.get())
+    alfa = float(slider_alfa_moser.get())
+    beta = float(slider_beta_moser.get())
+    u = float(slider_u.get())
+    print(Cx0, Cs0, Cp0, t0, tf, mimax, Ks, Kd, Yxs, alfa, beta, u)
+    simulacao(cont = 4)
 
 def capt_val_esc_andrews():
-    Cx0 = entr_Cx0_andrews.get()
-    Cs0 = entr_Cs0_andrews.get()
-    Cp0 = entr_Cp0_andrews.get()
-    t0 = entr_t0_andrews.get()
-    tf = entr_tf_andrews.get()
-    print(Cx0, Cs0, Cp0, t0, tf)
+    global Cx0, Cs0, Cp0, t0, tf, Cx0, Cs0, Cp0, t0, tf, mimax, Ks, Kd, Yxs, alfa, beta, KIS
+    Cx0 = float(entr_Cx0_andrews.get())
+    Cs0 = float(entr_Cs0_andrews.get())
+    Cp0 = float(entr_Cp0_andrews.get())
+    t0 = float(entr_t0_andrews.get())
+    tf = float(entr_tf_andrews.get())
+    mimax = float(slider_mimax_andrews.get())
+    Ks = float(slider_ks_andrews.get())
+    Kd = float(slider_kd_andrews.get())
+    Yxs = float(slider_yxs_andrews.get())
+    alfa = float(slider_alfa_andrews.get())
+    beta = float(slider_beta_andrews.get())
+    KIS = float(slider_kis.get())
+    print(Cx0, Cs0, Cp0, t0, tf, Cx0, Cs0, Cp0, t0, tf, mimax, Ks, Kd, Yxs, alfa, beta, KIS)
+    simulacao(cont = 2)
 
 def capt_val_esc_wu():
-    Cx0 = entr_Cx0_wu.get()
-    Cs0 = entr_Cs0_wu.get()
-    Cp0 = entr_Cp0_wu.get()
-    t0 = entr_t0_wu.get()
-    tf = entr_tf_wu.get()
-    print(Cx0, Cs0, Cp0, t0, tf)
+    global Cx0, Cs0, Cp0, t0, tf, mimax, Ks, Kd, Yxs, alfa, beta, Ke, v
+    Cx0 = float(entr_Cx0_wu.get())
+    Cs0 = float(entr_Cs0_wu.get())
+    Cp0 = float(entr_Cp0_wu.get())
+    t0 = float(entr_t0_wu.get())
+    tf = float(entr_tf_wu.get())
+    mimax = float(slider_mimax_wu.get())
+    Ks = float(slider_ks_wu.get())
+    Kd = float(slider_kd_wu.get())
+    Yxs = float(slider_yxs_wu.get())
+    alfa = float(slider_alfa_wu.get())
+    beta = float(slider_beta_wu.get())
+    Ke = float(slider_ke.get())
+    v = float(slider_v.get())
+    print(Cx0, Cs0, Cp0, t0, tf, mimax, Ks, Kd, Yxs, alfa, beta, Ke, v)
+    simulacao(cont = 6)
     
 def capt_val_esc_aiba():
-    Cx0 = entr_Cx0_aiba.get()
-    Cs0 = entr_Cs0_aiba.get()
-    Cp0 = entr_Cp0_aiba.get()
-    t0 = entr_t0_aiba.get()
-    tf = entr_tf_aiba.get()
-    print(Cx0, Cs0, Cp0, t0, tf)
+    global Cx0, Cs0, Cp0, t0, tf, mimax, Ks, Kd, Yxs, alfa, beta, Kp_aiba
+    Cx0 = float(entr_Cx0_aiba.get())
+    Cs0 = float(entr_Cs0_aiba.get())
+    Cp0 = float(entr_Cp0_aiba.get())
+    t0 = float(entr_t0_aiba.get())
+    tf = float(entr_tf_aiba.get())
+    mimax = float(slider_mimax_aiba.get())
+    Ks = float(slider_ks_aiba.get())
+    Kd = float(slider_kd_aiba.get())
+    Yxs = float(slider_yxs_aiba.get())
+    alfa = float(slider_alfa_aiba.get())
+    beta = float(slider_beta_aiba.get())
+    Kp_aiba = float(slider_kp_aiba.get())
+    print(Cx0, Cs0, Cp0, t0, tf, mimax, Ks, Kd, Yxs, alfa, beta, Kp_aiba)
+    simulacao(cont = 3)
     
 def capt_val_esc_h_h():
-    Cx0 = entr_Cx0_h_h.get()
-    Cs0 = entr_Cs0_h_h.get()
-    Cp0 = entr_Cp0_h_h.get()
-    t0 = entr_t0_h_h.get()
-    tf = entr_tf_h_h.get()
-    print(Cx0, Cs0, Cp0, t0, tf)
+    global Cx0, Cs0, Cp0, t0, tf, mimax, Ks, Kd, Yxs, alfa, beta, Kp_hh
+    Cx0 = float(entr_Cx0_h_h.get())
+    Cs0 = float(entr_Cs0_h_h.get())
+    Cp0 = float(entr_Cp0_h_h.get())
+    t0 = float(entr_t0_h_h.get())
+    tf = float(entr_tf_h_h.get())
+    mimax = float(slider_mimax_h_h.get())
+    Ks = float(slider_ks_h_h.get())
+    Kd = float(slider_kd_h_h.get())
+    Yxs = float(slider_yxs_h_h.get())
+    alfa = float(slider_alfa_h_h.get())
+    beta = float(slider_beta_h_h.get())
+    Kp_hh = float(slider_kp_h_h.get())
+    print(Cx0, Cs0, Cp0, t0, tf, mimax, Ks, Kd, Yxs, alfa, beta, Kp_hh)
+    simulacao(cont = 5)
     
 def capt_val_esc_levenspiel():
-    Cx0 = entr_Cx0_levenspiel.get()
-    Cs0 = entr_Cs0_levenspiel.get()
-    Cp0 = entr_Cp0_levenspiel.get()
-    t0 = entr_t0_levenspiel.get()
-    tf = entr_tf_levenspiel.get()
-    print(Cx0, Cs0, Cp0, t0, tf)
+    global Cx0, Cs0, Cp0, t0, tf, mimax, Ks, Kd, Yxs, alfa, beta, Cp_estr, n
+    Cx0 = float(entr_Cx0_levenspiel.get())
+    Cs0 = float(entr_Cs0_levenspiel.get())
+    Cp0 = float(entr_Cp0_levenspiel.get())
+    t0 = float(entr_t0_levenspiel.get())
+    tf = float(entr_tf_levenspiel.get())
+    mimax = float(slider_mimax_levenspiel.get())
+    Ks = float(slider_ks_levenspiel.get())
+    Kd = float(slider_kd_levenspiel.get())
+    Yxs = float(slider_yxs_levenspiel.get())
+    alfa = float(slider_alfa_levenspiel.get())
+    beta = float(slider_beta_levenspiel.get())
+    Cp_estr = float(slider_cp_estr.get())
+    n = float(slider_n.get())
+    print(Cx0, Cs0, Cp0, t0, tf, mimax, Ks, Kd, Yxs, alfa, beta, Cp_estr, n)
+    simulacao(cont = 7)
     
 def capt_val_esc_lee():
-    Cx0 = entr_Cx0_lee.get()
-    Cs0 = entr_Cs0_lee.get()
-    Cp0 = entr_Cp0_lee.get()
-    t0 = entr_t0_lee.get()
-    tf = entr_tf_lee.get()
-    print(Cx0, Cs0, Cp0, t0, tf)
+    global Cx0, Cs0, Cp0, t0, tf, mimax, Ks, Kd, Yxs, alfa, beta, Cx_estr, m
+    Cx0 = float(entr_Cx0_lee.get())
+    Cs0 = float(entr_Cs0_lee.get())
+    Cp0 = float(entr_Cp0_lee.get())
+    t0 = float(entr_t0_lee.get())
+    tf = float(entr_tf_lee.get())
+    mimax = float(slider_mimax_lee.get())
+    Ks = float(slider_ks_lee.get())
+    Kd = float(slider_kd_lee.get())
+    Yxs = float(slider_yxs_lee.get())
+    alfa = float(slider_alfa_lee.get())
+    beta = float(slider_beta_lee.get())
+    Cx_estr = float(slider_cx_estr.get())
+    m = float(slider_m.get())
+    print(Cx0, Cs0, Cp0, t0, tf, mimax, Ks, Kd, Yxs, alfa, beta, Cx_estr, m)
+    simulacao(cont = 8)
     
 # Função entradas numéricas:
-def entr_simul_mimax(frame):
+def entr_simul_mimax_contois(frame):
     ## Criação dos botões deslizáveis:
     input = tk.DoubleVar(value=0.01)
-    global spin_mimax, slider_mimax
-    spin_mimax = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
-    spin_mimax.place(x = 15, y = 37)
-    slider_mimax = ttk.Scale(frame, variable=input, from_= 0.01, to = 1.5, orient='horizontal',length = 60)
-    slider_mimax.place(x = 59, y = 32) 
+    global spin_mimax_contois, slider_mimax_contois
+    spin_mimax_contois = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_mimax_contois.place(x = 15, y = 37)
+    slider_mimax_contois = ttk.Scale(frame, variable=input, from_= 0.01, to = 1.5, orient='horizontal',length = 60)
+    slider_mimax_contois.place(x = 59, y = 32) 
+def entr_simul_mimax_monod(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.01)
+    global spin_mimax_monod, slider_mimax_monod
+    spin_mimax_monod = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_mimax_monod.place(x = 15, y = 37)
+    slider_mimax_monod = ttk.Scale(frame, variable=input, from_= 0.01, to = 1.5, orient='horizontal',length = 60)
+    slider_mimax_monod.place(x = 59, y = 32) 
+def entr_simul_mimax_moser(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.01)
+    global spin_mimax_moser, slider_mimax_moser
+    spin_mimax_moser = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_mimax_moser.place(x = 15, y = 37)
+    slider_mimax_moser = ttk.Scale(frame, variable=input, from_= 0.01, to = 1.5, orient='horizontal',length = 60)
+    slider_mimax_moser.place(x = 59, y = 32) 
+def entr_simul_mimax_andrews(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.01)
+    global spin_mimax_andrews, slider_mimax_andrews
+    spin_mimax_andrews = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_mimax_andrews.place(x = 15, y = 37)
+    slider_mimax_andrews = ttk.Scale(frame, variable=input, from_= 0.01, to = 1.5, orient='horizontal',length = 60)
+    slider_mimax_andrews.place(x = 59, y = 32) 
+def entr_simul_mimax_wu(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.01)
+    global spin_mimax_wu, slider_mimax_wu
+    spin_mimax_wu = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_mimax_wu.place(x = 15, y = 37)
+    slider_mimax_wu = ttk.Scale(frame, variable=input, from_= 0.01, to = 1.5, orient='horizontal',length = 60)
+    slider_mimax_wu.place(x = 59, y = 32) 
+def entr_simul_mimax_aiba(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.01)
+    global spin_mimax_aiba, slider_mimax_aiba
+    spin_mimax_aiba = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_mimax_aiba.place(x = 15, y = 37)
+    slider_mimax_aiba = ttk.Scale(frame, variable=input, from_= 0.01, to = 1.5, orient='horizontal',length = 60)
+    slider_mimax_aiba.place(x = 59, y = 32) 
+def entr_simul_mimax_h_h(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.01)
+    global spin_mimax_h_h, slider_mimax_h_h
+    spin_mimax_h_h = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_mimax_h_h.place(x = 15, y = 37)
+    slider_mimax_h_h = ttk.Scale(frame, variable=input, from_= 0.01, to = 1.5, orient='horizontal',length = 60)
+    slider_mimax_h_h.place(x = 59, y = 32) 
+def entr_simul_mimax_levenspiel(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.01)
+    global spin_mimax_levenspiel, slider_mimax_levenspiel
+    spin_mimax_levenspiel = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_mimax_levenspiel.place(x = 15, y = 37)
+    slider_mimax_levenspiel = ttk.Scale(frame, variable=input, from_= 0.01, to = 1.5, orient='horizontal',length = 60)
+    slider_mimax_levenspiel.place(x = 59, y = 32) 
+def entr_simul_mimax_lee(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.01)
+    global spin_mimax_lee, slider_mimax_lee
+    spin_mimax_lee = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_mimax_lee.place(x = 15, y = 37)
+    slider_mimax_lee = ttk.Scale(frame, variable=input, from_= 0.01, to = 1.5, orient='horizontal',length = 60)
+    slider_mimax_lee.place(x = 59, y = 32) 
 
-def entr_simul_ks_(frame):
+def entr_simul_ks_contois(frame):
     ## Criação dos botões deslizáveis:
     input = tk.DoubleVar(value=0.01)
-    global spin_ks_, slider_ks_
-    spin_ks_ = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
-    spin_ks_.place(x = 15, y = 94)
-    slider_ks_ = ttk.Scale(frame, variable=input, from_= 0.01, to = 30, orient='horizontal',length = 100)
-    slider_ks_.place(x = 58, y = 91)  
-def entr_simul_kd(frame):
+    global spin_ks_contois, slider_ks_contois
+    spin_ks_contois = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_ks_contois.place(x = 15, y = 94)
+    slider_ks_contois = ttk.Scale(frame, variable=input, from_= 0.01, to = 30, orient='horizontal',length = 100)
+    slider_ks_contois.place(x = 58, y = 91)
+def entr_simul_ks_monod(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.01)
+    global spin_ks_monod, slider_ks_monod
+    spin_ks_monod = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_ks_monod.place(x = 15, y = 94)
+    slider_ks_monod = ttk.Scale(frame, variable=input, from_= 0.01, to = 30, orient='horizontal',length = 100)
+    slider_ks_monod.place(x = 58, y = 91)
+def entr_simul_ks_moser(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.01)
+    global spin_ks_moser, slider_ks_moser
+    spin_ks_moser = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_ks_moser.place(x = 15, y = 94)
+    slider_ks_moser = ttk.Scale(frame, variable=input, from_= 0.01, to = 30, orient='horizontal',length = 100)
+    slider_ks_moser.place(x = 58, y = 91)
+def entr_simul_ks_andrews(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.01)
+    global spin_ks_andrews, slider_ks_andrews
+    spin_ks_andrews = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_ks_andrews.place(x = 15, y = 94)
+    slider_ks_andrews = ttk.Scale(frame, variable=input, from_= 0.01, to = 30, orient='horizontal',length = 100)
+    slider_ks_andrews.place(x = 58, y = 91)
+def entr_simul_ks_wu(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.01)
+    global spin_ks_wu, slider_ks_wu
+    spin_ks_wu = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_ks_wu.place(x = 15, y = 94)
+    slider_ks_wu = ttk.Scale(frame, variable=input, from_= 0.01, to = 30, orient='horizontal',length = 100)
+    slider_ks_wu.place(x = 58, y = 91)
+def entr_simul_ks_aiba(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.01)
+    global spin_ks_aiba, slider_ks_aiba
+    spin_ks_aiba = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_ks_aiba.place(x = 15, y = 94)
+    slider_ks_aiba = ttk.Scale(frame, variable=input, from_= 0.01, to = 30, orient='horizontal',length = 100)
+    slider_ks_aiba.place(x = 58, y = 91)
+def entr_simul_ks_h_h(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.01)
+    global spin_ks_h_h, slider_ks_h_h
+    spin_ks_h_h = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_ks_h_h.place(x = 15, y = 94)
+    slider_ks_h_h = ttk.Scale(frame, variable=input, from_= 0.01, to = 30, orient='horizontal',length = 100)
+    slider_ks_h_h.place(x = 58, y = 91)
+def entr_simul_ks_levenspiel(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.01)
+    global spin_ks_levenspiel, slider_ks_levenspiel
+    spin_ks_levenspiel = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_ks_levenspiel.place(x = 15, y = 94)
+    slider_ks_levenspiel = ttk.Scale(frame, variable=input, from_= 0.01, to = 30, orient='horizontal',length = 100)
+    slider_ks_levenspiel.place(x = 58, y = 91)
+def entr_simul_ks_lee(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.01)
+    global spin_ks_lee, slider_ks_lee
+    spin_ks_lee = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_ks_lee.place(x = 15, y = 94)
+    slider_ks_lee = ttk.Scale(frame, variable=input, from_= 0.01, to = 30, orient='horizontal',length = 100)
+    slider_ks_lee.place(x = 58, y = 91)
+    
+def entr_simul_kd_contois(frame):
     ## Criação dos botões deslizáveis:
     input = tk.DoubleVar(value=0.0)
-    global spin_kd, slider_kd
-    spin_kd = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
-    spin_kd.place(x = 15, y = 157)
-    slider_kd = ttk.Scale(frame, variable=input, from_= 0.0, to = 1, orient='horizontal',length = 55)
-    slider_kd.place(x = 58, y = 154) 
-def entr_simul_yxs(frame):
-    ## Criação dos botões deslizáveis:
-    input = tk.DoubleVar(value=0.01)
-    global spin_yxs, slider_yxs
-    spin_yxs = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
-    spin_yxs.place(x = 145, y = 157)
-    slider_yxs = ttk.Scale(frame, variable=input, from_= 0.0, to = 3, orient='horizontal',length = 80)
-    slider_yxs.place(x = 188, y = 154) 
-def entr_simul_alfa(frame):
-    ## Criação dos botões deslizáveis:
-    input = tk.DoubleVar(value=0.01)
-    global spin_alfa, slider_alfa
-    spin_alfa = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
-    spin_alfa.place(x = 15, y = 213)
-    slider_alfa = ttk.Scale(frame, variable=input, from_= 0.01, to = 10, orient='horizontal',length = 90)
-    slider_alfa.place(x = 58, y = 209)
-def entr_simul_beta(frame):
+    global spin_kd_contois, slider_kd_contois
+    spin_kd_contois = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_kd_contois.place(x = 15, y = 157)
+    slider_kd_contois = ttk.Scale(frame, variable=input, from_= 0.0, to = 1, orient='horizontal',length = 55)
+    slider_kd_contois.place(x = 58, y = 154) 
+def entr_simul_kd_monod(frame):
     ## Criação dos botões deslizáveis:
     input = tk.DoubleVar(value=0.0)
-    global spin_beta, slider_beta
-    spin_beta = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
-    spin_beta.place(x = 160, y = 213)
-    slider_beta = ttk.Scale(frame, variable=input, from_= 0.0, to = 10, orient='horizontal',length = 90)
-    slider_beta.place(x = 203, y = 209)
+    global spin_kd_monod, slider_kd_monod
+    spin_kd_monod = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_kd_monod.place(x = 15, y = 157)
+    slider_kd_monod = ttk.Scale(frame, variable=input, from_= 0.0, to = 1, orient='horizontal',length = 55)
+    slider_kd_monod.place(x = 58, y = 154) 
+def entr_simul_kd_moser(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.0)
+    global spin_kd_moser, slider_kd_moser
+    spin_kd_moser = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_kd_moser.place(x = 15, y = 157)
+    slider_kd_moser = ttk.Scale(frame, variable=input, from_= 0.0, to = 1, orient='horizontal',length = 55)
+    slider_kd_moser.place(x = 58, y = 154) 
+def entr_simul_kd_andrews(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.0)
+    global spin_kd_andrews, slider_kd_andrews
+    spin_kd_andrews = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_kd_andrews.place(x = 15, y = 157)
+    slider_kd_andrews = ttk.Scale(frame, variable=input, from_= 0.0, to = 1, orient='horizontal',length = 55)
+    slider_kd_andrews.place(x = 58, y = 154) 
+def entr_simul_kd_wu(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.0)
+    global spin_kd_wu, slider_kd_wu
+    spin_kd_wu = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_kd_wu.place(x = 15, y = 157)
+    slider_kd_wu = ttk.Scale(frame, variable=input, from_= 0.0, to = 1, orient='horizontal',length = 55)
+    slider_kd_wu.place(x = 58, y = 154)
+def entr_simul_kd_aiba(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.0)
+    global spin_kd_aiba, slider_kd_aiba
+    spin_kd_aiba = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_kd_aiba.place(x = 15, y = 157)
+    slider_kd_aiba = ttk.Scale(frame, variable=input, from_= 0.0, to = 1, orient='horizontal',length = 55)
+    slider_kd_aiba.place(x = 58, y = 154)
+def entr_simul_kd_h_h(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.0)
+    global spin_kd_h_h, slider_kd_h_h
+    spin_kd_h_h = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_kd_h_h.place(x = 15, y = 157)
+    slider_kd_h_h = ttk.Scale(frame, variable=input, from_= 0.0, to = 1, orient='horizontal',length = 55)
+    slider_kd_h_h.place(x = 58, y = 154)
+def entr_simul_kd_levenspiel(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.0)
+    global spin_kd_levenspiel, slider_kd_levenspiel
+    spin_kd_levenspiel = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_kd_levenspiel.place(x = 15, y = 157)
+    slider_kd_levenspiel = ttk.Scale(frame, variable=input, from_= 0.0, to = 1, orient='horizontal',length = 55)
+    slider_kd_levenspiel.place(x = 58, y = 154)
+def entr_simul_kd_lee(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.0)
+    global spin_kd_lee, slider_kd_lee
+    spin_kd_lee = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_kd_lee.place(x = 15, y = 157)
+    slider_kd_lee = ttk.Scale(frame, variable=input, from_= 0.0, to = 1, orient='horizontal',length = 55)
+    slider_kd_lee.place(x = 58, y = 154)
+    
+def entr_simul_yxs_contois(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.01)
+    global spin_yxs_contois, slider_yxs_contois
+    spin_yxs_contois = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_yxs_contois.place(x = 145, y = 157)
+    slider_yxs_contois = ttk.Scale(frame, variable=input, from_= 0.0, to = 3, orient='horizontal',length = 80)
+    slider_yxs_contois.place(x = 188, y = 154) 
+def entr_simul_yxs_monod(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.01)
+    global spin_yxs_monod, slider_yxs_monod
+    spin_yxs_monod = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_yxs_monod.place(x = 145, y = 157)
+    slider_yxs_monod = ttk.Scale(frame, variable=input, from_= 0.0, to = 3, orient='horizontal',length = 80)
+    slider_yxs_monod.place(x = 188, y = 154) 
+def entr_simul_yxs_moser(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.01)
+    global spin_yxs_moser, slider_yxs_moser
+    spin_yxs_moser = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_yxs_moser.place(x = 145, y = 157)
+    slider_yxs_moser = ttk.Scale(frame, variable=input, from_= 0.0, to = 3, orient='horizontal',length = 80)
+    slider_yxs_moser.place(x = 188, y = 154) 
+def entr_simul_yxs_andrews(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.01)
+    global spin_yxs_andrews, slider_yxs_andrews
+    spin_yxs_andrews = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_yxs_andrews.place(x = 145, y = 157)
+    slider_yxs_andrews = ttk.Scale(frame, variable=input, from_= 0.0, to = 3, orient='horizontal',length = 80)
+    slider_yxs_andrews.place(x = 188, y = 154) 
+def entr_simul_yxs_wu(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.01)
+    global spin_yxs_wu, slider_yxs_wu
+    spin_yxs_wu = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_yxs_wu.place(x = 145, y = 157)
+    slider_yxs_wu = ttk.Scale(frame, variable=input, from_= 0.0, to = 3, orient='horizontal',length = 80)
+    slider_yxs_wu.place(x = 188, y = 154)
+def entr_simul_yxs_aiba(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.01)
+    global spin_yxs_aiba, slider_yxs_aiba
+    spin_yxs_aiba = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_yxs_aiba.place(x = 145, y = 157)
+    slider_yxs_aiba = ttk.Scale(frame, variable=input, from_= 0.0, to = 3, orient='horizontal',length = 80)
+    slider_yxs_aiba.place(x = 188, y = 154) 
+def entr_simul_yxs_h_h(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.01)
+    global spin_yxs_h_h, slider_yxs_h_h
+    spin_yxs_h_h = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_yxs_h_h.place(x = 145, y = 157)
+    slider_yxs_h_h = ttk.Scale(frame, variable=input, from_= 0.0, to = 3, orient='horizontal',length = 80)
+    slider_yxs_h_h.place(x = 188, y = 154) 
+def entr_simul_yxs_levenspiel(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.01)
+    global spin_yxs_levenspiel, slider_yxs_levenspiel
+    spin_yxs_levenspiel = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_yxs_levenspiel.place(x = 145, y = 157)
+    slider_yxs_levenspiel = ttk.Scale(frame, variable=input, from_= 0.0, to = 3, orient='horizontal',length = 80)
+    slider_yxs_levenspiel.place(x = 188, y = 154) 
+def entr_simul_yxs_lee(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.01)
+    global spin_yxs_lee, slider_yxs_lee
+    spin_yxs_lee = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_yxs_lee.place(x = 145, y = 157)
+    slider_yxs_lee = ttk.Scale(frame, variable=input, from_= 0.0, to = 3, orient='horizontal',length = 80)
+    slider_yxs_lee.place(x = 188, y = 154)
+    
+def entr_simul_alfa_contois(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.01)
+    global spin_alfa_contois, slider_alfa_contois
+    spin_alfa_contois = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_alfa_contois.place(x = 15, y = 213)
+    slider_alfa_contois = ttk.Scale(frame, variable=input, from_= 0.01, to = 10, orient='horizontal',length = 90)
+    slider_alfa_contois.place(x = 58, y = 209)
+def entr_simul_alfa_monod(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.01)
+    global spin_alfa_monod, slider_alfa_monod
+    spin_alfa_monod = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_alfa_monod.place(x = 15, y = 213)
+    slider_alfa_monod = ttk.Scale(frame, variable=input, from_= 0.01, to = 10, orient='horizontal',length = 90)
+    slider_alfa_monod.place(x = 58, y = 209)
+def entr_simul_alfa_moser(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.01)
+    global spin_alfa_moser, slider_alfa_moser
+    spin_alfa_moser = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_alfa_moser.place(x = 15, y = 213)
+    slider_alfa_moser = ttk.Scale(frame, variable=input, from_= 0.01, to = 10, orient='horizontal',length = 90)
+    slider_alfa_moser.place(x = 58, y = 209)
+def entr_simul_alfa_andrews(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.01)
+    global spin_alfa_andrews, slider_alfa_andrews
+    spin_alfa_andrews = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_alfa_andrews.place(x = 15, y = 213)
+    slider_alfa_andrews = ttk.Scale(frame, variable=input, from_= 0.01, to = 10, orient='horizontal',length = 90)
+    slider_alfa_andrews.place(x = 58, y = 209)
+def entr_simul_alfa_wu(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.01)
+    global spin_alfa_wu, slider_alfa_wu
+    spin_alfa_wu= tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_alfa_wu.place(x = 15, y = 213)
+    slider_alfa_wu = ttk.Scale(frame, variable=input, from_= 0.01, to = 10, orient='horizontal',length = 90)
+    slider_alfa_wu.place(x = 58, y = 209)
+def entr_simul_alfa_aiba(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.01)
+    global spin_alfa_aiba, slider_alfa_aiba
+    spin_alfa_aiba= tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_alfa_aiba.place(x = 15, y = 213)
+    slider_alfa_aiba = ttk.Scale(frame, variable=input, from_= 0.01, to = 10, orient='horizontal',length = 90)
+    slider_alfa_aiba.place(x = 58, y = 209)
+def entr_simul_alfa_h_h(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.01)
+    global spin_alfa_h_h, slider_alfa_h_h
+    spin_alfa_h_h= tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_alfa_h_h.place(x = 15, y = 213)
+    slider_alfa_h_h = ttk.Scale(frame, variable=input, from_= 0.01, to = 10, orient='horizontal',length = 90)
+    slider_alfa_h_h.place(x = 58, y = 209)
+def entr_simul_alfa_levenspiel(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.01)
+    global spin_alfa_levenspiel, slider_alfa_levenspiel
+    spin_alfa_levenspiel= tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_alfa_levenspiel.place(x = 15, y = 213)
+    slider_alfa_levenspiel = ttk.Scale(frame, variable=input, from_= 0.01, to = 10, orient='horizontal',length = 90)
+    slider_alfa_levenspiel.place(x = 58, y = 209)
+def entr_simul_alfa_lee(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.01)
+    global spin_alfa_lee, slider_alfa_lee
+    spin_alfa_lee= tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_alfa_lee.place(x = 15, y = 213)
+    slider_alfa_lee = ttk.Scale(frame, variable=input, from_= 0.01, to = 10, orient='horizontal',length = 90)
+    slider_alfa_lee.place(x = 58, y = 209)
+    
+def entr_simul_beta_contois(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.0)
+    global spin_beta_contois, slider_beta_contois
+    spin_beta_contois = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_beta_contois.place(x = 160, y = 213)
+    slider_beta_contois = ttk.Scale(frame, variable=input, from_= 0.0, to = 10, orient='horizontal',length = 90)
+    slider_beta_contois.place(x = 203, y = 209)
+def entr_simul_beta_monod(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.0)
+    global spin_beta_monod, slider_beta_monod
+    spin_beta_monod = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_beta_monod.place(x = 160, y = 213)
+    slider_beta_monod = ttk.Scale(frame, variable=input, from_= 0.0, to = 10, orient='horizontal',length = 90)
+    slider_beta_monod.place(x = 203, y = 209)
+def entr_simul_beta_moser(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.0)
+    global spin_beta_moser, slider_beta_moser
+    spin_beta_moser = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_beta_moser.place(x = 160, y = 213)
+    slider_beta_moser = ttk.Scale(frame, variable=input, from_= 0.0, to = 10, orient='horizontal',length = 90)
+    slider_beta_moser.place(x = 203, y = 209)
+def entr_simul_beta_andrews(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.0)
+    global spin_beta_andrews, slider_beta_andrews
+    spin_beta_andrews = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_beta_andrews.place(x = 160, y = 213)
+    slider_beta_andrews = ttk.Scale(frame, variable=input, from_= 0.0, to = 10, orient='horizontal',length = 90)
+    slider_beta_andrews.place(x = 203, y = 209)
+def entr_simul_beta_wu(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.0)
+    global spin_beta_wu, slider_beta_wu
+    spin_beta_wu = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_beta_wu.place(x = 160, y = 213)
+    slider_beta_wu = ttk.Scale(frame, variable=input, from_= 0.0, to = 10, orient='horizontal',length = 90)
+    slider_beta_wu.place(x = 203, y = 209)
+def entr_simul_beta_aiba(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.0)
+    global spin_beta_aiba, slider_beta_aiba
+    spin_beta_aiba = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_beta_aiba.place(x = 160, y = 213)
+    slider_beta_aiba = ttk.Scale(frame, variable=input, from_= 0.0, to = 10, orient='horizontal',length = 90)
+    slider_beta_aiba.place(x = 203, y = 209)
+def entr_simul_beta_h_h(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.0)
+    global spin_beta_h_h, slider_beta_h_h
+    spin_beta_h_h = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_beta_h_h.place(x = 160, y = 213)
+    slider_beta_h_h = ttk.Scale(frame, variable=input, from_= 0.0, to = 10, orient='horizontal',length = 90)
+    slider_beta_h_h.place(x = 203, y = 209) 
+def entr_simul_beta_levenspiel(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.0)
+    global spin_beta_levenspiel, slider_beta_levenspiel
+    spin_beta_levenspiel = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_beta_levenspiel.place(x = 160, y = 213)
+    slider_beta_levenspiel = ttk.Scale(frame, variable=input, from_= 0.0, to = 10, orient='horizontal',length = 90)
+    slider_beta_levenspiel.place(x = 203, y = 209)
+def entr_simul_beta_lee(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.0)
+    global spin_beta_lee, slider_beta_lee
+    spin_beta_lee = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_beta_lee.place(x = 160, y = 213)
+    slider_beta_lee = ttk.Scale(frame, variable=input, from_= 0.0, to = 10, orient='horizontal',length = 90)
+    slider_beta_lee.place(x = 203, y = 209)   
+        
 def entr_simul_u(frame):
     ## Criação dos botões deslizáveis:
     input = tk.DoubleVar(value=0.5)
@@ -1331,6 +2097,7 @@ def entr_simul_u(frame):
     spin_u.place(x = 160, y = 37)
     slider_u = ttk.Scale(frame, variable=input, from_= 0.5, to = 3, orient='horizontal',length = 80)
     slider_u.place(x = 203, y = 32)
+    
 def entr_simul_kis(frame):
     ## Criação dos botões deslizáveis:
     input = tk.DoubleVar(value=0.01)
@@ -1339,6 +2106,7 @@ def entr_simul_kis(frame):
     spin_kis.place(x = 140, y = 37)
     slider_kis = ttk.Scale(frame, variable=input, from_= 0.01, to = 100, orient='horizontal',length = 110)
     slider_kis.place(x = 183, y = 32)
+    
 def entr_simul_ke(frame):
     ## Criação dos botões deslizáveis:
     input = tk.DoubleVar(value=0.01)
@@ -1347,6 +2115,7 @@ def entr_simul_ke(frame):
     spin_ke.place(x = 140, y = 37)
     slider_ke = ttk.Scale(frame, variable=input, from_= 0.01, to = 100, orient='horizontal',length = 110)
     slider_ke.place(x = 183, y = 32)
+    
 def entr_simul_v(frame):
     ## Criação dos botões deslizáveis:
     input = tk.DoubleVar(value=0.0)
@@ -1355,6 +2124,7 @@ def entr_simul_v(frame):
     spin_v.place(x = 165, y = 94)
     slider_v = ttk.Scale(frame, variable=input, from_= 0.0, to = 10, orient='horizontal',length = 85)
     slider_v.place(x = 208, y = 91)
+    
 def entr_simul_kp_aiba(frame):
     input = tk.DoubleVar(value=0.0)
     global spin_kp_aiba, slider_kp_aiba
@@ -1362,14 +2132,16 @@ def entr_simul_kp_aiba(frame):
     spin_kp_aiba.place(x = 160, y = 37)
     slider_kp_aiba = ttk.Scale(frame, variable=input, from_= 0.0, to = 10, orient='horizontal',length = 85)
     slider_kp_aiba.place(x = 203, y = 32)
-def entr_simul_kp_hh(frame):
+    
+def entr_simul_kp_h_h(frame):
     ## Criação dos botões deslizáveis:
     input = tk.DoubleVar(value=0.0)
-    global spin_kp_hh, slider_kp_hh
-    spin_kp_hh = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
-    spin_kp_hh.place(x = 140, y = 37)
-    slider_kp_hh = ttk.Scale(frame, variable=input, from_= 0.0, to = 100, orient='horizontal',length = 110)
-    slider_kp_hh.place(x = 183, y = 32)
+    global spin_kp_h_h, slider_kp_h_h
+    spin_kp_h_h = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_kp_h_h.place(x = 140, y = 37)
+    slider_kp_h_h = ttk.Scale(frame, variable=input, from_= 0.0, to = 100, orient='horizontal',length = 110)
+    slider_kp_h_h.place(x = 183, y = 32)
+    
 def entr_simul_cp_estr(frame):
     ## Criação dos botões deslizáveis:
     input = tk.DoubleVar(value=0.01)
@@ -1378,6 +2150,7 @@ def entr_simul_cp_estr(frame):
     spin_cp_estr.place(x = 140, y = 37)
     slider_cp_estr = ttk.Scale(frame, variable=input, from_= 0.01, to = 100, orient='horizontal',length = 110)
     slider_cp_estr.place(x = 183, y = 32)
+    
 def entr_simul_cx_estr(frame):
     ## Criação dos botões deslizáveis:
     input = tk.DoubleVar(value=0.01)
@@ -1386,6 +2159,7 @@ def entr_simul_cx_estr(frame):
     spin_cx_estr.place(x = 140, y = 37)
     slider_cx_estr = ttk.Scale(frame, variable=input, from_= 0.01, to = 100, orient='horizontal',length = 110)
     slider_cx_estr.place(x = 183, y = 32)
+    
 def entr_simul_n(frame):
     ## Criação dos botões deslizáveis:
     input = tk.DoubleVar(value=0.0)
@@ -1394,6 +2168,7 @@ def entr_simul_n(frame):
     spin_n.place(x = 165, y = 94)
     slider_n = ttk.Scale(frame, variable=input, from_= 0.0, to = 10, orient='horizontal',length = 85)
     slider_n.place(x = 208, y = 91)
+    
 def entr_simul_m(frame):
     ## Criação dos botões deslizáveis:
     input = tk.DoubleVar(value=0.0)
@@ -1568,12 +2343,12 @@ def contois():
     separ_simul(frame13)
     labels(frame = frame13, texto = "KSX (g.L\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 2, y = 70)
     labels_saida(frame13)
-    mimax_contois = entr_simul_mimax(frame13)
-    ksx = entr_simul_ks_(frame13)
-    kd_contois = entr_simul_kd(frame13)
-    yxs_contois = entr_simul_yxs(frame13)
-    alfa_contois = entr_simul_alfa(frame13)
-    beta_contois = entr_simul_beta(frame13)
+    entr_simul_mimax_contois(frame13)
+    entr_simul_ks_contois(frame13)
+    entr_simul_kd_contois(frame13)
+    entr_simul_yxs_contois(frame13)
+    entr_simul_alfa_contois(frame13)
+    entr_simul_beta_contois(frame13)
     entr_contois(frame13)
     Button(frame13, text = "Simular", font = "batang 8 bold", fg = "white", bg = "black", borderwidth = 5, relief = "sunken", command = capt_val_esc_contois).place(x = 245, y = 290)  
 
@@ -1582,12 +2357,12 @@ def monod():
     separ_simul(frame14)
     labels(frame = frame14, texto = "Ks (g.L\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 2, y = 70)
     labels_saida(frame14)
-    entr_simul_mimax(frame14)
-    entr_simul_ks_(frame14)
-    entr_simul_kd(frame14)
-    entr_simul_yxs(frame14)
-    entr_simul_alfa(frame14)
-    entr_simul_beta(frame14)
+    entr_simul_mimax_monod(frame14)
+    entr_simul_ks_monod(frame14)
+    entr_simul_kd_monod(frame14)
+    entr_simul_yxs_monod(frame14)
+    entr_simul_alfa_monod(frame14)
+    entr_simul_beta_monod(frame14)
     entr_monod(frame14)
     Button(frame14, text = "Simular", font = "batang 8 bold", fg = "white", bg = "black", borderwidth = 5, relief = "sunken", command = capt_val_esc_monod).place(x = 245, y = 290) 
    
@@ -1597,12 +2372,12 @@ def moser():
     labels(frame = frame15, texto = "Ks (g.L\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 2, y = 70)
     labels(frame = frame15, texto = "u (adim)", fonte = "times 9 bold", borda = "sunken", x = 251, y = 14)
     labels_saida(frame15)
-    entr_simul_mimax(frame15)
-    entr_simul_ks_(frame15)
-    entr_simul_kd(frame15)
-    entr_simul_yxs(frame15)
-    entr_simul_alfa(frame15)
-    entr_simul_beta(frame15)
+    entr_simul_mimax_moser(frame15)
+    entr_simul_ks_moser(frame15)
+    entr_simul_kd_moser(frame15)
+    entr_simul_yxs_moser(frame15)
+    entr_simul_alfa_moser(frame15)
+    entr_simul_beta_moser(frame15)
     entr_simul_u(frame15)
     entr_moser(frame15)
     Button(frame15, text = "Simular", font = "batang 8 bold", fg = "white", bg = "black", borderwidth = 5, relief = "sunken", command = capt_val_esc_moser).place(x = 245, y = 290)
@@ -1613,12 +2388,12 @@ def andrews():
     labels(frame = frame16, texto = "Ks (g.L\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 2, y = 70)
     labels(frame = frame16, texto = "KSI (g.L\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 236, y = 14)
     labels_saida(frame16)
-    entr_simul_mimax(frame16)
-    entr_simul_ks_(frame16)
-    entr_simul_kd(frame16)
-    entr_simul_yxs(frame16)
-    entr_simul_alfa(frame16)
-    entr_simul_beta(frame16)
+    entr_simul_mimax_andrews(frame16)
+    entr_simul_ks_andrews(frame16)
+    entr_simul_kd_andrews(frame16)
+    entr_simul_yxs_andrews(frame16)
+    entr_simul_alfa_andrews(frame16)
+    entr_simul_beta_andrews(frame16)
     entr_simul_kis(frame16)
     entr_andrews(frame16)
     Button(frame16, text = "Simular", font = "batang 8 bold", fg = "white", bg = "black", borderwidth = 5, relief = "sunken", command = capt_val_esc_andrews).place(x = 245, y = 290)
@@ -1630,12 +2405,12 @@ def wu():
     labels(frame = frame17, texto = "Ke (g.L\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 242, y = 14)
     labels(frame = frame17, texto = "v (adim)", fonte = "times 9 bold", borda = "sunken", x = 252, y = 70)
     labels_saida(frame17)
-    entr_simul_mimax(frame17)
-    entr_simul_ks_(frame17)
-    entr_simul_kd(frame17)
-    entr_simul_yxs(frame17)
-    entr_simul_alfa(frame17)
-    entr_simul_beta(frame17)
+    entr_simul_mimax_wu(frame17)
+    entr_simul_ks_wu(frame17)
+    entr_simul_kd_wu(frame17)
+    entr_simul_yxs_wu(frame17)
+    entr_simul_alfa_wu(frame17)
+    entr_simul_beta_wu(frame17)
     entr_simul_ke(frame17)
     entr_simul_v(frame17)
     entr_wu(frame17)
@@ -1647,12 +2422,12 @@ def aiba():
     labels(frame = frame18, texto = "Ks (g.L\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 2, y = 70)
     labels(frame = frame18, texto = "Kp (L.g\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 242, y = 14)
     labels_saida(frame18)
-    entr_simul_mimax(frame18)
-    entr_simul_ks_(frame18)
-    entr_simul_kd(frame18)
-    entr_simul_yxs(frame18)
-    entr_simul_alfa(frame18)
-    entr_simul_beta(frame18)
+    entr_simul_mimax_aiba(frame18)
+    entr_simul_ks_aiba(frame18)
+    entr_simul_kd_aiba(frame18)
+    entr_simul_yxs_aiba(frame18)
+    entr_simul_alfa_aiba(frame18)
+    entr_simul_beta_aiba(frame18)
     entr_simul_kp_aiba(frame18)
     entr_aiba(frame18)
     Button(frame18, text = "Simular", font = "batang 8 bold", fg = "white", bg = "black", borderwidth = 5, relief = "sunken", command = capt_val_esc_aiba).place(x = 245, y = 290)
@@ -1663,13 +2438,13 @@ def hope_hansford():
     labels(frame = frame19, texto = "Ks (g.L\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 2, y = 70)
     labels(frame = frame19, texto = "Kp (g.L\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 242, y = 14)
     labels_saida(frame19)
-    entr_simul_mimax(frame19)
-    entr_simul_ks_(frame19)
-    entr_simul_kd(frame19)
-    entr_simul_yxs(frame19)
-    entr_simul_alfa(frame19)
-    entr_simul_beta(frame19)
-    entr_simul_kp_hh(frame19)
+    entr_simul_mimax_h_h(frame19)
+    entr_simul_ks_h_h(frame19)
+    entr_simul_kd_h_h(frame19)
+    entr_simul_yxs_h_h(frame19)
+    entr_simul_alfa_h_h(frame19)
+    entr_simul_beta_h_h(frame19)
+    entr_simul_kp_h_h(frame19)
     entr_h_h(frame19)
     Button(frame19, text = "Simular", font = "batang 8 bold", fg = "white", bg = "black", borderwidth = 5, relief = "sunken", command = capt_val_esc_h_h).place(x = 245, y = 290)
     
@@ -1680,12 +2455,12 @@ def levenspiel():
     labels(frame = frame20, texto = "Cp* (g.L\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 236, y = 14)
     labels(frame = frame20, texto = "n (adim)", fonte = "times 9 bold", borda = "sunken", x = 252, y = 70)
     labels_saida(frame20)
-    entr_simul_mimax(frame20)
-    entr_simul_ks_(frame20)
-    entr_simul_kd(frame20)
-    entr_simul_yxs(frame20)
-    entr_simul_alfa(frame20)
-    entr_simul_beta(frame20)
+    entr_simul_mimax_levenspiel(frame20)
+    entr_simul_ks_levenspiel(frame20)
+    entr_simul_kd_levenspiel(frame20)
+    entr_simul_yxs_levenspiel(frame20)
+    entr_simul_alfa_levenspiel(frame20)
+    entr_simul_beta_levenspiel(frame20)
     entr_simul_cp_estr(frame20)
     entr_simul_n(frame20)
     entr_levenspiel(frame20)
@@ -1698,14 +2473,14 @@ def lee():
     labels(frame = frame21, texto = "Cx* (g.L\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 236, y = 14)
     labels(frame = frame21, texto = "m (adim)", fonte = "times 9 bold", borda = "sunken", x = 249, y = 70)
     labels_saida(frame21)
-    entr_simul_mimax(frame21)
-    entr_simul_ks_(frame21)
-    entr_simul_kd(frame21)
-    entr_simul_yxs(frame21)
-    entr_simul_alfa(frame21)
-    entr_simul_beta(frame21)
-    entr_simul_cp_estr(frame21)
-    entr_simul_n(frame21)
+    entr_simul_mimax_lee(frame21)
+    entr_simul_ks_lee(frame21)
+    entr_simul_kd_lee(frame21)
+    entr_simul_yxs_lee(frame21)
+    entr_simul_alfa_lee(frame21)
+    entr_simul_beta_lee(frame21)
+    entr_simul_cx_estr(frame21)
+    entr_simul_m(frame21)
     entr_lee(frame21)
     Button(frame21, text = "Simular", font = "batang 8 bold", fg = "white", bg = "black", borderwidth = 5, relief = "sunken", command = capt_val_esc_lee).place(x = 245, y = 290)
 
