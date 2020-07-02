@@ -12,6 +12,7 @@ import Modulos_Levenspiel
 import Modulos_Lee_et_al
 import Modulos_mi_constante
 import Modulo_peso_limite_AG
+import Modulo_documentacao
 ## Bibliotecas científicas
 import numpy as np 
 import pandas as pd 
@@ -44,6 +45,21 @@ janela.title("Processos Fermentativos em Batelada - Simulação")
 janela.geometry("600x300")
 #janela.configure(bg = "white")
 titulo = Label(janela, text="MODELOS CINÉTICOS NÃO ESTRUTURADOS", font="times 16 bold", fg="BLACK", borderwidth=2, relief="groove").place(x=430,y=0)
+
+# Função para impressão de imagens:
+def image(imagem, num_frame, x, y):
+    load = Image.open(imagem)
+    render = ImageTk.PhotoImage(load)
+    img_contois = Label(num_frame, image = render, border = 0)
+    img_contois.image = render
+    img_contois.place(x = x, y = y)
+
+def image_dif(imagem, num_frame, x, y):
+    load = Image.open(imagem)
+    render = ImageTk.PhotoImage(load)
+    img_contois = Label(num_frame, image = render, border = 0, borderwidth = 2, relief = "sunken")
+    img_contois.image = render
+    img_contois.place(x = x, y = y)
 
 # Carregar a imagem do logo:
 load = Image.open("Logo_mod.png")
@@ -205,32 +221,39 @@ def notebook_docum():
 def notebook_algorit():
     notebook_algorit = ttk.Notebook(frame3)
     notebook_algorit.place(x = 660, y = 165)
-    global frame34
-    frame34 = ttk.Frame(notebook_algorit, width = 600, height = 310, borderwidth = 5, relief = tk.GROOVE)
-    notebook_algorit.add(frame34, text = 'Integração Numérica')
     global frame35
     frame35 = ttk.Frame(notebook_algorit, width = 600, height = 310, borderwidth = 5, relief = tk.GROOVE)
-    notebook_algorit.add(frame35, text = 'Algoritmo Genético')
+    notebook_algorit.add(frame35, text = 'Integração Numérica')
     global frame36
     frame36 = ttk.Frame(notebook_algorit, width = 600, height = 310, borderwidth = 5, relief = tk.GROOVE)
-    notebook_algorit.add(frame36, text = 'Algoritimo de Levenberg-Marquardt')
+    notebook_algorit.add(frame36, text = 'Algoritmo Genético')
+    global frame37
+    frame37 = ttk.Frame(notebook_algorit, width = 600, height = 310, borderwidth = 5, relief = tk.GROOVE)
+    notebook_algorit.add(frame37, text = 'Algoritimo de Levenberg-Marquardt')
     
 def notebook_graf_model():
     notebook_graf_model = ttk.Notebook(frame2)
     notebook_graf_model.place(x = 401, y = 115)
-    global frame37
-    frame37 = ttk.Frame(notebook_graf_model, width = 500, height = 335, borderwidth = 5, relief = tk.GROOVE)
-    notebook_graf_model.add(frame37, text = 'Concentração')
     global frame38
     frame38 = ttk.Frame(notebook_graf_model, width = 500, height = 335, borderwidth = 5, relief = tk.GROOVE)
-    notebook_graf_model.add(frame38, text = 'Produtividade X e P')
+    notebook_graf_model.add(frame38, text = 'Concentração')
     global frame39
     frame39 = ttk.Frame(notebook_graf_model, width = 500, height = 335, borderwidth = 5, relief = tk.GROOVE)
-    notebook_graf_model.add(frame39, text = u'Produtividade P.X\u207b\u00b9')
+    notebook_graf_model.add(frame39, text = 'Produtividade X e P')
     global frame40
     frame40 = ttk.Frame(notebook_graf_model, width = 500, height = 335, borderwidth = 5, relief = tk.GROOVE)
-    notebook_graf_model.add(frame40, text = 'Velocidade de Crescimento')
+    notebook_graf_model.add(frame40, text = u'Produtividade P.X\u207b\u00b9')
+    global frame41
+    frame41 = ttk.Frame(notebook_graf_model, width = 500, height = 335, borderwidth = 5, relief = tk.GROOVE)
+    notebook_graf_model.add(frame41, text = 'Velocidade de Crescimento')
  
+# Documentação modelos cinéticos:
+Label(frame3, text = "Modelos Cinéticos", font = "Times 10 bold", fg = "black", bg = "grey75", borderwidth = 2, relief = "groove").place(x = 5, y = 140)
+notebook_docum()
+# Documentação algoritmos utilizados:
+Label(frame3, text = "Implementação comptacional", font = "Times 10 bold", fg = "black", bg = "grey75", borderwidth = 2, relief = "groove").place(x = 632, y = 140)
+notebook_algorit()   
+
 # Documentação batelada:
 Label(frame3, text = "Batelada", font = "Times 10 bold", fg = "black", bg = "grey75", borderwidth = 2, relief = "groove").place(x = 5, y = 0)
 Label(frame3, bg = "grey85", width = 50, height = 6, borderwidth = 2, relief = "groove").place(x = 30, y = 25)
@@ -245,21 +268,39 @@ Label(frame3, text = "Equação Geral", font = "Times 8 bold", fg = "white", bg 
 Label(frame3, text = "Células", font = "Times 8 bold", fg = "white", bg = "black", borderwidth = 2, relief = "groove").place(x = 657, y = 36)
 Label(frame3, text = "Substrato", font = "Times 8 bold", fg = "white", bg = "black", borderwidth = 2, relief = "groove").place(x = 863, y = 36)
 Label(frame3, text = "Produto", font = "Times 8 bold", fg = "white", bg = "black", borderwidth = 2, relief = "groove").place(x = 1069, y = 36)
+## Linhas para impressão das equações balanceadas:
+# Equação geral:
+Label(frame3, text = "Princípio da conservação de massa", font = "Times 8 bold", fg = "black", bg = "grey75", borderwidth = 2, relief = "flat").place(x = 450, y = 64)
+Label(frame3, text = "Entrada - Saída + Geração - Consumo = Acúmulo", font = "Times 7 bold italic", fg = "black", bg = "grey75", borderwidth = 2, relief = "flat").place(x = 451, y = 85)
+# Células:
+Label(frame3, text = "0 - 0 + Gerado - 0 = Acúmulo", font = "Times 8 bold italic", fg = "black", bg = "grey77", borderwidth = 2, relief = "flat").place(x = 684, y = 56)
+Label(frame3, text = "Cx = conc. de células", font = "Times 8", fg = "black", bg = "grey77", borderwidth = 2, relief = "flat").place(x = 727, y = 77)
+Label(frame3, text = u"\u03bc = taxa de crescimento", font = "Times 8", fg = "black", bg = "grey77").place(x = 727, y = 92)
+image_dif(imagem = "Diferencial_cx.png", num_frame = frame3, x = 658, y = 77)
+# Substrato:
+Label(frame3, text = "0 - 0 + 0 - Consumo = Acúmulo", font = "Times 8 bold italic", fg = "black", bg = "grey79", borderwidth = 2, relief = "flat").place(x = 885, y = 56)
+Label(frame3, text = "Cs = conc. de subst", font = "Times 8", fg = "black", bg = "grey79", borderwidth = 2, relief = "flat").place(x = 964, y = 77)
+Label(frame3, text = "Yxs = coef. rendim", font = "Times 8", fg = "black", bg = "grey79", borderwidth = 2, relief = "flat").place(x = 964, y = 92)
+image_dif(imagem = "Diferencial_cs.png", num_frame = frame3, x = 863, y = 77)
+# Produto:
+Label(frame3, text = "0 - 0 + Gerado - 0 = Acúmulo", font = "Times 8 bold italic", fg = "black", bg = "grey81", borderwidth = 2, relief = "flat").place(x = 1092, y = 56)
+Label(frame3, text = u"\u03B1 e \u03B2 = coef. prod" , font = "Times 8", fg = "black", bg = "grey81", borderwidth = 2, relief = "flat").place(x = 1172, y = 92)
+Label(frame3, text = "Cp = conc. de prod", font = "Times 8", fg = "black", bg = "grey81", borderwidth = 2, relief = "flat").place(x = 1172, y = 77)
+image_dif(imagem = "Diferencial_cp.png", num_frame = frame3, x = 1069, y = 77)
+## Textos para documentação
+# Batelada:
+Modulo_documentacao.caixa_texto_batelada(frame = frame3, altura = 5, largura = 56, x = 35, y = 30)
+# Modelos Cinéticos:
+Modulo_documentacao.caixa_texto_modelo_contois(frame = frame26, altura = 19, largura = 95, x = 4, y = 0)
+Modulo_documentacao.caixa_texto_modelo_monod(frame = frame27, altura = 19, largura = 95, x = 4, y = 0)
+Modulo_documentacao.caixa_texto_modelo_moser(frame = frame28, altura = 19, largura = 95, x = 4, y = 0)
+Modulo_documentacao.caixa_texto_modelo_andrews(frame = frame29, altura = 19, largura = 95, x = 4, y = 0)
+Modulo_documentacao.caixa_texto_modelo_wu(frame = frame30, altura = 19, largura = 95, x = 4, y = 0)
+Modulo_documentacao.caixa_texto_modelo_aiba(frame = frame31, altura = 19, largura = 95, x = 4, y = 0)
+Modulo_documentacao.caixa_texto_modelo_h_h(frame = frame32, altura = 19, largura = 95, x = 4, y = 0)
+Modulo_documentacao.caixa_texto_modelo_levenspiel(frame = frame33, altura = 19, largura = 95, x = 4, y = 0)
+Modulo_documentacao.caixa_texto_modelo_lee(frame = frame34, altura = 19, largura = 95, x = 4, y = 0)
 
-# Documentação modelos cinéticos:
-Label(frame3, text = "Modelos Cinéticos", font = "Times 10 bold", fg = "black", bg = "grey75", borderwidth = 2, relief = "groove").place(x = 5, y = 140)
-notebook_docum()
-# Documentação algoritmos utilizados:
-Label(frame3, text = "Implementação comptacional", font = "Times 10 bold", fg = "black", bg = "grey75", borderwidth = 2, relief = "groove").place(x = 632, y = 140)
-notebook_algorit()
-   
-# Função para impressão de imagens:
-def image(imagem, num_frame, x, y):
-    load = Image.open(imagem)
-    render = ImageTk.PhotoImage(load)
-    img_contois = Label(num_frame, image = render, border = 0)
-    img_contois.image = render
-    img_contois.place(x = x, y = y)
  
 # Função botôes gráficos - simulacao:
 def botao_com_graf(frame, comando_salvar, comando_destroy):
@@ -2501,18 +2542,6 @@ def caix_simul(frame, larg, alt, x, y):
 # Escritos:
 def labels(frame, texto, fonte, borda, x, y):
     Label(frame, text = texto, font = fonte, relief = borda).place(x = x, y = y)
-'''
-# Defindo layout para entradas - SIMULAÇÃO:
-def entr_simul_params(frame):
-    global mimax
-    mimax = entr_simul(val_min = 0.01, frame = frame, entr_ini = 0.01, entr_fin = 1.5, x_spin = 15, x_scale = 59, y_spin = 37, y_scale = 32, compri = 100)
-    ks_ = entr_simul(val_min = 0.01, frame = frame, entr_ini = 0.01, entr_fin = 30, x_spin = 15, x_scale = 58, y_spin = 94, y_scale = 91, compri = 200)
-    kd = entr_simul(val_min = 0.0, frame = frame, entr_ini = 0.0, entr_fin = 1, x_spin = 15, x_scale = 58, y_spin = 157, y_scale = 154, compri = 80)
-    yxs = entr_simul(val_min = 0.01, frame = frame, entr_ini = 0.0, entr_fin = 3, x_spin = 145, x_scale = 188, y_spin = 157, y_scale = 154, compri = 105)
-    alfa = entr_simul(val_min = 0.01, frame = frame, entr_ini = 0.0, entr_fin = 10, x_spin = 15, x_scale = 58, y_spin = 213, y_scale = 209, compri = 100)
-    beta = entr_simul(val_min = 0.0, frame = frame, entr_ini = 0.0, entr_fin = 2, x_spin = 160, x_scale = 203, y_spin = 213, y_scale = 209, compri = 90)
-    return(mimax, ks_, kd, yxs, alfa, beta)
-'''
 
 # Defindo as entradas para o console:
 def entr_contois(frame):
