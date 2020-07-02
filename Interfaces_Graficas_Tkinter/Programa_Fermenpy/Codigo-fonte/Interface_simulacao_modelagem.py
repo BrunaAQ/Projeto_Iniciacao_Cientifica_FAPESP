@@ -41,11 +41,11 @@ from tkinter import filedialog
 janela = Tk()
 janela.title("Processos Fermentativos em Batelada - Simulação")
 janela.geometry("600x300")
-#janela.configure(bg = "grey")
+#janela.configure(bg = "grey85")
 titulo = Label(janela, text="MODELOS CINÉTICOS NÃO ESTRUTURADOS", font="times 16 bold", fg="BLACK", borderwidth=2, relief="groove").place(x=430,y=0)
 
 # Carregar a imagem do logo:
-load = Image.open("Logo.png")
+load = Image.open("Logo_mod.png")
 render = ImageTk.PhotoImage(load)
 img = Label(janela, image = render, border = 0)
 img.image = render
@@ -53,7 +53,7 @@ img.place(x = 45, y = 16)
 
 # Função para tabela parâmetros cinéticos:
 def tab_fun_cin():
-    load = Image.open("Tabela_6_gl.png")
+    load = Image.open("Tabela.png")
     render = ImageTk.PhotoImage(load)
     img = Label(frame2, image = render, border = 0)
     img.image = render
@@ -124,8 +124,26 @@ def image(imagem, num_frame, x, y):
     img_contois.image = render
     img_contois.place(x = x, y = y)
     
+# Função botôes gráficos:
+def botao(comando_salvar, comando_destroy):
+      load = Image.open("Salvar_mod.png")
+      render = ImageTk.PhotoImage(load)
+      img = Button(frame2, image = render, border = 0, command = comando_salvar)
+      img.image = render
+      img.place(x = 852, y = 185)
+      load = Image.open("Lixeira_mod.png")
+      render = ImageTk.PhotoImage(load)
+      img = Button(frame2, image = render, border = 0, command = comando_destroy)
+      img.image = render
+      img.place(x = 851, y = 281)
 
-
+def botao_paleta(comando):
+    load = Image.open("Paleta_mod.png")
+    render = ImageTk.PhotoImage(load)
+    img = Button(frame2, image = render, border = 0, command = comando)
+    img.image = render
+    img.place(x = 851, y = 235)
+    
                                 ## PARA A REALIZAÇÃO DA MODELAGEM ##
 # Importação módulos - modelagem:
 # Função com as equações modelo com os parâmetros atribuídos a argumentos:
@@ -172,20 +190,7 @@ def print_me_1():
     value_1 = combo_1.get()
     print(value_1)
 Button(frame1, text="Pronto", bg = "black", fg="white", font="batang 12", command = print_me_1).place(x = 315, y = 29)
-
-# Função botôes gráficos:
-def botao(comando_salvar, comando_destroy):
-      load = Image.open("Salvar.png")
-      render = ImageTk.PhotoImage(load)
-      img = Button(frame2, image = render, border = 0, command = comando_salvar)
-      img.image = render
-      img.place(x = 848, y = 225)
-      load = Image.open("Lixeira.png")
-      render = ImageTk.PhotoImage(load)
-      img = Button(frame2, image = render, border = 0, command = comando_destroy)
-      img.image = render
-      img.place(x = 847, y = 321)
-      
+     
 
                                                  ## MODELAGEM ##
 # Caixas de separação:
@@ -200,13 +205,13 @@ combo_2.place(x = 15, y = 32)
 
 # Saídas:
 Label(frame2, text="", width = 52, height = 33, borderwidth = 3,  relief = "sunken", bg = "grey85").place(x = 914, y = 2)
-Label(frame2, text="", width = 50, height = 18, borderwidth = 3,  relief = "sunken", bg = "grey").place(x = 921, y = 185)
-load = Image.open("Tabela_6_gl.png")
+Label(frame2, text="", width = 50, height = 16, borderwidth = 3,  relief = "sunken", bg = "grey75").place(x = 921, y = 201)
+load = Image.open("Tabela.png")
 render = ImageTk.PhotoImage(load)
 img = Label(frame2, image = render, border = 0)
 img.image = render
 img.place(x = 930, y = 205)
-load = Image.open("Tabela_6_gl.png")
+load = Image.open("Tabela.png")
 render = ImageTk.PhotoImage(load)
 img = Label(frame2, image = render, border = 0)
 img.image = render
@@ -215,7 +220,7 @@ Label(frame2, text = "b", font = "times 18", fg = "grey40", bg = "grey40",  bord
 Label(frame2, text = "b", font = "times 42", fg = "grey40", bg = "grey40", width = 3,borderwidth=4, relief ='sunken').place(x = 1160, y = 288.2)
 Label(frame2, text = "F. Obj:", font = "broadway 11", fg = "white", bg = "black", justify = "center",  borderwidth=4, relief ='sunken').place(x = 1095, y = 297.2)
 Label(frame2, text = u"R\u00b2:", font = "broadway 11", fg = "white", bg = "black", justify = "center",  borderwidth=4, relief ='sunken').place(x = 1124, y = 327.2)
-load = Image.open("Cronometro.png")
+load = Image.open("Cronometro_mod.png")
 render = ImageTk.PhotoImage(load)
 img = Label(frame2, image = render, border = 0)
 img.image = render
@@ -325,26 +330,26 @@ def explorer():
         print(ICpar)
         
          # Definição saída dos valores modelados na interface:
-        Label(frame2, text = "b", font = "batang 12", fg = "grey", bg = "grey", width = 30 ).place(x = 960, y = 258)
-        Label(frame2, text = "b", font = "batang 12", fg = "grey", bg = "grey", width = 32).place(x = 960, y = 417)
+        Label(frame2, bg = "grey75", height = 1, width = 41).place(x = 960, y = 258)
+        Label(frame2, bg = "grey75", height = 1, width = 41).place(x = 960, y = 417)
         if cont_model == 0 or cont_model == 1:
-            Label(frame2, text = param_otim_alm[0], font = "batang 11", justify = "center", fg = "black", bg = "grey").place(x = 978, y = 258)
-            Label(frame2, text = param_otim_alm[1], font = "batang 11", justify = "center", fg = "black", bg = "grey").place(x = 1056, y = 258)
+            Label(frame2, text = param_otim_alm[0], font = "batang 11", justify = "center", fg = "black", bg = "grey75").place(x = 943, y = 258)
+            Label(frame2, text = param_otim_alm[1], font = "batang 11", justify = "center", fg = "black", bg = "grey75").place(x = 1021, y = 258)
         else:
             if cont_model >=2 and cont_model <=5:
-                Label(frame2, text = param_otim_alm[0], font = "batang 11", justify = "center", fg = "black", bg = "grey").place(x = 978, y = 258)
-                Label(frame2, text = param_otim_alm[1], font = "batang 11", justify = "center", fg = "black", bg = "grey").place(x = 1056, y = 258)
-                Label(frame2, text = param_otim_alm[6], font = "batang 11", justify = "center", fg = "black", bg = "grey").place(x = 1142, y = 258)
+                Label(frame2, text = param_otim_alm[0], font = "batang 11", justify = "center", fg = "black", bg = "grey75").place(x = 943, y = 258)
+                Label(frame2, text = param_otim_alm[1], font = "batang 11", justify = "center", fg = "black", bg = "grey75").place(x = 1021, y = 258)
+                Label(frame2, text = param_otim_alm[6], font = "batang 11", justify = "center", fg = "black", bg = "grey75").place(x = 1099, y = 258)
             else:
-                Label(frame2, text = param_otim_alm[0], font = "batang 11", justify = "center", fg = "black", bg = "grey").place(x = 978, y = 258)
-                Label(frame2, text = param_otim_alm[1], font = "batang 11", justify = "center", fg = "black", bg = "grey").place(x = 1056, y = 258)
-                Label(frame2, text = param_otim_alm[6], font = "batang 11", justify = "center", fg = "black", bg = "grey").place(x = 1142, y = 258)
-                Label(frame2, text = param_otim_alm[7], font = "batang 11", justify = "center", fg = "black", bg = "grey").place(x = 1220, y = 258)       
-        Label(frame2, text = param_otim_alm[2] , font = "batang 11", fg = "black", bg = "grey", justify = "center").place(x = 969, y = 417)
-        Label(frame2, text = param_otim_alm[3] , font = "batang 11", fg = "black", bg = "grey", justify = "center").place(x = 1035, y = 417)
-        Label(frame2, text = param_otim_alm[4] , font = "batang 11", fg = "black", bg = "grey", justify = "center").place(x = 1125, y = 417)
-        Label(frame2, text = param_otim_alm[5] , font = "batang 11", fg = "black", bg = "grey", justify = "center").place(x = 1205, y = 417)
-        
+                Label(frame2, text = param_otim_alm[0], font = "batang 11", justify = "center", fg = "black", bg = "grey75").place(x = 943, y = 258)
+                Label(frame2, text = param_otim_alm[1], font = "batang 11", justify = "center", fg = "black", bg = "grey75").place(x = 1021, y = 258)
+                Label(frame2, text = param_otim_alm[6], font = "batang 11", justify = "center", fg = "black", bg = "grey75").place(x = 1099, y = 258)
+                Label(frame2, text = param_otim_alm[7], font = "batang 11", justify = "center", fg = "black", bg = "grey75").place(x = 1163, y = 258)       
+        Label(frame2, text = param_otim_alm[2] , font = "batang 11", fg = "black", bg = "grey75", justify = "center").place(x = 934, y = 417)
+        Label(frame2, text = param_otim_alm[3] , font = "batang 11", fg = "black", bg = "grey75", justify = "center").place(x = 1000, y = 417)
+        Label(frame2, text = param_otim_alm[4] , font = "batang 11", fg = "black", bg = "grey75", justify = "center").place(x = 1090, y = 417)
+        Label(frame2, text = param_otim_alm[5] , font = "batang 11", fg = "black", bg = "grey75", justify = "center").place(x = 1170, y = 417)
+       
         # Condições para marcação dos valores inadequados modelados:
         cond_mimax =  param_otim_alm[0] > 0.9 
         cond_Ks = param_otim_alm[1] >= C_exp[0,1] or param_otim_alm[1] == 0 
@@ -380,46 +385,47 @@ def explorer():
                     self.config(text = 'Inadequação de parâmetros', font="Times 11 bold italic", width = 20, fg = "white")
                     flashColour(self, 0)
                     if cond_mimax:
-                        Label(frame2, text = param_otim_alm[0], font = "batang 10 bold", justify = "center", fg = "red4", bg = "grey").place(x = 978, y = 258)
+                        Label(frame2, text = param_otim_alm[0], font = "batang 10 bold", justify = "center", fg = "red4", bg = "grey75").place(x = 943, y = 258)
                     if cond_Ks:
-                        Label(frame2, text = param_otim_alm[1], font = "batang 10 bold", justify = "center", fg = "red4", bg = "grey").place(x = 1056, y = 258)
+                        Label(frame2, text = param_otim_alm[1], font = "batang 10 bold", justify = "center", fg = "red4", bg = "grey75").place(x = 1021, y = 258)
                     if cond_yxs:
-                        Label(frame2, text = param_otim_alm[3] , font = "batang 10 bold", fg = "red4", bg = "grey", justify = "center").place(x = 1035, y = 417)
+                        Label(frame2, text = param_otim_alm[3] , font = "batang 10 bold", fg = "red4", bg = "grey75", justify = "center").place(x = 1000, y = 417)
                     if cond_mi_kd:
-                        Label(frame2, text = param_otim_alm[2] , font = "batang 10 bold", fg = "red4", bg = "grey", justify = "center").place(x = 969, y = 417)
+                        Label(frame2, text = param_otim_alm[2] , font = "batang 10 bold", fg = "red4", bg = "grey75", justify = "center").place(x = 934, y = 417)
                     if cond_param_neg == True:
                         if param_otim_alm[0] <= 0: #mimaximo
-                            Label(frame2, text = param_otim_alm[0], font = "batang 10 bold", justify = "center", fg = "red4", bg = "grey").place(x = 978, y = 258)
+                            Label(frame2, text = param_otim_alm[0], font = "batang 10 bold", justify = "center", fg = "red4", bg = "grey75").place(x = 943, y = 258)
                         if param_otim_alm[1] <= 0: #Ks
-                            Label(frame2, text = param_otim_alm[1], font = "batang 10 bold", justify = "center", fg = "red4", bg = "grey").place(x = 1056, y = 258)
+                            Label(frame2, text = param_otim_alm[1], font = "batang 10 bold", justify = "center", fg = "red4", bg = "grey75").place(x = 1021, y = 258)
                         if param_otim_alm[2] < 0 or cond_mi_kd: #Kd
-                            Label(frame2, text = param_otim_alm[2] , font = "batang 10 bold", fg = "red4", bg = "grey", justify = "center").place(x = 969, y = 417)
+                            Label(frame2, text = param_otim_alm[2] , font = "batang 10 bold", fg = "red4", bg = "grey75", justify = "center").place(x = 934, y = 417)
                         if (param_otim_alm[3] <= 0 or cond_yxs): #Yxs
-                            Label(frame2, text = param_otim_alm[3] , font = "batang 10 bold", fg = "red4", bg = "grey", justify = "center").place(x = 1035, y = 417)
+                            Label(frame2, text = param_otim_alm[3] , font = "batang 10 bold", fg = "red4", bg = "grey75", justify = "center").place(x = 1000, y = 417)
                         if param_otim_alm[4] <= 0: #alfa
-                            Label(frame2, text = param_otim_alm[4] , font = "batang 10 bold bold", fg = "red4", bg = "grey", justify = "center").place(x = 1125, y = 417)
+                            Label(frame2, text = param_otim_alm[4] , font = "batang 10 bold bold", fg = "red4", bg = "grey75", justify = "center").place(x = 1090, y = 417)
                         if param_otim_alm[5] < 0: #beta
-                            Label(frame2, text = param_otim_alm[5] , font = "batang 10 bold", fg = "red4", bg = "grey", justify = "center").place(x = 1205, y = 417)
+                            Label(frame2, text = param_otim_alm[5] , font = "batang 10 bold", fg = "red4", bg = "grey75", justify = "center").place(x = 1170, y = 417)
                         if cont_model == 2:
                             if param_otim_alm[6] > 55:
-                                Label(frame2, text = param_otim_alm[6], font = "batang 10 bold", justify = "center", fg = "red4", bg = "grey").place(x = 1142, y = 258)
+                                Label(frame2, text = param_otim_alm[6], font = "batang 10 bold", justify = "center", fg = "red4", bg = "gre75y").place(x = 1099, y = 258)
                         if cont_model >= 3 and cont_model <=5 :
                             if (param_otim_alm[6] <= 0 or param_otim_alm[6] > 10):
-                                Label(frame2, text = param_otim_alm[6], font = "batang 10 bold", justify = "center", fg = "red4", bg = "grey").place(x = 1142, y = 258)
+                                Label(frame2, text = param_otim_alm[6], font = "batang 10 bold", justify = "center", fg = "red4", bg = "grey75").place(x = 1099, y = 258)
                         if cont_model >= 6 and cont_model <=8:
                             if param_otim_alm[6] <= 0:
-                                Label(frame2, text = param_otim_alm[6], font = "batang 10 bold", justify = "center", fg = "red4", bg = "grey").place(x = 1142, y = 258)
+                                Label(frame2, text = param_otim_alm[6], font = "batang 10 bold", justify = "center", fg = "red4", bg = "grey75").place(x = 1142, y = 258)
                             if param_otim_alm[7] <= 0:
-                                Label(frame2, text = param_otim_alm[7], font = "batang 10 bold", justify = "center", fg = "red4", bg = "grey").place(x = 1220, y = 258)
+                                Label(frame2, text = param_otim_alm[7], font = "batang 10 bold", justify = "center", fg = "red4", bg = "grey75").place(x = 1163, y = 258)
                 else:
                     self.config(text = 'Press to start flashing', font="Times 12 bold italic",
                     background = flash_colours[0])
 
             my_button = Button(frame2, text = 'Exibir análise cinética',font = "Times 12 bold italic", fg = "white", borderwidth=4, relief="groove", width = 20,background = flash_colours[0],command = lambda:buttonCallback(my_button))
-            my_button.place(x = 950, y = 164)
+            my_button.place(x = 921, y = 161)
          
         else:
-            my_button = Label(frame2, text = "b", font = "times 12", fg = "grey", bg = "grey", borderwidth=7.5, relief="flat", width = 20).place(x = 950, y = 164)
+            my_button = Label(frame2, bg = "grey85", borderwidth=7.5, relief="flat", height = 2, width = 28).place(x = 921, y = 150)
+           
             
         # Janela para acesso aos valores de Intervalo de Confiança:
         def int_conf():
@@ -475,10 +481,10 @@ def explorer():
             Botao_mi = Button(janela_interna, text = u"Equação \u03bc", font = "arial 8 bold", fg = "white", bg = "gray20", command = mi).place(x = 140, y = 20)
             Button(janela_interna, text = "Voltar", font = "arial 9 bold", fg = "white", bg = "gray30", command = janela_interna.destroy).place(x = 174, y = 160)
             janela_interna.mainloop()
-        Button(frame2, text = "Intervalo de Confiança", font = "times 8", fg = "white", bg = "gray20").place(x = 921, y = 463)
+        Button(frame2, text = "Intervalo de Confiança", font = "times 8 bold", fg = "black", bg = "white", command = int_conf).place(x = 921, y = 451)
         
         # Impressão do tempo de ajuste na interface:
-        Label(frame2, text = elapsed, font = "batang 11 italic", fg = "black", bg = "grey40", width = 7).place(x = 1029, y = 318)
+        Label(frame2, text = elapsed, font = "batang 11 italic", fg = "black", bg = "grey40").place(x = 1000, y = 318)
         
         # Impressão das saídas no console:
         print("\nTempo de ajuste AG-ALM para o modelo", cont_model,":",elapsed)
@@ -563,7 +569,7 @@ def explorer():
         r2 = round(r2,4)
     
         # Impressão do valor do R² na interface:
-        Label(frame2, text = r2, font = "batang 10 italic", fg = "black", bg = "grey40", width = 10).place(x = 1198, y = 329.2)
+        Label(frame2, text = r2, font = "batang 10 italic", fg = "black", bg = "grey40", width = 10).place(x = 1168, y = 329.2)
         
         # Gráfico - perfil de concentração:       
         x = "red"
@@ -629,8 +635,8 @@ def explorer():
                 plt.savefig(a)
             botao(comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy)
             Button(frame2, text = "Concentração", font = "arial 7 bold", borderwidth=1, relief="solid", fg = "white", bg = "black").place(x = 407, y = 455)
-            Label(frame2, text = "", font = "batang 10",  bg = "grey40", width = 10).place(x = 1198, y = 329.2)
-            Label(frame2, text = r2, font = "batang 10 italic", fg = "black", bg = "grey40", width = 10).place(x = 1198, y = 329.2)
+            Label(frame2, text = "", font = "batang 10",  bg = "grey40", width = 10).place(x = 1168, y = 329.2)
+            Label(frame2, text = r2, font = "batang 10 italic", fg = "black", bg = "grey40", width = 10).place(x = 1168, y = 329.2)
         
         ## Escolha das cores:
         def seletor_cores():
@@ -642,30 +648,27 @@ def explorer():
             cor_x = cor_x[1]
             fig = graf_cor (x = cor_x, p = "green", s = "blue")
             #Button(janela, text = "Cx", bg = "gray30", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_cx).place(x = 883, y = 325)
-            Button(frame2, text = "Cs", bg = "gray20", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_cs).place(x = 883, y = 405) 
+            Button(frame2, text = "Cs", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_cs).place(x = 858, y = 356) 
         def cores_cs():
             global cor_s
             cor_s = colorchooser.askcolor(title ="Editar cores")
             cor_s = cor_s[1]
             fig = graf_cor (x = cor_x, p = "green", s = cor_s)
-            Button(frame2, text = "Cs", bg = "gray20", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_cs).place(x = 883, y = 404)
-            Button(frame2, text = "Cp", bg = "gray20", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_cp).place(x = 883, y = 435)  
+            Button(frame2, text = "Cs", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_cs).place(x = 858, y = 356)
+            Button(frame2, text = "Cp", bg = "gray40", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_cp).place(x = 858, y = 376)  
         def cores_cp():
             global cor_p
             cor_p = colorchooser.askcolor(title ="Editar cores")
             cor_p = cor_p[1] 
             fig = graf_cor (x = cor_x, p = cor_p, s = cor_s)
-            Button(frame2, text = "Cp", bg = "gray20", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_cp).place(x = 883, y = 435)
+            Button(frame2, text = "Cp", bg = "gray40", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_cp).place(x = 858, y = 376)
         def cores_concent():
-            Button(frame2, text = "Cx", bg = "gray30", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_cx).place(x = 883, y = 375)
-        load = Image.open("Paleta.png")
-        render = ImageTk.PhotoImage(load)
-        img = Button(frame2, image = render, border = 0, command = cores_concent)
-        img.image = render
-        img.place(x = 877, y = 275)
+            Button(frame2, text = "Cx", bg = "gray60", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_cx).place(x = 858, y = 333)
+        botao_paleta(comando = cores_concent)
         def fig_concent():
             plot_graf(frame2)
             graf_cor(x = "red", p = "green", s = "blue") 
+            botao_paleta(comando = cores_concent)
             
             
         # Cálculo produtividade - células e produto:
@@ -731,8 +734,8 @@ def explorer():
             Pp_total = sum((df_Px_Pp_exp[:,1] - Pp_medio)**2)
             Px_Pp_total = Px_total + Pp_total
             r2_Px_Pp = 1 - (resid/Px_Pp_total)
-            Label(frame2, text = "", font = "batang 10",  bg = "grey40", width = 10).place(x = 1198, y = 329.2)
-            Label(frame2, text = r2_Px_Pp.round(4), font = "batang 10 italic", fg = "black", bg = "grey40", width = 10).place(x = 1198, y = 329.2)
+            Label(frame2, text = "", font = "batang 10",  bg = "grey40", width = 10).place(x = 1168, y = 329.2)
+            Label(frame2, text = r2_Px_Pp.round(4), font = "batang 10 italic", fg = "black", bg = "grey40", width = 10).place(x = 1168, y = 329.2)
         
         ## Escolha das cores:
         def seletor_cores():
@@ -743,24 +746,20 @@ def explorer():
             cor_px = colorchooser.askcolor(title ="Editar cores")
             cor_px = cor_px[1]
             fig = graf_produtiv(px = cor_px, pp = "green")
-            Button(frame2, text = "Pp", bg = "gray20", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_pp).place(x = 883, y = 405)   
+            Button(frame2, text = "Pp", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_pp).place(x = 858, y = 356)   
         def cores_pp():
             global cor_pp
             cor_pp = colorchooser.askcolor(title ="Editar cores")
             cor_pp = cor_pp[1]
             fig = graf_produtiv(px = cor_px, pp = cor_pp)
-            Button(frame2, text = "Pp", bg = "gray20", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_pp).place(x = 883, y = 404)
+            Button(frame2, text = "Pp", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_pp).place(x = 858, y = 356)
         def cores_produtiv():
-            Button(frame2, text = "Px", bg = "gray30", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_px).place(x = 883, y = 375)    
+            Button(frame2, text = "Px", bg = "gray60", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_px).place(x = 858, y = 333)    
         def fig_produtiv():
             plot_graf(frame2)
             graf_produtiv(px = "red", pp = "green")
-             ## Botão para seleção das cores:
-            load = Image.open("Paleta.png")
-            render = ImageTk.PhotoImage(load)
-            img = Button(frame2, image = render, border = 0, command = cores_produtiv)
-            img.image = render
-            img.place(x = 877, y = 275)
+            ## Botão para seleção das cores:
+            botao_paleta(comando = cores_produtiv)
             
         # Cálculo produtivida específica:
         ## Experimental:
@@ -810,8 +809,8 @@ def explorer():
             Ppx_medio = np.mean(df_Ppx_exp)
             Ppx_total = sum((df_Ppx_exp- Ppx_medio)**2)
             r2_Ppx = 1 - (resid/Ppx_total)
-            Label(frame2, text = "", font = "batang 10",  bg = "grey40", width = 10).place(x = 1198, y = 329.2)
-            Label(frame2, text = r2_Ppx[0].round(4), font = "batang 10 italic", fg = "black", bg = "grey40", width = 10).place(x = 1198, y = 329.2)
+            Label(frame2, text = "", font = "batang 10",  bg = "grey40", width = 10).place(x = 1168, y = 329.2)
+            Label(frame2, text = r2_Ppx[0].round(4), font = "batang 10 italic", fg = "black", bg = "grey40", width = 10).place(x = 1168, y = 329.2)
             print(r2_Ppx[0].round(4))
         
         ## Escolha das cores:
@@ -825,11 +824,7 @@ def explorer():
             plot_graf(frame2)
             graf_produtiv_espec(Ppx_cor = "red", Ppx_exp_cor = "red")
             ## Botão para seleção das cores:
-            load = Image.open("Paleta.png")
-            render = ImageTk.PhotoImage(load)
-            img = Button(frame2, image = render, border = 0, command = seletor_cores_Ppx)
-            img.image = render
-            img.place(x = 877, y = 275)
+            botao_paleta(comando = seletor_cores_Ppx)
         
         # Cálculo taxa mi:
         ## Experimental e modelado:
@@ -905,8 +900,8 @@ def explorer():
             mi_medio = np.mean(df_mi_exp)
             mi_total = sum((df_mi_exp- mi_medio)**2)
             r2_mi = 1 - (resid/mi_total)
-            Label(frame2, text = "", font = "batang 10",  bg = "grey40", width = 10).place(x = 1198, y = 329.2)
-            Label(frame2, text = r2_mi[0].round(4), font = "batang 10 italic", fg = "black", bg = "grey40", width = 10).place(x = 1198, y = 329.2)
+            Label(frame2, text = "", font = "batang 10",  bg = "grey40", width = 10).place(x = 1168, y = 329.2)
+            Label(frame2, text = r2_mi[0].round(4), font = "batang 10 italic", fg = "black", bg = "grey40", width = 10).place(x = 1168, y = 329.2)
             print(r2_mi[0].round(4))
                 
         ## Escolha das cores:
@@ -920,11 +915,7 @@ def explorer():
             plot_graf(frame2)
             graf_mi(mi_cor = "red", mi_exp_cor = "red")
             ## Botão para seleção das cores:
-            load = Image.open("Paleta.png")
-            render = ImageTk.PhotoImage(load)
-            img = Button(frame2, image = render, border = 0, command = seletor_cores_mi)
-            img.image = render
-            img.place(x = 877, y = 275)
+            botao_paleta(comando = seletor_cores_mi)
             
         # Cálculo res final:
         res_final = odeint(list_funcs_args[cont_model], cond_inic, t_exp, args = (param_otim_alm)) - C_exp
@@ -935,7 +926,7 @@ def explorer():
         res_final = round(res_final,2)
         
         # Impressão do valor do resíduo na interface:
-        Label(frame2, text = res_final, font = "batang 10 italic", fg = "black", bg = "grey40", width = 10).place(x = 1198, y = 299)
+        Label(frame2, text = res_final, font = "batang 10 italic", fg = "black", bg = "grey40", width = 10).place(x = 1168, y = 299)
         
         # Condicional - peso cálculo do res final:
         if cont_model ==0:
@@ -984,7 +975,7 @@ def explorer():
                 df_concents.to_excel(writer, sheet_name="Saida_exp_modelada")
                 writer.save()
             os.system("start EXCEL Modelagem_Concent_Produt_mi.xlsx")
-        Label(frame2, text = "Modelagem_Concent_Produt_mi.xlsx", font = "arial 10 italic", fg = "black", bg = "gray45").place(x = 1105, y = 58)
+        Label(frame2, text = "Modelagem_Concent_Produt_mi.xlsx", font = "arial 8 italic", fg = "black", bg = "gray45").place(x = 1072, y = 50)
         
         # Saída .xlsx - parâmetros cinéticos:
         def excel_param():
@@ -1028,21 +1019,13 @@ def explorer():
                 df_params.to_excel(writer, sheet_name="Param_model")
                 writer.save()
             os.system("start EXCEL Modelagem_Parametros_Cineticos.xlsx")
-        Label(frame2, text = "Modelagem_Parametros_Cineticos.xlsx", font = "arial 10 italic", fg = "black", bg = "gray45").place(x = 1105, y = 100)
+        Label(frame2, text = "Modelagem_Params_Cineticos.xlsx", font = "arial 8 italic", fg = "black", bg = "gray45").place(x = 1072, y = 87)
         
         # Botão de acesso - arquivo .xlsx - concentração:
-        load = Image.open("Excel.png")
-        render = ImageTk.PhotoImage(load)
-        img = Button(frame2, image = render, border = 0)
-        img.image = render
-        img.place(x = 1036, y = 38)
+        image(imagem = "Excel.png", num_frame = frame2, x = 1036, y = 42) 
         
         # Botão de acesso - arquivo .xlsx - parâmetros cinéticos:
-        load = Image.open("Excel.png")
-        render = ImageTk.PhotoImage(load)
-        img = Button(frame2, image = render, border = 0)
-        img.image = render
-        img.place(x = 1036, y = 78)
+        image(imagem = "Excel.png", num_frame = frame2, x = 1036, y = 80)
     
         # Fim da modelagem:
         return()
@@ -1050,61 +1033,69 @@ def explorer():
     # Criação botões - MODELAGEM:
     def click_contois(): 
         tab_fun_cin()
+        Label(frame2, text = "b", font = "times 18", fg = "grey40", bg = "grey40",  borderwidth=4, relief ='sunken', width = 6).place(x = 990, y = 310)
         #func_sai()
-        load = Image.open("Equacao_Contois.png")
-        Label(frame2, text = u"\u03bcmáx(h\u207b\u00b9)     KSX(g.L\u207b\u00b9)", font = "arial 10 bold", justify = "center", fg = "black", bg = "grey", width = 21).place(x = 930, y = 220)
-        Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gx.gp\u207b\u00b9)    \u03B2[±gx.(gp.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "grey", justify = "center", width = 41).place(x = 932, y = 380)
-        #modelagem(cont_model = 1)
+        Label(frame2, text = u"\u03bcmáx(h\u207b\u00b9)     KSX(g.L\u207b\u00b9)", font = "arial 10 bold", justify = "center", fg = "black", bg = "grey75", width = 21).place(x = 932, y = 220)
+        Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gx.gp\u207b\u00b9)    \u03B2[±gx.(gp.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "grey75", justify = "center", width = 41).place(x = 932, y = 380)
+        modelagem(cont_model = 1)
 
     def click_monod(): 
         tab_fun_cin()
+        Label(frame2, text = "b", font = "times 18", fg = "grey40", bg = "grey40",  borderwidth=4, relief ='sunken', width = 6).place(x = 990, y = 310)
         #func_sai()
-        Label(frame2, text = u"\u03bcmáx(h\u207b\u00b9)     Ks(g.L\u207b\u00b9)", font = "arial 10 bold", fg = "black", bg = "grey", justify = "center", width = 20).place(x = 930, y = 220)
-        Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gx.gp\u207b\u00b9)    \u03B2[±gx.(gp.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "grey", justify = "center", width = 41).place(x = 932, y = 380)
-        #modelagem(cont_model = 0)
+        Label(frame2, text = u"\u03bcmáx(h\u207b\u00b9)     Ks(g.L\u207b\u00b9)", font = "arial 10 bold", fg = "black", bg = "grey75", justify = "center", width = 20).place(x = 932, y = 220)
+        Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gx.gp\u207b\u00b9)    \u03B2[±gx.(gp.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "grey75", justify = "center", width = 41).place(x = 932, y = 380)
+        modelagem(cont_model = 0)
         
     def click_moser(): 
         tab_fun_cin()
+        Label(frame2, text = "b", font = "times 18", fg = "grey40", bg = "grey40",  borderwidth=4, relief ='sunken', width = 6).place(x = 990, y = 310)
         #func_sai()    
-        Label(frame2, text = u"\u03bcmáx(h\u207b\u00b9)     Ks(g.L\u207b\u00b9)     u(adim)", font = "arial 10 bold", fg = "black", bg = "grey", justify = "center", width = 28).place(x = 930, y = 220)
-        Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gx.gp\u207b\u00b9)    \u03B2[±gx.(gp.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "grey", justify = "center", width = 41).place(x = 932, y = 380)
-        #modelagem(cont_model = 4)
+        Label(frame2, text = u"\u03bcmáx(h\u207b\u00b9)     Ks(g.L\u207b\u00b9)     u(adim)", font = "arial 10 bold", fg = "black", bg = "grey75", justify = "center", width = 28).place(x = 932, y = 220)
+        Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gx.gp\u207b\u00b9)    \u03B2[±gx.(gp.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "grey75", justify = "center", width = 41).place(x = 932, y = 380)
+        modelagem(cont_model = 4)
         
     def click_aiba(): 
         tab_fun_cin()
-        Label(frame2, text = u"\u03bcmáx(h\u207b\u00b9)     Ks(g.L\u207b\u00b9)     Kp(g.L\u207b\u00b9)", font = "arial 10 bold", justify = "center", fg = "black", bg = "lightgrey", width = 28).place(x = 962, y = 220)
-        Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gx.gp\u207b\u00b9)    \u03B2[±gx.(gp.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "lightgrey", justify = "center", width = 41).place(x = 932, y = 380)
-        #modelagem(cont_model = 3)
+        Label(frame2, text = "b", font = "times 18", fg = "grey40", bg = "grey40",  borderwidth=4, relief ='sunken', width = 6).place(x = 990, y = 310)
+        Label(frame2, text = u"\u03bcmáx(h\u207b\u00b9)     Ks(g.L\u207b\u00b9)     Kp(g.L\u207b\u00b9)", font = "arial 10 bold", justify = "center", fg = "black", bg = "grey75", width = 28).place(x = 932, y = 220)
+        Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gx.gp\u207b\u00b9)    \u03B2[±gx.(gp.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "grey75", justify = "center", width = 41).place(x = 932, y = 380)
+        modelagem(cont_model = 3)
 
     def click_hope_hansford(): 
-        tab_fun_cin()   
-        Label(frame2, text = u"\u03bcmáx(h\u207b\u00b9)     Ks(g.L\u207b\u00b9)     Kp(g.L\u207b\u00b9)", font = "arial 10 bold", fg = "black", bg = "lightgrey", justify = "center", width = 28).place(x = 962, y = 220)
-        Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gx.gp\u207b\u00b9)    \u03B2[±gx.(gp.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "lightgrey", justify = "center", width = 41).place(x = 932, y = 380)
-        #modelagem(cont_model = 5)
+        tab_fun_cin() 
+        Label(frame2, text = "b", font = "times 18", fg = "grey40", bg = "grey40",  borderwidth=4, relief ='sunken', width = 6).place(x = 990, y = 310)
+        Label(frame2, text = u"\u03bcmáx(h\u207b\u00b9)     Ks(g.L\u207b\u00b9)     Kp(g.L\u207b\u00b9)", font = "arial 10 bold", fg = "black", bg = "grey75", justify = "center", width = 28).place(x = 932, y = 220)
+        Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gx.gp\u207b\u00b9)    \u03B2[±gx.(gp.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "grey75", justify = "center", width = 41).place(x = 932, y = 380)
+        modelagem(cont_model = 5)
         
     def click_levenspiel(): 
-        tab_fun_cin()   
-        Label(frame2, text = u"\u03bcmáx(h\u207b\u00b9)    Ks(g.L\u207b\u00b9)     n(adim)     Cp*(g.L\u207b\u00b9)", font = "arial 10 bold", fg = "black", bg = "lightgrey", justify = "center", width = 37).place(x = 932, y = 220)
-        Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gx.gp\u207b\u00b9)   \u03B2[±gx.(gp.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "lightgrey", justify = "center", width = 41).place(x = 962, y = 380)
-        #modelagem(cont_model = 7)
+        tab_fun_cin() 
+        Label(frame2, text = "b", font = "times 18", fg = "grey40", bg = "grey40",  borderwidth=4, relief ='sunken', width = 6).place(x = 990, y = 310)
+        Label(frame2, text = u"\u03bcmáx(h\u207b\u00b9)    Ks(g.L\u207b\u00b9)     n(adim)     Cp*(g.L\u207b\u00b9)", font = "arial 10 bold", fg = "black", bg = "grey75", justify = "center", width = 37).place(x = 932, y = 220)
+        Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gx.gp\u207b\u00b9)   \u03B2[±gx.(gp.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "grey75", justify = "center", width = 41).place(x = 932, y = 380)
+        modelagem(cont_model = 7)
         
     def click_andrews(): 
-        tab_fun_cin()   
-        Label(frame2, text = u"\u03bcmáx(h\u207b\u00b9)      Ks(g.L\u207b\u00b9)     KIS(g.L\u207b\u00b9)", font = "arial 10 bold", fg = "black", bg = "lightgrey", justify = "center", width = 30).place(x = 932, y = 220)
-        Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gx.gp\u207b\u00b9)    \u03B2[±gx.(gp.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "lightgrey", justify = "center", width = 41).place(x = 962, y = 380)
-        #modelagem(cont_model = 2)
+        tab_fun_cin() 
+        Label(frame2, text = "b", font = "times 18", fg = "grey40", bg = "grey40",  borderwidth=4, relief ='sunken', width = 6).place(x = 990, y = 310)
+        Label(frame2, text = u"\u03bcmáx(h\u207b\u00b9)      Ks(g.L\u207b\u00b9)     KIS(g.L\u207b\u00b9)", font = "arial 10 bold", fg = "black", bg = "grey75", justify = "center", width = 30).place(x = 932, y = 220)
+        Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gx.gp\u207b\u00b9)    \u03B2[±gx.(gp.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "grey75", justify = "center", width = 41).place(x = 932, y = 380)
+        modelagem(cont_model = 2)
         
     def click_wu(): 
-        tab_fun_cin()   
-        Label(frame2, text = u"\u03bcmáx(h\u207b\u00b9)     Ks(g.L\u207b\u00b9)     KE(g.L\u207b\u00b9)     v(adim)", font = "arial 10 bold", fg = "black", bg = "lightgrey", justify = "center", width = 40).place(x = 932, y = 220)
-        Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gx.gp\u207b\u00b9)    \u03B2[±gx.(gp.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "lightgrey", justify = "center", width = 41).place(x = 962, y = 380)
-        #modelagem(cont_model = 6)
+        tab_fun_cin()
+        Label(frame2, text = "b", font = "times 18", fg = "grey40", bg = "grey40",  borderwidth=4, relief ='sunken', width = 6).place(x = 990, y = 310)
+        Label(frame2, text = u"\u03bcmáx(h\u207b\u00b9)     Ks(g.L\u207b\u00b9)     KE(g.L\u207b\u00b9)     v(adim)", font = "arial 10 bold", fg = "black", bg = "grey75", justify = "center", width = 37).place(x = 932, y = 220)
+        Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gx.gp\u207b\u00b9)    \u03B2[±gx.(gp.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "grey75", justify = "center", width = 41).place(x = 932, y = 380)
+        modelagem(cont_model = 6)
         
     def click_lee(): 
         tab_fun_cin()
-        Label(frame2, text = u"\u03bcmáx(h\u207b\u00b9)    Ks(g.L\u207b\u00b9)     m(adim )     Cx*(g.L\u207b\u00b9)", font = "arial 10 bold", fg = "black", bg = "lightgrey", justify = "center", width = 37).place(x = 932, y = 220)
-        Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gx.gp\u207b\u00b9)    \u03B2[gx.(gp.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "white", justify = "center", width = 41).place(x = 962, y = 380)
-        #modelagem(cont_model = 8)
+        Label(frame2, text = "b", font = "times 18", fg = "grey40", bg = "grey40",  borderwidth=4, relief ='sunken', width = 6).place(x = 990, y = 310)
+        Label(frame2, text = u"\u03bcmáx(h\u207b\u00b9)    Ks(g.L\u207b\u00b9)     m(adim )     Cx*(g.L\u207b\u00b9)", font = "arial 10 bold", fg = "black", bg = "grey75", justify = "center", width = 37).place(x = 932, y = 220)
+        Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gx.gp\u207b\u00b9)    \u03B2[gx.(gp.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "grey75", justify = "center", width = 41).place(x = 932, y = 380)
+        modelagem(cont_model = 8)
 
     def print_me_2():
         value_2 = combo_2.get()
