@@ -87,6 +87,18 @@ def notebook_sem_inib():
     global frame6
     frame6 = ttk.Frame(notebook_sem_inib, width = 313, height = 320, borderwidth = 5, relief = tk.GROOVE)
     notebook_sem_inib.add(frame6, text = 'MOSER')
+def notebook_sem_inib_simul():
+    notebook_sem_inib_sim = ttk.Notebook(frame1)
+    notebook_sem_inib_sim.grid(row=3, column =4, sticky=tk.E + tk.W + tk.N + tk.S, padx=50, pady=85)
+    global frame13
+    frame13 = ttk.Frame(notebook_sem_inib_sim, width = 313, height = 320, borderwidth = 5, relief = tk.GROOVE)
+    notebook_sem_inib_sim.add(frame13, text = 'CONTOIS')
+    global frame14
+    frame14 = ttk.Frame(notebook_sem_inib_sim, width = 313, height = 320, borderwidth = 5, relief = tk.GROOVE)
+    notebook_sem_inib_sim.add(frame14, text = 'MONOD')
+    global frame15
+    frame15 = ttk.Frame(notebook_sem_inib_sim, width = 313, height = 320, borderwidth = 5, relief = tk.GROOVE)
+    notebook_sem_inib_sim.add(frame15, text = 'MOSER')
 def notebook_inib_subs():
     notebook_inib_subs = ttk.Notebook(frame2)
     notebook_inib_subs.grid(row=3, column =4, sticky=tk.E + tk.W + tk.N + tk.S, padx=50, pady=85)
@@ -115,7 +127,6 @@ def notebook_inib_biomas():
     frame12 = ttk.Frame(notebook_inib_biomas, width = 313, height = 320, borderwidth = 5, relief = tk.GROOVE)
     notebook_inib_biomas.add(frame12, text = 'LEE ET AL')
 
-  
 # Função para impressão de imagens:
 def image(imagem, num_frame, x, y):
     load = Image.open(imagem)
@@ -194,7 +205,7 @@ Button(frame1, text="Pronto", bg = "black", fg="white", font="batang 12", comman
 
                                                  ## MODELAGEM ##
 # Caixas de separação:
-Label(frame2, text="", width = 53, height = 33, borderwidth = 3,  relief = "sunken", bg = "grey85").place(x = 10, y = 2)
+Label(frame2, text="", width = 53, height = 33, borderwidth = 3,  relief = "sunken", bg = "grey75").place(x = 10, y = 2)
 ttk.Label(frame2, text = "SELECIONE A CINÉTICA DE REAÇÃO:", font = "times 12 bold").place(x = 16, y = 10)
 # Combobox:
 v_2 = ("AUSÊNCIA DE INIBIÇÃO", "INIBIÇÃO PELO SUBSTRATO", "INIBIÇÃO PELO PRODUTO", "INIBIÇÃO PELA BIOMASSA", "CINÉTICA CONSTANTE")
@@ -1158,6 +1169,69 @@ def explorer():
     Button(frame2, text="Pronto", bg = "black", fg="white", font="batang 12", command = print_me_2).place(x = 315, y = 29)
 Button(frame2, text = "Carregar arquivo",  font="Batang 12", fg="white", bg="gray17", borderwidth=2, relief="raised", command = explorer).place(x = 568, y = 15) 
 Label(frame2, borderwidth=2, relief="ridge", justify = "center", width = 40).place(x = 500, y = 50)
+
+
+# Função para capturar os valores de entrada - SIMULAÇÃO
+def capt_val_esc():
+    print(slider.get())
+# Função entradas numéricas:
+def entr_simul(val_min,frame, entr_ini, entr_fin, x_spin, x_scale, y_spin, y_scale, compri):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=val_min)
+    spin = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin.place(x = x_spin, y = y_spin)
+    slider = ttk.Scale(frame, variable=input, from_= entr_ini, to = entr_fin, orient='horizontal',length=compri)
+    slider.place(x = x_scale, y = y_scale) 
+## Botão para puxar os valores de entrada ao console - SIMULAÇÃO:
+#Button(frame1, text = "Enviar valores", font = "batang 10 bold", fg = "white", bg = "black", relief = "flat", command = capt_val_esc).place(x = 40, y = 160) 
+
+# Cinética sem inibição:
+notebook_sem_inib_simul()
+# Caixas separadoras - SIMULAÇÃO:
+def caix_simul(frame, larg, alt, x, y):
+    Label(frame, width = larg, height = alt, borderwidth = 5,relief = "sunken").place(x = x, y = y)
+# Escritos:
+def labels(frame, texto, fonte, borda, x, y):
+    Label(frame, text = texto, font = fonte, relief = borda).place(x = x, y = y)
+# Defindo layout para entradas - SIMULAÇÃO:
+def entr_simul_params(frame):
+    mimax = entr_simul(val_min = 0.01,frame = frame, entr_ini = 0.01, entr_fin = 1.5, x_spin = 15, x_scale = 59, y_spin = 37, y_scale = 32, compri = 100)
+    ks_ = entr_simul(val_min = 0.01,frame = frame, entr_ini = 0.01, entr_fin = 30, x_spin = 15, x_scale = 58, y_spin = 94, y_scale = 91, compri = 200)
+    kd = entr_simul(val_min = 0.0,frame = frame, entr_ini = 0.0, entr_fin = 1, x_spin = 15, x_scale = 58, y_spin = 157, y_scale = 154, compri = 80)
+    yxs = entr_simul(val_min = 0.01,frame = frame, entr_ini = 0.0, entr_fin = 3, x_spin = 145, x_scale = 188, y_spin = 157, y_scale = 154, compri = 105)
+    alfa = entr_simul(val_min = 0.01,frame = frame, entr_ini = 0.0, entr_fin = 10, x_spin = 15, x_scale = 58, y_spin = 213, y_scale = 209, compri = 100)
+    beta = entr_simul(val_min = 0.0,frame = frame, entr_ini = 0.0, entr_fin = 2, x_spin = 160, x_scale = 203, y_spin = 213, y_scale = 209, compri = 90)
+    return(mimax, ks_, kd, yxs, alfa, beta)
+# Defindo as entradas para o console:
+def entr(frame):
+    entr_Cx0 = tk.Entry(frame, width = 8, borderwidth = 2, relief = "sunken", bg = "grey30", fg = "white").place(x = 50, y = 257)
+    entr_Cs0 = tk.Entry(frame, width = 8, borderwidth = 2, relief = "sunken", bg = "grey40", fg = "white").place(x = 140, y = 257)
+    entr_Cp0 = tk.Entry(frame, width = 8, borderwidth = 2, relief = "sunken", bg = "grey50", fg = "white").place(x = 230, y = 257)
+    entr_t0 = tk.Entry(frame, width = 8, borderwidth = 2, relief = "sunken", bg = "grey30", fg = "white").place(x = 50, y = 287)
+    entr_tf = tk.Entry(frame, width = 8, borderwidth = 2, relief = "sunken", bg = "grey40", fg = "white").place(x = 140, y = 287)
+
+## Contois:
+caix_simul(frame = frame13, larg = 40, alt = 7, x = 5, y = 5)
+labels(frame = frame13, texto = "Parâmetros Crescimento", fonte = "batang 8 bold", borda = "flat", x = 115, y = 0)
+labels(frame = frame13, texto = "mimáx", fonte = "times 9 bold", borda = "sunken", x = 2, y = 14)
+labels(frame = frame13, texto = "KSX (g/L)", fonte = "times 9 bold", borda = "sunken", x = 2, y = 70)
+caix_simul(frame = frame13, larg = 40, alt = 7, x = 5, y = 123)
+labels(frame = frame13, texto = "Parâmetros Balanço Massa", fonte = "batang 8 bold", borda = "flat", x = 100, y = 117)
+labels(frame = frame13, texto = "Kd (h-1)", fonte = "times 9 bold", borda = "sunken", x = 2, y = 132)
+labels(frame = frame13, texto = "Yxs (gx/gs)", fonte = "times 9 bold", borda = "sunken", x = 239, y = 132)
+labels(frame = frame13, texto = "alfa (gx/gp)", fonte = "times 9 bold", borda = "sunken", x = 2, y = 189)
+labels(frame = frame13, texto = "beta (gx/gp.t)", fonte = "times 9 bold", borda = "sunken", x = 228, y = 189)
+entr_simul_params(frame = frame13)
+caix_simul(frame = frame13, larg = 40, alt = 4, x = 5, y = 240)
+labels(frame = frame13, texto = "Variáveis Operacionais", fonte = "batang 8 bold", borda = "flat", x = 125, y = 234)
+entr(frame = frame13)
+labels(frame = frame13, texto = "Cx0:", fonte = "times 10 bold", borda = "flat", x = 18, y = 255)
+labels(frame = frame13, texto = "Cs0:", fonte = "times 10 bold", borda = "flat", x = 108, y = 255)
+labels(frame = frame13, texto = "Cp0:", fonte = "times 10 bold", borda = "flat", x = 198, y = 255)
+labels(frame = frame13, texto = "t0(h):", fonte = "times 10 bold", borda = "flat", x = 13, y = 285)
+labels(frame = frame13, texto = "tf(h):", fonte = "times 10 bold", borda = "flat", x = 107, y = 285)
+
+
 
 # Encerramento da interface:
 janela.mainloop()
