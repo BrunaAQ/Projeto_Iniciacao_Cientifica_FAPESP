@@ -1195,19 +1195,83 @@ Button(frame2, text = "Carregar arquivo",  font="Batang 12", fg="white", bg="gra
 Label(frame2, borderwidth=2, relief="ridge", justify = "center", width = 40).place(x = 500, y = 50)
 
 # Função para capturar os valores de entrada - SIMULAÇÃO
-def capt_val_esc():
-    Cx0_simul = entr_Cx0.get()
-    Cs0_simul = entr_Cs0.get()
-    Cp0_simul = entr_Cp0.get()
-    t0_simul = entr_t0.get()
-    tf_simul = entr_tf.get()
-    mimax = slider_mimax.get()
-    ks_ = slider_ks_.get()
-    kd = slider_kd.get()
-    yxs = slider_yxs.get()
-    alfa = slider_alfa.get()
-    beta = slider_beta.get()
-    print(Cx0_simul, Cs0_simul, Cp0_simul, t0_simul, tf_simul, mimax, ks_, kd, yxs, alfa, beta)
+def capt_val_esc_contois():
+    Cx0 = entr_Cx0_contois.get()
+    Cs0 = entr_Cs0_contois.get()
+    Cp0 = entr_Cp0_contois.get()
+    t0 = entr_t0_contois.get()
+    tf = entr_tf_contois.get()
+    #ks_ = slider_ks_.get()
+    #kd = slider_kd.get()
+    #yxs = slider_yxs.get()
+    #alfa = slider_alfa.get()
+    #beta = slider_beta.get()
+    #u = slider_u.get()
+    print(Cx0, Cs0, Cp0, t0, tf)
+
+def capt_val_esc_monod():
+    Cx0 = entr_Cx0_monod.get()
+    Cs0 = entr_Cs0_monod.get()
+    Cp0 = entr_Cp0_monod.get()
+    t0 = entr_t0_monod.get()
+    tf = entr_tf_monod.get()
+    print(Cx0, Cs0, Cp0, t0, tf)
+    
+def capt_val_esc_moser():
+    Cx0 = entr_Cx0_moser.get()
+    Cs0 = entr_Cs0_moser.get()
+    Cp0 = entr_Cp0_moser.get()
+    t0 = entr_t0_moser.get()
+    tf = entr_tf_moser.get()
+    print(Cx0, Cs0, Cp0, t0, tf)
+
+def capt_val_esc_andrews():
+    Cx0 = entr_Cx0_andrews.get()
+    Cs0 = entr_Cs0_andrews.get()
+    Cp0 = entr_Cp0_andrews.get()
+    t0 = entr_t0_andrews.get()
+    tf = entr_tf_andrews.get()
+    print(Cx0, Cs0, Cp0, t0, tf)
+
+def capt_val_esc_wu():
+    Cx0 = entr_Cx0_wu.get()
+    Cs0 = entr_Cs0_wu.get()
+    Cp0 = entr_Cp0_wu.get()
+    t0 = entr_t0_wu.get()
+    tf = entr_tf_wu.get()
+    print(Cx0, Cs0, Cp0, t0, tf)
+    
+def capt_val_esc_aiba():
+    Cx0 = entr_Cx0_aiba.get()
+    Cs0 = entr_Cs0_aiba.get()
+    Cp0 = entr_Cp0_aiba.get()
+    t0 = entr_t0_aiba.get()
+    tf = entr_tf_aiba.get()
+    print(Cx0, Cs0, Cp0, t0, tf)
+    
+def capt_val_esc_h_h():
+    Cx0 = entr_Cx0_h_h.get()
+    Cs0 = entr_Cs0_h_h.get()
+    Cp0 = entr_Cp0_h_h.get()
+    t0 = entr_t0_h_h.get()
+    tf = entr_tf_h_h.get()
+    print(Cx0, Cs0, Cp0, t0, tf)
+    
+def capt_val_esc_levenspiel():
+    Cx0 = entr_Cx0_levenspiel.get()
+    Cs0 = entr_Cs0_levenspiel.get()
+    Cp0 = entr_Cp0_levenspiel.get()
+    t0 = entr_t0_levenspiel.get()
+    tf = entr_tf_levenspiel.get()
+    print(Cx0, Cs0, Cp0, t0, tf)
+    
+def capt_val_esc_lee():
+    Cx0 = entr_Cx0_lee.get()
+    Cs0 = entr_Cs0_lee.get()
+    Cp0 = entr_Cp0_lee.get()
+    t0 = entr_t0_lee.get()
+    tf = entr_tf_lee.get()
+    print(Cx0, Cs0, Cp0, t0, tf)
     
 # Função entradas numéricas:
 def entr_simul_mimax(frame):
@@ -1218,13 +1282,14 @@ def entr_simul_mimax(frame):
     spin_mimax.place(x = 15, y = 37)
     slider_mimax = ttk.Scale(frame, variable=input, from_= 0.01, to = 1.5, orient='horizontal',length = 60)
     slider_mimax.place(x = 59, y = 32) 
+
 def entr_simul_ks_(frame):
     ## Criação dos botões deslizáveis:
     input = tk.DoubleVar(value=0.01)
     global spin_ks_, slider_ks_
     spin_ks_ = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
     spin_ks_.place(x = 15, y = 94)
-    slider_ks_ = ttk.Scale(frame, variable=input, from_= 0.01, to = 30, orient='horizontal',length = 110)
+    slider_ks_ = ttk.Scale(frame, variable=input, from_= 0.01, to = 30, orient='horizontal',length = 100)
     slider_ks_.place(x = 58, y = 91)  
 def entr_simul_kd(frame):
     ## Criação dos botões deslizáveis:
@@ -1258,6 +1323,86 @@ def entr_simul_beta(frame):
     spin_beta.place(x = 160, y = 213)
     slider_beta = ttk.Scale(frame, variable=input, from_= 0.0, to = 10, orient='horizontal',length = 90)
     slider_beta.place(x = 203, y = 209)
+def entr_simul_u(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.5)
+    global spin_u, slider_u
+    spin_u = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_u.place(x = 160, y = 37)
+    slider_u = ttk.Scale(frame, variable=input, from_= 0.5, to = 3, orient='horizontal',length = 80)
+    slider_u.place(x = 203, y = 32)
+def entr_simul_kis(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.01)
+    global spin_kis, slider_kis
+    spin_kis = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_kis.place(x = 140, y = 37)
+    slider_kis = ttk.Scale(frame, variable=input, from_= 0.01, to = 100, orient='horizontal',length = 110)
+    slider_kis.place(x = 183, y = 32)
+def entr_simul_ke(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.01)
+    global spin_ke, slider_ke
+    spin_ke = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_ke.place(x = 140, y = 37)
+    slider_ke = ttk.Scale(frame, variable=input, from_= 0.01, to = 100, orient='horizontal',length = 110)
+    slider_ke.place(x = 183, y = 32)
+def entr_simul_v(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.0)
+    global spin_v, slider_v
+    spin_v = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_v.place(x = 165, y = 94)
+    slider_v = ttk.Scale(frame, variable=input, from_= 0.0, to = 10, orient='horizontal',length = 85)
+    slider_v.place(x = 208, y = 91)
+def entr_simul_kp_aiba(frame):
+    input = tk.DoubleVar(value=0.0)
+    global spin_kp_aiba, slider_kp_aiba
+    spin_kp_aiba = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_kp_aiba.place(x = 160, y = 37)
+    slider_kp_aiba = ttk.Scale(frame, variable=input, from_= 0.0, to = 10, orient='horizontal',length = 85)
+    slider_kp_aiba.place(x = 203, y = 32)
+def entr_simul_kp_hh(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.0)
+    global spin_kp_hh, slider_kp_hh
+    spin_kp_hh = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_kp_hh.place(x = 140, y = 37)
+    slider_kp_hh = ttk.Scale(frame, variable=input, from_= 0.0, to = 100, orient='horizontal',length = 110)
+    slider_kp_hh.place(x = 183, y = 32)
+def entr_simul_cp_estr(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.01)
+    global spin_cp_estr, slider_cp_estr
+    spin_cp_estr = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_cp_estr.place(x = 140, y = 37)
+    slider_cp_estr = ttk.Scale(frame, variable=input, from_= 0.01, to = 100, orient='horizontal',length = 110)
+    slider_cp_estr.place(x = 183, y = 32)
+def entr_simul_cx_estr(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.01)
+    global spin_cx_estr, slider_cx_estr
+    spin_cx_estr = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_cx_estr.place(x = 140, y = 37)
+    slider_cx_estr = ttk.Scale(frame, variable=input, from_= 0.01, to = 100, orient='horizontal',length = 110)
+    slider_cx_estr.place(x = 183, y = 32)
+def entr_simul_n(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.0)
+    global spin_n, slider_n
+    spin_n = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_n.place(x = 165, y = 94)
+    slider_n = ttk.Scale(frame, variable=input, from_= 0.0, to = 10, orient='horizontal',length = 85)
+    slider_n.place(x = 208, y = 91)
+def entr_simul_m(frame):
+    ## Criação dos botões deslizáveis:
+    input = tk.DoubleVar(value=0.0)
+    global spin_m, slider_m
+    spin_m = tk.Spinbox(frame, textvariable=input, wrap=True, width=5)
+    spin_m.place(x = 165, y = 94)
+    slider_m = ttk.Scale(frame, variable=input, from_= 0.0, to = 10, orient='horizontal',length = 85)
+    slider_m.place(x = 208, y = 91)
+
 
 # Caixas separadoras - SIMULAÇÃO:
 def caix_simul(frame, larg, alt, x, y):
@@ -1279,85 +1424,290 @@ def entr_simul_params(frame):
 '''
 
 # Defindo as entradas para o console:
-def entr(frame):
-    global entr_Cx0, entr_Cs0, entr_Cp0, entr_t0, entr_tf
-    entr_Cx0 = tk.Entry(frame, width = 8, borderwidth = 2, relief = "sunken", bg = "grey30", fg = "white")
-    entr_Cx0.place(x = 50, y = 257)
-    entr_Cs0 = tk.Entry(frame, width = 8, borderwidth = 2, relief = "sunken", bg = "grey40", fg = "white")
-    entr_Cs0.place(x = 140, y = 257)
-    entr_Cp0 = tk.Entry(frame, width = 8, borderwidth = 2, relief = "sunken", bg = "grey50", fg = "white")
-    entr_Cp0.place(x = 230, y = 257)
-    entr_t0 = tk.Entry(frame, width = 8, borderwidth = 2, relief = "sunken", bg = "grey30", fg = "white")
-    entr_t0.place(x = 50, y = 287)
-    entr_tf = tk.Entry(frame, width = 8, borderwidth = 2, relief = "sunken", bg = "grey40", fg = "white")
-    entr_tf.place(x = 140, y = 287)    
+def entr_contois(frame):
+    global entr_Cx0_contois, entr_Cs0_contois, entr_Cp0_contois, entr_t0_contois, entr_tf_contois
+    entr_Cx0_contois = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey30", fg = "white")
+    entr_Cx0_contois.place(x = 50, y = 257)
+    entr_Cs0_contois = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey40", fg = "white")
+    entr_Cs0_contois.place(x = 140, y = 257)
+    entr_Cp0_contois = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey50", fg = "white")
+    entr_Cp0_contois.place(x = 230, y = 257)
+    entr_t0_contois = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey30", fg = "white")
+    entr_t0_contois.place(x = 50, y = 287)
+    entr_tf_contois = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey40", fg = "white")
+    entr_tf_contois.place(x = 140, y = 287)    
 
+def entr_monod(frame):
+    global entr_Cx0_monod, entr_Cs0_monod, entr_Cp0_monod, entr_t0_monod, entr_tf_monod
+    entr_Cx0_monod = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey30", fg = "white")
+    entr_Cx0_monod.place(x = 50, y = 257)
+    entr_Cs0_monod = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey40", fg = "white")
+    entr_Cs0_monod.place(x = 140, y = 257)
+    entr_Cp0_monod = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey50", fg = "white")
+    entr_Cp0_monod.place(x = 230, y = 257)
+    entr_t0_monod = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey30", fg = "white")
+    entr_t0_monod.place(x = 50, y = 287)
+    entr_tf_monod = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey40", fg = "white")
+    entr_tf_monod.place(x = 140, y = 287) 
+    
+def entr_moser(frame):
+    global entr_Cx0_moser, entr_Cs0_moser, entr_Cp0_moser, entr_t0_moser, entr_tf_moser
+    entr_Cx0_moser = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey30", fg = "white")
+    entr_Cx0_moser.place(x = 50, y = 257)
+    entr_Cs0_moser = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey40", fg = "white")
+    entr_Cs0_moser.place(x = 140, y = 257)
+    entr_Cp0_moser = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey50", fg = "white")
+    entr_Cp0_moser.place(x = 230, y = 257)
+    entr_t0_moser = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey30", fg = "white")
+    entr_t0_moser.place(x = 50, y = 287)
+    entr_tf_moser = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey40", fg = "white")
+    entr_tf_moser.place(x = 140, y = 287) 
+
+def entr_andrews(frame):
+    global entr_Cx0_andrews, entr_Cs0_andrews, entr_Cp0_andrews, entr_t0_andrews, entr_tf_andrews
+    entr_Cx0_andrews = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey30", fg = "white")
+    entr_Cx0_andrews.place(x = 50, y = 257)
+    entr_Cs0_andrews = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey40", fg = "white")
+    entr_Cs0_andrews.place(x = 140, y = 257)
+    entr_Cp0_andrews = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey50", fg = "white")
+    entr_Cp0_andrews.place(x = 230, y = 257)
+    entr_t0_andrews = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey30", fg = "white")
+    entr_t0_andrews.place(x = 50, y = 287)
+    entr_tf_andrews = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey40", fg = "white")
+    entr_tf_andrews.place(x = 140, y = 287)
+
+def entr_wu(frame):
+    global entr_Cx0_wu, entr_Cs0_wu, entr_Cp0_wu, entr_t0_wu, entr_tf_wu
+    entr_Cx0_wu = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey30", fg = "white")
+    entr_Cx0_wu.place(x = 50, y = 257)
+    entr_Cs0_wu = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey40", fg = "white")
+    entr_Cs0_wu.place(x = 140, y = 257)
+    entr_Cp0_wu = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey50", fg = "white")
+    entr_Cp0_wu.place(x = 230, y = 257)
+    entr_t0_wu = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey30", fg = "white")
+    entr_t0_wu.place(x = 50, y = 287)
+    entr_tf_wu = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey40", fg = "white")
+    entr_tf_wu.place(x = 140, y = 287)
+    
+def entr_aiba(frame):
+    global entr_Cx0_aiba, entr_Cs0_aiba, entr_Cp0_aiba, entr_t0_aiba, entr_tf_aiba
+    entr_Cx0_aiba = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey30", fg = "white")
+    entr_Cx0_aiba.place(x = 50, y = 257)
+    entr_Cs0_aiba = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey40", fg = "white")
+    entr_Cs0_aiba.place(x = 140, y = 257)
+    entr_Cp0_aiba = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey50", fg = "white")
+    entr_Cp0_aiba.place(x = 230, y = 257)
+    entr_t0_aiba = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey30", fg = "white")
+    entr_t0_aiba.place(x = 50, y = 287)
+    entr_tf_aiba = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey40", fg = "white")
+    entr_tf_aiba.place(x = 140, y = 287)
+
+def entr_h_h(frame):
+    global entr_Cx0_h_h, entr_Cs0_h_h, entr_Cp0_h_h, entr_t0_h_h, entr_tf_h_h
+    entr_Cx0_h_h = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey30", fg = "white")
+    entr_Cx0_h_h.place(x = 50, y = 257)
+    entr_Cs0_h_h = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey40", fg = "white")
+    entr_Cs0_h_h.place(x = 140, y = 257)
+    entr_Cp0_h_h = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey50", fg = "white")
+    entr_Cp0_h_h.place(x = 230, y = 257)
+    entr_t0_h_h = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey30", fg = "white")
+    entr_t0_h_h.place(x = 50, y = 287)
+    entr_tf_h_h = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey40", fg = "white")
+    entr_tf_h_h.place(x = 140, y = 287)
+
+def entr_levenspiel(frame):
+    global entr_Cx0_levenspiel, entr_Cs0_levenspiel, entr_Cp0_levenspiel, entr_t0_levenspiel, entr_tf_levenspiel
+    entr_Cx0_levenspiel = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey30", fg = "white")
+    entr_Cx0_levenspiel.place(x = 50, y = 257)
+    entr_Cs0_levenspiel = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey40", fg = "white")
+    entr_Cs0_levenspiel.place(x = 140, y = 257)
+    entr_Cp0_levenspiel = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey50", fg = "white")
+    entr_Cp0_levenspiel.place(x = 230, y = 257)
+    entr_t0_levenspiel = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey30", fg = "white")
+    entr_t0_levenspiel.place(x = 50, y = 287)
+    entr_tf_levenspiel = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey40", fg = "white")
+    entr_tf_levenspiel.place(x = 140, y = 287)
+
+def entr_lee(frame):
+    global entr_Cx0_lee, entr_Cs0_lee, entr_Cp0_lee, entr_t0_lee, entr_tf_lee
+    entr_Cx0_lee = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey30", fg = "white")
+    entr_Cx0_lee.place(x = 50, y = 257)
+    entr_Cs0_lee = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey40", fg = "white")
+    entr_Cs0_lee.place(x = 140, y = 257)
+    entr_Cp0_lee = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey50", fg = "white")
+    entr_Cp0_lee.place(x = 230, y = 257)
+    entr_t0_lee = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey30", fg = "white")
+    entr_t0_lee.place(x = 50, y = 287)
+    entr_tf_lee = tk.Entry(frame, width = 7, borderwidth = 2, relief = "sunken", font = "batang 8 bold", bg = "grey40", fg = "white")
+    entr_tf_lee.place(x = 140, y = 287)
+
+# Função para definição dos labels - títulos de definição:
+def labels_saida(frame):
+    labels(frame, texto = "Parâmetros Crescimento", fonte = "batang 8 bold", borda = "flat", x = 115, y = 0)
+    labels(frame, texto = u"\u03bcmáx (h\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 2, y = 14)
+    labels(frame, texto = "Parâmetros Balanço Massa", fonte = "batang 8 bold", borda = "flat", x = 100, y = 117)
+    labels(frame, texto = u"Kd (h\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 2, y = 132)
+    labels(frame, texto = u"Yxs (gx.gs\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 228, y = 132)
+    labels(frame, texto = u"\u03B1(gx.gp\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 2, y = 189)
+    labels(frame, texto = u"\u03B2[gx.(gp.h)\u207b\u00b9]", fonte = "times 9 bold", borda = "sunken", x = 226, y = 189)
+    labels(frame, texto = "Variáveis Operacionais", fonte = "batang 8 bold", borda = "flat", x = 123, y = 234)
+    labels(frame, texto = "Cx0:", fonte = "times 10 bold", borda = "flat", x = 18, y = 255)
+    labels(frame, texto = "Cs0:", fonte = "times 10 bold", borda = "flat", x = 108, y = 255)
+    labels(frame, texto = "Cp0:", fonte = "times 10 bold", borda = "flat", x = 198, y = 255)
+    labels(frame, texto = "t0(h):", fonte = "times 10 bold", borda = "flat", x = 13, y = 285)
+    labels(frame, texto = "tf(h):", fonte = "times 10 bold", borda = "flat", x = 107, y = 285)
+
+# Função separação física simulação:
+def separ_simul(frame):
+    caix_simul(frame, larg = 40, alt = 7, x = 5, y = 5)
+    caix_simul(frame, larg = 40, alt = 7, x = 5, y = 123)
+    caix_simul(frame, larg = 40, alt = 4, x = 5, y = 240)
+    
 ## Contois:
 def contois():
-    caix_simul(frame = frame13, larg = 40, alt = 7, x = 5, y = 5)
-    labels(frame = frame13, texto = "Parâmetros Crescimento", fonte = "batang 8 bold", borda = "flat", x = 115, y = 0)
-    labels(frame = frame13, texto = "mimáx", fonte = "times 9 bold", borda = "sunken", x = 2, y = 14)
-    labels(frame = frame13, texto = "Ks (g/L)", fonte = "times 9 bold", borda = "sunken", x = 2, y = 70)
-    caix_simul(frame = frame13, larg = 40, alt = 7, x = 5, y = 123)
-    labels(frame = frame13, texto = "Parâmetros Balanço Massa", fonte = "batang 8 bold", borda = "flat", x = 100, y = 117)
-    labels(frame = frame13, texto = "Kd (h-1)", fonte = "times 9 bold", borda = "sunken", x = 2, y = 132)
-    labels(frame = frame13, texto = "Yxs (gx/gs)", fonte = "times 9 bold", borda = "sunken", x = 239, y = 132)
-    labels(frame = frame13, texto = "alfa (gx/gp)", fonte = "times 9 bold", borda = "sunken", x = 2, y = 189)
-    labels(frame = frame13, texto = "beta (gx/gp.t)", fonte = "times 9 bold", borda = "sunken", x = 228, y = 189)
-    entr_simul_mimax(frame13)
-    entr_simul_ks_(frame13)
-    entr_simul_kd(frame13)
-    entr_simul_yxs(frame13)
-    entr_simul_alfa(frame13)
-    entr_simul_beta(frame13)
-    caix_simul(frame = frame13, larg = 40, alt = 4, x = 5, y = 240)
-    labels(frame = frame13, texto = "Variáveis Operacionais", fonte = "batang 8 bold", borda = "flat", x = 125, y = 234)
-    entr_simul_mimax(frame13)
-    entr_simul_ks_(frame13)
-    entr_simul_kd(frame13)
-    entr_simul_yxs(frame13)
-    entr_simul_alfa(frame13)
-    entr_simul_beta(frame13)
-    entr(frame13)
-    labels(frame = frame13, texto = "Cx0:", fonte = "times 10 bold", borda = "flat", x = 18, y = 255)
-    labels(frame = frame13, texto = "Cs0:", fonte = "times 10 bold", borda = "flat", x = 108, y = 255)
-    labels(frame = frame13, texto = "Cp0:", fonte = "times 10 bold", borda = "flat", x = 198, y = 255)
-    labels(frame = frame13, texto = "t0(h):", fonte = "times 10 bold", borda = "flat", x = 13, y = 285)
-    labels(frame = frame13, texto = "tf(h):", fonte = "times 10 bold", borda = "flat", x = 107, y = 285)
-    Button(frame13, text = "Simular", font = "batang 8 bold", fg = "white", bg = "black", borderwidth = 5, relief = "sunken", command = capt_val_esc).place(x = 245, y = 290)  
+    separ_simul(frame13)
+    labels(frame = frame13, texto = "KSX (g.L\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 2, y = 70)
+    labels_saida(frame13)
+    mimax_contois = entr_simul_mimax(frame13)
+    ksx = entr_simul_ks_(frame13)
+    kd_contois = entr_simul_kd(frame13)
+    yxs_contois = entr_simul_yxs(frame13)
+    alfa_contois = entr_simul_alfa(frame13)
+    beta_contois = entr_simul_beta(frame13)
+    entr_contois(frame13)
+    Button(frame13, text = "Simular", font = "batang 8 bold", fg = "white", bg = "black", borderwidth = 5, relief = "sunken", command = capt_val_esc_contois).place(x = 245, y = 290)  
 
 ## Monod:
 def monod():
-    caix_simul(frame = frame14, larg = 40, alt = 7, x = 5, y = 5)
-    labels(frame = frame14, texto = "Parâmetros Crescimento", fonte = "batang 8 bold", borda = "flat", x = 115, y = 0)
-    labels(frame = frame14, texto = "mimáx", fonte = "times 9 bold", borda = "sunken", x = 2, y = 14)
-    labels(frame = frame14, texto = "Ks (g/L)", fonte = "times 9 bold", borda = "sunken", x = 2, y = 70)
-    caix_simul(frame = frame14, larg = 40, alt = 7, x = 5, y = 123)
-    labels(frame = frame14, texto = "Parâmetros Balanço Massa", fonte = "batang 8 bold", borda = "flat", x = 100, y = 117)
-    labels(frame = frame14, texto = "Kd (h-1)", fonte = "times 9 bold", borda = "sunken", x = 2, y = 132)
-    labels(frame = frame14, texto = "Yxs (gx/gs)", fonte = "times 9 bold", borda = "sunken", x = 239, y = 132)
-    labels(frame = frame14, texto = "alfa (gx/gp)", fonte = "times 9 bold", borda = "sunken", x = 2, y = 189)
-    labels(frame = frame14, texto = "beta (gx/gp.t)", fonte = "times 9 bold", borda = "sunken", x = 228, y = 189)
+    separ_simul(frame14)
+    labels(frame = frame14, texto = "Ks (g.L\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 2, y = 70)
+    labels_saida(frame14)
     entr_simul_mimax(frame14)
     entr_simul_ks_(frame14)
     entr_simul_kd(frame14)
     entr_simul_yxs(frame14)
     entr_simul_alfa(frame14)
     entr_simul_beta(frame14)
-    caix_simul(frame = frame14, larg = 40, alt = 4, x = 5, y = 240)
-    labels(frame = frame14, texto = "Variáveis Operacionais", fonte = "batang 8 bold", borda = "flat", x = 125, y = 234)
-    entr_simul_ks_(frame14)
-    entr_simul_kd(frame14)
-    entr_simul_yxs(frame14)
-    entr_simul_alfa(frame14)
-    entr_simul_beta(frame14)
-    entr(frame14)
-    labels(frame = frame14, texto = "Cx0:", fonte = "times 10 bold", borda = "flat", x = 18, y = 255)
-    labels(frame = frame14, texto = "Cs0:", fonte = "times 10 bold", borda = "flat", x = 108, y = 255)
-    labels(frame = frame14, texto = "Cp0:", fonte = "times 10 bold", borda = "flat", x = 198, y = 255)
-    labels(frame = frame14, texto = "t0(h):", fonte = "times 10 bold", borda = "flat", x = 13, y = 285)
-    labels(frame = frame14, texto = "tf(h):", fonte = "times 10 bold", borda = "flat", x = 107, y = 285)
-    Button(frame14, text = "Simular", font = "batang 8 bold", fg = "white", bg = "black", borderwidth = 5, relief = "sunken", command = capt_val_esc).place(x = 245, y = 290) 
+    entr_monod(frame14)
+    Button(frame14, text = "Simular", font = "batang 8 bold", fg = "white", bg = "black", borderwidth = 5, relief = "sunken", command = capt_val_esc_monod).place(x = 245, y = 290) 
+   
+## Moser:
+def moser():
+    separ_simul(frame15)
+    labels(frame = frame15, texto = "Ks (g.L\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 2, y = 70)
+    labels(frame = frame15, texto = "u (adim)", fonte = "times 9 bold", borda = "sunken", x = 251, y = 14)
+    labels_saida(frame15)
+    entr_simul_mimax(frame15)
+    entr_simul_ks_(frame15)
+    entr_simul_kd(frame15)
+    entr_simul_yxs(frame15)
+    entr_simul_alfa(frame15)
+    entr_simul_beta(frame15)
+    entr_simul_u(frame15)
+    entr_moser(frame15)
+    Button(frame15, text = "Simular", font = "batang 8 bold", fg = "white", bg = "black", borderwidth = 5, relief = "sunken", command = capt_val_esc_moser).place(x = 245, y = 290)
+
+## Andrews:
+def andrews():
+    separ_simul(frame16)
+    labels(frame = frame16, texto = "Ks (g.L\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 2, y = 70)
+    labels(frame = frame16, texto = "KSI (g.L\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 236, y = 14)
+    labels_saida(frame16)
+    entr_simul_mimax(frame16)
+    entr_simul_ks_(frame16)
+    entr_simul_kd(frame16)
+    entr_simul_yxs(frame16)
+    entr_simul_alfa(frame16)
+    entr_simul_beta(frame16)
+    entr_simul_kis(frame16)
+    entr_andrews(frame16)
+    Button(frame16, text = "Simular", font = "batang 8 bold", fg = "white", bg = "black", borderwidth = 5, relief = "sunken", command = capt_val_esc_andrews).place(x = 245, y = 290)
+    
+## Wu et al:
+def wu():
+    separ_simul(frame17)
+    labels(frame = frame17, texto = "Ks (g.L\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 2, y = 70)
+    labels(frame = frame17, texto = "Ke (g.L\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 242, y = 14)
+    labels(frame = frame17, texto = "v (adim)", fonte = "times 9 bold", borda = "sunken", x = 252, y = 70)
+    labels_saida(frame17)
+    entr_simul_mimax(frame17)
+    entr_simul_ks_(frame17)
+    entr_simul_kd(frame17)
+    entr_simul_yxs(frame17)
+    entr_simul_alfa(frame17)
+    entr_simul_beta(frame17)
+    entr_simul_ke(frame17)
+    entr_simul_v(frame17)
+    entr_wu(frame17)
+    Button(frame17, text = "Simular", font = "batang 8 bold", fg = "white", bg = "black", borderwidth = 5, relief = "sunken", command = capt_val_esc_wu).place(x = 245, y = 290)
+
+## Aiba et al:
+def aiba():
+    separ_simul(frame18)
+    labels(frame = frame18, texto = "Ks (g.L\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 2, y = 70)
+    labels(frame = frame18, texto = "Kp (L.g\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 242, y = 14)
+    labels_saida(frame18)
+    entr_simul_mimax(frame18)
+    entr_simul_ks_(frame18)
+    entr_simul_kd(frame18)
+    entr_simul_yxs(frame18)
+    entr_simul_alfa(frame18)
+    entr_simul_beta(frame18)
+    entr_simul_kp_aiba(frame18)
+    entr_aiba(frame18)
+    Button(frame18, text = "Simular", font = "batang 8 bold", fg = "white", bg = "black", borderwidth = 5, relief = "sunken", command = capt_val_esc_aiba).place(x = 245, y = 290)
+
+## Hope & Hansford:
+def hope_hansford():
+    separ_simul(frame19)
+    labels(frame = frame19, texto = "Ks (g.L\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 2, y = 70)
+    labels(frame = frame19, texto = "Kp (g.L\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 242, y = 14)
+    labels_saida(frame19)
+    entr_simul_mimax(frame19)
+    entr_simul_ks_(frame19)
+    entr_simul_kd(frame19)
+    entr_simul_yxs(frame19)
+    entr_simul_alfa(frame19)
+    entr_simul_beta(frame19)
+    entr_simul_kp_hh(frame19)
+    entr_h_h(frame19)
+    Button(frame19, text = "Simular", font = "batang 8 bold", fg = "white", bg = "black", borderwidth = 5, relief = "sunken", command = capt_val_esc_h_h).place(x = 245, y = 290)
+    
+## Levenspiel:
+def levenspiel():
+    separ_simul(frame20)
+    labels(frame = frame20, texto = "Ks (g.L\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 2, y = 70)
+    labels(frame = frame20, texto = "Cp* (g.L\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 236, y = 14)
+    labels(frame = frame20, texto = "n (adim)", fonte = "times 9 bold", borda = "sunken", x = 252, y = 70)
+    labels_saida(frame20)
+    entr_simul_mimax(frame20)
+    entr_simul_ks_(frame20)
+    entr_simul_kd(frame20)
+    entr_simul_yxs(frame20)
+    entr_simul_alfa(frame20)
+    entr_simul_beta(frame20)
+    entr_simul_cp_estr(frame20)
+    entr_simul_n(frame20)
+    entr_levenspiel(frame20)
+    Button(frame20, text = "Simular", font = "batang 8 bold", fg = "white", bg = "black", borderwidth = 5, relief = "sunken", command = capt_val_esc_levenspiel).place(x = 245, y = 290)
+
+## Lee et al:
+def lee():
+    separ_simul(frame21)
+    labels(frame = frame21, texto = "Ks (g.L\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 2, y = 70)
+    labels(frame = frame21, texto = "Cx* (g.L\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 236, y = 14)
+    labels(frame = frame21, texto = "m (adim)", fonte = "times 9 bold", borda = "sunken", x = 249, y = 70)
+    labels_saida(frame21)
+    entr_simul_mimax(frame21)
+    entr_simul_ks_(frame21)
+    entr_simul_kd(frame21)
+    entr_simul_yxs(frame21)
+    entr_simul_alfa(frame21)
+    entr_simul_beta(frame21)
+    entr_simul_cp_estr(frame21)
+    entr_simul_n(frame21)
+    entr_lee(frame21)
+    Button(frame21, text = "Simular", font = "batang 8 bold", fg = "white", bg = "black", borderwidth = 5, relief = "sunken", command = capt_val_esc_lee).place(x = 245, y = 290)
 
 def print_me_1():
         value_1 = combo_1.get()
@@ -1366,13 +1716,20 @@ def print_me_1():
             notebook_sem_inib_simul()
             contois()
             monod()
+            moser()
         if value_1 == "INIBIÇÃO PELO SUBSTRATO":
             notebook_inib_subs_simul()
+            andrews()
+            wu()
         if value_1 == "INIBIÇÃO PELO PRODUTO":
             notebook_inib_prod_simul()
+            aiba()
+            hope_hansford()
+            levenspiel()
         if value_1 == "INIBIÇÃO PELA BIOMASSA":
             notebook_inib_biomas_simul()
-
+            lee()
+            
 Button(frame1, text="Pronto", bg = "black", fg="white", font="batang 12", command = print_me_1).place(x = 315, y = 29)
 
 
