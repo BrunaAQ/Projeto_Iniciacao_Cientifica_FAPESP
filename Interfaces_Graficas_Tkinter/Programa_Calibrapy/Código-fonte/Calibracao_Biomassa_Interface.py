@@ -38,8 +38,8 @@ saida_arquivo.place(x = 449, y = 189)
 
 ## Escrita do template excel para entrada dos dados:
 def excel_template():
-    template_Cx_DO_calibrar = pd.read_excel("Template_Cx_DO_calibrar.xlsx", "Template_modelo")
-    template_DO_quanticificar_Cx = pd.read_excel("Template_DO_quantificar_Cx.xlsx","Template_modelo")
+    template_Cx_DO_calibrar = pd.read_excel("Template_Cx_DO_calibrar.xlsx", "Dados_brutos")
+    template_DO_quantificar_Cx = pd.read_excel("Template_DO_quantificar_Cx.xlsx","Dados_brutos")
     os.system("start EXCEL Template_Cx_DO_calibrar.xlsx")  
     os.system("start EXCEL Template_DO_quantificar_Cx.xlsx")  
 # Template Excel - botão de acesso:
@@ -48,7 +48,7 @@ render = ImageTk.PhotoImage(load)
 img = Label(interface, image = render, border = 0, borderwidth = 2, relief = "solid")
 img.image = render
 img.grid(row = 2, column = 4, padx = 6)
-Button(interface, text = "Baixe nosso template", font = "arial 7 bold", fg = "black", bg = "white", borderwidth = 2, relief = "raised", command = excel_template).grid(row = 3, column = 4, padx = 10)
+Button(interface, text = "Baixe nossos templates", font = "arial 7 bold", fg = "black", bg = "white", borderwidth = 2, relief = "raised", command = excel_template).grid(row = 3, column = 4, padx = 10)
  
 # Ajuda - link com a página web do projeto:
 botao_ajuda = Button(interface, text = "AJUDA", font="georgia 10 bold", fg = "white", bg = "grey20", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/tutorial.html'))
@@ -86,8 +86,8 @@ Label(interface, width = 40, height = 5, borderwidth = 4, relief = "sunken",bg =
 # Separação saída:
 Label(interface, width = 33, height = 4, borderwidth = 4, relief = "sunken", bg = "grey65").place(x = 620, y = 150)
 tit_equa_sai = Label(interface, text = "Regressão Linear", font = "Georgia 10", fg = "black", bg = "gray70",  borderwidth = 3, relief = "sunken").place(x = 610, y = 142)
-sai_equa = Label(interface, text = "Cx =                   * D.O. +                    ", font = "times 9 bold", fg = "black", bg = "gray90", borderwidth = 3, relief = "sunken").place(x = 625, y = 170)
-sai_r2 = Label(interface, text = "R² =                   ", font = "times 9 bold", fg = "black", bg = "gray90", borderwidth = 3, relief = "sunken").place(x = 625, y = 193)
+sai_equa = Label(interface, text = "Cx =                   * D.O. +                ", font = "times 10 bold", fg = "black", bg = "gray65", relief = "raised").place(x = 625, y = 170)
+sai_r2 = Label(interface, text = "R² =                ", font = "times 10 bold", fg = "black", bg = "gray65", relief = "raised").place(x = 625, y = 193)
 
 # Saída para o gráfico:
 Label(interface, width = 72, height = 26, borderwidth = 4, relief = "sunken", bg = "grey85").place(x = 395, y = 223)
@@ -118,12 +118,12 @@ sai_coef_lin = Label(interface, width = 10, text = "I", font = "batang 10", fg =
 sai_coef_lin.grid(row = 5, column = 0, padx = 139, pady = 260, sticky=S+E)
 botao_ok_calib = Button(interface, text = "PRONTO", font = "batang 8 bold", fg = "gray30", bg = "gray70", borderwidth=2, relief="sunken")
 botao_ok_calib.grid(row = 5, column = 0, padx = 62, pady = 240, sticky=S+E)
-sai_r2 = Label(interface, text = "I", font = "batang 9", width = 7, fg = "grey90", bg = "grey90")
-sai_r2.place(x = 650, y = 196.5)
-sai_a = Label(interface, text = "I", font = "batang 9", width = 7, fg = "grey90", bg = "grey90")
-sai_a.place(x = 655, y = 173.5)
-sai_b = Label(interface, text = "I", font = "batang 9", width = 7, fg = "grey90", bg = "grey90")
-sai_b.place(x = 755, y = 173.5)
+sai_r2 = Label(interface, text = "I", font = "batang 8", width = 7, relief = "sunken", fg = "grey90", bg = "gray90")
+sai_r2.place(x = 653, y = 193)
+sai_a = Label(interface, text = "I", font = "batang 8", width = 7, relief = "sunken", fg = "grey90", bg = "gray90")
+sai_a.place(x = 655, y = 170)
+sai_b = Label(interface, text = "I", font = "batang 8", width = 7, relief = "sunken", fg = "grey90", bg = "grey90")
+sai_b.place(x = 757, y = 169)
 num_leit_entr = tk.Entry(interface, width = 3, borderwidth = 2, relief = "sunken", font = "batang 12 bold", bg = "white", fg = "black")
 num_leit_entr.grid(row = 5, column = 0, padx = 89, pady = 230, sticky=N+E)
 num_leit_entr.configure(state='disable')
@@ -149,6 +149,19 @@ entr_b.configure(state = "disabled")
 botao_ok_calc = Button(interface, text = "Enviar", font = "batang 8 bold", fg = "gray30", bg = "gray70", borderwidth=2, relief="sunken")
 botao_ok_calc.grid(row = 5, column = 0, padx = 62, pady = 124, sticky=S+E)
 
+# Determinação tamanho eixos gráficos:
+def tamanho_graf():
+    SMALL_SIZE = 13                        
+    MEDIUM_SIZE = 16                      
+    BIGGER_SIZE = 16                      
+    plt.rc('font', size=SMALL_SIZE)          
+    plt.rc('axes', titlesize=SMALL_SIZE)     
+    plt.rc('axes', labelsize=MEDIUM_SIZE)    
+    plt.rc('xtick', labelsize=SMALL_SIZE)    
+    plt.rc('ytick', labelsize=SMALL_SIZE)    
+    plt.rc('legend', fontsize=SMALL_SIZE)    
+    plt.rc('figure', titlesize=BIGGER_SIZE)  
+    
 ## Parte funcional do código:
 
 arquivo_excel = Label(interface,font="arial 8 bold italic", fg="black", borderwidth=2, relief="ridge", justify = "center", bg = "gray85",  width = 40)
@@ -369,17 +382,20 @@ def calibra():
     ## Figura:
     ### Preparando o ambiente para a plotagem:
     Label(interface, width = 72, height = 26, borderwidth = 4, relief = "sunken", bg = "grey85").place(x = 395, y = 223)
+    ## Configuração de tamanho:
+    tamanho_graf()
+    ## Plotagem:
     f = plt.figure(figsize=(8.3,7), dpi = 56) 
     plot = f.add_subplot(111)  
-    plt.plot(do_exp,np.polyval(pl,do_exp),'g',linewidth=2) 
-    plt.plot(do_exp,cx_exp,'o',markersize=14,color='grey',markeredgecolor='black')                  
-    plt.xlabel("Densidade Óptica", weight='bold', fontsize = 16)                               
-    plt.ylabel("Concentração de células (g/L)", weight='bold', fontsize = 16)  
-    plot.errorbar(do_exp, cx_exp, xerr = xerr, yerr = yerr, linestyle='None', color = color, xuplims=True, uplims=True, xlolims=True, lolims=True)       
-    plt.annotate(u'Linha de tendência modelo', xy=((max(do_exp))/5,(max(cx_exp))-1.4), xytext=(((max(do_exp))/5)-0.5, (max(cx_exp))-0.4), arrowprops=dict(facecolor='m',shrink=0.05), size=15)    
-    plt.grid(True)                                                                                                                                                                     
-    f.patch.set_facecolor('white')                                                   
-    plt.style.use('default')   
+    _ = plt.plot(do_exp,np.polyval(pl,do_exp),'g',linewidth=2) 
+    _ = plt.plot(do_exp,cx_exp,'o',markersize=14,color='grey',markeredgecolor='black')                  
+    _ = plt.xlabel("Densidade Óptica", weight='bold', fontsize = 16)                               
+    _ = plt.ylabel("Concentração de células (g/L)", weight='bold', fontsize = 16)  
+    _ = plot.errorbar(do_exp, cx_exp, xerr = xerr, yerr = yerr, linestyle='None', color = color, xuplims=True, uplims=True, xlolims=True, lolims=True)       
+    _ = plt.annotate(u'Linha de tendência modelo', xy=((max(do_exp))/4,(max(cx_exp))/1.5), xytext=(((max(do_exp))/5), (max(cx_exp))/1.1), arrowprops=dict(facecolor='m',shrink=0.05), size=15)    
+    _ = plt.grid(True)                                                                                                                                                                     
+    _ = f.patch.set_facecolor('white')                                                   
+    _ = plt.style.use('default')   
     canvas = FigureCanvasTkAgg(f, interface)
     a = canvas.get_tk_widget().place(x = 400, y = 228)
     def salvar():
@@ -391,22 +407,25 @@ def calibra():
     
     # Criação do gráfico com mudança de cor:
     def mudar_cor (cor_model, cor_exp, cor_seta):
+        ## Configuração de tamanho:
+        tamanho_graf()
+        ## Plotagem:
         f = plt.figure(figsize=(8.3,7), dpi = 56) 
-        plot = f.add_subplot(111)      
-        plt.plot(do_exp,np.polyval(pl,do_exp),color = cor_model, linewidth=2)  
-        plt.plot(do_exp,cx_exp,'o',markersize=14,color=cor_exp,markeredgecolor='black')                         
-        plt.xlabel("Densidade Óptica", weight='bold', fontsize = 16)                               
-        plt.ylabel("Concentração de células (g/L)", weight='bold', fontsize = 16)  
+        _ = plot = f.add_subplot(111)      
+        _ = plt.plot(do_exp,np.polyval(pl,do_exp),color = cor_model, linewidth=2)  
+        _ = plt.plot(do_exp,cx_exp,'o',markersize=14,color=cor_exp,markeredgecolor='black')                         
+        _ = plt.xlabel("Densidade Óptica", weight='bold', fontsize = 16)                               
+        _ = plt.ylabel("Concentração de células (g/L)", weight='bold', fontsize = 16)  
         ## Teste para avaliação da cor do errobar:
         if (cont == 1):
             color = cor_exp
         else:
             color = "black"
-        plot.errorbar(do_exp, cx_exp, xerr = xerr, yerr = yerr, linestyle='None', color = color, xuplims=True, uplims=True, xlolims=True, lolims=True)
-        plt.annotate(u'Linha de tendência modelo', xy=((max(do_exp))/5,(max(cx_exp))-1.4), xytext=(((max(do_exp))/5)-0.5, (max(cx_exp))-0.4), arrowprops=dict(facecolor=cor_seta,shrink=0.05), size=15)    
-        plt.grid(True)                                                                                                                                                                     
-        f.patch.set_facecolor('white')                                                   
-        plt.style.use('default')   
+        _ = plot.errorbar(do_exp, cx_exp, xerr = xerr, yerr = yerr, linestyle='None', color = color, xuplims=True, uplims=True, xlolims=True, lolims=True)
+        _ = plt.annotate(u'Linha de tendência modelo', xy=((max(do_exp))/4,(max(cx_exp))/1.5), xytext=(((max(do_exp))/5), (max(cx_exp))/1.1), arrowprops=dict(facecolor=cor_seta,shrink=0.05), size=15)    
+        _ = plt.grid(True)                                                                                                                                                                     
+        _ = f.patch.set_facecolor('white')                                                   
+        _ = plt.style.use('default')   
         canvas = FigureCanvasTkAgg(f, interface)
         a = canvas.get_tk_widget().place(x = 400, y = 228)
         def salvar():
@@ -415,28 +434,27 @@ def calibra():
             plt.savefig(a)
         botao_com_graf(comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy)
       
-    
     ## Escolha das cores:
     def seletor_cores_model():
         global cor_model_selec
         cor_model_selec = colorchooser.askcolor(title ="Editar cores")
         cor_model_selec = cor_model_selec[1]
         mudar_cor (cor_model = cor_model_selec, cor_exp = "grey", cor_seta = "m")
-        Button(interface, text = "O", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = seletor_cores_exp).place(x = 879, y = 503)
+        Button(interface, text = "O", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 10 bold", width = 2, command = seletor_cores_exp).place(x = 879, y = 510)
     def seletor_cores_exp():
         global cor_exp_selec
         cor_exp_selec = colorchooser.askcolor(title ="Editar cores")
         cor_exp_selec = cor_exp_selec[1]
         mudar_cor (cor_model = cor_model_selec, cor_exp = cor_exp_selec, cor_seta = "m")
-        Button(interface, text = "->", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 8 bold",  command = seletor_cores_seta).place(x = 879, y = 525)
+        Button(interface, text = "<-->", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 8 bold", width = 2, command = seletor_cores_seta).place(x = 880, y = 540)
     def seletor_cores_seta():
         global cor_seta_selec
         cor_seta_selec = colorchooser.askcolor(title ="Editar cores")
         cor_seta_selec = cor_seta_selec[1]
         mudar_cor (cor_model = cor_model_selec, cor_exp = cor_exp_selec, cor_seta = cor_seta_selec)
-        Button(interface, text = "->", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 8 bold",  command = seletor_cores_seta).place(x = 879, y = 525)
+        Button(interface, text = "<-->", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 8 bold", width = 2, command = seletor_cores_seta).place(x = 880, y = 540)
     def seletor_cores_calib():
-        Button(interface, text = "/", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = seletor_cores_model).place(x = 879, y = 480)
+        Button(interface, text = "/", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 10 bold", width = 2, command = seletor_cores_model).place(x = 879, y = 480)
     
     ## Botão para seleção das cores:
     load = Image.open("Paleta_mod.png")
@@ -511,16 +529,19 @@ def calc_cx():
     ## Figura:
     ### Preparando o ambiente para a plotagem:
     Label(interface, width = 72, height = 26, borderwidth = 4, relief = "sunken", bg = "grey85").place(x = 395, y = 223)
+    ## Configuração de tamanho:
+    tamanho_graf()
+    ## Plotagem:
     f = plt.figure(figsize=(8.3,7), dpi = 56) 
     plot = f.add_subplot(111)  
-    plt.plot(do_cal,np.polyval(pl,do_cal),'g',linewidth=2) 
-    plt.plot(do_cal,cx_cal,'o',markersize=14,color='grey',markeredgecolor='black')                  
-    plt.xlabel("Densidade Óptica", weight='bold', fontsize = 16)                               
-    plt.ylabel("Concentração de células (g/L)", weight='bold', fontsize = 16)  
-    plt.grid(True)  
-    plt.annotate(u'Linha de tendência modelo', xy=((max(do_cal))/3,(max(cx_cal))-1.4), xytext=(((max(do_cal))/3)-0.5, (max(cx_cal))-0.4), arrowprops=dict(facecolor='m',shrink=0.05), size=15)                                                                                                                                                                  
-    f.patch.set_facecolor('white')                                                   
-    plt.style.use('default')   
+    _ = plt.plot(do_cal,np.polyval(pl,do_cal),'g',linewidth=2) 
+    _ = plt.plot(do_cal,cx_cal,'o',markersize=14,color='grey',markeredgecolor='black')                  
+    _ = plt.xlabel("Densidade Óptica", weight='bold', fontsize = 16)                               
+    _ = plt.ylabel("Concentração de células (g/L)", weight='bold', fontsize = 16)  
+    _ = plt.grid(True)  
+    _ = plt.annotate(u'Linha de tendência modelo', xy=((max(do_cal))/4,(max(cx_cal))/1.5), xytext=(((max(do_cal))/5), (max(cx_cal))/1.1), arrowprops=dict(facecolor='m',shrink=0.05), size=15)                                                                                                                                                                  
+    _ = f.patch.set_facecolor('white')                                                   
+    _ = plt.style.use('default')   
     canvas = FigureCanvasTkAgg(f, interface)
     a = canvas.get_tk_widget().place(x = 400, y = 228)
     def salvar():
@@ -531,16 +552,19 @@ def calc_cx():
     
     # Criação do gráfico com mudança de cor:
     def mudar_cor (cor_model, cor_exp, cor_seta):
+        ## Configuração de tamanho:
+        tamanho_graf()
+        ## Plotagem:
         f = plt.figure(figsize=(8.3,7), dpi = 56) 
         plot = f.add_subplot(111)      
-        plt.plot(do_cal,np.polyval(pl,do_cal),color = cor_model, linewidth=2)  
-        plt.plot(do_cal,cx_cal,'o',markersize=14,color=cor_exp,markeredgecolor='black')                         
-        plt.xlabel("Densidade Óptica", weight='bold', fontsize = 16)                               
-        plt.ylabel("Concentração de células (g/L)", weight='bold', fontsize = 16)  
-        plt.annotate(u'Linha de tendência modelo', xy=((max(do_cal))/3,(max(cx_cal))-1.4), xytext=(((max(do_cal))/3)-0.5, (max(cx_cal))-0.4), arrowprops=dict(facecolor=cor_seta,shrink=0.05), size=15)        
-        plt.grid(True)                                                                                                                                                                     
-        f.patch.set_facecolor('white')                                                   
-        plt.style.use('default')   
+        _ = plt.plot(do_cal,np.polyval(pl,do_cal),color = cor_model, linewidth=2)  
+        _ = plt.plot(do_cal,cx_cal,'o',markersize=14,color=cor_exp,markeredgecolor='black')                         
+        _ = plt.xlabel("Densidade Óptica", weight='bold', fontsize = 16)                               
+        _ = plt.ylabel("Concentração de células (g/L)", weight='bold', fontsize = 16)  
+        _ = plt.annotate(u'Linha de tendência modelo', xy=((max(do_cal))/4,(max(cx_cal))/2), xytext=(((max(do_cal))/5), (max(cx_cal))/1.1), arrowprops=dict(facecolor=cor_seta,shrink=0.05), size=15)        
+        _ = plt.grid(True)                                                                                                                                                                     
+        _ = f.patch.set_facecolor('white')                                                   
+        _ = plt.style.use('default')   
         canvas = FigureCanvasTkAgg(f, interface)
         a = canvas.get_tk_widget().place(x = 400, y = 228)
         def salvar():
@@ -555,21 +579,21 @@ def calc_cx():
         cor_model_selec = colorchooser.askcolor(title ="Editar cores")
         cor_model_selec = cor_model_selec[1]
         mudar_cor (cor_model = cor_model_selec, cor_exp = "grey", cor_seta = "m")
-        Button(interface, text = "O", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = seletor_cores_exp).place(x = 879, y = 503)
+        Button(interface, text = "O", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 10 bold", width = 2, command = seletor_cores_exp).place(x = 879, y = 510)
     def seletor_cores_exp():
         global cor_exp_selec
         cor_exp_selec = colorchooser.askcolor(title ="Editar cores")
         cor_exp_selec = cor_exp_selec[1]
         mudar_cor (cor_model = cor_model_selec, cor_exp = cor_exp_selec, cor_seta = "m")
-        Button(interface, text = "->", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 8 bold",  command = seletor_cores_seta).place(x = 879, y = 525)
+        Button(interface, text = "<-->", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 8 bold", width = 2, command = seletor_cores_seta).place(x = 880, y = 540)
     def seletor_cores_seta():
         global cor_seta_selec
         cor_seta_selec = colorchooser.askcolor(title ="Editar cores")
         cor_seta_selec = cor_seta_selec[1]
         mudar_cor (cor_model = cor_model_selec, cor_exp = cor_exp_selec, cor_seta = cor_seta_selec)
-        Button(interface, text = "->", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 8 bold",  command = seletor_cores_seta).place(x = 879, y = 525)
+        Button(interface, text = "<-->", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 8 bold", width = 2, command = seletor_cores_seta).place(x = 880, y = 540)
     def seletor_cores_calib():
-        Button(interface, text = "/", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = seletor_cores_model).place(x = 879, y = 480)
+        Button(interface, text = "/", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 10 bold", width = 2, command = seletor_cores_model).place(x = 879, y = 480)
     
     ## Botão para seleção das cores:
     load = Image.open("Paleta_mod.png")
