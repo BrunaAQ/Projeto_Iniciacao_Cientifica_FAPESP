@@ -7,6 +7,9 @@ As pastas que contêm os arquivos escritos em Python (.py) ou ainda salvos em ou
 
 - ___"Modelagem_Batelada_Modelos_Cineticos":___ Traz os códigos a nível _backend_ (aqueles que são executados com apoio do terminal de apoio fornecido pelos programas editores de texto) responsáveis por implementar etapas de otimização computacional, retornando como saídas no console os perfis temporais de concentração, produtividade e taxa específica de crescimento microbiano simulados e modelados, bem como cálculos estatísticos que avaliam a performance do ajuste realizado, sendo a entrada de dados realizada a partir dos módulos. A pasta é composta ainda por diversas planilhas eletrônicas, em formato Excel, elaboradas para posterior aplicação nesses códigos de modelagem, além de contar com a disponibilização dos documentos empregados para a etapa de validação do algoritmo de otimização por alinhamento Algoritmo Genético (AG) - Algoritmo de Levenberg-Marquardt (ALM);
 
-- ___"Interfaces_Graficas_Tkinter":___ 
-- "Graficos_Documentos_Submetidos":
+- ___"Interfaces_Graficas_Tkinter":___ Hospedam os códigos-fonte, já com a adição dos comandos necessários à criação das interfaces gráficas de usuário (nível _frontend_), por auxílio do pacote Python Tkinter, os quais permitem a implementação de algoritmos de regressão linear e, com isso, a construção de curvas de calibração e tratamento de dados a elas relacionados (Calibrapy), bem como de simulação e modelagem (Fermenpy) passíveis de serem executados como arquivos executáveis (.exe), descartando a obrigatoriedade de programas de edição para tanto. O diretório "Arquivos_Adicionais" conta com as figuras e todo o material visual contido nas interfaces desenvolvidas e importados oportunamente nas linhas de comando;
+
+- ___"Graficos_Documentos_Submetidos":___ Aqui estão os arquivos desenvolvidos em linguagem Python que permitiram a criação, por autoria própria, das figuras gráficas empregadas com fins ilustrativos e demonstrativos das fases do crescimento microbiano (submetido juntamente com o projeto de pesquisa aqui relacionado) e da influência exercida pela constante de Moser "u" na velocidade do crescimento microbiano.
+
+
 
