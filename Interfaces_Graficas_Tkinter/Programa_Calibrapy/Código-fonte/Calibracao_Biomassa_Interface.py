@@ -35,6 +35,12 @@ interface.configure(bg = "gray75")
 titulo = Label(interface, text="CURVA DE CALIBRAÇÃO PARA BIOMASSA", font="times 14 bold", fg="black", bg = "gray70", borderwidth=4, relief="sunken").grid(row = 0, column = 0, columnspan=1)
 interface.resizable(0,0)
 
+# Saída nome do arquivo excel:
+Label(interface, width = 27, height = 4, borderwidth = 4, relief = "sunken", bg = "grey65").place(x = 400, y = 150)
+Label(interface, text = "Acessar Arquivo", font = "Georgia 10", fg = "black", bg = "gray70", borderwidth = 3, relief = "sunken").place(x =390, y = 142)
+saida_arquivo = Label(interface, font = "arial 8 italic", fg = "black", bg = "grey65")
+saida_arquivo.place(x = 449, y = 189)
+
 ## Escrita do template excel para entrada dos dados:
 def excel_template():
     df_do1 = pd.DataFrame({'D.O._01':[]})
@@ -212,7 +218,8 @@ def entr_leit():
     
 # Leitura única:
 def unica():
-    global do_exp, cx_exp
+    global do_exp, cx_exp, cont
+    cont = 1
     botao_ok_calib.config(fg = "white", bg = "black", relief = "sunken")
     tit_coef_ang.config(fg = "gray30", bg = "gray70")
     tit_coef_lin.config(fg = "gray30", bg = "gray70")
@@ -234,22 +241,33 @@ def duplicata():
     tit_coef_lin.config(fg = "gray30", bg = "gray70")
     sai_coef_ang.config(fg = "gray70", bg = "gray70")
     sai_coef_lin.config(fg = "gray70", bg = "gray70")
-    cont_calib = 2
-    print(cont_calib)
-    global do_exp, cx_exp
+    global do_exp, cx_exp, do_desv_pad, cx_desv_pad, cont
+    cont = 2
+    print(cont)
     do_1 = excel_entrada_np[:,0] #eixo x
     do_2 = excel_entrada_np[:,2] #eixo x
     cx_1 = excel_entrada_np[:,1] #eixo y
     cx_2 = excel_entrada_np[:,3] #eixo y
-    do_exp = (do_1 + do_2)/cont_calib
-    cx_exp = (cx_1 + cx_2)/cont_calib
-    print(do_exp)
-    print(cx_exp)
+    # Cálculo da média:
+    do_exp = (do_1 + do_2)/cont
+    cx_exp = (cx_1 + cx_2)/cont
+    # Cálculo do desvio padrão:
+    matriz_do = np.array([do_1,do_2])
+    matriz_cx = np.array([cx_1,cx_2])
+    ## Calculando a matriz transposta ##
+    matriz_do_t = np.transpose(matriz_do)
+    matriz_cx_t = np.transpose(matriz_cx)
+    ## Função std para o desvio padrão da dispersão ##
+    do_desv_pad = np.std(matriz_do_t, axis=1)
+    cx_desv_pad = np.std(matriz_cx_t, axis=1)
+    print(do_desv_pad, cx_desv_pad)
+    # Botões para a interface:
     botao_unic.config(bg = "gray40")
     botao_dupl.config(bg = "black")
     botao_tripl.config(bg = "gray40")
     botao_outra.config(bg = "gray40")
     botao_ok_calib.config(fg = "black", bg = "green", relief = "raised")
+    
 # Leitura em triplicata:
 def triplicata():
     botao_ok_calib.config(fg = "white", bg = "black", relief = "sunken")
@@ -257,24 +275,44 @@ def triplicata():
     tit_coef_lin.config(fg = "gray30", bg = "gray70")
     sai_coef_ang.config(fg = "gray70", bg = "gray70")
     sai_coef_lin.config(fg = "gray70", bg = "gray70")
-    cont_calib = 3
-    print(cont_calib)
-    global do_exp, cx_exp
+    global do_exp, cx_exp, do_desv_pad, cx_desv_pad, int_conf_do, int_conf_cx, cont
+    cont = 3
+    print(cont)
     do_1 = excel_entrada_np[:,0] #eixo x
     do_2 = excel_entrada_np[:,2] #eixo x
     do_3 = excel_entrada_np[:,4] #eixo x
     cx_1 = excel_entrada_np[:,1] #eixo y
     cx_2 = excel_entrada_np[:,3] #eixo y
     cx_3 = excel_entrada_np[:,5] #eixo y
-    do_exp = (do_1 + do_2 +do_3)/cont_calib
-    cx_exp = (cx_1 + cx_2 + cx_3)/cont_calib
-    print(do_exp)
-    print(cx_exp)
+    # Cálculo da média:
+    do_exp = (do_1 + do_2 +do_3)/cont
+    cx_exp = (cx_1 + cx_2 + cx_3)/cont
+    # Cálculo do desvio padrão:
+    matriz_do = np.array([do_1,do_2,do_3])
+    matriz_cx = np.array([cx_1,cx_2,cx_3])
+    ## Calculando a matriz transposta ##
+    matriz_do_t = np.transpose(matriz_do)
+    matriz_cx_t = np.transpose(matriz_cx)
+    ## Função std para o desvio padrão da dispersão ##
+    do_desv_pad = np.std(matriz_do_t, axis=1)
+    cx_desv_pad = np.std(matriz_cx_t, axis=1)
+    # Cálculo do intervalo de confiança:
+    ## D.O. - eixo x ##
+    int_conf_do = sc.norm.interval(0.05, loc = do_exp, scale = do_desv_pad)
+    #int_conf_do = int_conf_do[1] - int_conf_do[0]
+    ## Cx - eixo y ##
+    int_conf_cx = sc.norm.interval(0.05, loc = cx_exp, scale = cx_desv_pad)
+    int_conf_cx = int_conf_cx[1] - int_conf_cx[0]
+    #print(int_conf_do, int_conf_cx)
+    print(int_conf_do)
+    
+    # Botões para interface:
     botao_unic.config(bg = "gray40")
     botao_dupl.config(bg = "gray40")
     botao_tripl.config(bg = "black")
     botao_outra.config(bg = "gray40")
     botao_ok_calib.config(fg = "black", bg = "green", relief = "raised")
+    
 # Leitura acima da triplicata:
 def outra():
     botao_ok_calib.config(fg = "white", bg = "black", relief = "sunken")
@@ -282,11 +320,12 @@ def outra():
     tit_coef_lin.config(fg = "gray30", bg = "gray70")
     sai_coef_ang.config(fg = "gray70", bg = "gray70")
     sai_coef_lin.config(fg = "gray70", bg = "gray70")
-    cont_calib = float(num_leit_entr.get())
+    cont_calib = int(num_leit_entr.get())
     # Passando para o número de colunas para análise pelo for:
     cont_calib_corr = cont_calib *2
     print(cont_calib_corr)
-    global do_exp, cx_exp
+    global do_exp, cx_exp, cont
+    cont = 4
     do = [excel_entrada_np[:,0]] #eixo x
     cx = [excel_entrada_np[:,1]] #eixo y
     cont = cont_calib_corr - 1
@@ -297,10 +336,20 @@ def outra():
         do.append(do_lei)
         cx.append(cx_lei)
         i = i + 2
+    # Cálculo da média:
     do_exp = sum(do)/cont_calib
     cx_exp = sum(cx)/cont_calib
-    print(do, do_exp)
-    print(cx, cx_exp)
+    # Cálculo do desvio padrão:
+    matriz_do = np.array(do)
+    matriz_cx = np.array(cx)
+    ## Calculando a matriz transposta ##
+    matriz_do_t = np.transpose(matriz_do)
+    matriz_cx_t = np.transpose(matriz_cx)
+    ## Função std para o desvio padrão da dispersão ##
+    do_desv_pad = np.std(matriz_do_t, axis=1)
+    cx_desv_pad = np.std(matriz_cx_t, axis=1)
+    print(do_desv_pad, cx_desv_pad)
+    # Botão para a interface:
     botao_unic.config(bg = "gray40")
     botao_dupl.config(bg = "gray40")
     botao_tripl.config(bg = "gray40")
@@ -324,17 +373,27 @@ def calibra():
     tit_coef_lin.config(fg = "white", bg = "gray20")
     
     # Criação do gráfico:
+    ## Avaliação preliminar: ##
+    if (cont == 1):
+        xerr = 0
+        yerr = 0
+        color = "grey"
+    else:
+        xerr = do_desv_pad
+        yerr = cx_desv_pad
+        color = "black"
+    ## Figura:
     f = plt.figure(figsize=(8.3,7), dpi = 56) 
-    plot = f.add_subplot(111)      
-    plt.plot(do_exp,cx_exp,'o',markersize=14,color='grey',markeredgecolor='black') 
-    plt.plot(do_exp,np.polyval(pl,do_exp),'g',linewidth=2)                          
+    plot = f.add_subplot(111)  
+    plt.plot(do_exp,np.polyval(pl,do_exp),'g',linewidth=2) 
+    plt.plot(do_exp,cx_exp,'o',markersize=14,color='grey',markeredgecolor='black')                  
     plt.xlabel("Densidade Óptica", weight='bold', fontsize = 16)                               
-    plt.ylabel("Concentração de células (g/L)", weight='bold', fontsize = 16)                    
+    plt.ylabel("Concentração de células (g/L)", weight='bold', fontsize = 16)  
+    plot.errorbar(do_exp, cx_exp, xerr = xerr, yerr = yerr, linestyle='None', color = color, xuplims=True, uplims=True, xlolims=True, lolims=True)       
     plt.annotate(u'Linha de tendência modelo', xy=(2.7, 1.3), xytext=(1.4, 1.8), arrowprops=dict(facecolor='m',shrink=0.05), size=15)    
     plt.grid(True)                                                                                                                                                                     
     f.patch.set_facecolor('white')                                                   
     plt.style.use('default')   
-    
     canvas = FigureCanvasTkAgg(f, interface)
     a = canvas.get_tk_widget().place(x = 400, y = 228)
     def salvar():
@@ -343,16 +402,15 @@ def calibra():
         plt.savefig(a)
     botao_com_graf(comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy)
     
-
-
-# Criação do gráfico com mudança de cor:
+    # Criação do gráfico com mudança de cor:
     def mudar_cor (cor_model, cor_exp, cor_seta):
         f = plt.figure(figsize=(8.3,7), dpi = 56) 
         plot = f.add_subplot(111)      
-        plt.plot(do_exp,cx_exp,'o',markersize=14,color=cor_exp,markeredgecolor='black') 
-        plt.plot(do_exp,np.polyval(pl,do_exp),color = cor_model, linewidth=2)                          
+        plt.plot(do_exp,np.polyval(pl,do_exp),color = cor_model, linewidth=2)  
+        plt.plot(do_exp,cx_exp,'o',markersize=14,color=cor_exp,markeredgecolor='black')                         
         plt.xlabel("Densidade Óptica", weight='bold')                               
-        plt.ylabel("Concentração de células (g/L)", weight='bold')                    
+        plt.ylabel("Concentração de células (g/L)", weight='bold')  
+        plot.errorbar(do_exp, cx_exp, xerr = xerr, yerr = yerr, linestyle='None', color = cor_exp, xuplims=True, uplims=True, xlolims=True, lolims=True)
         plt.annotate(u'Linha de tendência modelo', xy=(2.7, 1.3), xytext=(1.4, 1.8), arrowprops=dict(facecolor=cor_seta,shrink=0.05), size=15)    
         plt.grid(True)                                                                                                                                                                     
         f.patch.set_facecolor('white')                                                   
@@ -372,21 +430,21 @@ def calibra():
         cor_model_selec = colorchooser.askcolor(title ="Editar cores")
         cor_model_selec = cor_model_selec[1]
         mudar_cor (cor_model = cor_model_selec, cor_exp = "grey", cor_seta = "m")
-        Button(interface, text = "E", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = seletor_cores_exp).place(x = 879, y = 503)
+        Button(interface, text = "O", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = seletor_cores_exp).place(x = 879, y = 503)
     def seletor_cores_exp():
         global cor_exp_selec
         cor_exp_selec = colorchooser.askcolor(title ="Editar cores")
         cor_exp_selec = cor_exp_selec[1]
         mudar_cor (cor_model = cor_model_selec, cor_exp = cor_exp_selec, cor_seta = "m")
-        Button(interface, text = "S", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = seletor_cores_seta).place(x = 879, y = 525)
+        Button(interface, text = "->", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 8 bold",  command = seletor_cores_seta).place(x = 879, y = 525)
     def seletor_cores_seta():
         global cor_seta_selec
         cor_seta_selec = colorchooser.askcolor(title ="Editar cores")
         cor_seta_selec = cor_seta_selec[1]
         mudar_cor (cor_model = cor_model_selec, cor_exp = cor_exp_selec, cor_seta = cor_seta_selec)
-        Button(interface, text = "S", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = seletor_cores_seta).place(x = 879, y = 525)
+        Button(interface, text = "->", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 8 bold",  command = seletor_cores_seta).place(x = 879, y = 525)
     def seletor_cores_calib():
-        Button(interface, text = "M", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = seletor_cores_model).place(x = 879, y = 480)
+        Button(interface, text = "/", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = seletor_cores_model).place(x = 879, y = 480)
     
     ## Botão para seleção das cores:
     load = Image.open("Paleta_mod.png")
@@ -394,14 +452,28 @@ def calibra():
     img = Button(interface, image = render, border = 0, command = seletor_cores_calib)
     img.image = render
     img.place(x = 867, y = 380)  
-        
-        
+           
     # Saída - valores coeficientes:
     sai_coef_ang.config(text = pl[0].round(4), font = "batang 10", fg = "black")
     sai_coef_lin.config(text = pl[1].round(4), font = "batang 10", fg = "black")
     sai_a.config(text = pl[0].round(4), fg = "black")
     sai_b.config(text = pl[1].round(4), fg = "black")
     sai_r2.config(text = R2.round(5), fg = "black")
+    
+    # Criação do dataframe para exportação dos dados:
+    def desv_excel():
+        df_desv = pd.DataFrame({"D.O.med": do_exp, "D.O.desv": do_desv_pad, "Cx_med(g/L)": cx_exp,  "Cx_desv(g/L)": cx_exp})
+        with pd.ExcelWriter('Media_desvio_leituras.xlsx') as writer:
+            df_desv.to_excel(writer, sheet_name="Media_desvio")
+            writer.save()
+        os.system("start EXCEL Media_desvio_leituras.xlsx")
+    ## Botão para acesso:
+    load = Image.open("Excel.png")
+    render = ImageTk.PhotoImage(load)
+    img = Button(interface, image = render, border = 0, borderwidth =2, relief = "raised", command = desv_excel)
+    img.image = render
+    img.place(x = 407, y = 172)
+    saida_arquivo.configure(text = "Media_desvio_leituras.xlsx", bg = "gray80", borderwidth = 3, relief = "sunken")
 
 # Passando o comando para o botão -  lançamento dos resultados:    
 botao_ok_calib.config(command = calibra)
@@ -419,7 +491,22 @@ def calc_cx():
     do_cal = excel_entrada_np[:,0] #eixo x
     cx_cal = a * do_cal + b
     print(cx_cal)
-
+    # Criando o dataframe com o cx calculado para exportação:
+    def cx_excel():
+        df_cx = pd.DataFrame({"D.O.exp": do_cal, "Cx_exp(g/L)": cx_cal})
+        with pd.ExcelWriter('Concentracao_celular.xlsx') as writer:
+            df_cx.to_excel(writer, sheet_name="DO_Cx_exp")
+            writer.save()
+        os.system("start EXCEL Concentracao_celular.xlsx")
+    ## Botão para acesso:
+    load = Image.open("Excel.png")
+    render = ImageTk.PhotoImage(load)
+    img = Button(interface, image = render, border = 0, borderwidth =2, relief = "raised", command = cx_excel)
+    img.image = render
+    img.place(x = 407, y = 172)
+    ## Nome do arquivo gerado:
+    saida_arquivo.configure(text = "Concentracao_celular.xlsx")
+    
 # Função para capturar os dados dos coeficientes:
 def capt_coef():
     global a,b
@@ -428,25 +515,7 @@ def capt_coef():
     print(a,b)
     botao_ok_calc.configure(text = "Calcular", bg = "black", relief = "sunken", command = calc_cx)
 botao_ok_calc.configure(command = capt_coef)
-
-# Criando o dataframe com o cx calculado para exportação:
-def cx_excel():
-    df = pd.DataFrame({"D.O.exp": do_cal, "Cx_exp(g/L)": cx_cal})
-    with pd.ExcelWriter('Concentracao_celular.xlsx') as writer:
-        df.to_excel(writer, sheet_name="DO_Cx_exp")
-        writer.save()
-    os.system("start EXCEL Concentracao_celular.xlsx")
-Label(interface, width = 27, height = 4, borderwidth = 4, relief = "sunken", bg = "grey65").place(x = 400, y = 150)
-Label(interface, text = "Acessar Arquivo", font = "Georgia 10", fg = "black", bg = "gray70", borderwidth = 3, relief = "sunken").place(x =390, y = 142)
-Label(interface, text = "Concentracao_celular.xlsx", font = "arial 8 italic", fg = "black", bg = "gray80", borderwidth = 3, relief = "sunken").place(x =449, y = 189)
-load = Image.open("Excel.png")
-render = ImageTk.PhotoImage(load)
-img = Button(interface, image = render, border = 0, command = cx_excel, borderwidth =2, relief = "raised")
-img.image = render
-img.place(x = 407, y = 172)
-
-
-
+  
 Button(interface, text = "AVANÇAR", font = "batang 7 bold", fg = "white", bg = "black", borderwidth=4, relief="flat", command = printar_val).grid(row = 3, column = 3, padx = 2)
 
 interface.mainloop()
