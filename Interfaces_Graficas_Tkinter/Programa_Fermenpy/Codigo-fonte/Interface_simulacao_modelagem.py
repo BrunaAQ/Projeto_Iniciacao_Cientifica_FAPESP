@@ -155,21 +155,21 @@ def notebook_inib_biomas_simul():
     frame21 = ttk.Frame(notebook_inib_biomas_simul, width = 318, height = 320, borderwidth = 5, relief = tk.GROOVE)
     notebook_inib_biomas_simul.add(frame21, text = 'LEE ET AL')
 
-def notebook_graf():
-    notebook_graf = ttk.Notebook(frame1)
-    notebook_graf.place(x = 401, y = 115)
+def notebook_graf_simul():
+    notebook_graf_simul = ttk.Notebook(frame1)
+    notebook_graf_simul.place(x = 401, y = 115)
     global frame22
-    frame22 = ttk.Frame(notebook_graf, width = 500, height = 335, borderwidth = 5, relief = tk.GROOVE)
-    notebook_graf.add(frame22, text = 'Concentração')
+    frame22 = ttk.Frame(notebook_graf_simul, width = 500, height = 335, borderwidth = 5, relief = tk.GROOVE)
+    notebook_graf_simul.add(frame22, text = 'Concentração')
     global frame23
-    frame23 = ttk.Frame(notebook_graf, width = 69, height = 22, borderwidth = 5, relief = tk.GROOVE)
-    notebook_graf.add(frame23, text = 'Produtividade X e P')
+    frame23 = ttk.Frame(notebook_graf_simul, width = 69, height = 22, borderwidth = 5, relief = tk.GROOVE)
+    notebook_graf_simul.add(frame23, text = 'Produtividade X e P')
     global frame24
-    frame24 = ttk.Frame(notebook_graf, width = 69, height = 22, borderwidth = 5, relief = tk.GROOVE)
-    notebook_graf.add(frame24, text = u'Produtividade P.X\u207b\u00b9')
+    frame24 = ttk.Frame(notebook_graf_simul, width = 69, height = 22, borderwidth = 5, relief = tk.GROOVE)
+    notebook_graf_simul.add(frame24, text = u'Produtividade P.X\u207b\u00b9')
     global frame25
-    frame25 = ttk.Frame(notebook_graf, width = 69, height = 22, borderwidth = 5, relief = tk.GROOVE)
-    notebook_graf.add(frame25, text = 'Velocidade de Crescimento')
+    frame25 = ttk.Frame(notebook_graf_simul, width = 69, height = 22, borderwidth = 5, relief = tk.GROOVE)
+    notebook_graf_simul.add(frame25, text = 'Velocidade de Crescimento')
 
 def notebook_docum():
     notebook_docum = ttk.Notebook(frame3)
@@ -214,6 +214,22 @@ def notebook_algorit():
     global frame36
     frame36 = ttk.Frame(notebook_algorit, width = 600, height = 310, borderwidth = 5, relief = tk.GROOVE)
     notebook_algorit.add(frame36, text = 'Algoritimo de Levenberg-Marquardt')
+    
+def notebook_graf_model():
+    notebook_graf_model = ttk.Notebook(frame2)
+    notebook_graf_model.place(x = 401, y = 115)
+    global frame37
+    frame37 = ttk.Frame(notebook_graf_model, width = 500, height = 335, borderwidth = 5, relief = tk.GROOVE)
+    notebook_graf_model.add(frame37, text = 'Concentração')
+    global frame38
+    frame38 = ttk.Frame(notebook_graf_model, width = 500, height = 335, borderwidth = 5, relief = tk.GROOVE)
+    notebook_graf_model.add(frame38, text = 'Produtividade X e P')
+    global frame39
+    frame39 = ttk.Frame(notebook_graf_model, width = 500, height = 335, borderwidth = 5, relief = tk.GROOVE)
+    notebook_graf_model.add(frame39, text = u'Produtividade P.X\u207b\u00b9')
+    global frame40
+    frame40 = ttk.Frame(notebook_graf_model, width = 500, height = 335, borderwidth = 5, relief = tk.GROOVE)
+    notebook_graf_model.add(frame40, text = 'Velocidade de Crescimento')
  
 # Documentação batelada:
 Label(frame3, text = "Batelada", font = "Times 10 bold", fg = "black", bg = "grey75", borderwidth = 2, relief = "groove").place(x = 5, y = 0)
@@ -246,7 +262,7 @@ def image(imagem, num_frame, x, y):
     img_contois.place(x = x, y = y)
  
 # Função botôes gráficos - simulacao:
-def botao_simul(frame, comando_salvar, comando_destroy):
+def botao_com_graf(frame, comando_salvar, comando_destroy):
       load = Image.open("Salvar_mod.png")
       render = ImageTk.PhotoImage(load)
       img = Button(frame, image = render, border = 0, command = comando_salvar)
@@ -258,33 +274,13 @@ def botao_simul(frame, comando_salvar, comando_destroy):
       img.image = render
       img.place(x = 450, y = 176)
 
-def botao_paleta_simul(frame,comando):
+def botao_paleta_graf(frame,comando):
     load = Image.open("Paleta_mod.png")
     render = ImageTk.PhotoImage(load)
     img = Button(frame, image = render, border = 0, command = comando)
     img.image = render
     img.place(x = 450, y = 130)
     
-    
-# Função botôes gráficos - modelagem:
-def botao(frame, comando_salvar, comando_destroy):
-      load = Image.open("Salvar_mod.png")
-      render = ImageTk.PhotoImage(load)
-      img = Button(frame, image = render, border = 0, command = comando_salvar)
-      img.image = render
-      img.place(x = 852, y = 185)
-      load = Image.open("Lixeira_mod.png")
-      render = ImageTk.PhotoImage(load)
-      img = Button(frame, image = render, border = 0, command = comando_destroy)
-      img.image = render
-      img.place(x = 851, y = 281)
-
-def botao_paleta(frame,comando):
-    load = Image.open("Paleta_mod.png")
-    render = ImageTk.PhotoImage(load)
-    img = Button(frame, image = render, border = 0, command = comando)
-    img.image = render
-    img.place(x = 851, y = 235)
     
                                     ## PARA A REALIZAÇÃO DA SIMULAÇÃO ##
 # Importação módulos - simulação:
@@ -413,8 +409,8 @@ Label(frame1, text = "Visualizar Equações", font = "arial 8 bold", fg = "white
 def plot_graf(frame):
     Label(frame, text = "",  borderwidth=2.3, relief="ridge", width = 69, height = 22, bg = "white").place(x = 406, y = 115)
 
-notebook_graf()
-plot_graf(frame2)
+notebook_graf_simul()
+notebook_graf_model()
 
 # Função para impressão das equações e suas variáveis:
 def equac_sai_contois():
@@ -711,7 +707,7 @@ def simulacao(cont):
             a = asksaveasfilename(filetypes=(("PNG Image", "*.png"),("All Files", "*.*")), 
             defaultextension='.png')
             plt.savefig(a)
-        botao_simul(frame = frame22, comando_salvar = lambda : salvar_concent(), comando_destroy = canvas.get_tk_widget().destroy)
+        botao_com_graf(frame = frame22, comando_salvar = lambda : salvar_concent(), comando_destroy = canvas.get_tk_widget().destroy)
     imprimir_perfil_concentracao_model_otim_exp(t_simul, C_sim[:,0], C_sim[:,1], C_sim[:,2])
     
     def graf_cor (x,p,s): 
@@ -736,7 +732,7 @@ def simulacao(cont):
             a = asksaveasfilename(filetypes=(("PNG Image", "*.png"),("All Files", "*.*")), 
             defaultextension='.png')
             plt.savefig(a)
-        botao_simul(frame = frame22, comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy)
+        botao_com_graf(frame = frame22, comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy)
         
     ## Escolha das cores:
     def seletor_cores():
@@ -765,7 +761,7 @@ def simulacao(cont):
         Button(frame22, text = "Cx", bg = "gray60", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_cx).place(x = 460, y = 230)
         botao_paleta(frame = frame22, comando = cores_concent)
     
-    botao_paleta_simul(frame = frame22, comando = cores_concent)
+    botao_paleta_graf(frame = frame22, comando = cores_concent)
    
     # Cálculo produtividade - células e produto:
     Px = C_sim[1:,0]/t_simul[1:]
@@ -795,7 +791,7 @@ def simulacao(cont):
                 a = asksaveasfilename(filetypes=(("PNG Image", "*.png"),("All Files", "*.*")), 
                 defaultextension='.png')
                 plt.savefig(a)
-            botao_simul(frame = frame23, comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy)
+            botao_com_graf(frame = frame23, comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy)
         imprimir_produtividade_celular_produto(t_simul[1:],Px, Pp)
         
         
@@ -818,9 +814,10 @@ def simulacao(cont):
     def cores_produtiv():
         Button(frame23, text = "Px", bg = "gray60", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_px).place(x = 460, y = 230)    
        
+    # Geração do gráfico:
     graf_produtiv(px = "red", pp = "green")
     ## Botão para seleção das cores:
-    botao_paleta_simul(frame23, comando = cores_produtiv)
+    botao_paleta_graf(frame23, comando = cores_produtiv)
     
     # Cálculo produtivida específica:
     Ppx=C_sim[:,2]*(1/C_sim[:,0])
@@ -843,7 +840,7 @@ def simulacao(cont):
                 a = asksaveasfilename(filetypes=(("PNG Image", "*.png"),("All Files", "*.*")), 
                 defaultextension='.png')
                 plt.savefig(a)
-            botao_simul(frame = frame24, comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy)
+            botao_com_graf(frame = frame24, comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy)
         imprimir_produtividade_especifica_model_otim_exp(t_simul, Ppx)
         
     ## Escolha das cores:
@@ -854,7 +851,7 @@ def simulacao(cont):
         
     graf_produtiv_espec(Ppx_cor = "red")
     ## Botão para seleção das cores:
-    botao_paleta_simul(frame24, comando = seletor_cores_Ppx) 
+    botao_paleta_graf(frame24, comando = seletor_cores_Ppx) 
   
     # Cálculo taxa mi:
     if cont == 0:
@@ -895,7 +892,7 @@ def simulacao(cont):
                 a = asksaveasfilename(filetypes=(("PNG Image", "*.png"),("All Files", "*.*")), 
                 defaultextension='.png')
                 plt.savefig(a)  
-            botao_simul(frame = frame25, comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy)
+            botao_com_graf(frame = frame25, comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy)
         imprimir_taxa_especifica_crescimento(t_simul, mi)
            
     ## Escolha das cores:
@@ -906,7 +903,7 @@ def simulacao(cont):
         
     graf_mi(mi_cor = "red")
     ## Botão para seleção das cores:
-    botao_paleta_simul(frame25, comando = seletor_cores_mi)
+    botao_paleta_graf(frame25, comando = seletor_cores_mi)
 
     # # Inserindo 0 para o primeiro valor de produtividade:
     Px_ad = np.insert(Px,0,Px[0])
@@ -1273,21 +1270,17 @@ def explorer():
             plot.grid(True)
             f.patch.set_facecolor('white')                                   
             plt.style.use('default')
-            canvas = FigureCanvasTkAgg(f, frame2)
-            a = canvas.get_tk_widget().place(x = 420, y = 123)
+            canvas = FigureCanvasTkAgg(f, frame37)
+            a = canvas.get_tk_widget().place(x = 0, y = 0)
             def salvar():
                 a = asksaveasfilename(filetypes=(("PNG Image", "*.png"),("All Files", "*.*")), 
                 defaultextension='.png')
                 plt.savefig(a)
-            botao(frame = frame2, comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy)
+            botao_com_graf(frame = frame37, comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy)
         imprimir_perfil_concentracao_model_otim_exp(t_exp, t, C_exp[:,0], C_exp[:,1], C_exp[:,2], C_otim[:,0], C_otim[:,1], C_otim[:,2])
         
         ## Gráfico para mudança de cor - perfil de concentração:
         def graf_cor (x,p,s): 
-            Button(frame2, text = "Concentração", font = "arial 7 bold", borderwidth=1, relief="solid", fg = "black", bg = "white", command = fig_concent).place(x = 407, y = 455)
-            Button(frame2, text = "Produtividade X e P", font = "arial 7 bold", borderwidth=1, relief="solid", fg = "black", bg = "white", command = fig_produtiv).place(x = 480, y = 455)
-            Button(frame2, text = u"Produtividade P.X\u207b\u00b9", font = "arial 7 bold", borderwidth=1, relief="solid", fg = "black", bg = "white", command = fig_produtiv_espec).place(x = 580, y = 455)
-            Button(frame2, text = "Velocidade de Crescimento", font = "arial 7 bold", borderwidth=1, relief="solid", fg = "black", bg = "white", command = fig_mi).place(x = 681, y = 455)
             f = plt.figure(figsize=(8,6), dpi = 54) 
             plot = f.add_subplot(111) 
             lns1 = plot.plot(t ,C_otim[:,0], color = x, linewidth=3,label='Cx modelo')
@@ -1306,18 +1299,15 @@ def explorer():
             plot.grid(True)
             f.patch.set_facecolor('white')                                   
             plt.style.use('default')
-            canvas = FigureCanvasTkAgg(f, frame2)
-            a = canvas.get_tk_widget().place(x = 420, y = 123)
+            canvas = FigureCanvasTkAgg(f, frame37)
+            a = canvas.get_tk_widget().place(x = 0, y = 0)
             def salvar():
                 a = asksaveasfilename(filetypes=(("PNG Image", "*.png"),("All Files", "*.*")), 
                 defaultextension='.png')
                 plt.savefig(a)
-            botao(frame = frame2, comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy)
-            Button(frame2, text = "Concentração", font = "arial 7 bold", borderwidth=1, relief="solid", fg = "white", bg = "black").place(x = 407, y = 455)
-            Label(frame2, text = "", font = "batang 10",  bg = "grey40", width = 10).place(x = 1168, y = 329.2)
-            Label(frame2, text = r2, font = "batang 10 italic", fg = "black", bg = "grey40", width = 10).place(x = 1168, y = 329.2)
+            botao_com_graf(frame = frame37, comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy)
         
-        ## Escolha das cores:
+       ## Escolha das cores:
         def seletor_cores():
             cor = colorchooser.askcolor(title = "Editar cores")
             return(cor[1])
@@ -1326,30 +1316,27 @@ def explorer():
             cor_x = colorchooser.askcolor(title ="Editar cores")
             cor_x = cor_x[1]
             fig = graf_cor (x = cor_x, p = "green", s = "blue")
-            #Button(janela, text = "Cx", bg = "gray30", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_cx).place(x = 883, y = 325)
-            Button(frame2, text = "Cs", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_cs).place(x = 858, y = 356) 
+            Button(frame37, text = "Cs", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_cs).place(x = 460, y = 255) 
         def cores_cs():
             global cor_s
             cor_s = colorchooser.askcolor(title ="Editar cores")
             cor_s = cor_s[1]
             fig = graf_cor (x = cor_x, p = "green", s = cor_s)
-            Button(frame2, text = "Cs", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_cs).place(x = 858, y = 356)
-            Button(frame2, text = "Cp", bg = "gray40", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_cp).place(x = 858, y = 376)  
+            Button(frame37, text = "Cs", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_cs).place(x = 460, y = 255)
+            Button(frame37, text = "Cp", bg = "gray40", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_cp).place(x = 460, y = 280)  
         def cores_cp():
             global cor_p
             cor_p = colorchooser.askcolor(title ="Editar cores")
             cor_p = cor_p[1] 
             fig = graf_cor (x = cor_x, p = cor_p, s = cor_s)
-            Button(frame2, text = "Cp", bg = "gray40", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_cp).place(x = 858, y = 376)
+            Button(frame37, text = "Cp", bg = "gray40", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_cp).place(x = 460, y = 280)
         def cores_concent():
-            Button(frame2, text = "Cx", bg = "gray60", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_cx).place(x = 858, y = 333)
-        botao_paleta(frame2, comando = cores_concent)
-        def fig_concent():
-            plot_graf(frame2)
-            graf_cor(x = "red", p = "green", s = "blue") 
-            botao_paleta(frame2, comando = cores_concent)
-            
-            
+            Button(frame37, text = "Cx", bg = "gray60", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_cx).place(x = 460, y = 230)
+            botao_paleta_graf(frame = frame37, comando = cores_concent)
+        
+        # Botão para mudança de cor:
+        botao_paleta_graf(frame = frame37, comando = cores_concent)
+        
         # Cálculo produtividade - células e produto:
         # Experimental: 
         Px_exp = C_exp[1:,0]/t_exp[1:] 
@@ -1366,10 +1353,6 @@ def explorer():
         # Gráfico - produtividade:
         def graf_produtiv(px, pp):
             def imprimir_produtividade_celular_produto_model_otim_exp (t_ajus, t_m, Px_ajus, Pp_ajus, Px_m, Pp_m):
-                Button(frame2, text = "Concentração", font = "arial 7 bold", borderwidth=1, relief="solid", fg = "black", bg = "white", command = fig_concent).place(x = 407, y = 455)
-                Button(frame2, text = "Produtividade X e P", font = "arial 7 bold", borderwidth=1, relief="solid", fg = "black", bg = "white", command = fig_produtiv).place(x = 480, y = 455)
-                Button(frame2, text = u"Produtividade P.X\u207b\u00b9", font = "arial 7 bold", borderwidth=1, relief="solid", fg = "black", bg = "white", command = fig_produtiv_espec).place(x = 580, y = 455)
-                Button(frame2, text = "Velocidade de Crescimento", font = "arial 7 bold", borderwidth=1, relief="solid", fg = "black", bg = "white", command = fig_mi).place(x = 681, y = 455)
                 f = plt.figure(figsize=(8,6), dpi = 54) 
                 plot = f.add_subplot(111)  
                 lns1 = plot.plot(t_m ,Px_m,color = px,linewidth=3,label='Produtividade Celular modelo')
@@ -1386,14 +1369,13 @@ def explorer():
                 plot.grid(True)
                 f.patch.set_facecolor('white')                                   
                 plt.style.use('default')    
-                canvas = FigureCanvasTkAgg(f, frame2)
-                a = canvas.get_tk_widget().place(x = 420, y = 123)
+                canvas = FigureCanvasTkAgg(f, frame38)
+                a = canvas.get_tk_widget().place(x = 0, y = 0)
                 def salvar():
                     a = asksaveasfilename(filetypes=(("PNG Image", "*.png"),("All Files", "*.*")), 
                     defaultextension='.png')
                     plt.savefig(a)
-                botao(frame = frame2, comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy)
-                Button(frame2, text = "Produtividade X e P", font = "arial 7 bold", borderwidth=1, relief="solid", fg = "white", bg = "black").place(x = 480, y = 455)
+                botao_com_graf(frame = frame38, comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy)
             imprimir_produtividade_celular_produto_model_otim_exp(t_exp[1:], t[1:],Px_exp, Pp_exp, Px, Pp)
             # Cálculo R²:
             df_Px_Pp = pd.DataFrame({'Tempo(h)':t[1:], 'Px(gx/t)': Px, 'Pp(gp/t)': Pp})
@@ -1425,21 +1407,21 @@ def explorer():
             cor_px = colorchooser.askcolor(title ="Editar cores")
             cor_px = cor_px[1]
             fig = graf_produtiv(px = cor_px, pp = "green")
-            Button(frame2, text = "Pp", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_pp).place(x = 858, y = 356)   
+            Button(frame38, text = "Pp", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_pp).place(x = 460, y = 255)   
         def cores_pp():
             global cor_pp
             cor_pp = colorchooser.askcolor(title ="Editar cores")
             cor_pp = cor_pp[1]
             fig = graf_produtiv(px = cor_px, pp = cor_pp)
-            Button(frame2, text = "Pp", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_pp).place(x = 858, y = 356)
+            Button(frame38, text = "Pp", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_pp).place(x = 460, y = 255)
         def cores_produtiv():
-            Button(frame2, text = "Px", bg = "gray60", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_px).place(x = 858, y = 333)    
-        def fig_produtiv():
-            plot_graf(frame2)
-            graf_produtiv(px = "red", pp = "green")
-            ## Botão para seleção das cores:
-            botao_paleta(frame2, comando = cores_produtiv)
-            
+            Button(frame38, text = "Px", bg = "gray60", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = cores_px).place(x = 460, y = 230)    
+       
+        # Geração do gráfico:
+        graf_produtiv(px = "red", pp = "green")
+        ## Botão para seleção das cores:
+        botao_paleta_graf(frame38, comando = cores_produtiv)
+    
         # Cálculo produtivida específica:
         ## Experimental:
         Ppx_exp=C_exp[:,2]*(1/C_exp[:,0])
@@ -1450,10 +1432,6 @@ def explorer():
         # Gráfico produtividade específica:
         def graf_produtiv_espec(Ppx_cor, Ppx_exp_cor):
             def imprimir_produtividade_especifica_model_otim_exp (t_ajus,t_m, Ppx_ajus, Ppx_m):
-                Button(frame2, text = "Concentração", font = "arial 7 bold", borderwidth=1, relief="solid", fg = "black", bg = "white", command = fig_concent).place(x = 407, y = 455)
-                Button(frame2, text = "Produtividade X e P", font = "arial 7 bold", borderwidth=1, relief="solid", fg = "black", bg = "white", command = fig_produtiv).place(x = 480, y = 455)
-                Button(frame2, text = u"Produtividade P.X\u207b\u00b9", font = "arial 7 bold", borderwidth=1, relief="solid", fg = "black", bg = "white", command = fig_produtiv_espec).place(x = 580, y = 455)
-                Button(frame2, text = "Velocidade de Crescimento", font = "arial 7 bold", borderwidth=1, relief="solid", fg = "black", bg = "white", command = fig_mi).place(x = 681, y = 455)
                 f = plt.figure(figsize=(8,6), dpi = 54) 
                 plot = f.add_subplot(111)  
                 plt.plot(t_m,Ppx_m,color = Ppx_cor,linewidth=3, label='Modelo')
@@ -1464,14 +1442,13 @@ def explorer():
                 plt.grid(True)  
                 f.patch.set_facecolor('white')                                   
                 plt.style.use('default')                       
-                canvas = FigureCanvasTkAgg(f, frame2)
-                a = canvas.get_tk_widget().place(x = 420, y = 123)
+                canvas = FigureCanvasTkAgg(f, frame39)
+                a = canvas.get_tk_widget().place(x = 0, y = 0)
                 def salvar():
                     a = asksaveasfilename(filetypes=(("PNG Image", "*.png"),("All Files", "*.*")), 
                     defaultextension='.png')
                     plt.savefig(a)
-                botao(frame = frame2, comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy)
-                Button(frame2, text = u"Produtividade P.X\u207b\u00b9", font = "arial 7 bold", borderwidth=1, relief="solid", fg = "white", bg = "black").place(x = 580, y = 455)
+                botao_com_graf(frame = frame39, comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy)
             imprimir_produtividade_especifica_model_otim_exp(t_exp,t,Ppx_exp,Ppx)
             # Cálculo R²:
             df_Ppx = pd.DataFrame({'Tempo(h)':t, 'ppx(g/L)': Ppx})
@@ -1498,12 +1475,10 @@ def explorer():
             cor_Ppx = cor_Ppx[1]
             graf_produtiv_espec(Ppx_cor = cor_Ppx, Ppx_exp_cor = cor_Ppx)
             
-        ## Função para geração do gráfico:
-        def fig_produtiv_espec():
-            plot_graf(frame2)
-            graf_produtiv_espec(Ppx_cor = "red", Ppx_exp_cor = "red")
-            ## Botão para seleção das cores:
-            botao_paleta(frame2, comando = seletor_cores_Ppx)
+        ## Geração do gráfico:
+        graf_produtiv_espec(Ppx_cor = "red", Ppx_exp_cor = "red")
+        ## Botão para seleção das cores:
+        botao_paleta_graf(frame39, comando = seletor_cores_Ppx)
         
         # Cálculo taxa mi:
         ## Experimental e modelado:
@@ -1541,10 +1516,6 @@ def explorer():
         # Gráfico - velocidade de crescimento microbiano:
         def graf_mi(mi_cor, mi_exp_cor):
             def imprimir_taxa_especifica_crescimento (t_ajus,t_m, mi_ajus, mi_m):
-                Button(frame2, text = "Concentração", font = "arial 7 bold", borderwidth=1, relief="solid", fg = "black", bg = "white", command = fig_concent).place(x = 407, y = 455)
-                Button(frame2, text = "Produtividade X e P", font = "arial 7 bold", borderwidth=1, relief="solid", fg = "black", bg = "white", command = fig_produtiv).place(x = 480, y = 455)
-                Button(frame2, text = u"Produtividade P.X\u207b\u00b9", font = "arial 7 bold", borderwidth=1, relief="solid", fg = "black", bg = "white", command = fig_produtiv_espec).place(x = 580, y = 455)
-                Button(frame2, text = "Velocidade de Crescimento", font = "arial 7 bold", borderwidth=1, relief="solid", fg = "black", bg = "white", command = fig_mi).place(x = 681, y = 455)
                 f = plt.figure(figsize=(8,6), dpi = 54) 
                 plot = f.add_subplot(111)                                             
                 plt.plot(t_m,mi_m,color = mi_cor,linewidth=3, label='Modelo')
@@ -1555,14 +1526,13 @@ def explorer():
                 plt.grid(True)  
                 f.patch.set_facecolor('white')                                   
                 plt.style.use('default')   
-                canvas = FigureCanvasTkAgg(f, frame2)
-                a = canvas.get_tk_widget().place(x = 420, y = 123)
+                canvas = FigureCanvasTkAgg(f, frame40)
+                a = canvas.get_tk_widget().place(x = 0, y = 0)
                 def salvar():
                     a = asksaveasfilename(filetypes=(("PNG Image", "*.png"),("All Files", "*.*")), 
                     defaultextension='.png')
                     plt.savefig(a)  
-                botao(frame = frame2, comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy)
-                Botao_mi = Button(frame2, text = "Velocidade de Crescimento", font = "arial 7 bold", borderwidth=1, relief="solid", fg = "white", bg = "black").place(x = 681, y = 455)
+                botao_com_graf(frame = frame40, comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy)
             imprimir_taxa_especifica_crescimento(t_exp,t,mi_exp,mi)
             # Cálculo R²:
             df_mi = pd.DataFrame({'Tempo(h)':t, 'mi(h-¹)': mi})
@@ -1589,12 +1559,10 @@ def explorer():
             cor_mi = cor_mi[1]
             graf_mi(mi_cor = cor_mi, mi_exp_cor = cor_mi)
             
-        ## Função para geração do gráfico:
-        def fig_mi():
-            plot_graf(frame2)
-            graf_mi(mi_cor = "red", mi_exp_cor = "red")
-            ## Botão para seleção das cores:
-            botao_paleta(frame2, comando = seletor_cores_mi)
+        ## Geração do gráfico:
+        graf_mi(mi_cor = "red", mi_exp_cor = "red")
+        ## Botão para seleção das cores:
+        botao_paleta_graf(frame40, comando = seletor_cores_mi)
             
         # Cálculo res final:
         res_final = odeint(list_funcs_args[cont_model], cond_inic, t_exp, args = (param_otim_alm)) - C_exp
@@ -1631,11 +1599,6 @@ def explorer():
                                 else:
                                     res_final = res_final/8
         
-        # Planilhas para seleção do tipo de gráfico:
-        Button(frame2, text = "Concentração", font = "arial 7 bold", borderwidth=1, relief="solid", fg = "black", bg = "white", command = fig_concent).place(x = 407, y = 455)
-        Button(frame2, text = "Produtividade X e P", font = "arial 7 bold", borderwidth=1, relief="solid", fg = "black", bg = "white", command = fig_produtiv).place(x = 480, y = 455)
-        Button(frame2, text = u"Produtividade P.X\u207b\u00b9", font = "arial 7 bold", borderwidth=1, relief="solid", fg = "black", bg = "white", command = fig_produtiv_espec).place(x = 580, y = 455)
-        Button(frame2, text = "Velocidade de Crescimento", font = "arial 7 bold", borderwidth=1, relief="solid", fg = "black", bg = "white", command = fig_mi).place(x = 681, y = 455)
         
         # # Inserindo 0 para o primeiro valor de produtividade:
         Px_exp_ad = np.insert(Px_exp,2,Px_exp[0])
@@ -1701,10 +1664,20 @@ def explorer():
         Label(frame2, text = "Modelagem_Params_Cineticos.xlsx", font = "arial 8 italic", fg = "black", bg = "gray45").place(x = 1072, y = 87)
         
         # Botão de acesso - arquivo .xlsx - concentração:
-        image(imagem = "Excel.png", num_frame = frame2, x = 1036, y = 42) 
+        load = Image.open("Excel.png")
+        render = ImageTk.PhotoImage(load)
+        img = Button(frame2, image = render, border = 0, command = excel_concent)
+        img.image = render
+        img.place(x = 1036, y = 42)
+        
         
         # Botão de acesso - arquivo .xlsx - parâmetros cinéticos:
-        image(imagem = "Excel.png", num_frame = frame2, x = 1036, y = 80)
+        load = Image.open("Excel.png")
+        render = ImageTk.PhotoImage(load)
+        img = Button(frame2, image = render, border = 0, command = excel_param)
+        img.image = render
+        img.place(x = 1036, y = 80)
+        
     
         # Fim da modelagem:
         return()
