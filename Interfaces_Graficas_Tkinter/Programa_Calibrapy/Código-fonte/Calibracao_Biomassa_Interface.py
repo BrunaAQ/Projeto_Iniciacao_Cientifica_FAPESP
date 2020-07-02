@@ -7,26 +7,19 @@ from scipy.integrate import odeint
 import matplotlib.pyplot as plt
 from scipy.optimize import differential_evolution
 from scipy.optimize import leastsq
-import math
 import scipy.stats as sc
-import time
 import tkinter as tk
 from tkinter import *
 from tkinter import Label, Button
 from tkinter.filedialog import askopenfilename # caixa externa - explorar files no computador
 import os # divisão de strings
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-from prettytable import PrettyTable
 from PIL import Image, ImageTk
 from tkinter.ttk import Combobox
 from tkinter.filedialog import asksaveasfilename
 from tkinter.commondialog import Dialog
 from tkinter import colorchooser
-import winsound
-from tkinter import ttk
 from tkinter import filedialog
-import statistics
-import math
 import webbrowser
 
 # Criação da interface:
@@ -155,8 +148,6 @@ entr_b.grid(row = 5, column = 0, padx = 134, pady = 130, sticky=S+E)
 entr_b.configure(state = "disabled")
 botao_ok_calc = Button(interface, text = "Enviar", font = "batang 8 bold", fg = "gray30", bg = "gray70", borderwidth=2, relief="sunken")
 botao_ok_calc.grid(row = 5, column = 0, padx = 62, pady = 124, sticky=S+E)
-#botao_puxar = Button(interface, text = "Puxar", font = "arial 6 bold", fg = "gray30", bg = "gray70", borderwidth=2, relief="sunken")
-#botao_puxar.grid(row = 5, column = 0, padx = 61, pady = 184, sticky=S+E)
 
 ## Parte funcional do código:
 
@@ -198,8 +189,7 @@ def printar_val():
         do_equacao.configure(fg = "black", bg = "gray70")
         entr_a.configure(state = "normal")
         entr_b.configure(state = "normal")
-        botao_ok_calc.configure(fg = "white", bg = "green", relief = "raised")
-        botao_puxar.configure(fg = "black", bg = "orange", relief = "raised")
+        botao_ok_calc.configure(fg = "black", bg = "lightgreen", relief = "raised")
         
 # Função para entradas de leituras acima de triplicata:    
 def entr_leit():
@@ -249,11 +239,6 @@ def duplicata():
     do_2 = excel_entrada_np[:,2] #eixo x
     cx_1 = excel_entrada_np[:,1] #eixo y
     cx_2 = excel_entrada_np[:,3] #eixo y
-    
-    
-    
-    
-    
     # Cálculo da média:
     do_exp = (do_1 + do_2)/cont
     cx_exp = (cx_1 + cx_2)/cont
@@ -308,8 +293,8 @@ def triplicata():
     ## Cx - eixo y ##
     int_conf_cx = sc.norm.interval(0.05, loc = cx_exp, scale = cx_desv_pad)
     int_conf_cx = int_conf_cx[1] - int_conf_cx[0]
-    print(int_conf_do, int_conf_cx)
-    print(int_conf_do)
+    #print(int_conf_do, int_conf_cx)
+    #print(int_conf_do)
     
     # Botões para interface:
     botao_unic.config(bg = "gray40")
@@ -329,7 +314,7 @@ def outra():
     # Passando para o número de colunas para análise pelo for:
     cont_calib_corr = cont_calib *2
     print(cont_calib_corr)
-    global do_exp, cx_exp, cont
+    global do_exp, cx_exp, cont, do_desv_pad, cx_desv_pad, cont
     cont = 4
     do = [excel_entrada_np[:,0]] #eixo x
     cx = [excel_entrada_np[:,1]] #eixo y
@@ -413,8 +398,8 @@ def calibra():
         plot = f.add_subplot(111)      
         plt.plot(do_exp,np.polyval(pl,do_exp),color = cor_model, linewidth=2)  
         plt.plot(do_exp,cx_exp,'o',markersize=14,color=cor_exp,markeredgecolor='black')                         
-        plt.xlabel("Densidade Óptica", weight='bold')                               
-        plt.ylabel("Concentração de células (g/L)", weight='bold')  
+        plt.xlabel("Densidade Óptica", weight='bold', fontsize = 16)                               
+        plt.ylabel("Concentração de células (g/L)", weight='bold', fontsize = 16)  
         plot.errorbar(do_exp, cx_exp, xerr = xerr, yerr = yerr, linestyle='None', color = cor_exp, xuplims=True, uplims=True, xlolims=True, lolims=True)
         plt.annotate(u'Linha de tendência modelo', xy=(2.7, 1.3), xytext=(1.4, 1.8), arrowprops=dict(facecolor=cor_seta,shrink=0.05), size=15)    
         plt.grid(True)                                                                                                                                                                     
@@ -488,13 +473,12 @@ def puxar():
     entr_a.configure(text = pl[0].round(4))
     entr_b.configure(text = pl[1].round(4))
     print("bruna")
-#botao_puxar.configure(command = puxar)
 
 # Função para calcular Cx:
 def calc_cx():
     global do_cal, cx_cal
     do_cal = excel_entrada_np[:,0] #eixo x
-    cx_cal = a * do_cal + b
+    cx_cal = coefic_a * do_cal + coefic_b
     print(cx_cal)
     # Criando o dataframe com o cx calculado para exportação:
     def cx_excel():
@@ -512,13 +496,68 @@ def calc_cx():
     ## Nome do arquivo gerado:
     saida_arquivo.configure(text = "Concentracao_celular.xlsx")
     
+    ## Figura:
+    f = plt.figure(figsize=(8.3,7), dpi = 56) 
+    plot = f.add_subplot(111)  
+    plt.plot(do_cal,cx_cal,'o',markersize=14,color='grey',markeredgecolor='black')                  
+    plt.xlabel("Densidade Óptica", weight='bold', fontsize = 16)                               
+    plt.ylabel("Concentração de células (g/L)", weight='bold', fontsize = 16)  
+    plt.grid(True)                                                                                                                                                                     
+    f.patch.set_facecolor('white')                                                   
+    plt.style.use('default')   
+    canvas = FigureCanvasTkAgg(f, interface)
+    a = canvas.get_tk_widget().place(x = 400, y = 228)
+    def salvar():
+        a = asksaveasfilename(filetypes=(("PNG Image", "*.png"),("All Files", "*.*")), 
+        defaultextension='.png')
+        plt.savefig(a)
+    botao_com_graf(comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy)
+    
+    # Criação do gráfico com mudança de cor:
+    def mudar_cor (cor_exp):
+        f = plt.figure(figsize=(8.3,7), dpi = 56) 
+        plot = f.add_subplot(111)      
+        plt.plot(do_cal,cx_cal,'o',markersize=14,color=cor_exp,markeredgecolor='black')                         
+        plt.xlabel("Densidade Óptica", weight='bold', fontsize = 16)                               
+        plt.ylabel("Concentração de células (g/L)", weight='bold', fontsize = 16)  
+        plt.grid(True)                                                                                                                                                                     
+        f.patch.set_facecolor('white')                                                   
+        plt.style.use('default')   
+        canvas = FigureCanvasTkAgg(f, interface)
+        a = canvas.get_tk_widget().place(x = 400, y = 228)
+        def salvar():
+            a = asksaveasfilename(filetypes=(("PNG Image", "*.png"),("All Files", "*.*")), 
+            defaultextension='.png')
+            plt.savefig(a)
+        botao_com_graf(comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy)
+      
+    ## Escolha das cores:
+    def seletor_cores_exp():
+        global cor_model_selec
+        cor_exp_selec = colorchooser.askcolor(title ="Editar cores")
+        cor_exp_selec = cor_exp_selec[1]
+        mudar_cor (cor_exp = cor_exp_selec)
+    def seletor_cores_calib():
+        Button(interface, text = "O", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 10 bold",  command = seletor_cores_exp).place(x = 879, y = 480)
+    
+    ## Botão para seleção das cores:
+    load = Image.open("Paleta_mod.png")
+    render = ImageTk.PhotoImage(load)
+    img = Button(interface, image = render, border = 0, command = seletor_cores_calib)
+    img.image = render
+    img.place(x = 867, y = 380)  
+    
+    
 # Função para capturar os dados dos coeficientes:
 def capt_coef():
-    global a,b
-    a = float(entr_a.get())
-    b = float(entr_b.get())
-    print(a,b)
-    botao_ok_calc.configure(text = "Calcular", bg = "black", relief = "sunken", command = calc_cx)
+    global  coefic_a, coefic_b
+    coefic_a = float(entr_a.get())
+    coefic_b = float(entr_b.get())
+    print(coefic_a, coefic_b)
+    sai_a.configure(text = coefic_a, fg = "black")
+    sai_b.configure(text = coefic_b, fg = "black")
+    sai_r2.configure(text = "----", fg = "black")
+    botao_ok_calc.configure(text = "Calcular", fg ="white", bg = "green", relief = "raised", command = calc_cx)
 botao_ok_calc.configure(command = capt_coef)
   
 Button(interface, text = "AVANÇAR", font = "batang 7 bold", fg = "white", bg = "black", borderwidth=4, relief="flat", command = printar_val).grid(row = 3, column = 3, padx = 2)
