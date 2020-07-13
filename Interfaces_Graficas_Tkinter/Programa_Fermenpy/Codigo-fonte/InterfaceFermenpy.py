@@ -157,7 +157,7 @@ def notebook_inib_prod():
     notebook_inib_prod.add(frame9, text = 'AIBA ET AL')
     global frame10
     frame10 = ttk.Frame(notebook_inib_prod, width = 313, height = 320, borderwidth = 5, relief = tk.GROOVE)
-    notebook_inib_prod.add(frame10, text = 'HOPE & HANSFORD')
+    notebook_inib_prod.add(frame10, text = 'HOPPE & HANSFORD')
     global frame11
     frame11 = ttk.Frame(notebook_inib_prod, width = 313, height = 320, borderwidth = 5, relief = tk.GROOVE)
     notebook_inib_prod.add(frame11, text = 'LEVENSPIEL')
@@ -169,7 +169,7 @@ def notebook_inib_prod_simul():
     notebook_inib_prod_simul.add(frame18, text = 'AIBA ET AL')
     global frame19
     frame19 = ttk.Frame(notebook_inib_prod_simul, width = 313, height = 320, borderwidth = 5, relief = tk.GROOVE)
-    notebook_inib_prod_simul.add(frame19, text = 'HOPE & HANSFORD')
+    notebook_inib_prod_simul.add(frame19, text = 'HOPPE & HANSFORD')
     global frame20
     frame20 = ttk.Frame(notebook_inib_prod_simul, width = 313, height = 320, borderwidth = 5, relief = tk.GROOVE)
     notebook_inib_prod_simul.add(frame20, text = 'LEVENSPIEL')
@@ -329,7 +329,7 @@ Modulo_documentacao.caixa_texto_modelo_contois(frame = frame26, altura = 15, lar
 Modulo_documentacao.caixa_texto_equacao_contois(frame = frame26, altura = 5, largura = 51, x = 250, y = 187)
 Label(frame26, text = "Descrição completa em:", font = "Times 8 bold", fg = "black", bg = "gray90").place(x = 5, y = 120)
 Button(frame26, text="https://brunaaq.github.io/Documentacao_fermenpy/#ausencia%20inibicao", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#ausencia%20inibicao')).place(x = 132, y = 119)
-image_docum(imagem = "Equacao_Contois_mod.png", num_frame = frame26, borda = 5, x = 50, y = 200)
+image_docum(imagem = "Equacao_Contois_mod.png", num_frame = frame26, borda = 5, x = 40, y = 200)
 ## Monod:
 Modulo_documentacao.caixa_texto_modelo_monod(frame = frame27, altura = 15, largura = 72, x = 0, y = 0)
 Modulo_documentacao.caixa_texto_equacao_monod(frame = frame27, altura = 5, largura = 51, x = 250, y = 187)
@@ -341,7 +341,7 @@ Modulo_documentacao.caixa_texto_modelo_moser(frame = frame28, altura = 15, largu
 Modulo_documentacao.caixa_texto_equacao_moser(frame = frame28, altura = 6, largura = 51, x = 250, y = 180)
 Label(frame28, text = "Descrição completa em:", font = "Times 8 bold", fg = "black", bg = "gray90").place(x = 5, y = 120)
 Button(frame28, text="https://brunaaq.github.io/Documentacao_fermenpy/#ausencia%20inibicao", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#ausencia%20inibicao')).place(x = 132, y = 119)
-image_docum(imagem = "Equacao_Moser_mod.png", num_frame = frame28, borda = 5, x = 50, y = 200)
+image_docum(imagem = "Equacao_Moser_mod.png", num_frame = frame28, borda = 5, x = 55, y = 200)
 ## mi constante:
 Modulo_documentacao.caixa_texto_modelo_mi_constante(frame = frame46, altura = 15, largura = 72, x = 0, y = 0)
 Modulo_documentacao.caixa_texto_equacao_mi_constante(frame = frame46, altura = 2, largura = 51, x = 205, y = 195)
@@ -560,7 +560,7 @@ notebook_graf_model()
 # Função para impressão das equações e suas variáveis:
 def equac_sai_contois():
     caixa_equa_simul()
-    image(imagem = "Equacao_Contois_mod.png", num_frame = frame1, x = 1000, y = 212)
+    image(imagem = "Equacao_Contois_mod.png", num_frame = frame1, x = 988, y = 212)
     Label(frame1, text = "CONTOIS", font = 'Batang 10 bold', fg = "black", bg = "white").place(x = 930, y = 140)
     tex_mimax = Label(frame1, text = u"\u03bcmáx = taxa específica máxima de crescimento (t\u207b\u00b9)", font = 'arial 9 italic', fg = "black", bg = "grey65").place(x = 930, y = 304)
     tex_ksx = Label(frame1, text = u"KSX = constante de saturação (mass.vol\u207b\u00b9)", font = 'arial 9 italic', fg = "black",  bg = "grey65").place(x = 930, y = 334)
@@ -576,7 +576,7 @@ def equac_sai_moser():
     Label(frame1, text = "MOSER", font = 'Batang 10 bold', fg = "black", bg = "white").place(x = 930, y = 140)
     tex_mimax = Label(frame1, text = u"\u03bcmáx = taxa específica máxima de crescimento (t\u207b\u00b9)", font = 'arial 9 italic', fg = "black", bg = "grey65").place(x = 930, y = 304)
     tex_ks = Label(frame1, text = u"Ks = constante de saturação (mass.vol\u207b\u00b9)", font = 'arial 9 italic', fg = "black", bg = "grey65").place(x = 930, y = 334)
-    tex_n = Label(frame1, text = "n = parâmetro expoente (adim)", font = 'arial 9 italic', fg = "black", bg = "grey65").place(x = 930, y = 364)
+    tex_u = Label(frame1, text = "u = parâmetro expoente (adim)", font = 'arial 9 italic', fg = "black", bg = "grey65").place(x = 930, y = 364)
 def equac_sai_mi_const():
     caixa_equa_simul()
     image(imagem = "Equacao_mi_const.png", num_frame = frame1, x = 1040, y = 208)
@@ -1462,55 +1462,55 @@ def explorer():
                 Label(janela_interna, text = "", font = "Times 32", bd = 4, relief = "sunken", width = 15, height = 2).place(x = 14, y = 32)
                 Botao_bm = Button(janela_interna, text = "Balanço de massa", font = "arial 8 bold", fg = "white", bg = "gray20", command = balan_massa).place(x = 25, y = 20)
                 Botao_mi = Button(janela_interna, text = u"Equação \u03bc", font = "arial 8 bold", fg = "white", bg = "gray20", command = mi).place(x = 140, y = 20)
-                Label(janela_interna, text = u"Kd(±h\u207b\u00b9)    Yxs(±gx.gs\u207b\u00b9)    \u03B1(±gx.gp\u207b\u00b9)    \u03B2[±gx.(gp.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "white", width = 42, height = 1).place(x = 29, y = 67)
-                Label(janela_interna,bg = "white", width = 48, height = 1).place(x = 29, y = 90)
+                Label(janela_interna, text = u"Kd(±h\u207b\u00b9)    Yxs(±gx.gs\u207b\u00b9)    \u03B1(±gp.gx\u207b\u00b9)    \u03B2[±gp.(gx.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", width = 42, height = 1).place(x = 29, y = 67)
+                Label(janela_interna, width = 48, height = 1).place(x = 29, y = 90)
                 if (cont_model == 9):
-                    Label(janela_interna, text = ICpar[1], font = "batang 11", fg = "black", bg = "white").place(x = 32, y = 90)
-                    Label(janela_interna, text = ICpar[2], font = "batang 11", fg = "black", bg = "white").place(x = 113, y = 90)
-                    Label(janela_interna, text = ICpar[3], font = "batang 11", fg = "black", bg = "white").place(x = 207, y = 90)
-                    Label(janela_interna, text = ICpar[4], font = "batang 11", fg = "black", bg = "white").place(x = 300, y = 90)
+                    Label(janela_interna, text = ICpar[1], font = "batang 11", fg = "black").place(x = 32, y = 90)
+                    Label(janela_interna, text = ICpar[2], font = "batang 11", fg = "black").place(x = 113, y = 90)
+                    Label(janela_interna, text = ICpar[3], font = "batang 11", fg = "black").place(x = 207, y = 90)
+                    Label(janela_interna, text = ICpar[4], font = "batang 11", fg = "black").place(x = 300, y = 90)
                 else:
-                    Label(janela_interna, text = ICpar[2], font = "batang 11", fg = "black", bg = "white").place(x = 32, y = 90)
-                    Label(janela_interna, text = ICpar[3], font = "batang 11", fg = "black", bg = "white").place(x = 113, y = 90)
-                    Label(janela_interna, text = ICpar[4], font = "batang 11", fg = "black", bg = "white").place(x = 207, y = 90)
-                    Label(janela_interna, text = ICpar[5], font = "batang 11", fg = "black", bg = "white").place(x = 300, y = 90)
+                    Label(janela_interna, text = ICpar[2], font = "batang 11", fg = "black").place(x = 32, y = 90)
+                    Label(janela_interna, text = ICpar[3], font = "batang 11", fg = "black").place(x = 113, y = 90)
+                    Label(janela_interna, text = ICpar[4], font = "batang 11", fg = "black").place(x = 207, y = 90)
+                    Label(janela_interna, text = ICpar[5], font = "batang 11", fg = "black").place(x = 300, y = 90)
             Botao_bm = Button(janela_interna, text = "Balanço de massa", font = "arial 8 bold", fg = "white", bg = "gray20", command = balan_massa).place(x = 25, y = 20)
             def mi():
                 Label(janela_interna, text = "", font = "Times 32", bd = 4, relief = "sunken", width = 15, height = 2).place(x = 14, y = 32)
                 Botao_bm = Button(janela_interna, text = "Balanço de massa", font = "arial 8 bold", fg = "white", bg = "gray20", command = balan_massa).place(x = 25, y = 20)
                 Botao_mi = Button(janela_interna, text = u"Equação \u03bc", font = "arial 8 bold", fg = "white", bg = "gray20", command = mi).place(x = 140, y = 20)
-                Label(janela_interna,bg = "white", width = 48, height = 1).place(x = 29, y = 90)
+                Label(janela_interna,text = "", width = 48, height = 1).place(x = 29, y = 90)
                 if (cont_model == 0 or cont_model == 1): #Monod e Contois
                     if (cont_model == 0): #Monod
-                         Label(janela_interna, text = u"\u03bcmáx(±h\u207b\u00b9)     Ks(±g.L\u207b\u00b9)", font = "arial 10 bold", fg = "black", bg = "white", width = 42, justify = "left").place(x = 29, y = 67) 
+                         Label(janela_interna, text = u"\u03bcmáx(±h\u207b\u00b9)     Ks(±g.L\u207b\u00b9)", font = "arial 10 bold", fg = "black", width = 42, justify = "left").place(x = 29, y = 67) 
                     if (cont_model == 1): #Contois
-                         Label(janela_interna, text = u"\u03bcmáx(±h\u207b\u00b9)     KSX(±g.L\u207b\u00b9)", font = "arial 10 bold", fg = "black", bg = "white", width = 42, justify = "left").place(x = 29, y = 67) 
-                    Label(janela_interna, text = ICpar[0], font = "batang 11", fg = "black", bg = "white").place(x = 133, y = 90)
-                    Label(janela_interna, text = ICpar[1], font = "batang 11", fg = "black", bg = "white").place(x = 220, y = 90)
+                         Label(janela_interna, text = u"\u03bcmáx(±h\u207b\u00b9)     KSX(±g.L\u207b\u00b9)", font = "arial 10 bold", fg = "black", width = 42, justify = "left").place(x = 29, y = 67) 
+                    Label(janela_interna, text = ICpar[0], font = "batang 11", fg = "black").place(x = 133, y = 90)
+                    Label(janela_interna, text = ICpar[1], font = "batang 11", fg = "black").place(x = 220, y = 90)
                 if (cont_model == 9): #mi constante
-                    Label(janela_interna, text = u"\u03bc(±h\u207b\u00b9)", font = "arial 10 bold", fg = "black", bg = "white", width = 42, justify = "left").place(x = 29, y = 67) 
-                    Label(janela_interna, text = ICpar[0], font = "batang 11", fg = "black", bg = "white").place(x = 179, y = 90)
+                    Label(janela_interna, text = u"\u03bc(±h\u207b\u00b9)", font = "arial 10 bold", fg = "black", width = 42, justify = "left").place(x = 29, y = 67) 
+                    Label(janela_interna, text = ICpar[0], font = "batang 11", fg = "black").place(x = 179, y = 90)
                 if (cont_model >=2 and cont_model <=5):
                     if (cont_model == 2): #Andrews
-                        Label(janela_interna, text = u"\u03bcmáx(±h\u207b\u00b9)      Ks(±g.L\u207b\u00b9)     KIS(±g.L\u207b\u00b9)", font = "arial 10 bold", fg = "black", bg = "white", width = 42).place(x = 29, y = 67)
+                        Label(janela_interna, text = u"\u03bcmáx(±h\u207b\u00b9)      Ks(±g.L\u207b\u00b9)     KIS(±g.L\u207b\u00b9)", font = "arial 10 bold", fg = "black", width = 42).place(x = 29, y = 67)
                     if (cont_model == 4): #Moser
-                        Label(janela_interna,  text = u"\u03bcmáx(±h\u207b\u00b9)     Ks(±g.L\u207b\u00b9)     u(±adim)", font = "arial 10 bold", fg = "black", bg = "white", width = 42).place(x = 29, y = 67)
+                        Label(janela_interna,  text = u"\u03bcmáx(±h\u207b\u00b9)     Ks(±g.L\u207b\u00b9)     u(±adim)", font = "arial 10 bold", fg = "black", width = 42).place(x = 29, y = 67)
                     if (cont_model == 3 or cont_model ==5): #Aiba e Hope
-                        Label(janela_interna, text = u"\u03bcmáx(±h\u207b\u00b9)     Ks(±g.L\u207b\u00b9)     Kp(±g.L\u207b\u00b9)", font = "arial 10 bold", fg = "black", bg = "white", width = 42).place(x = 29, y = 67)
-                    Label(janela_interna, text = ICpar[0], font = "batang 11", fg = "black", bg = "white").place(x = 92, y = 90)
-                    Label(janela_interna, text = ICpar[1], font = "batang 11", fg = "black", bg = "white").place(x = 182, y = 90)
-                    Label(janela_interna, text = ICpar[6], font = "batang 11", fg = "black", bg = "white").place(x = 270, y = 90)
+                        Label(janela_interna, text = u"\u03bcmáx(±h\u207b\u00b9)     Ks(±g.L\u207b\u00b9)     Kp(±g.L\u207b\u00b9)", font = "arial 10 bold", fg = "black", width = 42).place(x = 29, y = 67)
+                    Label(janela_interna, text = ICpar[0], font = "batang 11", fg = "black").place(x = 92, y = 90)
+                    Label(janela_interna, text = ICpar[1], font = "batang 11", fg = "black").place(x = 182, y = 90)
+                    Label(janela_interna, text = ICpar[6], font = "batang 11", fg = "black").place(x = 270, y = 90)
                 if (cont_model >5 and cont_model <=8):
                     if (cont_model == 6): #Wu
-                        Label(janela_interna, text = u"\u03bcmáx(±h\u207b\u00b9)     Ks(±g.L\u207b\u00b9)     KE(±g.L\u207b\u00b9)     v(±adim)", font = "arial 10 bold", fg = "black", bg = "white", width = 42).place(x = 29, y = 67)
+                        Label(janela_interna, text = u"\u03bcmáx(±h\u207b\u00b9)     Ks(±g.L\u207b\u00b9)     KE(±g.L\u207b\u00b9)     v(±adim)", font = "arial 10 bold", fg = "black", width = 42).place(x = 29, y = 67)
                     if (cont_model == 7): #Levenspiel
-                        Label(janela_interna, text = u"\u03bcmáx(±h\u207b\u00b9)    Ks(±g.L\u207b\u00b9)     n(±adim)     Cp*(±g.L\u207b\u00b9)", font = "arial 10 bold", fg = "black", bg = "white",width = 42).place(x = 29, y = 67)
+                        Label(janela_interna, text = u"\u03bcmáx(±h\u207b\u00b9)    Ks(±g.L\u207b\u00b9)     n(±adim)     Cp*(±g.L\u207b\u00b9)", font = "arial 10 bold", fg = "black", width = 42).place(x = 29, y = 67)
                     if (cont_model ==8): # Lee
-                        Label(janela_interna, text = u"\u03bcmáx(±h\u207b\u00b9)    Ks(±g.L\u207b\u00b9)     Cx*(±g.L\u207b\u00b9)     m(±adim)", font = "arial 10 bold", fg = "black", bg = "white",width = 42).place(x = 29, y = 67)
-                    Label(janela_interna, text = ICpar[0], font = "batang 11",  fg = "black", bg = "white").place(x = 52, y = 90)
-                    Label(janela_interna, text = ICpar[1], font = "batang 11",  fg = "black", bg = "white").place(x = 143, y = 90)
-                    Label(janela_interna, text = ICpar[6], font = "batang 11", fg = "black", bg = "white").place(x = 226, y = 90)
-                    Label(janela_interna, text = ICpar[7], font = "batang 11",  fg = "black", bg = "white").place(x = 304, y = 90)        
+                        Label(janela_interna, text = u"\u03bcmáx(±h\u207b\u00b9)    Ks(±g.L\u207b\u00b9)     Cx*(±g.L\u207b\u00b9)     m(±adim)", font = "arial 10 bold", fg = "black", width = 42).place(x = 29, y = 67)
+                    Label(janela_interna, text = ICpar[0], font = "batang 11",  fg = "black").place(x = 52, y = 90)
+                    Label(janela_interna, text = ICpar[1], font = "batang 11",  fg = "black").place(x = 143, y = 90)
+                    Label(janela_interna, text = ICpar[6], font = "batang 11", fg = "black").place(x = 226, y = 90)
+                    Label(janela_interna, text = ICpar[7], font = "batang 11",  fg = "black").place(x = 304, y = 90)        
             Botao_mi = Button(janela_interna, text = u"Equação \u03bc", font = "arial 8 bold", fg = "white", bg = "gray20", command = mi).place(x = 140, y = 20)
             Button(janela_interna, text = "Voltar", font = "arial 9 bold", fg = "white", bg = "gray30", command = janela_interna.destroy).place(x = 174, y = 160)
             janela_interna.mainloop()
@@ -2079,7 +2079,7 @@ def explorer():
         Label(frame2, text = "b", font = "times 18", fg = "grey40", bg = "grey40",  borderwidth=4, relief ='sunken', width = 6).place(x = 990, y = 310)
         #func_sai()
         Label(frame2, text = u"\u03bcmáx(h\u207b\u00b9)     KSX(g.L\u207b\u00b9)", font = "arial 10 bold", justify = "center", fg = "black", bg = "grey75", width = 21).place(x = 932, y = 220)
-        Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gx.gp\u207b\u00b9)    \u03B2[±gx.(gp.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "grey75", justify = "center", width = 41).place(x = 932, y = 380)
+        Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gp.gx\u207b\u00b9)    \u03B2[gp.(gx.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "grey75", justify = "center", width = 41).place(x = 932, y = 380)
         modelagem(cont_model = 1)
 
     def click_monod(): 
@@ -2087,7 +2087,7 @@ def explorer():
         Label(frame2, text = "b", font = "times 18", fg = "grey40", bg = "grey40",  borderwidth=4, relief ='sunken', width = 6).place(x = 990, y = 310)
         #func_sai()
         Label(frame2, text = u"\u03bcmáx(h\u207b\u00b9)     Ks(g.L\u207b\u00b9)", font = "arial 10 bold", fg = "black", bg = "grey75", justify = "center", width = 20).place(x = 932, y = 220)
-        Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gx.gp\u207b\u00b9)    \u03B2[±gx.(gp.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "grey75", justify = "center", width = 41).place(x = 932, y = 380)
+        Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gp.gx\u207b\u00b9)    \u03B2[gp.(gx.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "grey75", justify = "center", width = 41).place(x = 932, y = 380)
         modelagem(cont_model = 0)
         
     def click_moser(): 
@@ -2095,56 +2095,56 @@ def explorer():
         Label(frame2, text = "b", font = "times 18", fg = "grey40", bg = "grey40",  borderwidth=4, relief ='sunken', width = 6).place(x = 990, y = 310)
         #func_sai()    
         Label(frame2, text = u"\u03bcmáx(h\u207b\u00b9)     Ks(g.L\u207b\u00b9)     u(adim)", font = "arial 10 bold", fg = "black", bg = "grey75", justify = "center", width = 28).place(x = 932, y = 220)
-        Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gx.gp\u207b\u00b9)    \u03B2[±gx.(gp.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "grey75", justify = "center", width = 41).place(x = 932, y = 380)
+        Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gp.gx\u207b\u00b9)    \u03B2[gp.(gx.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "grey75", justify = "center", width = 41).place(x = 932, y = 380)
         modelagem(cont_model = 4)
     
     def click_mi_const(): 
         tab_fun_cin()
         Label(frame2, text = "b", font = "times 18", fg = "grey40", bg = "grey40",  borderwidth=4, relief ='sunken', width = 6).place(x = 990, y = 310)   
         Label(frame2, text = u"\u03bc(h\u207b\u00b9)", font = "arial 10 bold", fg = "black", bg = "grey75", width = 5).place(x = 932, y = 220)
-        Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gx.gp\u207b\u00b9)    \u03B2[±gx.(gp.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "grey75", justify = "center", width = 41).place(x = 932, y = 380)
+        Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gp.gx\u207b\u00b9)    \u03B2[gp.(gx.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "grey75", justify = "center", width = 41).place(x = 932, y = 380)
         modelagem(cont_model = 9)
         
     def click_aiba(): 
         tab_fun_cin()
         Label(frame2, text = "b", font = "times 18", fg = "grey40", bg = "grey40",  borderwidth=4, relief ='sunken', width = 6).place(x = 990, y = 310)
         Label(frame2, text = u"\u03bcmáx(h\u207b\u00b9)     Ks(g.L\u207b\u00b9)     Kp(g.L\u207b\u00b9)", font = "arial 10 bold", justify = "center", fg = "black", bg = "grey75", width = 28).place(x = 932, y = 220)
-        Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gx.gp\u207b\u00b9)    \u03B2[±gx.(gp.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "grey75", justify = "center", width = 41).place(x = 932, y = 380)
+        Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gp.gx\u207b\u00b9)    \u03B2[gp.(gx.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "grey75", justify = "center", width = 41).place(x = 932, y = 380)
         modelagem(cont_model = 3)
 
     def click_hope_hansford(): 
         tab_fun_cin() 
         Label(frame2, text = "b", font = "times 18", fg = "grey40", bg = "grey40",  borderwidth=4, relief ='sunken', width = 6).place(x = 990, y = 310)
         Label(frame2, text = u"\u03bcmáx(h\u207b\u00b9)     Ks(g.L\u207b\u00b9)     Kp(g.L\u207b\u00b9)", font = "arial 10 bold", fg = "black", bg = "grey75", justify = "center", width = 28).place(x = 932, y = 220)
-        Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gx.gp\u207b\u00b9)    \u03B2[±gx.(gp.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "grey75", justify = "center", width = 41).place(x = 932, y = 380)
+        Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gp.gx\u207b\u00b9)    \u03B2[gp.(gx.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "grey75", justify = "center", width = 41).place(x = 932, y = 380)
         modelagem(cont_model = 5)
         
     def click_levenspiel(): 
         tab_fun_cin() 
         Label(frame2, text = "b", font = "times 18", fg = "grey40", bg = "grey40",  borderwidth=4, relief ='sunken', width = 6).place(x = 990, y = 310)
         Label(frame2, text = u"\u03bcmáx(h\u207b\u00b9)    Ks(g.L\u207b\u00b9)     n(adim)     Cp*(g.L\u207b\u00b9)", font = "arial 10 bold", fg = "black", bg = "grey75", justify = "center", width = 37).place(x = 932, y = 220)
-        Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gx.gp\u207b\u00b9)   \u03B2[±gx.(gp.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "grey75", justify = "center", width = 41).place(x = 932, y = 380)
+        Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gp.gx\u207b\u00b9)   \u03B2[gp.(gx.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "grey75", justify = "center", width = 41).place(x = 932, y = 380)
         modelagem(cont_model = 7)
         
     def click_andrews(): 
         tab_fun_cin() 
         Label(frame2, text = "b", font = "times 18", fg = "grey40", bg = "grey40",  borderwidth=4, relief ='sunken', width = 6).place(x = 990, y = 310)
         Label(frame2, text = u"\u03bcmáx(h\u207b\u00b9)      Ks(g.L\u207b\u00b9)     KIS(g.L\u207b\u00b9)", font = "arial 10 bold", fg = "black", bg = "grey75", justify = "center", width = 30).place(x = 932, y = 220)
-        Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gx.gp\u207b\u00b9)    \u03B2[±gx.(gp.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "grey75", justify = "center", width = 41).place(x = 932, y = 380)
+        Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gp.gx\u207b\u00b9)    \u03B2[gp.(gx.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "grey75", justify = "center", width = 41).place(x = 932, y = 380)
         modelagem(cont_model = 2)
         
     def click_wu(): 
         tab_fun_cin()
         Label(frame2, text = "b", font = "times 18", fg = "grey40", bg = "grey40",  borderwidth=4, relief ='sunken', width = 6).place(x = 990, y = 310)
         Label(frame2, text = u"\u03bcmáx(h\u207b\u00b9)     Ks(g.L\u207b\u00b9)     KE(g.L\u207b\u00b9)     v(adim)", font = "arial 10 bold", fg = "black", bg = "grey75", justify = "center", width = 37).place(x = 932, y = 220)
-        Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gx.gp\u207b\u00b9)    \u03B2[±gx.(gp.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "grey75", justify = "center", width = 41).place(x = 932, y = 380)
+        Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gp.gx\u207b\u00b9)    \u03B2[gp.(gx.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "grey75", justify = "center", width = 41).place(x = 932, y = 380)
         modelagem(cont_model = 6)
         
     def click_lee(): 
         tab_fun_cin()
         Label(frame2, text = "b", font = "times 18", fg = "grey40", bg = "grey40",  borderwidth=4, relief ='sunken', width = 6).place(x = 990, y = 310)
         Label(frame2, text = u"\u03bcmáx(h\u207b\u00b9)    Ks(g.L\u207b\u00b9)     m(adim )     Cx*(g.L\u207b\u00b9)", font = "arial 10 bold", fg = "black", bg = "grey75", justify = "center", width = 37).place(x = 932, y = 220)
-        Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gx.gp\u207b\u00b9)    \u03B2[gx.(gp.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "grey75", justify = "center", width = 41).place(x = 932, y = 380)
+        Label(frame2, text = u"Kd(h\u207b\u00b9)    Yxs(gx.gs\u207b\u00b9)    \u03B1(gp.gx\u207b\u00b9)    \u03B2[gp.(gx.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", bg = "grey75", justify = "center", width = 41).place(x = 932, y = 380)
         modelagem(cont_model = 8)
 
     def print_me_2():
@@ -2152,7 +2152,7 @@ def explorer():
         print(value_2)
         if value_2 == "AUSÊNCIA DE INIBIÇÃO":
             notebook_sem_inib()
-            image(imagem = "Equacao_Contois_mod.png", num_frame = frame4, x = 60, y = 92)
+            image(imagem = "Equacao_Contois_mod.png", num_frame = frame4, x = 46, y = 92)
             tex_mimax = Label(frame4, text = u"\u03bcmáx = taxa específica máxima de crescimento (t\u207b\u00b9)", font = 'arial 9 italic', fg = "black").place(x = 0, y = 184)
             tex_ksx = Label(frame4, text = u"KSX = constante de saturação (mass.vol\u207b\u00b9)", font = 'arial 9 italic', fg = "black").place(x = 0, y = 214)
             image(imagem = "Equacao_Monod_mod.png", num_frame = frame5, x = 60, y = 92)
@@ -2161,7 +2161,7 @@ def explorer():
             image(imagem = "Equacao_Moser_mod.png", num_frame = frame6, x = 60, y = 92)
             tex_mimax = Label(frame6, text = u"\u03bcmáx = taxa específica máxima de crescimento (t\u207b\u00b9)", font = 'arial 9 italic', fg = "black").place(x = 0, y = 184)
             tex_ks = Label(frame6, text = u"Ks = constante de saturação (mass.vol\u207b\u00b9)", font = 'arial 9 italic', fg = "black").place(x = 0, y = 214)
-            tex_n = Label(frame6, text = "n = parâmetro expoente (adim)", font = 'arial 9 italic', fg = "black").place(x = 0, y = 244)
+            tex_u = Label(frame6, text = "u = parâmetro expoente (adim)", font = 'arial 9 italic', fg = "black").place(x = 0, y = 244)
             image(imagem = "Equacao_mi_const.png", num_frame = frame45, x = 120, y = 92)
             tex_mi = Label(frame45, text = u"\u03bc = taxa específica de crescimento (t\u207b\u00b9)", font = 'arial 9 italic', fg = "black").place(x = 0, y = 154)
             tex_mi_explic = Label(frame45, text = "A velocidade de crescimento microbiano mantém-se\nconstante durante todo o tempo t de cultivo", font = 'arial 9 italic', fg = "black", relief = "sunken").place(x = 0, y = 200)
@@ -3157,8 +3157,8 @@ def labels_saida(frame):
     labels(frame, texto = "Parâmetros Balanço Massa", fonte = "batang 8 bold", borda = "flat", x = 100, y = 117)
     labels(frame, texto = u"Kd (h\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 2, y = 132)
     labels(frame, texto = u"Yxs (gx.gs\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 228, y = 132)
-    labels(frame, texto = u"\u03B1(gx.gp\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 2, y = 189)
-    labels(frame, texto = u"\u03B2[gx.(gp.h)\u207b\u00b9]", fonte = "times 9 bold", borda = "sunken", x = 226, y = 189)
+    labels(frame, texto = u"\u03B1(gp.gx\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 2, y = 189)
+    labels(frame, texto = u"\u03B2[gp.(gx.h)\u207b\u00b9]", fonte = "times 9 bold", borda = "sunken", x = 226, y = 189)
     labels(frame, texto = "Variáveis Operacionais", fonte = "batang 8 bold", borda = "flat", x = 123, y = 234)
     labels(frame, texto = "Cx0:", fonte = "times 10 bold", borda = "flat", x = 18, y = 255)
     labels(frame, texto = "Cs0:", fonte = "times 10 bold", borda = "flat", x = 108, y = 255)
@@ -3233,8 +3233,8 @@ def mi_constante():
     labels(frame = frame42, texto = u"Kd (h\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 2, y = 132)
     labels(frame = frame42, texto = u"Yxs (gx.gs\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 228, y = 132)
     labels(frame = frame42, texto = "Parâmetros Balanço Massa", fonte = "batang 8 bold", borda = "flat", x = 100, y = 117)
-    labels(frame = frame42, texto = u"\u03B1(gx.gp\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 2, y = 189)
-    labels(frame = frame42, texto = u"\u03B2[gx.(gp.h)\u207b\u00b9]", fonte = "times 9 bold", borda = "sunken", x = 226, y = 189)
+    labels(frame = frame42, texto = u"\u03B1(gp.gx\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 2, y = 189)
+    labels(frame = frame42, texto = u"\u03B2[gp.(gx.h)\u207b\u00b9]", fonte = "times 9 bold", borda = "sunken", x = 226, y = 189)
     labels(frame = frame42, texto = "Cs0:", fonte = "times 10 bold", borda = "flat", x = 108, y = 255)
     labels(frame = frame42, texto = "Cp0:", fonte = "times 10 bold", borda = "flat", x = 198, y = 255)
     entr_simul_mi_const(frame42)
