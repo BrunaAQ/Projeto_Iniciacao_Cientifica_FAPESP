@@ -19,9 +19,9 @@ def sim_bat_Moser(C,t):
     Yxs = sim_bat_Moser_val_entr[7]
     alfa = sim_bat_Moser_val_entr[8]
     beta = sim_bat_Moser_val_entr[9]
-    mi_exp = sim_bat_Moser_val_entr[10]
+    u = sim_bat_Moser_val_entr[10]
     
-    mi=mimaximo*((Cs**mi_exp)/(Ks+(Cs**mi_exp)))
+    mi=mimaximo*((Cs**u)/(Ks+(Cs**u)))
     dCxdt=(mi-Kd)*Cx
     dCsdt=(-1/Yxs)*mi*Cx
     dCpdt=alfa*mi*Cx+beta*Cx
@@ -148,7 +148,7 @@ df_concents_produt = pd.DataFrame({'Tempo(h)': t, 'Cx(g/L)': Cx, 'Cs(g/L)': Cs, 
 df_params_sim = pd.DataFrame({'mimáx_sim(h-¹)':[val_ent_rand_Moser[0][0]],'Ks_sim(g/L)':[val_ent_rand_Moser[0][1]],
                               'Kd_sim(h-¹)':[val_ent_rand_Moser[0][2]], 'Yxs_sim(gcél/gsubs)':[val_ent_rand_Moser[0][7]],
                               'alfa(gprod/gcél)':[val_ent_rand_Moser[0][8]], 'beta_sim(gprod/gcél.h)':[val_ent_rand_Moser[0][9]], 
-                              'mi_exp(adim)':[val_ent_rand_Moser[0][10]]})
+                              'u(adim)':[val_ent_rand_Moser[0][10]]})
 df_saida_Moser = pd.concat([df_concents_produt, df_params_sim], axis=1)
 with pd.ExcelWriter('Nome_arquivo_output_Moser.xlsx') as writer:
     df_saida_Moser.to_excel(writer, sheet_name="Saída_Moser")
