@@ -146,8 +146,8 @@ for i in range(0,3):
 df_concents_produt = pd.DataFrame({'Tempo(h)': t, 'Cx(g/L)': Cx, 'Cs(g/L)': Cs, 'Cp(g/L)': Cp,'mi(h-¹)':mi,
                            'Px(gcél/L.h)': Px, 'Pp(gprod/L.h)': Pp, 'Ppx(gprod/gcél)':Ppx})
 df_params_sim = pd.DataFrame({'mimáx_sim(h-¹)':[val_ent_rand_Moser[0][0]],'Ks_sim(g/L)':[val_ent_rand_Moser[0][1]],
-                              'Kd_sim(h-¹)':[val_ent_rand_Moser[0][2]], 'Yxs_sim(gx/gs)':[val_ent_rand_Moser[0][7]],
-                              'alfa(gp/gx)':[val_ent_rand_Moser[0][8]], 'beta_sim(gp/gx.h)':[val_ent_rand_Moser[0][9]], 
+                              'Kd_sim(h-¹)':[val_ent_rand_Moser[0][2]], 'Yxs_sim(gcél/gsubs)':[val_ent_rand_Moser[0][7]],
+                              'alfa(gprod/gcél)':[val_ent_rand_Moser[0][8]], 'beta_sim(gprod/gcél.h)':[val_ent_rand_Moser[0][9]], 
                               'mi_exp(adim)':[val_ent_rand_Moser[0][10]]})
 df_saida_Moser = pd.concat([df_concents_produt, df_params_sim], axis=1)
 with pd.ExcelWriter('Nome_arquivo_output_Moser.xlsx') as writer:
