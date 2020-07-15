@@ -1,4 +1,4 @@
-# Importação das bibliotecas necessárias para as partes não modulares:
+# Importação das bibliotecas e módulos necessários:
 import Modulos_Wu_et_al
 import Modulos_configuracao_graficos
 from scipy.integrate import odeint
