@@ -45,7 +45,7 @@ Cp = C[:,2]
 config_eixos = Modulos_configuracao_graficos.config_plot()
 config_back = Modulos_configuracao_graficos.config_estetica_eixo_unico()
 
-## Dimensões do gráfico - para aqueles com duplo eixo
+## Dimensões do gráfico - para aqueles com duplo eixo:
 alt = 5
 larg = 8
 
@@ -116,7 +116,7 @@ def imprimir_produtividade_especifica (t_m, Ppx_m):
 imprimir_produtividade_especifica(t, Ppx)
 
 # Cálculo do valor de mi para cada tempo:
-mi=val_ent_rand_Moser[0][0]*(Cs/(val_ent_rand_Moser[0][1]+Cs))
+mi=val_ent_rand_Moser[0][0]*((Cs**val_ent_rand_Moser[0][10])/(val_ent_rand_Moser[0][1]+(Cs**val_ent_rand_Moser[0][10])))
 
 ## Função para impressão do gráfico com o perfil da variação temporal da taxa específica de crescimento:
 def imprimir_taxa_especifica_crescimento (t_m, mi_m):
