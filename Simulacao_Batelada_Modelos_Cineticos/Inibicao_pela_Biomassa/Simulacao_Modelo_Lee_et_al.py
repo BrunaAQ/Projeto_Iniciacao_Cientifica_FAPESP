@@ -116,7 +116,7 @@ def imprimir_produtividade_especifica (t_m, Ppx_m):
 imprimir_produtividade_especifica(t, Ppx)
 
 # Cálculo do valor de mi para cada tempo:
-mi=val_ent_rand_Lee_et_al[0][0]*(Cs/(val_ent_rand_Lee_et_al[0][1]+Cs))
+mi=val_ent_rand_Lee_et_al[0][0]*((Cs/(val_ent_rand_Lee_et_al[0][1]+Cs))*((1-(Cx/val_ent_rand_Lee_et_al[0][11]))**val_ent_rand_Lee_et_al[0][10]))
 
 ## Função para impressão do gráfico com o perfil da variação temporal da taxa específica de crescimento:
 def imprimir_taxa_especifica_crescimento (t_m, mi_m):
