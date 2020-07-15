@@ -45,7 +45,7 @@ Cp = C[:,2]
 config_eixos = Modulos_configuracao_graficos.config_plot()
 config_back = Modulos_configuracao_graficos.config_estetica_eixo_unico()
 
-## Dimensões do gráfico - para aqueles com duplo eixo
+## Dimensões do gráfico - para aqueles com duplo eixo:
 alt = 5
 larg = 8
 
@@ -74,7 +74,7 @@ imprimir_perfil_concentracao(t, Cx, Cs, Cp)
 
 #Equação que permite calcular a produtividade celular (Px):
 Px=Cx[1:]/t[1:]
-#Equação que permite calcular a produtividade celular (Pp):
+#Equação que permite calcular a produtividade do produto (Pp):
 Pp=Cp[1:]/t[1:] 
 
 ## Função para impressão do gráfico com o perfil de produtividade celular e do produto:
@@ -100,7 +100,7 @@ def imprimir_produtividade_celular_produto (t_m, Px_m, Pp_m):
     plt.savefig("Batelada lee et al. simulação produtividade celular e do produto.png")
 imprimir_produtividade_celular_produto(t[1:], Px, Pp)
 
-#Equação que permite calcular a produtividade celular específica (Ppx):
+#Equação que permite calcular a produtividade específica (Ppx):
 Ppx=Cp*(1/Cx)
 
 ## Função para impressão do gráfico com o perfil de produtividade específica:
