@@ -87,8 +87,8 @@ def imprimir_produtividade_celular_produto (t_m, Px_m, Pp_m):
     ax2 = ax.twinx()
     lns2 = ax2.plot(t_m,Pp_m,linestyle='--',color='green',linewidth=4,label='Produtividde metabólito')    
     ax.set_xlabel('Tempo de cultivo (h)',weight='bold')               
-    ax.set_ylabel('Produtividade Celular (gx/L.s)', weight='bold')
-    ax2.set_ylabel('Produtividade Produto (gp/L.s)', weight='bold') 
+    ax.set_ylabel('Produtividade Celular (gx/L.h)', weight='bold')
+    ax2.set_ylabel('Produtividade Produto (gp/L.h)', weight='bold') 
     lns = lns1+lns2
     labs = [l.get_label() for l in lns]
     ax.legend(lns, labs, loc='upper center', bbox_to_anchor=(0.5, 1.17),ncol=2, fancybox=True, shadow=True )                                              
@@ -149,9 +149,13 @@ for i in range(0,3):
     C[:,i] = abs(C_i + np.random.randn(len(C_i)) * 0.5)
 '''
 #Criando a função que permite a geração do output dos valores de saída:
-df_concents= pd.DataFrame({'Tempo(h)': t, 'Cx(g/L)': Cx, 'Cs(g/L)': Cs, 'Cp(g/L)': Cp,'mi(h-¹)':mi,
+df_concents_concent_produt = pd.DataFrame({'Tempo(h)': t, 'Cx(g/L)': Cx, 'Cs(g/L)': Cs, 'Cp(g/L)': Cp,'mi(h-¹)':mi,
                            'Px(gcél/L.h)': Px, 'Pp(gprod/L.h)': Pp, 'Ppx(gprod/gcél)':Ppx})
-with pd.ExcelWriter('Nome_arquivo_output.xlsx') as writer:
-    df_concents.to_excel(writer, sheet_name="Saída_Contois")
+df_params_sim = pd.DataFrame({'mimáx_sim(h-¹)':[val_ent_rand_Contois[0][0]],'KSX_sim(g/L)':[val_ent_rand_Contois[0][1]],
+                              'Kd_sim(h-¹)':[val_ent_rand_Contois[0][2]], 'Yxs_sim(gx/gs)':[val_ent_rand_Contois[0][7]],
+                              'alfa(gp/gx)':[val_ent_rand_Contois[0][8]], 'beta_sim(gp/gx.h)':[val_ent_rand_Contois[0][9]]})
+df_saida_Contois = pd.concat([df_concents_concent_produt, df_params_sim], axis=1)
+with pd.ExcelWriter('Nome_arquivo_output_Contois.xlsx') as writer:
+    df_saida_Contois.to_excel(writer, sheet_name="Saída_Contois")
     writer.save()
 
