@@ -105,8 +105,8 @@ Ppx=Cp*(1/Cx)
 
 ## Função para impressão do gráfico com o perfil de produtividade específica:
 def imprimir_produtividade_especifica (t_m, Ppx_m):
-    config_eixos()   
-    config_back()                                            
+    config_back() 
+    config_eixos()                                              
     plt.plot(t_m,Ppx_m,'red',linewidth=4)     
     plt.xlabel('Tempo de cultivo (h)',weight='bold')               
     plt.ylabel('Produtividade Específica (gp/gx)', weight='bold')    
@@ -120,8 +120,8 @@ mi=val_ent_rand_Moser[0][0]*(Cs/(val_ent_rand_Moser[0][1]+Cs))
 
 ## Função para impressão do gráfico com o perfil da variação temporal da taxa específica de crescimento:
 def imprimir_taxa_especifica_crescimento (t_m, mi_m):
-    config_eixos()  
-    config_back()                                            
+    config_back()
+    config_eixos()                                              
     plt.plot(t_m,mi_m,'red',linewidth=4)     
     plt.xlabel('Tempo de cultivo (h)',weight='bold')               
     plt.ylabel('Taxa $\mu(h^{-1}$)', weight='bold') 
