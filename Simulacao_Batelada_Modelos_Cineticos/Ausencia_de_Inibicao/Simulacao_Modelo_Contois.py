@@ -23,6 +23,7 @@ def sim_bat_Contois(C,t):
     alfa = sim_bat_Contois_val_entr[8]
     beta = sim_bat_Contois_val_entr[9]
     
+    global mi
     mi=mimaximo*(Cs/(KSX*Cx+Cs))
     dCxdt=(mi-Kd)*Cx
     dCsdt=(-1/Yxs)*mi*Cx
@@ -117,7 +118,7 @@ def imprimir_produtividade_especifica (t_m, Ppx_m):
 imprimir_produtividade_especifica(t, Ppx)
 
 # Cálculo do valor de mi para cada tempo:
-mi=val_ent_rand_Contois[0][0]*(Cs/(val_ent_rand_Contois[0][1]+Cs))
+mi=val_ent_rand_Contois[0][0]*(Cs/(val_ent_rand_Contois[0][1]*Cx+Cs))
 
 ## Função para impressão do gráfico com o perfil da variação temporal da taxa específica de crescimento:
 def imprimir_taxa_especifica_crescimento (t_m, mi_m):
@@ -151,12 +152,11 @@ for i in range(0,3):
 #Criando a função que permite a geração do output dos valores de saída:
 df_concents_produt = pd.DataFrame({'Tempo(h)': t, 'Cx(g/L)': Cx, 'Cs(g/L)': Cs, 'Cp(g/L)': Cp,'mi(h-¹)':mi,
                            'Px(gcél/L.h)': Px, 'Pp(gprod/L.h)': Pp, 'Ppx(gprod/gcél)':Ppx})
-df_params_sim = pd.DataFrame({'mimáx_sim(h-¹)':[val_ent_rand_Contois[0][0]],'KSX_sim(gsubs/gcél)':[val_ent_rand_Contois[0][1]],
-                              'Kd_sim(h-¹)':[val_ent_rand_Contois[0][2]], 'Yxs_sim(gcél/gsubs)':[val_ent_rand_Contois[0][7]],
-                              'alfa(gprod/gcél)':[val_ent_rand_Contois[0][8]], 'beta_sim(gprod/gcél.h)':[val_ent_rand_Contois[0][9]]})
+df_params_sim = pd.DataFrame({'mimáx_sim(h-¹)':[val_ent_rand_Contois[0][0]],'KSX_sim(g/L)':[val_ent_rand_Contois[0][1]],
+                              'Kd_sim(h-¹)':[val_ent_rand_Contois[0][2]], 'Yxs_sim(gx/gs)':[val_ent_rand_Contois[0][7]],
+                              'alfa(gp/gx)':[val_ent_rand_Contois[0][8]], 'beta_sim(gp/gx.h)':[val_ent_rand_Contois[0][9]]})
 df_saida_Contois = pd.concat([df_concents_produt, df_params_sim], axis=1)
 with pd.ExcelWriter('Nome_arquivo_output_Contois.xlsx') as writer:
     df_saida_Contois.to_excel(writer, sheet_name="Saída_Contois")
     writer.save()
 
-    
