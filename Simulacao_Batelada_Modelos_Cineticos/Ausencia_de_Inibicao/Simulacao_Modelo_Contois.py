@@ -12,7 +12,7 @@ val_ent_rand_Contois = Modulos_Contois.entr_rand_Contois()
 a = val_ent_rand_Contois[0]
 b = val_ent_rand_Contois[0][0]
 
-# Modelos matemáticos preditos pelo balanço de massa para batelada com cinética de Monod:
+# Modelos matemáticos preditos pelo balanço de massa para batelada com cinética de Contois:
 def sim_bat_Contois(C,t):
     Cx,Cs,Cp=C
     sim_bat_Contois_val_entr = val_ent_rand_Contois[0]
@@ -70,7 +70,7 @@ def imprimir_perfil_concentracao (t_m, Cx_m, Cs_m, Cp_m):
     f.set_figwidth(larg)                                                  
     f.patch.set_facecolor('white')                                     
     plt.style.use('default')  
-    plt.savefig("Batelada monod simulação.png")
+    plt.savefig("Batelada contois simulação.png")
 imprimir_perfil_concentracao(t, Cx, Cs, Cp)                            
 
 #Equação que permite calcular a produtividade celular (Px):
@@ -98,7 +98,7 @@ def imprimir_produtividade_celular_produto (t_m, Px_m, Pp_m):
     f.patch.set_facecolor('white')                                     
     plt.style.use('default') 
     plt.show() 
-    plt.savefig("Batelada monod simulação produtividade celular e do produto.png")
+    plt.savefig("Batelada contois simulação produtividade celular e do produto.png")
 imprimir_produtividade_celular_produto(t[1:], Px, Pp)
 
 #Equação que permite calcular a produtividade celular específica (Ppx):
@@ -113,7 +113,7 @@ def imprimir_produtividade_especifica (t_m, Ppx_m):
     plt.ylabel('Produtividade Específica (gp/gx)', weight='bold')    
     plt.grid(True)                                                       
     plt.show()      
-    plt.savefig("Batelada monod simulação produtividade específica.png")                  
+    plt.savefig("Batelada contois simulação produtividade específica.png")                  
 imprimir_produtividade_especifica(t, Ppx)
 
 # Cálculo do valor de mi para cada tempo:
@@ -128,7 +128,7 @@ def imprimir_taxa_especifica_crescimento (t_m, mi_m):
     plt.ylabel('Taxa $\mu(h^{-1}$)', weight='bold') 
     plt.grid(True)
     plt.show()     
-    plt.savefig("Batelada monod simulação variação mi com o tempo.png")
+    plt.savefig("Batelada contois simulação variação mi com o tempo.png")
 imprimir_taxa_especifica_crescimento(t, mi)
 
 # Inserindo 0 para o primeiro valor de produtividade:
