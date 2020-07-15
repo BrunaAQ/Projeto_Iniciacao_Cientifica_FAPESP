@@ -46,7 +46,7 @@ Cp = C[:,2]
 config_eixos = Modulos_configuracao_graficos.config_plot()
 config_back = Modulos_configuracao_graficos.config_estetica_eixo_unico()
 
-## Dimensões do gráfico - para aqueles com duplo eixo
+## Dimensões do gráfico - para aqueles com duplo eixo:
 alt = 5
 larg = 8
 
