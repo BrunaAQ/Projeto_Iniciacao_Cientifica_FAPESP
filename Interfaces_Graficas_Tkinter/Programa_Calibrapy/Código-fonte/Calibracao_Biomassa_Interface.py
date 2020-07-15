@@ -3,11 +3,7 @@
 ## Bibliotecas científicas
 import numpy as np 
 import pandas as pd 
-from scipy.integrate import odeint
 import matplotlib.pyplot as plt
-from scipy.optimize import differential_evolution
-from scipy.optimize import leastsq
-import scipy.stats as sc
 import tkinter as tk
 from tkinter import *
 from tkinter import Label, Button
@@ -17,9 +13,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from PIL import Image, ImageTk
 from tkinter.ttk import Combobox
 from tkinter.filedialog import asksaveasfilename
-from tkinter.commondialog import Dialog
 from tkinter import colorchooser
-from tkinter import filedialog
 import webbrowser
 
 # Criação da interface:
@@ -617,6 +611,7 @@ Button(interface, text = "AVANÇAR", font = "batang 7 bold", fg = "white", bg = 
 
 interface.mainloop()
 
+## Construção do loop:
 '''
 2 leituras - 4 colunas - python=3
 3 leituras - 6 colunas - python=5
