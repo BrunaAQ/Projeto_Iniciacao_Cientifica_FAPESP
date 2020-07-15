@@ -117,7 +117,8 @@ def imprimir_produtividade_especifica (t_m, Ppx_m):
 imprimir_produtividade_especifica(t, Ppx)
 
 # Cálculo do valor de mi para cada tempo:
-mi=val_ent_rand_Aiba_et_al[0][0]*(Cs/(val_ent_rand_Aiba_et_al[0][1]+Cs))
+mult_exp = -val_ent_rand_Aiba_et_al[0][10]*Cp
+mi=val_ent_rand_Aiba_et_al[0][0]*((Cs/(val_ent_rand_Aiba_et_al[0][1]+Cs))*np.exp(mult_exp))
 
 ## Função para impressão do gráfico com o perfil da variação temporal da taxa específica de crescimento:
 def imprimir_taxa_especifica_crescimento (t_m, mi_m):
@@ -125,7 +126,7 @@ def imprimir_taxa_especifica_crescimento (t_m, mi_m):
     config_eixos()                                              
     plt.plot(t_m,mi_m,'red',linewidth=4)     
     plt.xlabel('Tempo de cultivo (h)',weight='bold')               
-    plt.ylabel('Taxa $\mu= (h^{-1}$)', weight='bold') 
+    plt.ylabel('Taxa $\mu(h^{-1}$)', weight='bold') 
     plt.grid(True)
     plt.show()     
     plt.savefig("Batelada aiba et al. simulação variação mi com o tempo.png")
