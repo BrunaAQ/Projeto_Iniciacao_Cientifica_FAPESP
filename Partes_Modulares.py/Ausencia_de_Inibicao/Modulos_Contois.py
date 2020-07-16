@@ -12,15 +12,15 @@ import pandas as pd
 # Função 1)
 def entr_rand_Contois():
     def entr_rand_Contois_gerand():
-        mimaximo = 0.7 # unidade 1/h - taxa específica de crescimento
-        KSX = 7.44 # unidade g substrato/g células - constante de semi-saturação (constante de Contois)
-        Kd = 0.0146  # unidade de 1/h - constante de morte celular
-        Cx0 = 0.85  # unidade g/L - concentração inicial de microrganismo
-        Cs0 = 40 # unidade g/L - concentração inicial de substrato
+        mimaximo = 0.32 # unidade 1/h - taxa específica de crescimento
+        KSX = 9.4 # unidade g substrato/g células - constante de semi-saturação (constante de Contois)
+        Kd = 0.021  # unidade de 1/h - constante de morte celular
+        Cx0 = 0.1  # unidade g/L - concentração inicial de microrganismo
+        Cs0 = 80 # unidade g/L - concentração inicial de substrato
         Cp0 = 0  # unidade g/L - concentração inicial de produto
-        tf =  32 # unidade horas - tempo final da integração
-        Yxs = 0.5826 #unidade g células/g substrato - coeficiente estequiométrico
-        alfa = 0.7778 # unidade g produto/g células - coeficiente estequiométrico
+        tf =  70 # unidade horas - tempo final da integração
+        Yxs = 0.75 #unidade g células/g substrato - coeficiente estequiométrico
+        alfa = 0.51 # unidade g produto/g células - coeficiente estequiométrico
         beta = 0 # unidade g produto/g células . h - coeficiente estequiométrico
         return(mimaximo, KSX, Kd, Cx0, Cs0, Cp0, tf, Yxs, alfa, beta)
     mimaximo, KSX, Kd, Cx0, Cs0, Cp0, tf, Yxs, alfa, beta = entr_rand_Contois_gerand()
