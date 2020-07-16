@@ -8,12 +8,11 @@
 # Importação dos pacotes:
 import numpy as np
 import pandas as pd
-from tkinter import Label
 
 # Função 1)
 def entr_rand_Monod():
     def entr_rand_Monod_gerand():
-        mimaximo = 0.46 #0.45 #unidade 1/hora - taxa específica de crescimento
+        mimaximo = 0.46 #0.45 #unidade 1/h - taxa específica de crescimento
         Ks = 8.9 #3.14 #unidade g/L - constante de semi-saturação
         Kd = 0.0074 #0.021  #unidade de 1/h - constante de morte celular
         Cx0 =  0.1 #1.5 # unidade g/L - concentração inicial de microrganismo
@@ -21,8 +20,8 @@ def entr_rand_Monod():
         Cp0 = 0  # unidade g/L - concentração inicial de produto
         tf = 32 # unidade horas - tempo final da integração
         Yxs = 0.52 #0.6 #unidade g células/g substrato - coeficiente estequiométrico
-        alfa = 0.5 #0.05 # unidade g células/g produto - coeficiente estequiométrico
-        beta =  0.001 #0 # unidade g células/g produto . h - coeficiente estequiométrico
+        alfa = 0.5 #0.05 # unidade g produto/g células - coeficiente estequiométrico
+        beta =  0.001 #0 # unidade g produto/g células . h - coeficiente estequiométrico
         return(mimaximo,Ks,Kd,Cx0,Cs0,Cp0,tf,Yxs,alfa,beta)
     mimaximo, Ks, Kd, Cx0, Cs0, Cp0, tf, Yxs, alfa, beta = entr_rand_Monod_gerand()
     entr_rand_val = [mimaximo, Ks, Kd, Cx0, Cs0, Cp0, tf, Yxs, alfa, beta]
@@ -32,12 +31,12 @@ def entr_rand_Monod():
 
 # Função 2)
 def modelag_Monod_dados_conc_sim():
-   importado = pd.read_excel("C_exp_rand_sim_bat_Monod_gerado_Bruna_01.xlsx","C_t_exp") 
+   importado = pd.read_excel("monod_relatorio_fapesp_maior_int.xlsx","C_t_exp") 
    importado_np = importado.values
-   t_exp = importado_np[:,0]
-   Cx_exp = importado_np [:,1]
-   Cs_exp = importado_np [:,2]
-   Cp_exp = importado_np [:,3]
+   t_exp = importado_np[:,1]
+   Cx_exp = importado_np [:,2]
+   Cs_exp = importado_np [:,3]
+   Cp_exp = importado_np [:,4]
    C_exp = np.zeros((len(t_exp),3))
    C_exp[:,0] = Cx_exp
    C_exp[:,1] = Cs_exp
@@ -60,24 +59,3 @@ def modelag_bat_Monod_func_args():
         dCpdt=alfa*mi*C[0]+beta*C[0]
         return(dCxdt,dCsdt,dCpdt)
     return(bat_Monod)
-
-# Função 4)
-def simul_bat_Monod():
-    def edos_int_bat_Monod(C,t):
-        Cx,Cs,Cp=C
-        mimax_sim = mimax
-        Ks_sim = Ks
-        Kd_sim = Kd
-        Yxs_sim = Yxs
-        alfa_sim = alfa
-        beta_sim = beta
-        
-        mi=mimax_sim*(Cs/(Ks_sim+Cs))
-        dCxdt=(mi-Kd_sim)*Cx
-        dCsdt=(-1/Yxs_sim)*mi*Cx
-        dCpdt=alfa_sim*mi*Cx+beta_sim*Cx
-        return(dCxdt,dCsdt,dCpdt)
-    
-    
-    
-    
