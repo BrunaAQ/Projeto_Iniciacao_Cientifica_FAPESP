@@ -249,15 +249,15 @@ print("_______________Resultado__________________")
 
 print("O valor de mimaximo é {:.4f}".format(param_otim[0]) +' 1/h')
 print("O intervalo de confiança de 95% de mimaximo é {:.4f}".format(ICpar[0]) +' 1/h')
-print("O valor de KSX é {:.4f}".format(param_otim[1]) + ' g/L')
+print("O valor de KSX é {:.4f}".format(param_otim[1]) + ' gs/gx')
 print("O intervalo de confiança de 95% de KSX é {:.4f}".format(ICpar[1]) +' g/L')
-print("O valor de Kd é {:.4f}".format(param_otim[2]))
+print("O valor de Kd é {:.4f}".format(param_otim[2] +' 1/h'))
 print("O intervalo de confiança de 95% de Kd é {:.4f}".format(ICpar[2]))
-print("O valor de Yxs é {:.4f}".format(param_otim[3]))
+print("O valor de Yxs é {:.4f}".format(param_otim[3] +' gx/gs'))
 print("O intervalo de confiança de 95% de Yxs é {:.4f}".format(ICpar[3]))
-print("O valor de alfa é {:.4f}".format(param_otim[4])+ ' 1/h')
+print("O valor de alfa é {:.4f}".format(param_otim[4])+ ' gp/gx')
 print("O intervalo de confiança de 95% de alfa é {:.4f}".format(ICpar[4]) +' 1/h')
-print("O valor de beta é {:.4f}".format(param_otim[5]))
+print("O valor de beta é {:.4f}".format(param_otim[5] +' gp/gx.h'))
 print("O intervalo de confiança de 95% de beta é {:.4f}".format(ICpar[5]))
 
 #Inserção do primeiro valor de Px e Pp - valor iguai a 0 para o tempo inicial:
@@ -284,11 +284,11 @@ print("\nO tempo decorrido do ajuste foi de {:.1f}".format(elapsed)+ " segundos"
 
 # Criação de todos os dataframes que serão utilizados
 df_concents= pd.DataFrame({'Tempo(h)': t, 'Cx(g/L)': C_otim[:,0], 'Cs(g/L)': C_otim[:,1], 'Cp(g/L)': C_otim[:,2], 'mi(h-¹)': mi, 'Px(gcél/L.h)': Px, 'Pp(gprod/L.h)': Pp, 'Ppx(gprod/gcél)':Ppx})
-df_params_exp=pd.DataFrame({'mimax_exp(h-¹)':[dad_inic[0]], 'KSX_exp(g/L)':[dad_inic[1]],'Kd_exp(h-¹)':[dad_inic[2]],'Yxs_exp(gcél/gsub)':[dad_inic[7]], 'alfa_exp(gprod/gcél)':[dad_inic[8]], 'beta_exp(gprod/gcél.h)':[dad_inic[9]], 'tempo decorrido(s)':[elapsed]})
-df_params =pd.DataFrame({'mimax(h-¹)':[param_otim[0]],'KSX(gs/gx)':[param_otim[1]],'Kd(h-¹)':[param_otim[2]],'Yxs(gcél/gsub)':[param_otim[3]], 'alfa(gprod/gcél)': [param_otim[4]], 'beta(gprod/gcél.h)':[param_otim[5]]})
+df_params_exp=pd.DataFrame({'mimax_exp(h-¹)':[dad_inic[0]], 'KSX_exp(gsubs/gcél)':[dad_inic[1]],'Kd_exp(h-¹)':[dad_inic[2]],'Yxs_exp(gcél/gsub)':[dad_inic[7]], 'alfa_exp(gprod/gcél)':[dad_inic[8]], 'beta_exp(gprod/gcél.h)':[dad_inic[9]], 'tempo decorrido(s)':[elapsed]})
+df_params =pd.DataFrame({'mimax(h-¹)':[param_otim[0]],'KSX(gsubs/gcél)':[param_otim[1]],'Kd(h-¹)':[param_otim[2]],'Yxs(gcél/gsub)':[param_otim[3]], 'alfa(gprod/gcél)': [param_otim[4]], 'beta(gprod/gcél.h)':[param_otim[5]]})
 df_icpar =pd.DataFrame({'ICmimax':[ICpar[0]],'ICKSX':[ICpar[1]],'ICkd':[ICpar[2]],'ICYxs':[ICpar[3]], 'ICalfa': [ICpar[4]], 'ICbeta':[ICpar[5]]})   
 df_concents_exp= pd.DataFrame({'Tempo_exp(h)': t_exp,'Cx_exp(g/L)': C_exp[:,0],'Cs_exp(g/L)': C_exp[:,1],'Cp_exp(g/L)': C_exp[:,2]})
-df_produtiv_exp = pd.DataFrame({'Px_exp(gx/L.h)': Px_exp, 'Pp_exp(gp/L.h)': Pp_exp, 'Ppx_exp(gprod/gcél)':Ppx_exp})
+df_produtiv_exp = pd.DataFrame({'Px_exp(gcél/L.h)': Px_exp, 'Pp_exp(gprod/L.h)': Pp_exp, 'Ppx_exp(gprod/gcél)':Ppx_exp})
 
 ## Dataframes para separação dos tempos experimental e modelo
 df_teste = pd.DataFrame({'Tempo(h)': t})
