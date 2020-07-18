@@ -12,7 +12,7 @@ import pandas as pd
 # Função 1)
 def entr_rand_Lee_colab():
     def entr_rand_Lee_colab_gerand():
-        mimaximo = 0.45 #unidade 1/hora - taxa específica de crescimento
+        mimaximo = 0.45 #unidade 1/h - taxa específica de crescimento
         Ks = 3.14 #unidade g/L - constante de semi-saturação
         Kd = 0.021  #unidade de 1/h - constante de morte celular
         Cx0 = 1.5 # unidade g/L - concentração inicial de microrganismo
@@ -22,8 +22,8 @@ def entr_rand_Lee_colab():
         Yxs = 0.6 #unidade g células/g substrato - coeficiente estequiométrico
         alfa = 0.05 # unidade g células/g produto - coeficiente estequiométrico
         beta = 0 # unidade g células/g produto . h - coeficiente estequiométrico
-        m = 2.5 #adimensional - potência inibição celular
-        Cx_estr = 56.6 # unidade g/L - concentração celular limite
+        m = 2 #adimensional - potência inibição celular
+        Cx_estr = 43 # unidade g/L - concentração celular limite na ausência de inibição
         return(mimaximo, Ks, Kd, Cx0, Cs0, Cp0, tf, Yxs, alfa, beta, m, Cx_estr)
     mimaximo, Ks, Kd, Cx0, Cs0, Cp0, tf, Yxs, alfa, beta, m, Cx_estr = entr_rand_Lee_colab_gerand()
     entr_rand_val = [mimaximo, Ks, Kd, Cx0, Cs0, Cp0, tf, Yxs, alfa, beta, m, Cx_estr]
@@ -33,12 +33,13 @@ def entr_rand_Lee_colab():
 
 # Função 2)
 def modelag_bat_Lee_et_al_dados_conc_sim():
-   importado = pd.read_excel("Dados_conc_sim_bat_Lee_et_al_modelag.xlsx","C_exp") 
+## Digitar o nome do arquivo seguido do da planilha:
+   importado = pd.read_excel("Lee_bat_relat_fapesp.xlsx","C_t_exp") 
    importado_np = importado.values
-   t_exp = importado_np[:,0]
-   Cx_exp = importado_np [:,1]
-   Cs_exp = importado_np [:,2]
-   Cp_exp = importado_np [:,3]
+   t_exp = importado_np[:,1]
+   Cx_exp = importado_np [:,2]
+   Cs_exp = importado_np [:,3]
+   Cp_exp = importado_np [:,4]
    C_exp = np.zeros((len(t_exp),3))
    C_exp[:,0] = Cx_exp
    C_exp[:,1] = Cs_exp
@@ -63,35 +64,3 @@ def modelag_bat_Lee_et_al_func_args():
         dCpdt=alfa*mi*C[0]+beta*C[0]
         return(dCxdt,dCsdt,dCpdt)
     return(bat_Lee_colab)
-
-# Função 4)
-def simul_bat_Lee_et_al():
-    def edos_int_bat_Lee_et_al(C,t):
-        Cx,Cs,Cp=C
-        mimax_sim = mimax
-        Ks_sim = Ks
-        Kd_sim = Kd
-        Yxs_sim = Yxs
-        alfa_sim = alfa
-        beta_sim = beta
-        Cx_estr_sim = Cx_estr
-        m_sim = m
-        
-        mi=mimax_sim*((Cs/(Ks_sim+Cs))*((1-(Cx/Cx_estr_sim))**m_sim))
-        dCxdt=(mi-Kd_sim)*Cx
-        dCsdt=(-1/Yxs_sim)*mi*Cx
-        dCpdt=alfa_sim*mi*Cx+beta_sim*Cx
-        return(dCxdt,dCsdt,dCpdt)
-
-
-
-
-
-
-
-
-
-
-
-
-
