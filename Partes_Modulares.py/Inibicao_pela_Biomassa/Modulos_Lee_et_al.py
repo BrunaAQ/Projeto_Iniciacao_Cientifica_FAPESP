@@ -20,8 +20,8 @@ def entr_rand_Lee_colab():
         Cp0 = 0  # unidade g/L - concentração inicial de produto
         tf = 32 # unidade horas - tempo final da integração
         Yxs = 0.6 #unidade g células/g substrato - coeficiente estequiométrico
-        alfa = 0.05 # unidade g células/g produto - coeficiente estequiométrico
-        beta = 0 # unidade g células/g produto . h - coeficiente estequiométrico
+        alfa = 0.05 # unidade g produto/g células - coeficiente estequiométrico
+        beta = 0 # unidade g produto/g células . h - coeficiente estequiométrico
         m = 2 #adimensional - potência inibição celular
         Cx_estr = 43 # unidade g/L - concentração celular limite na ausência de inibição
         return(mimaximo, Ks, Kd, Cx0, Cs0, Cp0, tf, Yxs, alfa, beta, m, Cx_estr)
