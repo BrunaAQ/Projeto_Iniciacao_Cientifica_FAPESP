@@ -215,7 +215,7 @@ def imprimir_taxa_especifica_crescimento (t_ajus,t_m, mi_ajus, mi_m):
     plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.17),ncol=2, fancybox=True, shadow=True )  
     plt.grid(True)                   
     plt.show() 
-    plt.savefig("velocidade específica de crescimento model acopl bat Lee et al.png")    
+    plt.savefig("Velocidade específica de crescimento model acopl bat Lee et al.png")    
 #impressão do gráfico
 imprimir_taxa_especifica_crescimento(t_exp,t,mi_exp,mi)
 
@@ -236,7 +236,7 @@ def imprimir_produtividade_especifica_model_otim_exp (t_ajus,t_m, Ppx_ajus, Ppx_
     plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.17),ncol=2, fancybox=True, shadow=True )
     plt.grid(True)                     
     plt.show() 
-    plt.savefig("velocidade específica de crescimento model acopl bat Lee at al.png")    
+    plt.savefig("Produtividade específica model acopl bat Lee at al.png")    
 #impressão do gráfico
 imprimir_produtividade_especifica_model_otim_exp(t_exp,t,Ppx_exp,Ppx)
 
