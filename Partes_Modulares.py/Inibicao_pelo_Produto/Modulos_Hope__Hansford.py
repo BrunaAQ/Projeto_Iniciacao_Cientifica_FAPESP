@@ -1,4 +1,4 @@
-                     # MODELO CINÉTICO DE CRESCIMENTO MICROBIANO COM INIBIÇÃO (PRODUTO) - HOPE & HANSFORD #
+                     # MODELO CINÉTICO DE CRESCIMENTO MICROBIANO COM INIBIÇÃO (PRODUTO) - HOPPE & HANSFORD #
 
 # Módulos com as funções de: 
 # 1) Entrada dos valores iniciais dos parâmetros cinéticos, concentrações iniciais e tempo total de cultivo;
@@ -8,37 +8,37 @@
 # Importação dos pacotes:
 import numpy as np
 import pandas as pd
-import random 
 
 # Função 1)
 def entr_rand_Hope_Hansford():
     def entr_rand_Hope_Hansford_gerand():
-        mimaximo = random.uniform (0.1 , 0.8) #unidade 1/hora - taxa específica de crescimento
-        Ks = random.uniform(0.0 , 10) #unidade g/L - constante de semi-saturação
-        Kd = random.uniform(0.0 ,0.4) #unidade de 1/h - constante de morte celular
-        Cx0 = random.uniform(0.1, 10) # unidade g/L - concentração inicial de microrganismo
-        Cs0 = random.uniform(5.0, 50.0) # unidade g/L - concentração inicial de substrato
-        Cp0 = random.uniform(0.0, 10.0)  # unidade g/L - concentração inicial de produto
-        tf = random.uniform(5.0, 50.0) # unidade horas - tempo final da integração
-        Yxs = random.uniform(0.1, 0.8)#unidade g células/g substrato - coeficiente estequiométrico
-        alfa= random.uniform(0.1 , 2) # unidade g células/g produto - coeficiente estequiométrico
-        beta = random.uniform(0.0, 1)
-        Kp= random.uniform(0.0 , 10)
+        mimaximo = 0.5 #unidade 1/hora - taxa específica de crescimento
+        Ks = 10 #unidade g/L - constante de semi-saturação
+        Kd = 0.089 #unidade de 1/h - constante de morte celular
+        Cx0 = 2.5 # unidade g/L - concentração inicial de microrganismo
+        Cs0 = 120 # unidade g/L - concentração inicial de substrato
+        Cp0 = 0 # unidade g/L - concentração inicial de produto
+        tf = 65 # unidade horas - tempo final da integração
+        Yxs = 0.65 #unidade g células/g substrato - coeficiente estequiométrico
+        alfa = 0.11 # unidade g células/g produto - coeficiente estequiométrico
+        beta = 0 # unidade g células/g produto . h - coeficiente estequiométrico
+        Kp = 1.3 # unidade g/L - constante de inibição pelo produto
         return(mimaximo, Ks, Kd, Cx0, Cs0, Cp0, tf, Yxs, alfa, beta, Kp)
     mimaximo, Ks, Kd, Cx0, Cs0, Cp0, tf, Yxs, alfa, beta, Kp = entr_rand_Hope_Hansford_gerand()
     entr_rand_val = [mimaximo, Ks, Kd, Cx0, Cs0, Cp0, tf, Yxs, alfa, beta, Kp]
     cond_inic = [Cx0,Cs0,Cp0]
-    t = np.arange(0,tf,0.5)
+    t = np.arange(0,tf,1.5)
     return(entr_rand_val, cond_inic, t)
 
 # Função 2)
 def modelag_bat_Hope_Hansford_dados_conc_sim():
-   importado = pd.read_excel("Dados_conc_sim_bat_Hope_Hansford_modelag.xlsx","C_exp") 
+##Digitar o nome do arquivo acompanhado do da planilha:
+   importado = pd.read_excel("HH_bat_relat_fapesp.xlsx","C_t_exp") 
    importado_np = importado.values
-   t_exp = importado_np[:,0]
-   Cx_exp = importado_np [:,1]
-   Cs_exp = importado_np [:,2]
-   Cp_exp = importado_np [:,3]
+   t_exp = importado_np[:,1]
+   Cx_exp = importado_np [:,2]
+   Cs_exp = importado_np [:,3]
+   Cp_exp = importado_np [:,4]
    C_exp = np.zeros((len(t_exp),3))
    C_exp[:,0] = Cx_exp
    C_exp[:,1] = Cs_exp
@@ -62,19 +62,3 @@ def modelag_bat_Hope_Hansford_func_args():
         dCpdt=alfa*mi*C[0]+beta*C[0]
         return(dCxdt,dCsdt,dCpdt)
     return(bat_Hope_Hansford)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
