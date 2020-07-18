@@ -30,12 +30,10 @@ C_exp = said_mod[0]
 cond_inic = [C_exp[0,0], C_exp[0,1], C_exp[0,2]]
 
 # Trecho de código opcional:
-'''
 # Gerando ruído aos dados:
 for i in range(0,3):
     C_exp_i = C_exp[:,i]
     C_exp[:,i] = C_exp_i + np.random.randn(len(C_exp_i)) * 0.5
-'''
     
 # TÉRMINO DA GERAÇÃO DE DADOS EXPERIMENTAIS
     
