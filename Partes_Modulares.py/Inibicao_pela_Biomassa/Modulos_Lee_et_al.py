@@ -1,4 +1,4 @@
-                     # MODELO CINÉTICO DE CRESCIMENTO MICROBIANO COM INIBIÇÃO (CÉLULAS) - LEE et al #
+                     # MODELO CINÉTICO DE CRESCIMENTO MICROBIANO COM INIBIÇÃO (CÉLULAS) - LEE et al. #
 
 # Módulos com as funções de: 
 # 1) Entrada dos valores iniciais dos parâmetros cinéticos, concentrações iniciais e tempo total de cultivo;
