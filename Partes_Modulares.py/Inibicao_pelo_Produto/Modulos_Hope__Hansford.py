@@ -20,8 +20,8 @@ def entr_rand_Hope_Hansford():
         Cp0 = 0 # unidade g/L - concentração inicial de produto
         tf = 65 # unidade horas - tempo final da integração
         Yxs = 0.65 #unidade g células/g substrato - coeficiente estequiométrico
-        alfa = 0.11 # unidade g células/g produto - coeficiente estequiométrico
-        beta = 0 # unidade g células/g produto . h - coeficiente estequiométrico
+        alfa = 0.11 # unidade g produto/g células - coeficiente estequiométrico
+        beta = 0 # unidade g produto/g células . h - coeficiente estequiométrico
         Kp = 1.3 # unidade g/L - constante de inibição pelo produto
         return(mimaximo, Ks, Kd, Cx0, Cs0, Cp0, tf, Yxs, alfa, beta, Kp)
     mimaximo, Ks, Kd, Cx0, Cs0, Cp0, tf, Yxs, alfa, beta, Kp = entr_rand_Hope_Hansford_gerand()
