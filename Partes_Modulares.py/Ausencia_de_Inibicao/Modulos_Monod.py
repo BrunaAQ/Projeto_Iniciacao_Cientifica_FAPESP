@@ -31,6 +31,7 @@ def entr_rand_Monod():
 
 # Função 2)
 def modelag_Monod_dados_conc_sim():
+## Digitar o nome do arquivo acompanhado do da planilha:
    importado = pd.read_excel("monod_relatorio_fapesp_maior_int.xlsx","C_t_exp") 
    importado_np = importado.values
    t_exp = importado_np[:,1]
