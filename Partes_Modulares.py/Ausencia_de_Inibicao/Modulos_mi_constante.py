@@ -12,15 +12,15 @@ import pandas as pd
 # Função 1)
 def entr_rand_mi_const():
     def entr_rand_mi_const_gerand():
-        mi = 0.12 #unidade 1/hora - taxa específica de crescimento
-        Yxs = 0.42  #unidade g células/g substrato - coeficiente estequiométrico
-        Kd = 0.0015 #unidade de 1/h - constante de morte celular
-        Cx0 = 0.1 # unidade g/L - concentração inicial de microrganismo
-        Cs0 = 5 # unidade g/L - concentração inicial de substrato
+        mi = 0.2 #unidade 1/h - taxa específica de crescimento
+        Yxs = 0.5  #unidade g células/g substrato - coeficiente estequiométrico
+        Kd = 0.04 #unidade de 1/h - constante de morte celular
+        Cx0 = 0.2 # unidade g/L - concentração inicial de microrganismo
+        Cs0 = 30 # unidade g/L - concentração inicial de substrato
         Cp0 = 0  # unidade g/L - concentração inicial de produto
-        tf = 36 # unidade horas - tempo final da integração
-        alfa = 0.75  # unidade g células/g produto - coeficiente estequiométrico
-        beta = 0
+        tf = 40 # unidade horas - tempo final da integração
+        alfa = 0.1  # unidade g produto/g célula - coeficiente estequiométrico
+        beta = 0.8 # unidade g produto/g célula . h - coeficiente estequiométrico
         return(mi,Yxs,Kd,Cx0,Cs0,Cp0,tf,alfa,beta)
     mi, Yxs, Kd, Cx0, Cs0, Cp0, tf, alfa, beta = entr_rand_mi_const_gerand()
     entr_rand_val = [mi, Yxs, Kd, Cx0, Cs0, Cp0, tf, alfa, beta]
@@ -30,12 +30,13 @@ def entr_rand_mi_const():
 
 # Função 2)
 def modelag_bat_mi_const_dados_conc_sim():
-   importado = pd.read_excel("C_exp_rand_sim_bat_mi_constante_ref_01.xlsx","C_t_exp") 
+## Digitar o nome do arquivo acompanhado do da planilha:
+   importado = pd.read_excel("mi_const_fapesp.xlsx","C_t_exp") 
    importado_np = importado.values
-   t_exp = importado_np[:,0]
-   Cx_exp = importado_np [:,1]
-   Cs_exp = importado_np [:,2]
-   Cp_exp = importado_np [:,3]
+   t_exp = importado_np[:,1]
+   Cx_exp = importado_np [:,2]
+   Cs_exp = importado_np [:,3]
+   Cp_exp = importado_np [:,4]
    C_exp = np.zeros((len(t_exp),3))
    C_exp[:,0] = Cx_exp
    C_exp[:,1] = Cs_exp
@@ -56,14 +57,3 @@ def modelag_bat_mi_const_func_args():
         dCpdt = alfa*mi*C[0]+beta*C[0]
         return (dCxdt,dCsdt,dCpdt)
     return(mi_constante_bat)
-
-
-
-
-
-
-
-
-
-
-
