@@ -30,7 +30,6 @@ C_exp = said_mod[0]
 cond_inic = [C_exp[0,0], C_exp[0,1], C_exp[0,2]]
 
 ## Trecho de código opcional:
-'''
 ## Gerando ruído aos dados:
 for i in range(0,3):
     C_exp_i = C_exp[:,i]
@@ -40,7 +39,7 @@ df_saida_monod = pd.DataFrame({"t_exp(h)":t_exp, "Cx_exp(g/L)": C_exp[:,0], "Cs_
 with pd.ExcelWriter('Dados_sim_rand_bat_Monod_ref_06.xlsx') as writer:
     df_saida_monod.to_excel(writer, sheet_name="C_t_exp")
     writer.save()
-''' 
+    
 # TÉRMINO DA GERAÇÃO DE DADOS EXPERIMENTAIS
 
 #inicio da contagem do tempo
