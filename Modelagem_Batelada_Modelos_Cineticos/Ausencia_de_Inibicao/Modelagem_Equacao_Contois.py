@@ -284,7 +284,7 @@ print("\nO tempo decorrido do ajuste foi de {:.1f}".format(elapsed)+ " segundos"
 
 # Criação de todos os dataframes que serão utilizados
 df_concents= pd.DataFrame({'Tempo(h)': t, 'Cx(g/L)': C_otim[:,0], 'Cs(g/L)': C_otim[:,1], 'Cp(g/L)': C_otim[:,2], 'mi(h-¹)': mi, 'Px(gcél/L.h)': Px, 'Pp(gprod/L.h)': Pp, 'Ppx(gprod/gcél)':Ppx})
-df_params_exp=pd.DataFrame({'mimax_exp(h-¹)':[dad_inic[0]], 'KSI_exp(g/L)':[dad_inic[1]],'Kd_exp(h-¹)':[dad_inic[2]],'Yxs_exp(gcél/gsub)':[dad_inic[7]], 'alfa_exp(gprod/gcél)':[dad_inic[8]], 'beta_exp(gprod/gcél.h)':[dad_inic[9]], 'tempo decorrido(s)':[elapsed]})
+df_params_exp=pd.DataFrame({'mimax_exp(h-¹)':[dad_inic[0]], 'KSX_exp(g/L)':[dad_inic[1]],'Kd_exp(h-¹)':[dad_inic[2]],'Yxs_exp(gcél/gsub)':[dad_inic[7]], 'alfa_exp(gprod/gcél)':[dad_inic[8]], 'beta_exp(gprod/gcél.h)':[dad_inic[9]], 'tempo decorrido(s)':[elapsed]})
 df_params =pd.DataFrame({'mimax(h-¹)':[param_otim[0]],'KSX(gs/gx)':[param_otim[1]],'Kd(h-¹)':[param_otim[2]],'Yxs(gcél/gsub)':[param_otim[3]], 'alfa(gprod/gcél)': [param_otim[4]], 'beta(gprod/gcél.h)':[param_otim[5]]})
 df_icpar =pd.DataFrame({'ICmimax':[ICpar[0]],'ICKSX':[ICpar[1]],'ICkd':[ICpar[2]],'ICYxs':[ICpar[3]], 'ICalfa': [ICpar[4]], 'ICbeta':[ICpar[5]]})   
 df_concents_exp= pd.DataFrame({'Tempo_exp(h)': t_exp,'Cx_exp(g/L)': C_exp[:,0],'Cs_exp(g/L)': C_exp[:,1],'Cp_exp(g/L)': C_exp[:,2]})
