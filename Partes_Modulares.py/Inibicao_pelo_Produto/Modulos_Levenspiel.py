@@ -14,16 +14,16 @@ def entr_rand_Levenspiel():
     def entr_rand_Levenspiel_gerand():
         mimaximo = 0.5 #unidade 1/hora - taxa específica de crescimento
         Ks = 10 #unidade g/L - constante de semi-saturação
-        Kd = 0.089 #unidade de 1/h - constante de morte celular
+        Kd = 0.0089 #unidade de 1/h - constante de morte celular
         Cx0 = 2.5 # unidade g/L - concentração inicial de microrganismo
         Cs0 = 120 # unidade g/L - concentração inicial de substrato
         Cp0 = 0 # unidade g/L - concentração inicial de produto
-        tf = 40 # unidade horas - tempo final da integração
+        tf = 65 # unidade horas - tempo final da integração
         Yxs = 0.65 #unidade g células/g substrato - coeficiente estequiométrico
-        alfa = 0.11 # unidade g células/g produto - coeficiente estequiométrico
-        beta = 0 
-        n = 3
-        Cp_estr = 20
+        alfa = 0.11 # unidade g produto/g células - coeficiente estequiométrico
+        beta = 0 # unidade g células/g produto - coeficiente estequiométrico
+        n = 1,5 # adimensional - termo expoente
+        Cp_estr = 15 # unidade g/L - concentração de produto que passa a exercer efeito inibitório
         return(mimaximo, Ks, Kd, Cx0, Cs0, Cp0, tf, Yxs, alfa, beta, n, Cp_estr)
     mimaximo, Ks, Kd, Cx0, Cs0, Cp0, tf, Yxs, alfa, beta, n, Cp_estr = entr_rand_Levenspiel_gerand()
     entr_rand_val = [mimaximo, Ks, Kd, Cx0, Cs0, Cp0, tf, Yxs, alfa, beta, n, Cp_estr]
@@ -33,12 +33,13 @@ def entr_rand_Levenspiel():
 
 # Função 2)
 def modelag_bat_Levenspiel_dados_conc_sim():
-   importado = pd.read_excel("C_exp_rand_sim_bat_Levenspiel_ref_01.xlsx","C_t_exp") 
+## Digitar o nome do arquivo acompanhado do da planilha:
+   importado = pd.read_excel("Levenspiel_bat_relat_fapesp.xlsx","C_t_exp") 
    importado_np = importado.values
-   t_exp = importado_np[:,0]
-   Cx_exp = importado_np [:,1]
-   Cs_exp = importado_np [:,2]
-   Cp_exp = importado_np [:,3]
+   t_exp = importado_np[:,1]
+   Cx_exp = importado_np [:,2]
+   Cs_exp = importado_np [:,3]
+   Cp_exp = importado_np [:,4]
    C_exp = np.zeros((len(t_exp),3))
    C_exp[:,0] = Cx_exp
    C_exp[:,1] = Cs_exp
@@ -63,27 +64,3 @@ def modelag_bat_Levenspiel_func_args():
         dCpdt=alfa*mi*C[0]+beta*C[0]
         return(dCxdt,dCsdt,dCpdt)
     return(bat_Levenspiel)
-
-# Função 4)
-def simul_bat_Levenspiel():
-    def edos_int_bat_Levenspiel(C,t):
-        Cx,Cs,Cp=C
-        mimax_sim = mimax
-        Ks_sim = Ks
-        Kd_sim = Kd
-        Yxs_sim = Yxs
-        alfa_sim = alfa
-        beta_sim = beta
-        Cp_estr_sim = Cp_estr
-        n_sim = n
-        
-        mi=mimax_sim*((Cs/(Ks_sim+Cs))*((1-(Cp/Cp_estr_sim))**n_sim))
-        dCxdt=(mi-Kd_sim)*Cx
-        dCsdt=(-1/Yxs_sim)*mi*Cx
-        dCpdt=alfa_sim*mi*Cx+beta_sim*Cx
-        return(dCxdt,dCsdt,dCpdt)
-
-
-
-
-
