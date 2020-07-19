@@ -36,7 +36,7 @@ for i in range(0,3):
     C_exp[:,i] = abs(C_exp_i + np.random.randn(len(C_exp_i)) * 0.5)
     
 df_saida_monod = pd.DataFrame({"t_exp(h)":t_exp, "Cx_exp(g/L)": C_exp[:,0], "Cs_exp(g/L)": C_exp[:,1], "Cp_exp(g/L)": C_exp[:,2]})
-with pd.ExcelWriter('Dados_sim_rand_bat_Monod_ref_06.xlsx') as writer:
+with pd.ExcelWriter('Dados_sim_rand_bat_Monod.xlsx') as writer:
     df_saida_monod.to_excel(writer, sheet_name="C_t_exp")
     writer.save()
     
@@ -116,12 +116,11 @@ t = np.arange(0, t_exp[-1], 0.1)
 C_otim = odeint(func_args, cond_inic, t, args = (resultado_ag))
 
 #Funções de impressão gráfica:
-# Módulo para configuração do tamanho das fontes dos eixos:
+## Módulo para configuração do tamanho das fontes dos eixos:
 config_eixos = Modulos_configuracao_graficos.config_plot()
-# Módulo para configurar background:
+## Módulo para configurar background:
 config_back = Modulos_configuracao_graficos.config_estetica_eixo_unico()
-
-# Definição de tamanho para as figuras com eixo duplo:
+## Definição de tamanho para as figuras com eixo duplo:
 alt = 6
 larg = 8
 
@@ -195,7 +194,6 @@ def imprimir_produtividade_celular_produto_model_otim_exp (t_ajus, t_m, Px_ajus,
 #impressão do gráfico
 imprimir_produtividade_celular_produto_model_otim_exp(t_exp[1:], t[1:],Px_exp, Pp_exp, Px, Pp)
 
-# Calculando a produtividade específica experimental e modelo:
 #imprimindo os valores dos parâmetros
 param_otim = np.asarray(resultado_ag)
 
