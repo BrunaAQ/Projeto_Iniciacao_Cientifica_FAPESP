@@ -35,6 +35,11 @@ for i in range(0,3):
     C_exp_i = C_exp[:,i]
     C_exp[:,i] = C_exp_i + np.random.randn(len(C_exp_i)) * 0.5
     
+df_saida_lee_et_al = pd.DataFrame({"t_exp(h)":t_exp, "Cx_exp(g/L)": C_exp[:,0], "Cs_exp(g/L)": C_exp[:,1], "Cp_exp(g/L)": C_exp[:,2]})
+with pd.ExcelWriter('Dados_sim_bat_Lee_et_al.xlsx') as writer:
+    df_saida_lee_et_al.to_excel(writer, sheet_name="C_t_exp")
+    writer.save() 
+    
 # TÉRMINO DA GERAÇÃO DE DADOS EXPERIMENTAIS
     
 #início da contagem do tempo
