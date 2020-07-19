@@ -193,7 +193,6 @@ def imprimir_produtividade_celular_produto_model_otim_exp (t_ajus, t_m, Px_ajus,
 #impressão do gráfico
 imprimir_produtividade_celular_produto_model_otim_exp(t_exp[1:], t[1:],Px_exp, Pp_exp, Px, Pp)
 
-# Calculando a produtividade específica experimental e modelo:
 #imprimindo os valores dos parâmetros
 param_otim = np.asarray(param_otim_lm)
 
