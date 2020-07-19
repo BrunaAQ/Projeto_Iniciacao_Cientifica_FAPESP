@@ -8,7 +8,6 @@ def caixa_texto_batelada(frame, altura, largura, x, y):
     tex = Text(frame, height = altura, width = largura, font = "times 10", borderwidth = 3, relief = "sunken", bg = "grey80") 
     tex.configure(state='normal')
     tex_escrito = "A fermentação ocorre com ausência de fluxos de matéria \nexternos ao biorreator." 
-    
     tex.place(x = x, y = y)
     tex.insert(tk.END, tex_escrito)
     tex.configure(state='disabled')
@@ -23,7 +22,7 @@ def caixa_texto_modelo_contois(frame, altura, largura, x, y):
 def caixa_texto_equacao_contois(frame, altura, largura, x, y):
     tex = Text(frame, height = altura, width = largura, font = "times 10", borderwidth = 5, relief = "sunken", bg = "grey80") 
     tex.configure(state='normal')
-    tex_escrito = u"t = Tempo de cultivo decorrido (tempo)\n\u03bc = Taxa específica de crescimento (tempo\u207b\u00b9)\n\u03bcmáx = Taxa específica máxima de crescimento (tempo\u207b\u00b9)\nCs = Concentração de substrato (massa.volume\u207b\u00b9)\nKSX = Constante de saturação (massa.volume\u207b\u00b9)"
+    tex_escrito = u"t = Tempo de cultivo decorrido (tempo)\n\u03bc = Taxa específica de crescimento (tempo\u207b\u00b9)\n\u03bcmáx = Taxa específica máxima de crescimento (tempo\u207b\u00b9)\nCs = Concentração de substrato (massa.volume\u207b\u00b9)\nCx = Concentração celular (massa.volume\u207b\u00b9)\nKSX = Constante de saturação (massa.massa\u207b\u00b9)"
     tex.place(x = x, y = y)
     tex.insert(tk.END, tex_escrito)
     tex.configure(state='disabled')
@@ -53,7 +52,22 @@ def caixa_texto_modelo_moser(frame, altura, largura, x, y):
 def caixa_texto_equacao_moser(frame, altura, largura, x, y):
     tex = Text(frame, height = altura, width = largura, font = "times 10", borderwidth = 5, relief = "sunken", bg = "grey80") 
     tex.configure(state='normal')
-    tex_escrito = u"t = Tempo de cultivo decorrido (tempo)\n\u03bc = Taxa específica de crescimento (tempo\u207b\u00b9)\n\u03bcmáx = Taxa específica máxima de crescimento (tempo\u207b\u00b9)\nCs = Concentração de substrato (massa.volume\u207b\u00b9)\nKs = Constante de saturação (massa.volume\u207b\u00b9)\nn = Parâmetro expoente (adimensional)"
+    tex_escrito = u"t = Tempo de cultivo decorrido (tempo)\n\u03bc = Taxa específica de crescimento (tempo\u207b\u00b9)\n\u03bcmáx = Taxa específica máxima de crescimento (tempo\u207b\u00b9)\nCs = Concentração de substrato (massa.volume\u207b\u00b9)\nKs = Constante de saturação (massa.volume\u207b\u00b9)\nu = Parâmetro expoente (adimensional)"
+    tex.place(x = x, y = y)
+    tex.insert(tk.END, tex_escrito)
+    tex.configure(state='disabled')
+
+def caixa_texto_modelo_mi_constante(frame, altura, largura, x, y):
+    tex = Text(frame, height = altura, width = largura, font = "times 12", borderwidth = 5, relief = "sunken", bg = "grey90") 
+    tex.configure(state='normal')
+    tex_escrito = u"TIPO DE INIBIÇÃO DESCRITA: Nenhum\n\nPONTO CHAVE: Considera que o crescimento microbiano é descrito constantemente pelo\nmesmo valor, independentemente do tempo de cultivo analisado\n\nPARÂMETRO \u03bc: Quanto mais elevado, mais será a velocidade de duplicação celular"
+    tex.place(x = x, y = y)
+    tex.insert(tk.END, tex_escrito)
+    tex.configure(state='disabled')
+def caixa_texto_equacao_mi_constante(frame, altura, largura, x, y):
+    tex = Text(frame, height = altura, width = largura, font = "times 10", borderwidth = 5, relief = "sunken", bg = "grey80") 
+    tex.configure(state='normal')
+    tex_escrito = u"t = Tempo de cultivo decorrido (tempo)\n\u03bc = Taxa específica de crescimento (tempo\u207b\u00b9)"
     tex.place(x = x, y = y)
     tex.insert(tk.END, tex_escrito)
     tex.configure(state='disabled')
@@ -76,14 +90,14 @@ def caixa_texto_equacao_andrews(frame, altura, largura, x, y):
 def caixa_texto_modelo_wu(frame, altura, largura, x, y):
     tex = Text(frame, height = altura, width = largura, font = "times 12", borderwidth = 5, relief = "sunken", bg = "grey90") 
     tex.configure(state='normal')
-    tex_escrito = "TIPO DE INIBIÇÃO DESCRITA: Inibição pelo substrato\n\nPONTO CHAVE: Traz um grau de liberdade a mais para a predição da inibição\n\nPARÂMETRO Ke: Quanto mais baixo, maior a sensível será a cultura\nPARÂMETRO v: Quanto mais baixo, maior a velocidade de crescimento microbiano"
+    tex_escrito = "TIPO DE INIBIÇÃO DESCRITA: Inibição pelo substrato\n\nPONTO CHAVE: Traz um grau de liberdade a mais para a predição da inibição\n\nPARÂMETRO KE: Quanto mais baixo, maior a sensibilidade da cultura\nPARÂMETRO v: Quanto mais baixo, maior a velocidade de crescimento microbiano"
     tex.place(x = x, y = y)
     tex.insert(tk.END, tex_escrito)
     tex.configure(state='disabled')
 def caixa_texto_equacao_wu(frame, altura, largura, x, y):
     tex = Text(frame, height = altura, width = largura, font = "times 10", borderwidth = 5, relief = "sunken", bg = "grey80") 
     tex.configure(state='normal')
-    tex_escrito = u"t = Tempo de cultivo decorrido (tempo)\nu03bc = Taxa específica de crescimento (tempo\u207b\u00b9)\n\u03bcmáx = Taxa específica máxima de crescimento (tempo\u207b\u00b9)\nCs = Concentração de substrato (massa.volume\u207b\u00b9)\nKs = Constante de saturação (massa.volume\u207b\u00b9)\nKe = Constante inibição por substrato (volume.massa\u207b\u00b9)\nv = Parâmetro expoente de inibição (adimensional)"
+    tex_escrito = u"t = Tempo de cultivo decorrido (tempo)\n\u03bc = Taxa específica de crescimento (tempo\u207b\u00b9)\n\u03bcmáx = Taxa específica máxima de crescimento (tempo\u207b\u00b9)\nCs = Concentração de substrato (massa.volume\u207b\u00b9)\nKs = Constante de saturação (massa.volume\u207b\u00b9)\nKE = Constante inibição por substrato (massa.volume\u207b\u00b9)\nv = Parâmetro expoente de inibição (adimensional)"
     tex.place(x = x, y = y)
     tex.insert(tk.END, tex_escrito)
     tex.configure(state='disabled')
@@ -98,7 +112,7 @@ def caixa_texto_modelo_aiba(frame, altura, largura, x, y):
 def caixa_texto_equacao_aiba(frame, altura, largura, x, y):
     tex = Text(frame, height = altura, width = largura, font = "times 10", borderwidth = 5, relief = "sunken", bg = "grey80") 
     tex.configure(state='normal')
-    tex_escrito = u"t = Tempo de cultivo decorrido (tempo)\n\u03bc = Taxa específica de crescimento (tempo\u207b\u00b9)\n\u03bcmáx = Taxa específica máxima de crescimento (tempo\u207b\u00b9)\nCs = Concentração de substrato (massa.volume\u207b\u00b9)\nKs = Constante de saturação (massa.volume\u207b\u00b9)\nKp = Parâmetro expoente de inibição (volume.massa\u207b\u00b9)"
+    tex_escrito = u"t = Tempo de cultivo decorrido (tempo)\n\u03bc = Taxa específica de crescimento (tempo\u207b\u00b9)\n\u03bcmáx = Taxa específica máxima de crescimento (tempo\u207b\u00b9)\nCs = Concentração de substrato (massa.volume\u207b\u00b9)\nCp = Concentração de produto (massa.volume\u207b\u00b9)\nKs = Constante de saturação (massa.volume\u207b\u00b9)\nKp = Parâmetro expoente de inibição (volume.massa\u207b\u00b9)"
     tex.place(x = x, y = y)
     tex.insert(tk.END, tex_escrito)
     tex.configure(state='disabled')
@@ -113,7 +127,7 @@ def caixa_texto_modelo_h_h(frame, altura, largura, x, y):
 def caixa_texto_equacao_h_h(frame, altura, largura, x, y):
     tex = Text(frame, height = altura, width = largura, font = "times 10", borderwidth = 5, relief = "sunken", bg = "grey80") 
     tex.configure(state='normal')
-    tex_escrito = u"t = Tempo de cultivo decorrido (tempo)\n\u03bc = Taxa específica de crescimento (tempo\u207b\u00b9)\n\u03bcmáx = Taxa específica máxima de crescimento (tempo\u207b\u00b9)\nCs = Concentração de substrato (massa.volume\u207b\u00b9)\nKs = Constante de saturação (massa.volume\u207b\u00b9)\nKp = Parâmetro expoente de inibição (massa.volume\u207b\u00b9)"
+    tex_escrito = u"t = Tempo de cultivo decorrido (tempo)\n\u03bc = Taxa específica de crescimento (tempo\u207b\u00b9)\n\u03bcmáx = Taxa específica máxima de crescimento (tempo\u207b\u00b9)\nCs = Concentração de substrato (massa.volume\u207b\u00b9)\nCp = Concentração de produto (massa.volume\u207b\u00b9)\nKs = Constante de saturação (massa.volume\u207b\u00b9)\nKp = Parâmetro expoente de inibição (massa.volume\u207b\u00b9)"
     tex.place(x = x, y = y)
     tex.insert(tk.END, tex_escrito)
     tex.configure(state='disabled')
@@ -128,7 +142,7 @@ def caixa_texto_modelo_levenspiel(frame, altura, largura, x, y):
 def caixa_texto_equacao_levenspiel(frame, altura, largura, x, y):
     tex = Text(frame, height = altura, width = largura, font = "times 10", borderwidth = 5, relief = "sunken", bg = "grey80") 
     tex.configure(state='normal')
-    tex_escrito = u"t = Tempo de cultivo decorrido (tempo)\n\u03bc = Taxa específica de crescimento (tempo\u207b\u00b9)\n\u03bcmáx = Taxa específica máxima de crescimento (tempo\u207b\u00b9)\nCs = Concentração de substrato (massa.volume\u207b\u00b9)\nKs = Constante de saturação (massa.volume\u207b\u00b9)\nCp* = Concentração crítica de produto (massa.volume\u207b\u00b9)\nn = Constante de Levenspiel (adimensional)"
+    tex_escrito = u"t = Tempo de cultivo decorrido (tempo)\n\u03bc = Taxa específica de crescimento (tempo\u207b\u00b9)\n\u03bcmáx = Taxa específica máxima de crescimento (tempo\u207b\u00b9)\nCs = Concentração de substrato (massa.volume\u207b\u00b9)\nCp = Concentração de produto (massa.volume\u207b\u00b9)\nKs = Constante de saturação (massa.volume\u207b\u00b9)\nCp* = Concentração crítica de produto (massa.volume\u207b\u00b9)\nn = Constante de Levenspiel (adimensional)"
     tex.place(x = x, y = y)
     tex.insert(tk.END, tex_escrito)
     tex.configure(state='disabled')
@@ -143,7 +157,7 @@ def caixa_texto_modelo_lee(frame, altura, largura, x, y):
 def caixa_texto_equacao_lee(frame, altura, largura, x, y):
     tex = Text(frame, height = altura, width = largura, font = "times 10", borderwidth = 5, relief = "sunken", bg = "grey80") 
     tex.configure(state='normal')
-    tex_escrito = u"t = Tempo de cultivo decorrido (tempo)\n\u03bc = Taxa específica de crescimento (tempo\u207b\u00b9)\n\u03bcmáx = Taxa específica máxima de crescimento (tempo\u207b\u00b9)\nCs = Concentração de substrato (massa.volume\u207b\u00b9)\nKs = Constante de saturação (massa.volume\u207b\u00b9)\nCx* = Concentração crítica de células (massa.volume\u207b\u00b9)\nm = Constante de Lee at al (adimensional)"
+    tex_escrito = u"t = Tempo de cultivo decorrido (tempo)\n\u03bc = Taxa específica de crescimento (tempo\u207b\u00b9)\n\u03bcmáx = Taxa específica máxima de crescimento (tempo\u207b\u00b9)\nCs = Concentração de substrato (massa.volume\u207b\u00b9)\nKs = Constante de saturação (massa.volume\u207b\u00b9)\nCx = Concentração de células (massa.volume\u207b\u00b9)\nCx* = Concentração crítica de células (massa.volume\u207b\u00b9)\nm = Constante de Lee at al (adimensional)"
     tex.place(x = x, y = y)
     tex.insert(tk.END, tex_escrito)
     tex.configure(state='disabled')
@@ -169,4 +183,3 @@ def caixa_texto_alm(frame, altura, largura, x, y):
     tex.place(x = x, y = y)
     tex.insert(tk.END, tex_escrito)
     tex.configure(state='disabled')
-
