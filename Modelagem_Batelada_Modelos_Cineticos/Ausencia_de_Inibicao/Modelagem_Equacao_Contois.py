@@ -114,13 +114,12 @@ t = np.arange(0, t_exp[-1], 0.1)
 # Integrando com os valores dos parâmetros ajustados
 C_otim = odeint(func_args, cond_inic, t, args = (param_otim_lm))
 
-
 #Funções de impressão gráfica:
-# Módulo para configuração do tamanho das fontes dos eixos:
+## Módulo para configuração do tamanho das fontes dos eixos:
 config_eixos = Modulos_configuracao_graficos.config_plot()
-# Módulo para configurar background:
+## Módulo para configurar background:
 config_back = Modulos_configuracao_graficos.config_estetica_eixo_unico()
-# Tamanho figuras com duplo eixo:
+## Tamanho figuras com duplo eixo:
 alt = 6
 larg = 8
 
@@ -194,7 +193,6 @@ def imprimir_produtividade_celular_produto_model_otim_exp (t_ajus, t_m, Px_ajus,
 #impressão do gráfico
 imprimir_produtividade_celular_produto_model_otim_exp(t_exp[1:], t[1:],Px_exp, Pp_exp, Px, Pp)
 
-# Calculando a produtividade específica experimental e modelo:
 #imprimindo os valores dos parâmetros
 param_otim = np.asarray(param_otim_lm)
 
