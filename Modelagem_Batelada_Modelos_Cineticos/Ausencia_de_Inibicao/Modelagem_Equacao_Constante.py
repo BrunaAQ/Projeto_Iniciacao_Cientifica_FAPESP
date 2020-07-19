@@ -163,7 +163,6 @@ Pp_exp[Pp_exp<0] = 0 # Se o valor é menor que 0 é substituido por 0
 Pp = C_otim[1:,2]/t[1:]
 Pp[Pp<0] = 0 # Se o valor é menor que 0 é substituido por 0
 
-
 #Gráfico de Produtividade
 def imprimir_produtividade_celular_produto_model_otim_exp (t_ajus, t_m, Px_ajus, Pp_ajus, Px_m, Pp_m):
     config_eixos() 
