@@ -36,7 +36,7 @@ for i in range(0,3):
     C_exp[:,i] = abs(C_exp_i + np.random.randn(len(C_exp_i)) * 0.5)
     
 df_saida_levenspiel = pd.DataFrame({"t_exp(h)":t_exp, "Cx_exp(g/L)": C_exp[:,0], "Cs_exp(g/L)": C_exp[:,1], "Cp_exp(g/L)": C_exp[:,2]})
-with pd.ExcelWriter('Dados_sim_rand_bat_Levenspiel_ref_01.xlsx') as writer:
+with pd.ExcelWriter('Dados_sim_rand_bat_Levenspiel.xlsx') as writer:
     df_saida_levenspiel.to_excel(writer, sheet_name="C_t_exp")
     writer.save()
    
