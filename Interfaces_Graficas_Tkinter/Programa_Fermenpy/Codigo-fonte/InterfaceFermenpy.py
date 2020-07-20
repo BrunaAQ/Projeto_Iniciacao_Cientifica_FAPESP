@@ -764,7 +764,7 @@ def simulacao(cont):
             dCpdt=alfa_sim*mi*Cx+beta_sim*Cx
             return(dCxdt,dCsdt,dCpdt)
         # Integrando numericamente:
-        C_sim = odeint(edos_int_bat_Hope_Hansford,inic_cond_simul,t_simul)
+        C_sim = odeint(edos_int_bat_Hoppe_Hansford,inic_cond_simul,t_simul)
         print(C_sim)
         Cx = C_sim[:,0]
         Cs = C_sim[:,1]
@@ -2000,7 +2000,7 @@ def explorer():
                 df_params_IC = pd.DataFrame({'IC mimax(h-¹)':[ICpar[0]],'IC KSX(gsub/gcél)':[ICpar[1]],'IC Kd(h-¹)':[ICpar[2]],'IC Yxs(gcél/gsub)':[ICpar[3]], 'IC alfa(gprod/gcél)': [ICpar[4]], 'IC beta(gprod/gcél.h)':[ICpar[5]]})
                 df_params = pd.concat([df_params_model, df_params_IC], axis = 1)
             if cont_model == 4: #Moser
-                df_params_model =pd.DataFrame({'mimax(h-¹)':[param_otim_alm[0]],'Ks(g/L)':[param_otim_alm[1]],'Kd(h-¹)':[param_otim_alm[2]],'Yxs(gcél/gsub)':[param_otim_alm[3]], 'alfa(gprod/gcél)': [param_otim_alm[4]], 'beta(gprod/gcél.h)':[param_otim_alm[5]],'mi_exp(adim)':[param_otim_alm[6]]})
+                df_params_model =pd.DataFrame({'mimax(h-¹)':[param_otim_alm[0]],'Ks(g/L)':[param_otim_alm[1]],'Kd(h-¹)':[param_otim_alm[2]],'Yxs(gcél/gsub)':[param_otim_alm[3]], 'alfa(gprod/gcél)': [param_otim_alm[4]], 'beta(gprod/gcél.h)':[param_otim_alm[5]],'u(adim)':[param_otim_alm[6]]})
                 df_params_IC = pd.DataFrame({'IC mimax(h-¹)':[ICpar[0]],'IC Ks(g/L)':[ICpar[1]],'IC Kd(h-¹)':[ICpar[2]],'IC Yxs(gcél/gsub)':[ICpar[3]], 'IC alfa(gprod/gcél)': [ICpar[4]], 'IC beta(gprod/gcél.h)':[ICpar[5]], 'IC mi_exp(adim)':[ICpar[6]]})
                 df_params = pd.concat([df_params_model, df_params_IC], axis = 1)
             if cont_model == 2: #Andrews
