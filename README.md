@@ -11,6 +11,6 @@ As pastas que trazem os arquivos escritos em Python (._py_) ou ainda salvos em o
 
 - ___"Graficos_Documentos_Submetidos":___ Aqui estão os arquivos desenvolvidos em linguagem Python que permitiram a criação, por autoria própria, das figuras gráficas empregadas com fins ilustrativos e demonstrativos das fases do crescimento microbiano (submetido juntamente com o projeto de pesquisa aqui relacionado) e da influência exercida pela constante de Moser "u" na velocidade do crescimento microbiano.
 
-__Importante__: Todos os códigos implementados em linguagem _Python_ de programação contidos neste repositório foram escritos, executados, testados e validados através da utilização e e exploração do ambiente de programação científica _Spyder_, acessado por meio do _software open source Anaconda Navigator_.
+__Importante__: Todos os códigos implementados em linguagem Python de programação contidos neste repositório foram escritos, executados, testados e validados através da utilização e exploração do ambiente de programação científica _Spyder_, acessado por meio do _software open source Anaconda Navigator_.
 Os modelos cinéticos encontram-se classificados, no interior das pastas criadas e componentes do repositório, de acordo com a ausência, presença e qual o tipo de inibição que descrevem, seguindo a abordagem levantada no Relatório Parcial e nos documentos a ele anexados por intermédio da plataforma SAGE.
 
