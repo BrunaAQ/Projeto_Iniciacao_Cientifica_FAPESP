@@ -98,9 +98,6 @@ def notebook_sem_inib_model():
     global frame6
     frame6 = ttk.Frame(notebook_sem_inib, width = 313, height = 320, borderwidth = 5, relief = tk.GROOVE)
     notebook_sem_inib.add(frame6, text = 'MOSER')
-    global frame45
-    frame45 = ttk.Frame(notebook_sem_inib, width = 313, height = 320, borderwidth = 5, relief = tk.GROOVE)
-    notebook_sem_inib.add(frame45, text = u'\u03bc CONSTANTE')
 def notebook_sem_inib_simul():
     notebook_sem_inib_sim = ttk.Notebook(frame1)
     notebook_sem_inib_sim.grid(row=3, column =4, sticky=tk.E + tk.W + tk.N + tk.S, padx = 50, pady = 85)
@@ -220,10 +217,7 @@ def notebook_docum():
     notebook_docum.add(frame33, text = 'Levenspiel')
     global frame34
     frame34 = ttk.Frame(notebook_docum, width = 602, height = 310, borderwidth = 5, relief = tk.GROOVE)
-    notebook_docum.add(frame34, text = 'Lee et al')  
-    global frame46
-    frame46 = ttk.Frame(notebook_docum, width = 602, height = 310, borderwidth = 5, relief = tk.GROOVE)
-    notebook_docum.add(frame46, text = u'\u03bc constante')  
+    notebook_docum.add(frame34, text = 'Lee et al')   
 def notebook_algorit():
     notebook_algorit = ttk.Notebook(frame3)
     notebook_algorit.place(x = 660, y = 165)
@@ -241,22 +235,23 @@ def notebook_graf_model():
     notebook_graf_model.place(x = 401, y = 115)
     global frame38
     frame38 = ttk.Frame(notebook_graf_model, width = 500, height = 335, borderwidth = 5, relief = tk.GROOVE)
-    notebook_graf_model.add(frame38, text = 'Concentração')
+    notebook_graf_model.add(frame38, text = u'Concent.t\u207b\u00b9')
     global frame39
     frame39 = ttk.Frame(notebook_graf_model, width = 500, height = 335, borderwidth = 5, relief = tk.GROOVE)
-    notebook_graf_model.add(frame39, text = 'Produtividade X e P')
+    notebook_graf_model.add(frame39, text = 'Produtiv. (Px e Pp)')
     global frame40
     frame40 = ttk.Frame(notebook_graf_model, width = 500, height = 335, borderwidth = 5, relief = tk.GROOVE)
-    notebook_graf_model.add(frame40, text = u'Produtividade P.X\u207b\u00b9')
+    notebook_graf_model.add(frame40, text = u'Produtiv. (p.x\u207b\u00b9)')
     global frame41
     frame41 = ttk.Frame(notebook_graf_model, width = 500, height = 335, borderwidth = 5, relief = tk.GROOVE)
-    notebook_graf_model.add(frame41, text = 'Velocidade de Crescimento')
-def notebook_graf_model_infl_mi_const():
-    notebook_graf_model_infl_mi_const = ttk.Notebook(frame1)
-    notebook_graf_model_infl_mi_const.place(x = 401, y = 115)
+    notebook_graf_model.add(frame41, text = u'Taxa \u03bcmáx.t\u207b\u00b9')
     global frame44
-    frame44 = ttk.Frame(notebook_graf_model_infl_mi_const, width = 500, height = 335, borderwidth = 5, relief = tk.GROOVE)
-    notebook_graf_model_infl_mi_const.add(frame44, text = u'Cx e velocidade de crescimento (\u03bc)') 
+    frame44 = ttk.Frame(notebook_graf_model, width = 500, height = 335, borderwidth = 5, relief = tk.GROOVE)
+    notebook_graf_model.add(frame44, text = u'Volume.t\u207b\u00b9')
+    global frame45
+    frame45 = ttk.Frame(notebook_graf_model, width = 500, height = 335, borderwidth = 5, relief = tk.GROOVE)
+    notebook_graf_model.add(frame45, text = u'Vazão.t\u207b\u00b9')
+
 
 # Funções de repetição:
 ## * SAÍDA PARÂMETROS MODELADOS * ##:
@@ -275,10 +270,10 @@ def carregar_imagem(frame, imagem, x, y, borderwidth, relief):
     img.image = render
     img.place(x = x, y = y)
 ## * BOTÃO PARA DOWNLOAD DOS ARQUIVOS EXCEL GERADOS * ##: - vincular com excel concent
-def botao_excel(imagem, num_frame, x, y):
+def botao_excel(imagem, num_frame, x, y, comando):
         load = Image.open(imagem)
         render = ImageTk.PhotoImage(load)
-        img = Button(num_frame, image = render, border = 0)
+        img = Button(num_frame, image = render, border = 0, command = comando)
         img.image = render
         img.place(x = x, y = y)
 ## * ACESSO AOS ARQUIVOS EXCEL DISPONÍVEIS PARA DOWNLOAD:
@@ -341,10 +336,6 @@ Label(frame2, text = "F. Obj:", font = "broadway 11", fg = "white", bg = "black"
 Label(frame2, text = u"R\u00b2:", font = "broadway 11", fg = "white", bg = "black", justify = "center",  borderwidth=4, relief ='sunken').place(x = 1124, y = 327.2)
 ## Indicação da região de acesso:
 aces_arq(frame2)
-## Botões de acesso - arquivo .xlsx - parâmetros cinéticos:
-botao_excel(imagem = "Excel.png", num_frame = frame2, x = 1036, y = 42)
-botao_excel(imagem = "Excel.png", num_frame = frame2, x = 1036, y = 80)
-
 
 
 # Seleção do modo de alimentação:
@@ -1544,14 +1535,15 @@ def explorer():
                 Label(janela_interna, text = "", font = "Times 32", bd = 4, relief = "sunken", width = 15, height = 2).place(x = 14, y = 32)
                 Botao_bm = Button(janela_interna, text = "Balanço de massa", font = "arial 8 bold", fg = "white", bg = "gray20", command = balan_massa).place(x = 25, y = 20)
                 Botao_mi = Button(janela_interna, text = u"Equação \u03bc", font = "arial 8 bold", fg = "white", bg = "gray20", command = mi).place(x = 140, y = 20)
+                # - Saída dos parâmetros equacionados através dos balanços de massa (tabela inferior):
                 Label(janela_interna, text = u"Kd(±h\u207b\u00b9)    Yxs(±gx.gs\u207b\u00b9)    \u03B1(±gp.gx\u207b\u00b9)    \u03B2[±gp.(gx.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", width = 42, height = 1).place(x = 29, y = 67)
                 Label(janela_interna, width = 48, height = 1).place(x = 29, y = 90)
-                if (cont_model == 9):
+                if (cont_model == 9): # - mi constante
                     Label(janela_interna, text = ICpar[1], font = "batang 11", fg = "black").place(x = 32, y = 90)
                     Label(janela_interna, text = ICpar[2], font = "batang 11", fg = "black").place(x = 113, y = 90)
                     Label(janela_interna, text = ICpar[3], font = "batang 11", fg = "black").place(x = 207, y = 90)
                     Label(janela_interna, text = ICpar[4], font = "batang 11", fg = "black").place(x = 300, y = 90)
-                else:
+                else: # - Outros modelos cinéticos
                     Label(janela_interna, text = ICpar[2], font = "batang 11", fg = "black").place(x = 32, y = 90)
                     Label(janela_interna, text = ICpar[3], font = "batang 11", fg = "black").place(x = 113, y = 90)
                     Label(janela_interna, text = ICpar[4], font = "batang 11", fg = "black").place(x = 207, y = 90)
@@ -1562,37 +1554,38 @@ def explorer():
                 Botao_bm = Button(janela_interna, text = "Balanço de massa", font = "arial 8 bold", fg = "white", bg = "gray20", command = balan_massa).place(x = 25, y = 20)
                 Botao_mi = Button(janela_interna, text = u"Equação \u03bc", font = "arial 8 bold", fg = "white", bg = "gray20", command = mi).place(x = 140, y = 20)
                 Label(janela_interna,text = "", width = 48, height = 1).place(x = 29, y = 90)
-                if (cont_model == 0 or cont_model == 1): #Monod e Contois
-                    if (cont_model == 0): #Monod
+                # - Saída dos parâmetros referentes aos equacionamentos particulares para a taxa mi:
+                if (cont_model == 0 or cont_model == 1): #Monod (5p) e Contois (5p)
+                    if (cont_model == 0): # Monod
                          Label(janela_interna, text = u"\u03bcmáx(±h\u207b\u00b9)     Ks(±g.L\u207b\u00b9)", font = "arial 10 bold", fg = "black", width = 42, justify = "left").place(x = 29, y = 67) 
-                    if (cont_model == 1): #Contois
+                    if (cont_model == 1): # Contois
                          Label(janela_interna, text = u"\u03bcmáx(±h\u207b\u00b9)     KSX(±gs.gx\u207b\u00b9)", font = "arial 10 bold", fg = "black", width = 42, justify = "left").place(x = 29, y = 67) 
                     Label(janela_interna, text = ICpar[0], font = "batang 11", fg = "black").place(x = 133, y = 90)
                     Label(janela_interna, text = ICpar[1], font = "batang 11", fg = "black").place(x = 220, y = 90)
-                if (cont_model == 9): #mi constante
+                if (cont_model == 9): # mi constante
                     Label(janela_interna, text = u"\u03bc(±h\u207b\u00b9)", font = "arial 10 bold", fg = "black", width = 42, justify = "left").place(x = 29, y = 67) 
                     Label(janela_interna, text = ICpar[0], font = "batang 11", fg = "black").place(x = 179, y = 90)
-                if (cont_model >=2 and cont_model <=5):
-                    if (cont_model == 2): #Andrews
+                if (cont_model >=2 and cont_model <=5): # - Andrews (6p), Aiba (6p), Moser (6p), Hoppe & Hansford (6p)
+                    if (cont_model == 2): # Andrews
                         Label(janela_interna, text = u"\u03bcmáx(±h\u207b\u00b9)      Ks(±g.L\u207b\u00b9)     KIS(±g.L\u207b\u00b9)", font = "arial 10 bold", fg = "black", width = 42).place(x = 29, y = 67)
-                    if (cont_model == 4): #Moser
+                    if (cont_model == 4): # Moser
                         Label(janela_interna,  text = u"\u03bcmáx(±h\u207b\u00b9)     Ks(±g.L\u207b\u00b9)     u(±adim)", font = "arial 10 bold", fg = "black", width = 42).place(x = 29, y = 67)
-                    if (cont_model == 3 or cont_model ==5): #Aiba e Hope
+                    if (cont_model == 3 or cont_model ==5): # Aiba e Hoppe & Hansford
                         Label(janela_interna, text = u"\u03bcmáx(±h\u207b\u00b9)     Ks(±g.L\u207b\u00b9)     Kp(±g.L\u207b\u00b9)", font = "arial 10 bold", fg = "black", width = 42).place(x = 29, y = 67)
-                    Label(janela_interna, text = ICpar[0], font = "batang 11", fg = "black").place(x = 92, y = 90)
+                    Label(janela_interna, text = "----", font = "batang 11", fg = "black").place(x = 92, y = 90)
                     Label(janela_interna, text = ICpar[1], font = "batang 11", fg = "black").place(x = 182, y = 90)
-                    Label(janela_interna, text = ICpar[6], font = "batang 11", fg = "black").place(x = 270, y = 90)
-                if (cont_model >5 and cont_model <=8):
-                    if (cont_model == 6): #Wu
+                    Label(janela_interna, text = ICpar[5], font = "batang 11", fg = "black").place(x = 270, y = 90)
+                if (cont_model >5 and cont_model <=8): # - Wu (7p), Levenspiel (7p), Lee (7p)
+                    if (cont_model == 6): # Wu
                         Label(janela_interna, text = u"\u03bcmáx(±h\u207b\u00b9)     Ks(±g.L\u207b\u00b9)     KE(±g.L\u207b\u00b9)     v(±adim)", font = "arial 10 bold", fg = "black", width = 42).place(x = 29, y = 67)
-                    if (cont_model == 7): #Levenspiel
+                    if (cont_model == 7): # Levenspiel
                         Label(janela_interna, text = u"\u03bcmáx(±h\u207b\u00b9)    Ks(±g.L\u207b\u00b9)     n(±adim)     Cp*(±g.L\u207b\u00b9)", font = "arial 10 bold", fg = "black", width = 42).place(x = 29, y = 67)
                     if (cont_model ==8): # Lee
                         Label(janela_interna, text = u"\u03bcmáx(±h\u207b\u00b9)    Ks(±g.L\u207b\u00b9)     Cx*(±g.L\u207b\u00b9)     m(±adim)", font = "arial 10 bold", fg = "black", width = 42).place(x = 29, y = 67)
-                    Label(janela_interna, text = ICpar[0], font = "batang 11",  fg = "black").place(x = 52, y = 90)
+                    Label(janela_interna, text = "----", font = "batang 11",  fg = "black").place(x = 52, y = 90)
                     Label(janela_interna, text = ICpar[1], font = "batang 11",  fg = "black").place(x = 143, y = 90)
-                    Label(janela_interna, text = ICpar[6], font = "batang 11", fg = "black").place(x = 226, y = 90)
-                    Label(janela_interna, text = ICpar[7], font = "batang 11",  fg = "black").place(x = 304, y = 90)        
+                    Label(janela_interna, text = ICpar[5], font = "batang 11", fg = "black").place(x = 226, y = 90)
+                    Label(janela_interna, text = ICpar[6], font = "batang 11",  fg = "black").place(x = 304, y = 90)        
             Botao_mi = Button(janela_interna, text = u"Equação \u03bc", font = "arial 8 bold", fg = "white", bg = "gray20", command = mi).place(x = 140, y = 20)
             Button(janela_interna, text = "Voltar", font = "arial 9 bold", fg = "white", bg = "gray30", command = janela_interna.destroy).place(x = 174, y = 160)
             janela_interna.mainloop()
@@ -1839,6 +1832,7 @@ def explorer():
                 a = asksaveasfilename(filetypes=(("PNG Image", "*.png"),("All Files", "*.*")), 
                 defaultextension='.png')
                 plt.savefig(a)
+            botao_com_graf(frame = frame38, comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy, x = 450, y = 176)
         imprimir_perfil_concentracao_model_otim_exp(Ttotal_exp, Ttotal, C_exp[:,0], C_exp[:,1], C_exp[:,2], Cx, Cs, Cp)
         
         # - Mudança de cor em decorrência da entrada do usuário
@@ -1896,11 +1890,11 @@ def explorer():
             Button(frame38, text = "Cp", bg = "gray40", fg="white", borderwidth=2, relief="raised", font="batang 10 bold", width = 2, command = cores_cp).place(x = 460, y = 286)
         def cores_concent():
             Button(frame38, text = "Cx", bg = "gray60", fg="white", borderwidth=2, relief="raised", font="batang 10 bold", width = 2, command = cores_cx).place(x = 460, y = 230)
-            botao_paleta_graf(frame = frame37, comando = cores_concent)
+            botao_paleta_graf(frame = frame38, comando = cores_concent)
         
         # -  Botão para mudança de cor:
         botao_paleta_graf(frame = frame38, comando = cores_concent)
-        
+
         #### **** Impressão do valor do R² concentração na interface **** ####:
         def r2_concent():
             Label(frame2, text = r2.round(4), font = "batang 10 italic", fg = "black", bg = "grey40", width = 10).place(x = 1168, y = 329.2)
@@ -2190,7 +2184,258 @@ def explorer():
         ## Botão para acesso:
         Button(frame41, text = "R²", font = "batang 12 bold", fg = "black", bg = "grey70", command = r2_mi).place(x = 452, y = 45)  
 
-## ** \\ ___________________________________________GRÁFICO - TAXA ESPECÍFICA DE CRESCIMENTO____________________________________ \\ ** ##       
+## ** \\ ___________________________________________GRÁFICO - TAXA ESPECÍFICA DE CRESCIMENTO____________________________________ \\ ** ## 
+        
+        
+## ** // _____________________________________________GRÁFICO - VARIAÇÃO DE VOLUME___________________________________________ // ** ##
+        
+        ### *** CÁLCULO DO PERFIL DE VARIAÇÃO DE VOLUME - RELAÇÃO TEMPORAL DEPENDENTE DA ALIMENTAÇÃO:
+        ## ** Controle do processo - análise do perfil matemático ** ##:
+        # - ALIMENTAÇÃO CONSTANTE:
+        if (def_alim == "Taxa de Vazão Constante"):
+            ## Cálculo volume(t) - integração dV/dt = Q para Q constante:
+            # - Experimental:
+            V_calc_exp = Q * t_exp_bat_alim  + V0
+            # - Modelada:
+            V_calc = Q * t_alim  + V0
+        # - ALIMENTAÇÃO LINEAR:
+        if (def_alim == "Taxa de Vazão Linear"):
+            ## Cálculo volume(t) - integração dV/dt = Q para descrito pela equação linear:
+            # - Experimental:
+            V_calc_exp = (Q0*(t_exp_bat_alim + (a*t_exp_bat_alim**2))) + V0
+            # - Modelada:
+            V_calc = (Q0*(t_alim + (a*t_alim**2))) + V0
+        # - ALIMENTAÇÃO EXPONENCIAL:
+        if (def_alim == "Taxa de Vazão Exponencial"):
+            ## Cálculo volume(t) - integração dV/dt = Q para Q descrito pela equação exponencial::
+            # - Experimental:
+            V_calc_exp = ((Q0/beta_exp)*((np.exp(beta_exp*t_exp_bat_alim)) - 1)) + V0
+            # - Modelada:
+            V_calc = ((Q0/beta_exp)*((np.exp(beta_exp*t_alim)) - 1)) + V0
+        
+        ## * GRÁFICO * ##:
+        # - Figura como função das entradas fornecidas pelo usuário:
+        def graf_vol(vol_cor, vol_exp_cor):
+            def imprimir_vol (t_ajus,t_m, vol_ajus, vol_m):
+                tamanho_graf()
+                f = plt.figure(figsize=(8.3,6), dpi = 54) 
+                plot = f.add_subplot(111)                                             
+                _ = plt.plot(t_m,vol_m,color = vol_cor,linewidth=3, label='Modelo')
+                _ = plt.plot(t_ajus,vol_ajus,'o',markersize=6, color = vol_exp_cor, label='Experimental')
+                _ = plt.xlabel('Tempo de cultivo (h)',weight='bold')               
+                _ = plt.ylabel('Volume (L)', weight='bold')
+                _ = plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.14),ncol=2, fancybox=True, shadow=True )  
+                _ = plt.grid(True)  
+                f.patch.set_facecolor('white')                                   
+                plt.style.use('default')   
+                canvas = FigureCanvasTkAgg(f, frame44)
+                a = canvas.get_tk_widget().place(x = 0, y = 0)
+                def salvar():
+                    a = asksaveasfilename(filetypes=(("PNG Image", "*.png"),("All Files", "*.*")), 
+                    defaultextension='.png')
+                    plt.savefig(a)  
+                botao_com_graf(frame = frame44, comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy, x = 450, y = 176)
+            imprimir_vol (t_exp_bat_alim, t_alim, V_calc_exp, V_calc)
+            
+        # - Escolha das cores:
+        def seletor_cores_vol():
+            cor_vol = colorchooser.askcolor(title ="Editar cores")
+            cor_vol = cor_vol[1]
+            graf_vol(vol_cor = cor_vol, vol_exp_cor = cor_vol)
+            
+        # - Geração do gráfico padrão fermenpy:
+        graf_vol(vol_cor = "orange", vol_exp_cor = "orange")
+        # - Botão para seleção das cores:
+        botao_paleta_graf(frame44, comando = seletor_cores_vol)
+        
+        ### ** CÁLCULO DO COEFICIENTE DE REGRESSÃO - VARIAÇÃO TEMPORAL DE VOLUME ** ###:
+        def r2_vol():
+            df_vol = pd.DataFrame({'Tempo(h)': t_alim, 'V(L)': V_calc})
+            df_t_exp = pd.DataFrame({'Tempo(h)': t_exp_bat_alim})
+            df_vol_merge = df_vol.merge(df_t_exp, how = 'inner' ,indicator=False)
+            df_vol_exp = pd.DataFrame({'Tempo_exp(h)':t_exp_bat_alim, 'V(L)': V_calc_exp})
+            del df_vol_merge['Tempo(h)']
+            del df_vol_exp['Tempo_exp(h)']
+            df_vol_merge = df_vol_merge.values
+            df_vol_exp = df_vol_exp.values
+            resid = (df_vol_merge - df_vol_exp)**2
+            resid = resid.flatten()
+            resid = sum(resid)
+            vol_medio = np.mean(df_vol_exp)
+            vol_total = sum((df_vol_exp - vol_medio)**2)
+            r2_vol = 1 - (resid/vol_total)
+            Label(frame2, text = "", font = "batang 10",  bg = "grey40", width = 10).place(x = 1168, y = 329.2)
+            Label(frame2, text = r2_vol[0].round(4), font = "batang 10 italic", fg = "black", bg = "grey40", width = 10).place(x = 1168, y = 329.2)
+            print(r2_vol[0])
+        
+        #### **** Impressão do valor do R² concentração na interface **** ####:
+        ## Botão para acesso:
+        Button(frame44, text = "R²", font = "batang 12 bold", fg = "black", bg = "grey70", command = r2_vol).place(x = 452, y = 45) 
+
+## ** \\ _____________________________________________GRÁFICO - VARIAÇÃO DE VOLUME___________________________________________ \\ ** ##              
+
+        
+## ** // _____________________________________________GRÁFICO - VARIAÇÃO DE VAZÃO___________________________________________ // ** ##
+        
+        ### *** CÁLCULO DO PERFIL DE VARIAÇÃO DE VAZÃO - RELAÇÃO TEMPORAL DEPENDENTE DA ALIMENTAÇÃO:
+        ## ** Controle do processo - análise do perfil matemático ** ##:
+        # - ALIMENTAÇÃO CONSTANTE:
+        if (def_alim == "Taxa de Vazão Constante"):
+            # - Experimental:
+            Q_calc_exp = np.repeat(Q, len(t_exp_bat_alim))
+            # - Modelada:
+            Q_calc = np.repeat(Q, len(t_alim))
+        # - ALIMENTAÇÃO LINEAR:
+        if (def_alim == "Taxa de Vazão Linear"):
+            ### Função Q(t) original:
+            # - Experimental:
+            Q_calc_exp = Q0*(1 + a*t_exp_bat_alim)
+            # - Modelada:
+            Q_calc = Q0*(1 + a*t_alim)
+        # - ALIMENTAÇÃO EXPONENCIAL:
+        if (def_alim == "Taxa de Vazão Exponencial"):
+            ### Função Q(t) original:
+            # - Experimental:
+            Q_calc_exp = Q0 * np.exp(beta_exp * t_exp_bat_alim)
+            # - Modelada:
+            Q_calc = Q0 * np.exp(beta_exp * t_alim)
+        
+        ## * GRÁFICO * ##:
+        # - Figura como função das entradas fornecidas pelo usuário:
+        def graf_vaz(vaz_cor, vaz_exp_cor):
+            def imprimir_vaz(t_ajus,t_m, vaz_ajus, vaz_m):
+                tamanho_graf()
+                f = plt.figure(figsize=(8.3,6), dpi = 54) 
+                plot = f.add_subplot(111)                                             
+                _ = plt.plot(t_m,vaz_m,color = vaz_cor,linewidth=3, label='Modelo')
+                _ = plt.plot(t_ajus,vaz_ajus,'o',markersize=6, color = vaz_exp_cor, label='Experimental')
+                _ = plt.xlabel('Tempo de cultivo (h)',weight='bold')               
+                _ = plt.ylabel('Vazão (L/h)', weight='bold')
+                _ = plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.14),ncol=2, fancybox=True, shadow=True )  
+                _ = plt.grid(True)  
+                f.patch.set_facecolor('white')                                   
+                plt.style.use('default')   
+                canvas = FigureCanvasTkAgg(f, frame45)
+                a = canvas.get_tk_widget().place(x = 0, y = 0)
+                def salvar():
+                    a = asksaveasfilename(filetypes=(("PNG Image", "*.png"),("All Files", "*.*")), 
+                    defaultextension='.png')
+                    plt.savefig(a)  
+                botao_com_graf(frame = frame45, comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy, x = 450, y = 176)
+            imprimir_vaz(t_exp_bat_alim, t_alim, Q_calc_exp, Q_calc)
+            
+        # - Escolha das cores:
+        def seletor_cores_vaz():
+            cor_vaz = colorchooser.askcolor(title ="Editar cores")
+            cor_vaz = cor_vaz[1]
+            graf_vaz(vaz_cor = cor_vaz, vaz_exp_cor = cor_vaz)
+            
+        # - Geração do gráfico padrão fermenpy:
+        graf_vaz(vaz_cor = "lime", vaz_exp_cor = "lime")
+        # - Botão para seleção das cores:
+        botao_paleta_graf(frame45, comando = seletor_cores_vaz)
+        
+        ### ** CÁLCULO DO COEFICIENTE DE REGRESSÃO - VARIAÇÃO DA VAZÃO ** ###:
+        def r2_vaz():
+            df_vaz = pd.DataFrame({'Tempo(h)': t_alim, 'Vazão (L/h)': Q_calc})
+            df_t_exp = pd.DataFrame({'Tempo(h)': t_exp_bat_alim})
+            df_vaz_merge = df_vaz.merge(df_t_exp, how = 'inner' ,indicator=False)
+            df_vaz_exp = pd.DataFrame({'Tempo_exp(h)':t_exp_bat_alim, 'Vazão (L/h)': Q_calc_exp})
+            del df_vaz_merge['Tempo(h)']
+            del df_vaz_exp['Tempo_exp(h)']
+            df_vaz_merge = df_vaz_merge.values
+            df_vaz_exp = df_vaz_exp.values
+            resid = (df_vaz_merge - df_vaz_exp)**2
+            resid = resid.flatten()
+            resid = sum(resid)
+            vaz_medio = np.mean(df_vaz_exp)
+            vaz_total = sum((df_vaz_exp - vaz_medio)**2)
+            r2_vaz = 1 - (resid/vaz_total)
+            Label(frame2, text = "", font = "batang 10",  bg = "grey40", width = 10).place(x = 1168, y = 329.2)
+            Label(frame2, text = r2_vaz[0].round(4), font = "batang 10 italic", fg = "black", bg = "grey40", width = 10).place(x = 1168, y = 329.2)
+            print(r2_vaz[0])
+        
+        #### **** Impressão do valor do R² concentração na interface **** ####:
+        ## Botão para acesso:
+        Button(frame45, text = "R²", font = "batang 12 bold", fg = "black", bg = "grey70", command = r2_vaz).place(x = 452, y = 45) 
+
+## ** \\ _____________________________________________GRÁFICO - VARIAÇÃO DE VOLUME___________________________________________ \\ ** ##            
+        
+
+### *** ____________________________SAÍDAS EM FORMATO PLANILHAS EXCEL____________________________ *** ###
+        # - Inserindo 0 para o primeiro valor de produtividade:
+        ## Experimental:
+        # -- Células
+        Px_exp_ad = np.insert(Px_exp,0,0)
+        # -- Produto:
+        Pp_exp_ad = np.insert(Pp_exp,0,0)
+        ## Modelada:
+        # -- Células:
+        Px_ad = np.insert(Px,0,0)
+        # -- Produto:
+        Pp_ad = np.insert(Pp,0,0)
+        
+        # - Saída .xlsx - concentração, produtividades e taxa de crescimento:
+        def excel_concent_produtiv():
+            df_sai_exp = pd.DataFrame({'Tempo_exp(h)': t_exp, 'Cx_exp(g/L)': C_exp[:,0], 'Cs_exp(g/L)': C_exp[:,1], 'Cp_exp(g/L)': C_exp[:,2], 'Px_exp(gcél/L.h)': Px_exp_ad, 'Pp_exp(gprod/L.h)': Pp_exp_ad, 'Ppx_exp(gprod/gcél)': Ppx_exp, 'mi_exp(h-¹)': mi_exp})
+            df_sai_model = pd.DataFrame({'Tempo(h)': Ttotal, 'Cx(g/L)': Cx, 'Cs(g/L)': Cs, 'Cp(g/L)': Cp, 'Px(gcél/L.h)': Px_ad, 'Pp(gprod/L.h)': Pp_ad, 'Ppx(gprod/gcél)': Ppx, 'mi(h-¹)': mi})
+            df_r2 = pd.DataFrame({'R²':[r2]})
+            df_tempo = pd.DataFrame({"Tempo(s)":[elapsed]})
+            df_concents = pd.concat([df_sai_exp, df_sai_model, df_r2, df_tempo], axis = 1)
+            with pd.ExcelWriter('Modelagem_Concent_Produt_mi.xlsx') as writer:
+                df_concents.to_excel(writer, sheet_name="Saida_exp_modelada")
+                writer.save()
+            os.system("start EXCEL Modelagem_Concent_Produt_mi.xlsx")
+        Label(frame2, text = "Modelagem_Concent_Produt_mi.xlsx", font = "arial 8 italic", fg = "black", bg = "gray45").place(x = 1072, y = 50)
+        
+        ## Botões de acesso - arquivo .xlsx - parâmetros cinéticos:
+        botao_excel(imagem = "Excel.png", num_frame = frame2, x = 1036, y = 42, comando = excel_concent_produtiv)
+
+        
+        # Saída .xlsx - parâmetros cinéticos:
+        def excel_param():
+            if (cont_model == 0): # Monod (5p)
+                df_params_model =pd.DataFrame({'mimax(h-¹)':[param_otim_alm_alim[0]],'Ks(g/L)':[param_otim_alm_alim[1]],'Yxs(gcél/gsub)':[param_otim_alm_alim[2]], 'alfa(gprod/gcél)': [param_otim_alm_alim[3]], 'beta(gprod/gcél.h)':[param_otim_alm_alim[4]]})
+                df_params_IC = pd.DataFrame({'IC mimax(h-¹)':[ICpar[0]],'IC Ks(g/L)':[ICpar[1]],'IC Yxs(gcél/gsub)':[ICpar[2]], 'IC alfa(gprod/gcél)': [ICpar[3]], 'IC beta(gprod/gcél.h)':[ICpar[4]]})
+            if (cont_model == 1): # Contois (5p)
+                df_params_model =pd.DataFrame({'mimax(h-¹)':[param_otim_alm_alim[0]],'KSX(gsub/gcél)':[param_otim_alm_alim[1]], 'Yxs(gcél/gsub)':[param_otim_alm_alim[2]], 'alfa(gprod/gcél)': [param_otim_alm_alim[3]], 'beta(gprod/gcél.h)':[param_otim_alm_alim[4]]})
+                df_params_IC = pd.DataFrame({'IC mimax(h-¹)':[ICpar[0]],'IC KSX(gsub/gcél)':[ICpar[1]],'IC Yxs(gcél/gsub)':[ICpar[2]], 'IC alfa(gprod/gcél)': [ICpar[3]], 'IC beta(gprod/gcél.h)':[ICpar[4]]})
+            if (cont_model == 4): # Moser (5p)
+                df_params_model = pd.DataFrame({'mimax(h-¹)':[param_otim_alm_alim[0]],'Ks(g/L)':[param_otim_alm_alim[1]],'Yxs(gcél/gsub)':[param_otim_alm_alim[2]], 'alfa(gprod/gcél)': [param_otim_alm_alim[3]], 'beta(gprod/gcél.h)':[param_otim_alm_alim[4]],'u(adim)':[param_otim_alm_alim[5]]})
+                df_params_IC = pd.DataFrame({'IC mimax(h-¹)':[ICpar[0]],'IC Ks(g/L)':[ICpar[1]], 'IC Yxs(gcél/gsub)':[ICpar[2]], 'IC alfa(gprod/gcél)': [ICpar[3]], 'IC beta(gprod/gcél.h)':[ICpar[4]], 'IC mi_exp(adim)':[ICpar[5]]})
+            if (cont_model == 2): # Andrews (6p)
+                df_params_model = pd.DataFrame({'mimax(h-¹)':[param_otim_alm_alim[0]],'Ks(g/L)':[param_otim_alm_alim[1]],'Yxs(gcél/gsub)':[param_otim_alm_alim[2]], 'alfa(gprod/gcél)': [param_otim_alm_alim[3]], 'beta(gprod/gcél.h)':[param_otim_alm_alim[4]], 'KSI(g/L)':[param_otim_alm_alim[5]]})
+                df_params_IC = pd.DataFrame({'IC mimax(h-¹)':[ICpar[0]],'IC Ks(g/L)':[ICpar[1]],'IC Yxs(gcél/gsub)':[ICpar[2]], 'IC alfa(gprod/gcél)': [ICpar[3]], 'IC beta(gprod/gcél.h)':[ICpar[4]], 'IC KSI(g/L)':[ICpar[5]]})
+            if (cont_model == 5): # Hoppe_Hansford (6p)
+                df_params_model =pd.DataFrame({'mimax(h-¹)':[param_otim_alm_alim[0]],'Ks(g/L)':[param_otim_alm_alim[1]],'Yxs(gcél/gsub)':[param_otim_alm_alim[2]], 'alfa(gprod/gcél)': [param_otim_alm_alim[3]], 'beta(gprod/gcél.h)':[param_otim_alm_alim[4]], 'Kp(g/L)':[param_otim_alm_alim[5]]})
+                df_params_IC = pd.DataFrame({'IC mimax(h-¹)':[ICpar[0]],'IC Ks(g/L)':[ICpar[1]], 'IC Yxs(gcél/gsub)':[ICpar[2]], 'IC alfa(gprod/gcél)': [ICpar[3]], 'IC beta(gprod/gcél.h)':[ICpar[4]], 'IC Kp(g/L)':[ICpar[5]]})
+            if (cont_model == 3): # Aiba (6p)
+                df_params_model = pd.DataFrame({'mimax(h-¹)':[param_otim_alm_alim[0]],'Ks(g/L)':[param_otim_alm_alim[1]],'Yxs(gcél/gsub)':[param_otim_alm_alim[2]], 'alfa(gprod/gcél)': [param_otim_alm_alim[3]], 'beta(gprod/gcél.h)':[param_otim_alm_alim[4]], 'Kp(L/g)':[param_otim_alm_alim[5]]})
+                df_params_IC = pd.DataFrame({'IC mimax(h-¹)':[ICpar[0]],'IC Ks(g/L)':[ICpar[1]],'IC Yxs(gcél/gsub)':[ICpar[2]], 'IC alfa(gprod/gcél)': [ICpar[3]], 'IC beta(gprod/gcél.h)':[ICpar[4]], 'IC Kp(g/L)':[ICpar[5]]})
+            if (cont_model == 6): # Wu (7p)
+                df_params_model = pd.DataFrame({'mimax(h-¹)':[param_otim_alm_alim[0]],'Ks(g/L)':[param_otim_alm_alim[1]],'Yxs(gcél/gsub)':[param_otim_alm_alim[2]], 'alfa(gprod/gcél)': [param_otim_alm_alim[3]], 'beta(gprod/gcél.h)':[param_otim_alm_alim[4]],'KE(g/L)':[param_otim_alm_alim[5]], 'v(adim)':[param_otim_alm_alim[6]]})
+                df_params_IC = pd.DataFrame({'IC mimax(h-¹)':[ICpar[0]],'IC Ks(g/L)':[ICpar[1]],'IC Yxs(gcél/gsub)':[ICpar[2]], 'IC alfa(gprod/gcél)': [ICpar[3]], 'IC beta(gprod/gcél.h)':[ICpar[4]], 'IC KE(g/L)':[ICpar[5]], 'IC v(adim)':[ICpar[6]]})
+            if (cont_model == 7): # Levenspiel (7p)
+                df_params_model = pd.DataFrame({'mimax(h-¹)':[param_otim_alm_alim[0]],'Ks(g/L)':[param_otim_alm_alim[1]],'Yxs(gcél/gsub)':[param_otim_alm_alim[2]], 'alfa(gprod/gcél)': [param_otim_alm_alim[3]], 'beta(gprod/gcél.h)':[param_otim_alm_alim[4]], 'n(adim)':[param_otim_alm_alim[5]], 'Cp_estr(g/L)':[param_otim_alm_alim[6]]})
+                df_params_IC = pd.DataFrame({'IC mimax(h-¹)':[ICpar[0]],'IC Ks(g/L)':[ICpar[1]], 'IC Yxs(gcél/gsub)':[ICpar[2]], 'IC alfa(gprod/gcél)': [ICpar[3]], 'IC beta(gprod/gcél.h)':[ICpar[4]], 'IC n(adim)':[ICpar[5]], 'IC Cp_estr(g/L)':[ICpar[6]]})  
+            if (cont_model == 8): # Lee (7p)
+                df_params_model =pd.DataFrame({'mimax(h-¹)':[param_otim_alm_alim[0]],'Ks(g/L)':[param_otim_alm_alim[1]],'Yxs(gcél/gsub)':[param_otim_alm_alim[2]], 'alfa(gprod/gcél)': [param_otim_alm_alim[3]], 'beta(gprod/gcél.h)':[param_otim_alm_alim[4]], 'm(adim)':[param_otim_alm_alim[5]], 'Cx_estr(g/L)':[param_otim_alm_alim[6]]})
+                df_params_IC = pd.DataFrame({'IC mimax(h-¹)':[ICpar[0]],'IC Ks(g/L)':[ICpar[1]],'IC Yxs(gcél/gsub)':[ICpar[2]], 'IC alfa(gprod/gcél)': [ICpar[3]], 'IC beta(gprod/gcél.h)':[ICpar[4]], 'IC m(adim)':[ICpar[5]], 'IC Cx_estr(g/L)':[ICpar[6]]}) 
+            if (cont_model == 9): # mi constante (4p)
+                df_params_model =pd.DataFrame({'mi(h-¹)':[param_otim_alm_alim[0]],'Yxs(gcél/gsub)':[param_otim_alm_alim[1]], 'alfa(gprod/gcél)': [param_otim_alm_alim[2]], 'beta(gprod/gcél.h)':[param_otim_alm_alim[3]]})
+                df_params_IC = pd.DataFrame({'IC mi(h-¹)':[ICpar[0]],'IC Kd(h-¹)':[ICpar[1]],'IC Yxs(gcél/gsub)':[ICpar[1]], 'IC alfa(gprod/gcél)': [ICpar[2]], 'IC beta(gprod/gcél.h)':[ICpar[3]]})
+            df_params = pd.concat([df_params_model, df_params_IC], axis = 1)
+            with pd.ExcelWriter('Modelagem_Parametros_Cineticos.xlsx') as writer:
+                df_params.to_excel(writer, sheet_name="Param_model")
+                writer.save()
+            os.system("start EXCEL Modelagem_Parametros_Cineticos.xlsx")
+        Label(frame2, text = "Modelagem_Params_Cineticos.xlsx", font = "arial 8 italic", fg = "black", bg = "gray45").place(x = 1072, y = 87)
+        
+        ## Botões de acesso - arquivo .xlsx - parâmetros cinéticos:
+        botao_excel(imagem = "Excel.png", num_frame = frame2, x = 1036, y = 80, comando = excel_param)
+        
+        ####### ****** FIM DA MODELAGEM ******* #########
+        return()
 
     # Selecionar os modelos não estruturados para a modelagem:
     ## * SAÍDA DOS VALORES OTIMIZADOS DE CADA PARÂMETRO RELACIONADO * ##
