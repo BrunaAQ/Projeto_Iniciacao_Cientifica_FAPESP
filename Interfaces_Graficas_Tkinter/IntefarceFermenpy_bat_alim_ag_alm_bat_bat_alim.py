@@ -541,11 +541,11 @@ def explorer():
     ### ** Separação - batelada ** :
     ## Intervalo
     int_bat = excel_entrada_np[1,1] - excel_entrada_np[0,1]
-    ## Correção no index:
-    tf_bat = tf_bat - int_bat
+    ## Correção no index - cópia manual do funcionamento do algoritmo python:
+    tf_bat_cor = tf_bat - int_bat
     print(tf_bat)
     ## Vetores tempo e concentração:
-    t_exp_bat = np.arange(excel_entrada_np[0,1], (tf_bat + int_bat), int_bat)
+    t_exp_bat = np.arange(excel_entrada_np[0,1], (tf_bat_cor + int_bat), int_bat)
     print(t_exp_bat)
     C_exp_bat = (excel_entrada_np[:(len(t_exp_bat)),2:5])
     print("bat", int_bat)
@@ -603,8 +603,8 @@ def explorer():
         ### ** Separação - batelada alimentada ** :
         # Tempo e concentração:
         int_bat_alim = int_bat
-        t_exp_bat_alim = np.arange(t_exp_bat[len(t_exp_bat)-1], (excel_entrada_np[len(excel_entrada_np) - 1, 1]) + int_bat_alim, int_bat_alim)
-        C_exp_bat_alim = (excel_entrada_np[(len(t_exp_bat)-1):,2:5])
+        t_exp_bat_alim = np.arange(tf_bat, (excel_entrada_np[len(excel_entrada_np) - 1, 1]) + int_bat_alim, int_bat_alim)
+        C_exp_bat_alim = (excel_entrada_np[(len(t_exp_bat)):,2:5])
         #print("bat alim", int_bat_alim)
         print("bat alim", t_exp_bat_alim)
         print("bat alim", C_exp_bat_alim)
@@ -1371,18 +1371,31 @@ def explorer():
         
         
         #### **** CÁLCULO DO INTERVALO DE CONFIANÇA **** ####:
-        # - Batelada alimentada:
-        res_otimo =resultado_alm_alim[2]['fvec']
-        sensT_otimo =resultado_alm_alim[2]['fjac']
+        # - Batelada - saída apenas em formato .xlsx:
+        res_otimo = resultado_alm_bat[2]['fvec']
+        sensT_otimo = resultado_alm_bat[2]['fjac']
         npar = len(sensT_otimo[:,1])
         ndata = len(sensT_otimo[1,:])
         invXtX=np.linalg.inv(np.matmul(sensT_otimo,sensT_otimo.transpose()))
         sig2y= sum(res_otimo**2) / (ndata-npar)
         covparamers = invXtX*sig2y
         EPpar = np.sqrt(covparamers.diagonal())
-        ICpar = EPpar*sc.t.interval(.95, ndata-npar, loc=0, scale=1)[1]
-        ICpar = ICpar.round(3)
-        print(ICpar)
+        ICpar_bat = EPpar*sc.t.interval(.95, ndata-npar, loc=0, scale=1)[1]
+        ICpar_bat = ICpar_bat.round(3)
+        print(ICpar_bat)
+        
+        # - Batelada alimentada - saída na interface e em formato .xlsx:
+        res_otimo = resultado_alm_alim[2]['fvec']
+        sensT_otimo = resultado_alm_alim[2]['fjac']
+        npar = len(sensT_otimo[:,1])
+        ndata = len(sensT_otimo[1,:])
+        invXtX=np.linalg.inv(np.matmul(sensT_otimo,sensT_otimo.transpose()))
+        sig2y= sum(res_otimo**2) / (ndata-npar)
+        covparamers = invXtX*sig2y
+        EPpar = np.sqrt(covparamers.diagonal())
+        ICpar_alim = EPpar*sc.t.interval(.95, ndata-npar, loc=0, scale=1)[1]
+        ICpar_alim = ICpar_alim.round(3)
+        print(ICpar_alim)
         
         ### *** DEFINIÇÃO SAÍDA DOS VALORES MODELADOS NA INTERFACE:
         # - Batelada alimentada:
@@ -1415,24 +1428,22 @@ def explorer():
             Label(frame2, text = param_otim_alm_alim[2] , font = "batang 11", fg = "black", bg = "grey75", justify = "center").place(x = 1000, y = 417)
             Label(frame2, text = param_otim_alm_alim[3] , font = "batang 11", fg = "black", bg = "grey75", justify = "center").place(x = 1090, y = 417)
             Label(frame2, text = param_otim_alm_alim[4] , font = "batang 11", fg = "black", bg = "grey75", justify = "center").place(x = 1170, y = 417)
-        '''
+        
         # Condições para marcação dos valores inadequados modelados:
         cond_mimax_mi =  param_otim_alm_alim[0] > 0.9 
         ## situação não observada para Kd (cont_model = 9), portanto, não resultará em problemas:
         cond_Ks = param_otim_alm_alim[1] >= C_exp[0,1] or param_otim_alm_alim[1] == 0 
         if (cont_model != 9):
-            cond_yxs = param_otim_alm_alim[3] >= C_exp[0,1]
-            cond_mi_kd = param_otim_alm_alim[2] > param_otim_alm_alim[0]
-        else:
             cond_yxs = param_otim_alm_alim[2] >= C_exp[0,1]
-            cond_mi_kd = param_otim_alm_alim[1] > param_otim_alm_alim[0]
+        else:
+            cond_yxs = param_otim_alm_alim[1] >= C_exp[0,1]
         # Checagem parâmetros negativos:
         cond_param_neg = False
         for i in range (len(param_otim_alm_alim)):
             if param_otim_alm_alim[i] < 0:
                 cond_param_neg = True   
                 
-        if (cond_mimax_mi or cond_Ks or cond_mi_kd or cond_param_neg == True):
+        if (cond_mimax_mi or cond_Ks or cond_param_neg == True):
             # Som de alerta:
             duration = 1000  # milliseconds
             freq = 440  # Hz
@@ -1455,7 +1466,7 @@ def explorer():
                 if button_flashing:
                     self.config(text = 'Inadequação de parâmetros', font="Times 11 bold italic", width = 20, fg = "white")
                     flashColour(self, 0)
-                    if (cond_mimax_mi):
+                    if cond_mimax_mi:
                         Label(frame2, text = param_otim_alm_alim[0], font = "batang 11", justify = "center", fg = "red4", bg = "grey75").place(x = 943, y = 255)
                     if (cont_model != 9):
                         if (cond_Ks):
@@ -1466,12 +1477,6 @@ def explorer():
                     else:
                         if (cond_yxs):
                             Label(frame2, text = param_otim_alm_alim[2] , font = "batang 11", fg = "red4", bg = "grey75", justify = "center").place(x = 1000, y = 417)
-                    if (cont_model != 9):
-                        if (cond_mi_kd):
-                            Label(frame2, text = param_otim_alm_alim[2] , font = "batang 11", fg = "red4", bg = "grey75", justify = "center").place(x = 934, y = 417)
-                    else:
-                        if (cond_mi_kd):
-                            Label(frame2, text = param_otim_alm_alim[1] , font = "batang 11", fg = "red4", bg = "grey75", justify = "center").place(x = 934, y = 417)
                     if cond_param_neg == True:
                         if (param_otim_alm_alim[0] <= 0): #mimaximo, mi
                             Label(frame2, text = param_otim_alm_alim[0], font = "batang 11", justify = "center", fg = "red4", bg = "grey75").place(x = 943, y = 255)
@@ -1479,40 +1484,34 @@ def explorer():
                             if (param_otim_alm_alim[1] <= 0): #Ks
                                 Label(frame2, text = param_otim_alm_alim[1], font = "batang 11", justify = "center", fg = "red4", bg = "grey75").place(x = 1021, y = 255)
                         if (cont_model != 9):
-                            if (param_otim_alm_alim[2] < 0 or cond_mi_kd or param_otim_alm_alim[2] == -0.0): #Kd
-                                Label(frame2, text = param_otim_alm_alim[2] , font = "batang 11", fg = "red4", bg = "grey75", justify = "center").place(x = 934, y = 417)
-                        else:
-                            if (param_otim_alm_alim[1] < 0 or cond_mi_kd or param_otim_alm_alim[1] == -0.0): #Kd
-                                Label(frame2, text = param_otim_alm_alim[1] , font = "batang 11", fg = "red4", bg = "grey75", justify = "center").place(x = 934, y = 417)
-                        if (cont_model != 9):
-                            if (param_otim_alm_alim[3] <= 0 or cond_yxs): #Yxs
-                                Label(frame2, text = param_otim_alm_alim[3] , font = "batang 11", fg = "red4", bg = "grey75", justify = "center").place(x = 1000, y = 417)
+                            if (param_otim_alm_alim[1] <= 0 or cond_yxs): #Yxs
+                                Label(frame2, text = param_otim_alm_alim[1] , font = "batang 11", fg = "red4", bg = "grey75", justify = "center").place(x = 1000, y = 417)
                         else: 
                             if (param_otim_alm_alim[2] <= 0 or cond_yxs): #Yxs
                                 Label(frame2, text = param_otim_alm_alim[2] , font = "batang 11", fg = "red4", bg = "grey75", justify = "center").place(x = 1000, y = 417)
                         if (cont_model != 9):
-                            if (param_otim_alm_alim[4] <= 0): #alfa
-                                Label(frame2, text = param_otim_alm_alim[4] , font = "batang 11", fg = "red4", bg = "grey75", justify = "center").place(x = 1090, y = 417)
+                            if (param_otim_alm_alim[3] <= 0): #alfa
+                                Label(frame2, text = param_otim_alm_alim[3] , font = "batang 11", fg = "red4", bg = "grey75", justify = "center").place(x = 1090, y = 417)
                         else:
-                            if (param_otim_alm_alim[2] <= 0): #alfa
-                                Label(frame2, text = param_otim_alm_alim[2] , font = "batang 11", fg = "red4", bg = "grey75", justify = "center").place(x = 1090, y = 417)
+                            if (param_otim_alm_alim[1] <= 0): #alfa
+                                Label(frame2, text = param_otim_alm_alim[1] , font = "batang 11", fg = "red4", bg = "grey75", justify = "center").place(x = 1090, y = 417)
                         if (cont_model != 9):
-                            if (param_otim_alm_alim[5] < 0): #beta
-                                Label(frame2, text = param_otim_alm_alim[5] , font = "batang 11", fg = "red4", bg = "grey75", justify = "center").place(x = 1170, y = 417)
-                        else:
                             if (param_otim_alm_alim[4] < 0): #beta
                                 Label(frame2, text = param_otim_alm_alim[4] , font = "batang 11", fg = "red4", bg = "grey75", justify = "center").place(x = 1170, y = 417)
+                        else:
+                            if (param_otim_alm_alim[3] < 0): #beta
+                                Label(frame2, text = param_otim_alm_alim[3] , font = "batang 11", fg = "red4", bg = "grey75", justify = "center").place(x = 1170, y = 417)
                         if (cont_model == 2):
-                            if (param_otim_alm_alim[6] > 55):
-                                Label(frame2, text = param_otim_alm_alim[6], font = "batang 11", justify = "center", fg = "red4", bg = "gre75y").place(x = 1099, y = 255)
+                            if (param_otim_alm_alim[5] > 55):
+                                Label(frame2, text = param_otim_alm_alim[5], font = "batang 11", justify = "center", fg = "red4", bg = "gre75y").place(x = 1099, y = 255)
                         if (cont_model >= 3 and cont_model <=5):
-                            if (param_otim_alm_alim[6] <= 0 or param_otim_alm_alim[6] > 10):
-                                Label(frame2, text = param_otim_alm_alim[6], font = "batang 11", justify = "center", fg = "red4", bg = "grey75").place(x = 1099, y = 255)
+                            if (param_otim_alm_alim[5] <= 0 or param_otim_alm_alim[5] > 10):
+                                Label(frame2, text = param_otim_alm_alim[5], font = "batang 11", justify = "center", fg = "red4", bg = "grey75").place(x = 1099, y = 255)
                         if (cont_model >= 6 and cont_model <=8):
+                            if (param_otim_alm_alim[5] <= 0):
+                                Label(frame2, text = param_otim_alm_alim[5], font = "batang 11", justify = "center", fg = "red4", bg = "grey75").place(x = 1142, y = 255)
                             if (param_otim_alm_alim[6] <= 0):
-                                Label(frame2, text = param_otim_alm_alim[6], font = "batang 11", justify = "center", fg = "red4", bg = "grey75").place(x = 1142, y = 255)
-                            if (param_otim_alm_alim[7] <= 0):
-                                Label(frame2, text = param_otim_alm_alim[7], font = "batang 11", justify = "center", fg = "red4", bg = "grey75").place(x = 1163, y = 255)
+                                Label(frame2, text = param_otim_alm_alim[6], font = "batang 11", justify = "center", fg = "red4", bg = "grey75").place(x = 1163, y = 255)
                 else:
                     self.config(text = 'Press to start flashing', font="Times 12 bold italic",
                     background = flash_colours[0])
@@ -1522,7 +1521,7 @@ def explorer():
          
         else:
             my_button = Label(frame2, bg = "grey85", borderwidth=7.5, relief="flat", height = 2, width = 28).place(x = 921, y = 150)
-        '''
+        
         ### JANELA PARA ACESSO AOS VALORES DE INTERVALO DE CONFIANÇA:
         # - Batelada Alimentada:
         def int_conf():
@@ -1539,15 +1538,15 @@ def explorer():
                 Label(janela_interna, text = u"Kd(±h\u207b\u00b9)    Yxs(±gx.gs\u207b\u00b9)    \u03B1(±gp.gx\u207b\u00b9)    \u03B2[±gp.(gx.h)\u207b\u00b9]", font = "arial 10 bold", fg = "black", width = 42, height = 1).place(x = 29, y = 67)
                 Label(janela_interna, width = 48, height = 1).place(x = 29, y = 90)
                 if (cont_model == 9): # - mi constante
-                    Label(janela_interna, text = ICpar[1], font = "batang 11", fg = "black").place(x = 32, y = 90)
-                    Label(janela_interna, text = ICpar[2], font = "batang 11", fg = "black").place(x = 113, y = 90)
-                    Label(janela_interna, text = ICpar[3], font = "batang 11", fg = "black").place(x = 207, y = 90)
-                    Label(janela_interna, text = ICpar[4], font = "batang 11", fg = "black").place(x = 300, y = 90)
+                    Label(janela_interna, text = ICpar_alim[1], font = "batang 11", fg = "black").place(x = 32, y = 90)
+                    Label(janela_interna, text = ICpar_alim[2], font = "batang 11", fg = "black").place(x = 113, y = 90)
+                    Label(janela_interna, text = ICpar_alim[3], font = "batang 11", fg = "black").place(x = 207, y = 90)
+                    Label(janela_interna, text = ICpar_alim[4], font = "batang 11", fg = "black").place(x = 300, y = 90)
                 else: # - Outros modelos cinéticos
-                    Label(janela_interna, text = ICpar[2], font = "batang 11", fg = "black").place(x = 32, y = 90)
-                    Label(janela_interna, text = ICpar[3], font = "batang 11", fg = "black").place(x = 113, y = 90)
-                    Label(janela_interna, text = ICpar[4], font = "batang 11", fg = "black").place(x = 207, y = 90)
-                    Label(janela_interna, text = ICpar[5], font = "batang 11", fg = "black").place(x = 300, y = 90)
+                    Label(janela_interna, text = "----", font = "batang 11", fg = "black").place(x = 32, y = 90)
+                    Label(janela_interna, text = ICpar_alim[2], font = "batang 11", fg = "black").place(x = 113, y = 90)
+                    Label(janela_interna, text = ICpar_alim[3], font = "batang 11", fg = "black").place(x = 207, y = 90)
+                    Label(janela_interna, text = ICpar_alim[4], font = "batang 11", fg = "black").place(x = 300, y = 90)
             Botao_bm = Button(janela_interna, text = "Balanço de massa", font = "arial 8 bold", fg = "white", bg = "gray20", command = balan_massa).place(x = 25, y = 20)
             def mi():
                 Label(janela_interna, text = "", font = "Times 32", bd = 4, relief = "sunken", width = 15, height = 2).place(x = 14, y = 32)
@@ -1560,11 +1559,11 @@ def explorer():
                          Label(janela_interna, text = u"\u03bcmáx(±h\u207b\u00b9)     Ks(±g.L\u207b\u00b9)", font = "arial 10 bold", fg = "black", width = 42, justify = "left").place(x = 29, y = 67) 
                     if (cont_model == 1): # Contois
                          Label(janela_interna, text = u"\u03bcmáx(±h\u207b\u00b9)     KSX(±gs.gx\u207b\u00b9)", font = "arial 10 bold", fg = "black", width = 42, justify = "left").place(x = 29, y = 67) 
-                    Label(janela_interna, text = ICpar[0], font = "batang 11", fg = "black").place(x = 133, y = 90)
-                    Label(janela_interna, text = ICpar[1], font = "batang 11", fg = "black").place(x = 220, y = 90)
+                    Label(janela_interna, text = ICpar_alim[0], font = "batang 11", fg = "black").place(x = 133, y = 90)
+                    Label(janela_interna, text = ICpar_alim[1], font = "batang 11", fg = "black").place(x = 220, y = 90)
                 if (cont_model == 9): # mi constante
                     Label(janela_interna, text = u"\u03bc(±h\u207b\u00b9)", font = "arial 10 bold", fg = "black", width = 42, justify = "left").place(x = 29, y = 67) 
-                    Label(janela_interna, text = ICpar[0], font = "batang 11", fg = "black").place(x = 179, y = 90)
+                    Label(janela_interna, text = ICpar_alim[0], font = "batang 11", fg = "black").place(x = 179, y = 90)
                 if (cont_model >=2 and cont_model <=5): # - Andrews (6p), Aiba (6p), Moser (6p), Hoppe & Hansford (6p)
                     if (cont_model == 2): # Andrews
                         Label(janela_interna, text = u"\u03bcmáx(±h\u207b\u00b9)      Ks(±g.L\u207b\u00b9)     KIS(±g.L\u207b\u00b9)", font = "arial 10 bold", fg = "black", width = 42).place(x = 29, y = 67)
@@ -1572,9 +1571,9 @@ def explorer():
                         Label(janela_interna,  text = u"\u03bcmáx(±h\u207b\u00b9)     Ks(±g.L\u207b\u00b9)     u(±adim)", font = "arial 10 bold", fg = "black", width = 42).place(x = 29, y = 67)
                     if (cont_model == 3 or cont_model ==5): # Aiba e Hoppe & Hansford
                         Label(janela_interna, text = u"\u03bcmáx(±h\u207b\u00b9)     Ks(±g.L\u207b\u00b9)     Kp(±g.L\u207b\u00b9)", font = "arial 10 bold", fg = "black", width = 42).place(x = 29, y = 67)
-                    Label(janela_interna, text = "----", font = "batang 11", fg = "black").place(x = 92, y = 90)
-                    Label(janela_interna, text = ICpar[1], font = "batang 11", fg = "black").place(x = 182, y = 90)
-                    Label(janela_interna, text = ICpar[5], font = "batang 11", fg = "black").place(x = 270, y = 90)
+                    Label(janela_interna, text = ICpar_alim[0], font = "batang 11", fg = "black").place(x = 92, y = 90)
+                    Label(janela_interna, text = ICpar_alim[1], font = "batang 11", fg = "black").place(x = 182, y = 90)
+                    Label(janela_interna, text = ICpar_alim[5], font = "batang 11", fg = "black").place(x = 270, y = 90)
                 if (cont_model >5 and cont_model <=8): # - Wu (7p), Levenspiel (7p), Lee (7p)
                     if (cont_model == 6): # Wu
                         Label(janela_interna, text = u"\u03bcmáx(±h\u207b\u00b9)     Ks(±g.L\u207b\u00b9)     KE(±g.L\u207b\u00b9)     v(±adim)", font = "arial 10 bold", fg = "black", width = 42).place(x = 29, y = 67)
@@ -1582,10 +1581,10 @@ def explorer():
                         Label(janela_interna, text = u"\u03bcmáx(±h\u207b\u00b9)    Ks(±g.L\u207b\u00b9)     n(±adim)     Cp*(±g.L\u207b\u00b9)", font = "arial 10 bold", fg = "black", width = 42).place(x = 29, y = 67)
                     if (cont_model ==8): # Lee
                         Label(janela_interna, text = u"\u03bcmáx(±h\u207b\u00b9)    Ks(±g.L\u207b\u00b9)     Cx*(±g.L\u207b\u00b9)     m(±adim)", font = "arial 10 bold", fg = "black", width = 42).place(x = 29, y = 67)
-                    Label(janela_interna, text = "----", font = "batang 11",  fg = "black").place(x = 52, y = 90)
-                    Label(janela_interna, text = ICpar[1], font = "batang 11",  fg = "black").place(x = 143, y = 90)
-                    Label(janela_interna, text = ICpar[5], font = "batang 11", fg = "black").place(x = 226, y = 90)
-                    Label(janela_interna, text = ICpar[6], font = "batang 11",  fg = "black").place(x = 304, y = 90)        
+                    Label(janela_interna, text = ICpar_alim[0], font = "batang 11",  fg = "black").place(x = 52, y = 90)
+                    Label(janela_interna, text = ICpar_alim[1], font = "batang 11",  fg = "black").place(x = 143, y = 90)
+                    Label(janela_interna, text = ICpar_alim[5], font = "batang 11", fg = "black").place(x = 226, y = 90)
+                    Label(janela_interna, text = ICpar_alim[6], font = "batang 11",  fg = "black").place(x = 304, y = 90)        
             Botao_mi = Button(janela_interna, text = u"Equação \u03bc", font = "arial 8 bold", fg = "white", bg = "gray20", command = mi).place(x = 140, y = 20)
             Button(janela_interna, text = "Voltar", font = "arial 9 bold", fg = "white", bg = "gray30", command = janela_interna.destroy).place(x = 174, y = 160)
             janela_interna.mainloop()
@@ -1748,6 +1747,7 @@ def explorer():
         ### Cálculo do R²:
         r2 = 1 - (SQres/SQtotal)
         r2 = round(r2,4)
+        print(r2)
         
         ### *** CÁLCULO RES FINAL: - VALOR DA FUNÇÃO OBJETIVA:
         # - Batelada alimentada:
@@ -1785,7 +1785,7 @@ def explorer():
                                     
             
                                 ### *** PLOTAGEM GRÁFICA *** ###
-    
+        
         ## DETERMINAÇÃO DO TAMANHO DOS EIXOS GRÁFICOS:
         def tamanho_graf():
             SMALL_SIZE = 13                        
@@ -1833,7 +1833,7 @@ def explorer():
                 defaultextension='.png')
                 plt.savefig(a)
             botao_com_graf(frame = frame38, comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy, x = 450, y = 176)
-        imprimir_perfil_concentracao_model_otim_exp(Ttotal_exp, Ttotal, C_exp[:,0], C_exp[:,1], C_exp[:,2], Cx, Cs, Cp)
+        imprimir_perfil_concentracao_model_otim_exp(Ttotal_exp, Ttotal, Cx_exp, Cs_exp, Cp_exp, Cx, Cs, Cp)
         
         # - Mudança de cor em decorrência da entrada do usuário
         # Gráfico para mudança de cor - perfil de concentração:
@@ -1848,6 +1848,7 @@ def explorer():
             ax2 = plot.twinx()
             _ = lns5 = ax2.plot(Ttotal, Cp,linestyle="--", color=p,linewidth=3,label='Cp modelo') 
             _ = lns6 = ax2.plot(t_exp,Cp_exp,'^',color=p, markersize=6,label='Cp experimental')
+            _ = plot.axvline(x = tf_bat, color = "grey", linestyle="dashed", linewidth=3)
             _ = plot.set_xlabel('Tempo de cultivo (h)',weight='bold')               
             _ = plot.set_ylabel('Cx e Cs (g/L)', weight='bold')
             _ = ax2.set_ylabel('Cp (g/L)', weight='bold') 
@@ -1904,22 +1905,22 @@ def explorer():
 
 ## ** \\ _____________________________________________GRÁFICO - PERFIL DE CONCENTRAÇÃO___________________________________________ \\ ** ##
         
-        
+              
 ## ** // __________________________________________GRÁFICO - PRODUTIVIDADE CELULAR E DO PRODUTO__________________________________ // ** ##
         
         ### ** CÁLCULO DA PRODUTIVIDADE CELULAR (Px) E DO PRODUTO (Pp) - TEMPORAL:
         ## Experimental: 
         # -- Células:
-        Px_exp = Cx_exp[1:,0]/Ttotal_exp[1:] 
+        Px_exp = Cx_exp[1:]/Ttotal_exp[1:] 
         Px_exp[Px_exp<0] = 0 # Se o valor é menor que 0 é substituido por 0
         # -- Produto:
-        Pp_exp = Cp_exp[1:,2]/Ttotal_exp[1:]
+        Pp_exp = Cp_exp[1:]/Ttotal_exp[1:]
         Pp_exp[Pp_exp<0] = 0 # Se o valor é menor que 0 é substituido por 0
         ## Modelada:
         # -- Células:
-        Px = Cx[1:,0]/Ttotal[1:]
+        Px = Cx[1:]/Ttotal[1:]
         Px[Px<0] = 0 # Se o valor é menor que 0 é substituido por 0
-        Pp = Cp[1:,2]/Ttotal[1:]
+        Pp = Cp[1:]/Ttotal[1:]
         Pp[Pp<0] = 0 # Se o valor é menor que 0 é substituido por 0
         
         ## ** GRÁFICO ** ##:
@@ -1934,6 +1935,7 @@ def explorer():
                 ax2 = plot.twinx()
                 _ = lns3 = ax2.plot(t_m,Pp_m,linestyle=":", color = pp,linewidth=3,label='Produtividade Produto modelo') 
                 _ = lns4 = ax2.plot(t_ajus,Pp_ajus,'sb', markersize=6, color = pp,label='Produtividade Produto experimental')
+                _ = plot.axvline(x = tf_bat, color = "grey", linestyle="dashed", linewidth=3)
                 _ = plot.set_xlabel('Tempo de cultivo (h)',weight='bold')               
                 _ = plot.set_ylabel('Produtividade Celular (gx/L.h)', weight='bold')
                 ax2.set_ylabel('Produtividade Produto (gp/L.h)', weight='bold') 
@@ -1982,7 +1984,7 @@ def explorer():
             df_Px_Pp = pd.DataFrame({'Tempo(h)':Ttotal[1:], 'Px(gx/t)': Px, 'Pp(gp/t)': Pp})
             df_t_exp = pd.DataFrame({'Tempo(h)': Ttotal_exp[1:]})
             df_Px_Pp_merge = df_Px_Pp.merge(df_t_exp, how = 'inner' ,indicator=False)
-            df_Px_Pp_exp = pd.DataFrame({'Tempo_exp(h)':t_exp[1:], 'Px_exp(gx/t)': Px_exp, 'Pp_exp(gp/t)': Pp_exp})
+            df_Px_Pp_exp = pd.DataFrame({'Tempo_exp(h)':Ttotal_exp[1:], 'Px_exp(gx/t)': Px_exp, 'Pp_exp(gp/t)': Pp_exp})
             del df_Px_Pp_merge['Tempo(h)']
             del df_Px_Pp_exp['Tempo_exp(h)']
             df_Px_Pp_merge = df_Px_Pp_merge.values
@@ -1998,7 +2000,7 @@ def explorer():
             r2_Px_Pp = 1 - (resid/Px_Pp_total)
             Label(frame2, text = "", font = "batang 10",  bg = "grey40", width = 10).place(x = 1168, y = 329.2)
             Label(frame2, text = r2_Px_Pp.round(4), font = "batang 10 italic", fg = "black", bg = "grey40", width = 10).place(x = 1168, y = 329.2)
-            print(r2_Px_Pp)
+            print(r2_Px_Pp[0])
             
         #### **** Impressão do valor do R² concentração na interface **** ####:
         # - Botão para acesso:
@@ -2011,10 +2013,10 @@ def explorer():
         
         ### ** CÁLCULO DA PRODUTIVIDADE ESPECÍFICA (Ppx) - RELAÇÃO ENTRE PRODUTO E BIOMASSA:
         # -- Experimental:
-        Ppx_exp = Cp_exp[:,2]*(1/Cx_exp[:,0])
+        Ppx_exp = Cp_exp*(1/Cx_exp)
         Ppx_exp[Ppx_exp<0] = 0
         # -- Modelada:
-        Ppx = Cp[:,2]*(1/Cx[:,0])
+        Ppx = Cp*(1/Cx)
         Ppx[Ppx<0] = 0
         
         ## ** GRÁFICO ** ##:
@@ -2026,6 +2028,7 @@ def explorer():
                 plot = f.add_subplot(111)  
                 _ = plt.plot(t_m,Ppx_m,color = Ppx_cor,linewidth=3, label='Modelo')
                 _ = plt.plot(t_ajus,Ppx_ajus,'o',markersize=6, color = Ppx_exp_cor, label='Experimental')
+                _ = plot.axvline(x = tf_bat, color = "grey", linestyle="dashed", linewidth=3)
                 _ = plt.xlabel('Tempo de cultivo (h)',weight='bold')               
                 _ = plt.ylabel('Produtividade Específica (gp/gx)', weight='bold')
                 _ = plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.14),ncol=2, fancybox=True, shadow=True )
@@ -2055,10 +2058,10 @@ def explorer():
         ### ** CÁLCULO DO COEFICIENTE DE REGRESSÃO - PRODUTIVIDADES ** ###:
         def r2_Ppx():
             # Cálculo R²:
-            df_Ppx = pd.DataFrame({'Tempo(h)':t, 'ppx(gp/gx)': Ppx})
-            df_t_exp = pd.DataFrame({'Tempo(h)': t_exp})
+            df_Ppx = pd.DataFrame({'Tempo(h)':Ttotal, 'ppx(gp/gx)': Ppx})
+            df_t_exp = pd.DataFrame({'Tempo(h)': Ttotal_exp})
             df_Ppx_merge = df_Ppx.merge(df_t_exp, how = 'inner' ,indicator=False)
-            df_Ppx_exp = pd.DataFrame({'Tempo_exp(h)':t_exp, 'Ppx_exp(gp/gx)': Ppx_exp})
+            df_Ppx_exp = pd.DataFrame({'Tempo_exp(h)':Ttotal_exp, 'Ppx_exp(gp/gx)': Ppx_exp})
             del df_Ppx_merge['Tempo(h)']
             del df_Ppx_exp['Tempo_exp(h)']
             df_Ppx_merge = df_Ppx_merge.values
@@ -2079,7 +2082,7 @@ def explorer():
         Button(frame40, text = "R²", font = "batang 12 bold", fg = "black", bg = "grey70", command = r2_Ppx).place(x = 452, y = 45)
         
 ## ** \\ ______________________________________________GRÁFICO - PRODUTIVIDADE ESPECÍFICA_______________________________________ \\ ** ## 
-
+       
 
 ## ** // ___________________________________________GRÁFICO - TAXA ESPECÍFICA DE CRESCIMENTO____________________________________ // ** ##                   
 
@@ -2129,6 +2132,7 @@ def explorer():
                 plot = f.add_subplot(111)                                             
                 _ = plt.plot(t_m,mi_m,color = mi_cor,linewidth=3, label='Modelo')
                 _ = plt.plot(t_ajus,mi_ajus,'o',markersize=6, color = mi_exp_cor, label='Experimental')
+                _ = plot.axvline(x = tf_bat, color = "grey", linestyle="dashed", linewidth=3)
                 _ = plt.xlabel('Tempo de cultivo (h)',weight='bold')               
                 _ = plt.ylabel('Taxa $\mu (h^{-1}$)', weight='bold')
                 _ = plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.14),ncol=2, fancybox=True, shadow=True )  
@@ -2165,7 +2169,7 @@ def explorer():
                 df_mi = pd.DataFrame({'Tempo(h)': Ttotal, 'mi(h-¹)': mi})
                 df_t_exp = pd.DataFrame({'Tempo(h)': Ttotal_exp})
                 df_mi_merge = df_mi.merge(df_t_exp, how = 'inner' ,indicator=False)
-                df_mi_exp = pd.DataFrame({'Tempo_exp(h)':t_exp, 'mi(h-¹)': mi_exp})
+                df_mi_exp = pd.DataFrame({'Tempo_exp(h)':Ttotal_exp, 'mi(h-¹)': mi_exp})
                 del df_mi_merge['Tempo(h)']
                 del df_mi_exp['Tempo_exp(h)']
                 df_mi_merge = df_mi_merge.values
@@ -2185,7 +2189,7 @@ def explorer():
         Button(frame41, text = "R²", font = "batang 12 bold", fg = "black", bg = "grey70", command = r2_mi).place(x = 452, y = 45)  
 
 ## ** \\ ___________________________________________GRÁFICO - TAXA ESPECÍFICA DE CRESCIMENTO____________________________________ \\ ** ## 
-        
+           
         
 ## ** // _____________________________________________GRÁFICO - VARIAÇÃO DE VOLUME___________________________________________ // ** ##
         
@@ -2222,6 +2226,7 @@ def explorer():
                 plot = f.add_subplot(111)                                             
                 _ = plt.plot(t_m,vol_m,color = vol_cor,linewidth=3, label='Modelo')
                 _ = plt.plot(t_ajus,vol_ajus,'o',markersize=6, color = vol_exp_cor, label='Experimental')
+                _ = plot.axvline(x = tf_bat, color = "grey", linestyle="dashed", linewidth=3)
                 _ = plt.xlabel('Tempo de cultivo (h)',weight='bold')               
                 _ = plt.ylabel('Volume (L)', weight='bold')
                 _ = plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.14),ncol=2, fancybox=True, shadow=True )  
@@ -2309,6 +2314,7 @@ def explorer():
                 plot = f.add_subplot(111)                                             
                 _ = plt.plot(t_m,vaz_m,color = vaz_cor,linewidth=3, label='Modelo')
                 _ = plt.plot(t_ajus,vaz_ajus,'o',markersize=6, color = vaz_exp_cor, label='Experimental')
+                _ = plot.axvline(x = tf_bat, color = "grey", linestyle="dashed", linewidth=3)
                 _ = plt.xlabel('Tempo de cultivo (h)',weight='bold')               
                 _ = plt.ylabel('Vazão (L/h)', weight='bold')
                 _ = plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.14),ncol=2, fancybox=True, shadow=True )  
@@ -2361,7 +2367,7 @@ def explorer():
 
 ## ** \\ _____________________________________________GRÁFICO - VARIAÇÃO DE VOLUME___________________________________________ \\ ** ##            
         
-
+        
 ### *** ____________________________SAÍDAS EM FORMATO PLANILHAS EXCEL____________________________ *** ###
         # - Inserindo 0 para o primeiro valor de produtividade:
         ## Experimental:
@@ -2379,63 +2385,110 @@ def explorer():
         def excel_concent_produtiv():
             df_sai_exp = pd.DataFrame({'Tempo_exp(h)': t_exp, 'Cx_exp(g/L)': C_exp[:,0], 'Cs_exp(g/L)': C_exp[:,1], 'Cp_exp(g/L)': C_exp[:,2], 'Px_exp(gcél/L.h)': Px_exp_ad, 'Pp_exp(gprod/L.h)': Pp_exp_ad, 'Ppx_exp(gprod/gcél)': Ppx_exp, 'mi_exp(h-¹)': mi_exp})
             df_sai_model = pd.DataFrame({'Tempo(h)': Ttotal, 'Cx(g/L)': Cx, 'Cs(g/L)': Cs, 'Cp(g/L)': Cp, 'Px(gcél/L.h)': Px_ad, 'Pp(gprod/L.h)': Pp_ad, 'Ppx(gprod/gcél)': Ppx, 'mi(h-¹)': mi})
+            df_tempo_exp_bat_alim = pd.DataFrame({'Tempo_exp_alim(h)': t_exp_bat_alim})
+            df_Q_V_exp = pd.DataFrame({'Q_exp(L/h)': Q_calc_exp, 'V_exp(L)': V_calc_exp})
+            df_tempo_bat_alim = pd.DataFrame({'Tempo_alim(h)': t_alim})
+            df_Q_V = pd.DataFrame({'Q(L/h)': Q_calc, 'V(L)': V_calc})
             df_r2 = pd.DataFrame({'R²':[r2]})
+            df_fun_err_val = pd.DataFrame({'Função erro': [res_final]})
             df_tempo = pd.DataFrame({"Tempo(s)":[elapsed]})
-            df_concents = pd.concat([df_sai_exp, df_sai_model, df_r2, df_tempo], axis = 1)
-            with pd.ExcelWriter('Modelagem_Concent_Produt_mi.xlsx') as writer:
+            df_concents = pd.concat([df_sai_exp, df_sai_model, df_tempo_exp_bat_alim, df_Q_V_exp, df_tempo_bat_alim, df_Q_V, df_r2, df_fun_err_val, df_tempo], axis = 1)
+            with pd.ExcelWriter('Modelagem_Conc_Prod_mi_Q_V.xlsx') as writer:
                 df_concents.to_excel(writer, sheet_name="Saida_exp_modelada")
                 writer.save()
-            os.system("start EXCEL Modelagem_Concent_Produt_mi.xlsx")
-        Label(frame2, text = "Modelagem_Concent_Produt_mi.xlsx", font = "arial 8 italic", fg = "black", bg = "gray45").place(x = 1072, y = 50)
+            os.system("start EXCEL Modelagem_Conc_Prod_mi_Q_V.xlsx")
+        Label(frame2, text = "Modelagem_Conc_Prod_mi_Q_V.xlsx", font = "arial 8 italic", fg = "black", bg = "gray45").place(x = 1072, y = 50)
         
         ## Botões de acesso - arquivo .xlsx - parâmetros cinéticos:
         botao_excel(imagem = "Excel.png", num_frame = frame2, x = 1036, y = 42, comando = excel_concent_produtiv)
 
         
         # Saída .xlsx - parâmetros cinéticos:
+        lista_processos = ["BATELADA", "BATELADA ALIMENTADA"]
         def excel_param():
             if (cont_model == 0): # Monod (5p)
-                df_params_model =pd.DataFrame({'mimax(h-¹)':[param_otim_alm_alim[0]],'Ks(g/L)':[param_otim_alm_alim[1]],'Yxs(gcél/gsub)':[param_otim_alm_alim[2]], 'alfa(gprod/gcél)': [param_otim_alm_alim[3]], 'beta(gprod/gcél.h)':[param_otim_alm_alim[4]]})
-                df_params_IC = pd.DataFrame({'IC mimax(h-¹)':[ICpar[0]],'IC Ks(g/L)':[ICpar[1]],'IC Yxs(gcél/gsub)':[ICpar[2]], 'IC alfa(gprod/gcél)': [ICpar[3]], 'IC beta(gprod/gcél.h)':[ICpar[4]]})
+                # - Batelada:
+                df_params_model_bat =pd.DataFrame({'mimax(h-¹)':[param_otim_alm_bat[0]],'Ks(g/L)':[param_otim_alm_bat[1]],'Yxs(gcél/gsub)':[param_otim_alm_bat[2]], 'alfa(gprod/gcél)': [param_otim_alm_bat[3]], 'beta(gprod/gcél.h)':[param_otim_alm_bat[4]]})
+                df_params_IC_bat = pd.DataFrame({'IC mimax(h-¹)':[ICpar_bat[0]],'IC Ks(g/L)':[ICpar_bat[1]],'IC Yxs(gcél/gsub)':[ICpar_bat[2]], 'IC alfa(gprod/gcél)': [ICpar_bat[3]], 'IC beta(gprod/gcél.h)':[ICpar_bat[4]]})
+                # - Batelada alimentada:
+                df_params_model_alim =pd.DataFrame({'mimax(h-¹)':[param_otim_alm_alim[0]],'Ks(g/L)':[param_otim_alm_alim[1]],'Yxs(gcél/gsub)':[param_otim_alm_alim[2]], 'alfa(gprod/gcél)': [param_otim_alm_alim[3]], 'beta(gprod/gcél.h)':[param_otim_alm_alim[4]]})
+                df_params_IC_alim = pd.DataFrame({'IC mimax(h-¹)':[ICpar_alim[0]],'IC Ks(g/L)':[ICpar_alim[1]],'IC Yxs(gcél/gsub)':[ICpar_alim[2]], 'IC alfa(gprod/gcél)': [ICpar_alim[3]], 'IC beta(gprod/gcél.h)':[ICpar_alim[4]]})
             if (cont_model == 1): # Contois (5p)
-                df_params_model =pd.DataFrame({'mimax(h-¹)':[param_otim_alm_alim[0]],'KSX(gsub/gcél)':[param_otim_alm_alim[1]], 'Yxs(gcél/gsub)':[param_otim_alm_alim[2]], 'alfa(gprod/gcél)': [param_otim_alm_alim[3]], 'beta(gprod/gcél.h)':[param_otim_alm_alim[4]]})
-                df_params_IC = pd.DataFrame({'IC mimax(h-¹)':[ICpar[0]],'IC KSX(gsub/gcél)':[ICpar[1]],'IC Yxs(gcél/gsub)':[ICpar[2]], 'IC alfa(gprod/gcél)': [ICpar[3]], 'IC beta(gprod/gcél.h)':[ICpar[4]]})
+                # - Batelada:
+                df_params_model_bat =pd.DataFrame({'mimax(h-¹)':[param_otim_alm_bat[0]],'KSX(gsub/gcél)':[param_otim_alm_bat[1]], 'Yxs(gcél/gsub)':[param_otim_alm_bat[2]], 'alfa(gprod/gcél)': [param_otim_alm_bat[3]], 'beta(gprod/gcél.h)':[param_otim_alm_bat[4]]})
+                df_params_IC_bat = pd.DataFrame({'IC mimax(h-¹)':[ICpar_bat[0]],'IC KSX(gsub/gcél)':[ICpar_bat[1]],'IC Yxs(gcél/gsub)':[ICpar_bat[2]], 'IC alfa(gprod/gcél)': [ICpar_bat[3]], 'IC beta(gprod/gcél.h)':[ICpar_bat[4]]})
+                # - Batelada alimentada:
+                df_params_model_alim =pd.DataFrame({'mimax(h-¹)':[param_otim_alm_alim[0]],'KSX(gsub/gcél)':[param_otim_alm_alim[1]], 'Yxs(gcél/gsub)':[param_otim_alm_alim[2]], 'alfa(gprod/gcél)': [param_otim_alm_alim[3]], 'beta(gprod/gcél.h)':[param_otim_alm_alim[4]]})
+                df_params_IC_alim = pd.DataFrame({'IC mimax(h-¹)':[ICpar_alim[0]],'IC KSX(gsub/gcél)':[ICpar_alim[1]],'IC Yxs(gcél/gsub)':[ICpar_alim[2]], 'IC alfa(gprod/gcél)': [ICpar_alim[3]], 'IC beta(gprod/gcél.h)':[ICpar_alim[4]]})
             if (cont_model == 4): # Moser (5p)
-                df_params_model = pd.DataFrame({'mimax(h-¹)':[param_otim_alm_alim[0]],'Ks(g/L)':[param_otim_alm_alim[1]],'Yxs(gcél/gsub)':[param_otim_alm_alim[2]], 'alfa(gprod/gcél)': [param_otim_alm_alim[3]], 'beta(gprod/gcél.h)':[param_otim_alm_alim[4]],'u(adim)':[param_otim_alm_alim[5]]})
-                df_params_IC = pd.DataFrame({'IC mimax(h-¹)':[ICpar[0]],'IC Ks(g/L)':[ICpar[1]], 'IC Yxs(gcél/gsub)':[ICpar[2]], 'IC alfa(gprod/gcél)': [ICpar[3]], 'IC beta(gprod/gcél.h)':[ICpar[4]], 'IC mi_exp(adim)':[ICpar[5]]})
+                # - Batelada:
+                df_params_model_bat = pd.DataFrame({'mimax(h-¹)':[param_otim_alm_bat[0]],'Ks(g/L)':[param_otim_alm_bat[1]],'Yxs(gcél/gsub)':[param_otim_alm_bat[2]], 'alfa(gprod/gcél)': [param_otim_alm_bat[3]], 'beta(gprod/gcél.h)':[param_otim_alm_bat[4]],'u(adim)':[param_otim_alm_bat[5]]})
+                df_params_IC_bat = pd.DataFrame({'IC mimax(h-¹)':[ICpar_bat[0]],'IC Ks(g/L)':[ICpar_bat[1]], 'IC Yxs(gcél/gsub)':[ICpar_bat[2]], 'IC alfa(gprod/gcél)': [ICpar_bat[3]], 'IC beta(gprod/gcél.h)':[ICpar_bat[4]], 'IC mi_exp(adim)':[ICpar_bat[5]]})
+                # - Batelada alimentada:
+                df_params_model_alim = pd.DataFrame({'mimax(h-¹)':[param_otim_alm_alim[0]],'Ks(g/L)':[param_otim_alm_alim[1]],'Yxs(gcél/gsub)':[param_otim_alm_alim[2]], 'alfa(gprod/gcél)': [param_otim_alm_alim[3]], 'beta(gprod/gcél.h)':[param_otim_alm_alim[4]],'u(adim)':[param_otim_alm_alim[5]]})
+                df_params_IC_alim = pd.DataFrame({'IC mimax(h-¹)':[ICpar_alim[0]],'IC Ks(g/L)':[ICpar_alim[1]], 'IC Yxs(gcél/gsub)':[ICpar_alim[2]], 'IC alfa(gprod/gcél)': [ICpar_alim[3]], 'IC beta(gprod/gcél.h)':[ICpar_alim[4]], 'IC mi_exp(adim)':[ICpar_alim[5]]})
             if (cont_model == 2): # Andrews (6p)
-                df_params_model = pd.DataFrame({'mimax(h-¹)':[param_otim_alm_alim[0]],'Ks(g/L)':[param_otim_alm_alim[1]],'Yxs(gcél/gsub)':[param_otim_alm_alim[2]], 'alfa(gprod/gcél)': [param_otim_alm_alim[3]], 'beta(gprod/gcél.h)':[param_otim_alm_alim[4]], 'KSI(g/L)':[param_otim_alm_alim[5]]})
-                df_params_IC = pd.DataFrame({'IC mimax(h-¹)':[ICpar[0]],'IC Ks(g/L)':[ICpar[1]],'IC Yxs(gcél/gsub)':[ICpar[2]], 'IC alfa(gprod/gcél)': [ICpar[3]], 'IC beta(gprod/gcél.h)':[ICpar[4]], 'IC KSI(g/L)':[ICpar[5]]})
+                # - Batelada:
+                df_params_model_bat = pd.DataFrame({'mimax(h-¹)':[param_otim_alm_bat[0]],'Ks(g/L)':[param_otim_alm_bat[1]],'Yxs(gcél/gsub)':[param_otim_alm_bat[2]], 'alfa(gprod/gcél)': [param_otim_alm_bat[3]], 'beta(gprod/gcél.h)':[param_otim_alm_bat[4]], 'KSI(g/L)':[param_otim_alm_bat[5]]})
+                df_params_IC_bat = pd.DataFrame({'IC mimax(h-¹)':[ICpar_bat[0]],'IC Ks(g/L)':[ICpar_bat[1]],'IC Yxs(gcél/gsub)':[ICpar_bat[2]], 'IC alfa(gprod/gcél)': [ICpar_bat[3]], 'IC beta(gprod/gcél.h)':[ICpar_bat[4]], 'IC KSI(g/L)':[ICpar_bat[5]]})
+                # - Batelada alimentada:
+                df_params_model_alim = pd.DataFrame({'mimax(h-¹)':[param_otim_alm_alim[0]],'Ks(g/L)':[param_otim_alm_alim[1]],'Yxs(gcél/gsub)':[param_otim_alm_alim[2]], 'alfa(gprod/gcél)': [param_otim_alm_alim[3]], 'beta(gprod/gcél.h)':[param_otim_alm_alim[4]], 'KSI(g/L)':[param_otim_alm_alim[5]]})
+                df_params_IC_alim = pd.DataFrame({'IC mimax(h-¹)':[ICpar_alim[0]],'IC Ks(g/L)':[ICpar_alim[1]],'IC Yxs(gcél/gsub)':[ICpar_alim[2]], 'IC alfa(gprod/gcél)': [ICpar_alim[3]], 'IC beta(gprod/gcél.h)':[ICpar_alim[4]], 'IC KSI(g/L)':[ICpar_alim[5]]})
             if (cont_model == 5): # Hoppe_Hansford (6p)
-                df_params_model =pd.DataFrame({'mimax(h-¹)':[param_otim_alm_alim[0]],'Ks(g/L)':[param_otim_alm_alim[1]],'Yxs(gcél/gsub)':[param_otim_alm_alim[2]], 'alfa(gprod/gcél)': [param_otim_alm_alim[3]], 'beta(gprod/gcél.h)':[param_otim_alm_alim[4]], 'Kp(g/L)':[param_otim_alm_alim[5]]})
-                df_params_IC = pd.DataFrame({'IC mimax(h-¹)':[ICpar[0]],'IC Ks(g/L)':[ICpar[1]], 'IC Yxs(gcél/gsub)':[ICpar[2]], 'IC alfa(gprod/gcél)': [ICpar[3]], 'IC beta(gprod/gcél.h)':[ICpar[4]], 'IC Kp(g/L)':[ICpar[5]]})
+                # - Batelada:
+                df_params_model_bat =pd.DataFrame({'mimax(h-¹)':[param_otim_alm_bat[0]],'Ks(g/L)':[param_otim_alm_bat[1]],'Yxs(gcél/gsub)':[param_otim_alm_bat[2]], 'alfa(gprod/gcél)': [param_otim_alm_bat[3]], 'beta(gprod/gcél.h)':[param_otim_alm_bat[4]], 'Kp(g/L)':[param_otim_alm_bat[5]]})
+                df_params_IC_bat = pd.DataFrame({'IC mimax(h-¹)':[ICpar_bat[0]],'IC Ks(g/L)':[ICpar_bat[1]], 'IC Yxs(gcél/gsub)':[ICpar_bat[2]], 'IC alfa(gprod/gcél)': [ICpar_bat[3]], 'IC beta(gprod/gcél.h)':[ICpar_bat[4]], 'IC Kp(g/L)':[ICpar_bat[5]]})
+                # - Batelada alimentada:
+                df_params_model_alim =pd.DataFrame({'mimax(h-¹)':[param_otim_alm_alim[0]],'Ks(g/L)':[param_otim_alm_alim[1]],'Yxs(gcél/gsub)':[param_otim_alm_alim[2]], 'alfa(gprod/gcél)': [param_otim_alm_alim[3]], 'beta(gprod/gcél.h)':[param_otim_alm_alim[4]], 'Kp(g/L)':[param_otim_alm_alim[5]]})
+                df_params_IC_alim = pd.DataFrame({'IC mimax(h-¹)':[ICpar_alim[0]],'IC Ks(g/L)':[ICpar_alim[1]], 'IC Yxs(gcél/gsub)':[ICpar_alim[2]], 'IC alfa(gprod/gcél)': [ICpar_alim[3]], 'IC beta(gprod/gcél.h)':[ICpar_alim[4]], 'IC Kp(g/L)':[ICpar_alim[5]]})
             if (cont_model == 3): # Aiba (6p)
-                df_params_model = pd.DataFrame({'mimax(h-¹)':[param_otim_alm_alim[0]],'Ks(g/L)':[param_otim_alm_alim[1]],'Yxs(gcél/gsub)':[param_otim_alm_alim[2]], 'alfa(gprod/gcél)': [param_otim_alm_alim[3]], 'beta(gprod/gcél.h)':[param_otim_alm_alim[4]], 'Kp(L/g)':[param_otim_alm_alim[5]]})
-                df_params_IC = pd.DataFrame({'IC mimax(h-¹)':[ICpar[0]],'IC Ks(g/L)':[ICpar[1]],'IC Yxs(gcél/gsub)':[ICpar[2]], 'IC alfa(gprod/gcél)': [ICpar[3]], 'IC beta(gprod/gcél.h)':[ICpar[4]], 'IC Kp(g/L)':[ICpar[5]]})
+                # -  Batelada:
+                df_params_model_bat = pd.DataFrame({'mimax(h-¹)':[param_otim_alm_bat[0]],'Ks(g/L)':[param_otim_alm_bat[1]],'Yxs(gcél/gsub)':[param_otim_alm_bat[2]], 'alfa(gprod/gcél)': [param_otim_alm_bat[3]], 'beta(gprod/gcél.h)':[param_otim_alm_bat[4]], 'Kp(L/g)':[param_otim_alm_bat[5]]})
+                df_params_IC_bat= pd.DataFrame({'IC mimax(h-¹)':[ICpar_bat[0]],'IC Ks(g/L)':[ICpar_bat[1]],'IC Yxs(gcél/gsub)':[ICpar_bat[2]], 'IC alfa(gprod/gcél)': [ICpar_bat[3]], 'IC beta(gprod/gcél.h)':[ICpar_bat[4]], 'IC Kp(g/L)':[ICpar_bat[5]]})
+                # -  Batelada alimentada:
+                df_params_model_alim = pd.DataFrame({'mimax(h-¹)':[param_otim_alm_alim[0]],'Ks(g/L)':[param_otim_alm_alim[1]],'Yxs(gcél/gsub)':[param_otim_alm_alim[2]], 'alfa(gprod/gcél)': [param_otim_alm_alim[3]], 'beta(gprod/gcél.h)':[param_otim_alm_alim[4]], 'Kp(L/g)':[param_otim_alm_alim[5]]})
+                df_params_IC_alim = pd.DataFrame({'IC mimax(h-¹)':[ICpar_alim[0]],'IC Ks(g/L)':[ICpar_alim[1]],'IC Yxs(gcél/gsub)':[ICpar_alim[2]], 'IC alfa(gprod/gcél)': [ICpar_alim[3]], 'IC beta(gprod/gcél.h)':[ICpar_alim[4]], 'IC Kp(g/L)':[ICpar_alim[5]]})
             if (cont_model == 6): # Wu (7p)
-                df_params_model = pd.DataFrame({'mimax(h-¹)':[param_otim_alm_alim[0]],'Ks(g/L)':[param_otim_alm_alim[1]],'Yxs(gcél/gsub)':[param_otim_alm_alim[2]], 'alfa(gprod/gcél)': [param_otim_alm_alim[3]], 'beta(gprod/gcél.h)':[param_otim_alm_alim[4]],'KE(g/L)':[param_otim_alm_alim[5]], 'v(adim)':[param_otim_alm_alim[6]]})
-                df_params_IC = pd.DataFrame({'IC mimax(h-¹)':[ICpar[0]],'IC Ks(g/L)':[ICpar[1]],'IC Yxs(gcél/gsub)':[ICpar[2]], 'IC alfa(gprod/gcél)': [ICpar[3]], 'IC beta(gprod/gcél.h)':[ICpar[4]], 'IC KE(g/L)':[ICpar[5]], 'IC v(adim)':[ICpar[6]]})
+                # -  Batelada:
+                df_params_model_bat = pd.DataFrame({'mimax(h-¹)':[param_otim_alm_bat[0]],'Ks(g/L)':[param_otim_alm_bat[1]],'Yxs(gcél/gsub)':[param_otim_alm_bat[2]], 'alfa(gprod/gcél)': [param_otim_alm_bat[3]], 'beta(gprod/gcél.h)':[param_otim_alm_bat[4]],'KE(g/L)':[param_otim_alm_bat[5]], 'v(adim)':[param_otim_alm_bat[6]]})
+                df_params_IC_bat = pd.DataFrame({'IC mimax(h-¹)':[ICpar_bat[0]],'IC Ks(g/L)':[ICpar_bat[1]],'IC Yxs(gcél/gsub)':[ICpar_bat[2]], 'IC alfa(gprod/gcél)': [ICpar_bat[3]], 'IC beta(gprod/gcél.h)':[ICpar_bat[4]], 'IC KE(g/L)':[ICpar_bat[5]], 'IC v(adim)':[ICpar_bat[6]]})
+                # -  Batelada alimentada:
+                df_params_model_alim = pd.DataFrame({'mimax(h-¹)':[param_otim_alm_alim[0]],'Ks(g/L)':[param_otim_alm_alim[1]],'Yxs(gcél/gsub)':[param_otim_alm_alim[2]], 'alfa(gprod/gcél)': [param_otim_alm_alim[3]], 'beta(gprod/gcél.h)':[param_otim_alm_alim[4]],'KE(g/L)':[param_otim_alm_alim[5]], 'v(adim)':[param_otim_alm_alim[6]]})
+                df_params_IC_alim = pd.DataFrame({'IC mimax(h-¹)':[ICpar_alim[0]],'IC Ks(g/L)':[ICpar_alim[1]],'IC Yxs(gcél/gsub)':[ICpar_alim[2]], 'IC alfa(gprod/gcél)': [ICpar_alim[3]], 'IC beta(gprod/gcél.h)':[ICpar_alim[4]], 'IC KE(g/L)':[ICpar_alim[5]], 'IC v(adim)':[ICpar_alim[6]]})
             if (cont_model == 7): # Levenspiel (7p)
-                df_params_model = pd.DataFrame({'mimax(h-¹)':[param_otim_alm_alim[0]],'Ks(g/L)':[param_otim_alm_alim[1]],'Yxs(gcél/gsub)':[param_otim_alm_alim[2]], 'alfa(gprod/gcél)': [param_otim_alm_alim[3]], 'beta(gprod/gcél.h)':[param_otim_alm_alim[4]], 'n(adim)':[param_otim_alm_alim[5]], 'Cp_estr(g/L)':[param_otim_alm_alim[6]]})
-                df_params_IC = pd.DataFrame({'IC mimax(h-¹)':[ICpar[0]],'IC Ks(g/L)':[ICpar[1]], 'IC Yxs(gcél/gsub)':[ICpar[2]], 'IC alfa(gprod/gcél)': [ICpar[3]], 'IC beta(gprod/gcél.h)':[ICpar[4]], 'IC n(adim)':[ICpar[5]], 'IC Cp_estr(g/L)':[ICpar[6]]})  
+                # - Batelada:
+                df_params_model_bat = pd.DataFrame({'mimax(h-¹)':[param_otim_alm_bat[0]],'Ks(g/L)':[param_otim_alm_bat[1]],'Yxs(gcél/gsub)':[param_otim_alm_bat[2]], 'alfa(gprod/gcél)': [param_otim_alm_bat[3]], 'beta(gprod/gcél.h)':[param_otim_alm_bat[4]], 'n(adim)':[param_otim_alm_bat[5]], 'Cp_estr(g/L)':[param_otim_alm_bat[6]]})
+                df_params_IC_bat = pd.DataFrame({'IC mimax(h-¹)':[ICpar_bat[0]],'IC Ks(g/L)':[ICpar_bat[1]], 'IC Yxs(gcél/gsub)':[ICpar_bat[2]], 'IC alfa(gprod/gcél)': [ICpar_bat[3]], 'IC beta(gprod/gcél.h)':[ICpar_bat[4]], 'IC n(adim)':[ICpar_bat[5]], 'IC Cp_estr(g/L)':[ICpar_bat[6]]})  
+                # - Batelada alimentada:
+                df_params_model_alim = pd.DataFrame({'mimax(h-¹)':[param_otim_alm_alim[0]],'Ks(g/L)':[param_otim_alm_alim[1]],'Yxs(gcél/gsub)':[param_otim_alm_alim[2]], 'alfa(gprod/gcél)': [param_otim_alm_alim[3]], 'beta(gprod/gcél.h)':[param_otim_alm_alim[4]], 'n(adim)':[param_otim_alm_alim[5]], 'Cp_estr(g/L)':[param_otim_alm_alim[6]]})
+                df_params_IC_alim = pd.DataFrame({'IC mimax(h-¹)':[ICpar_alim[0]],'IC Ks(g/L)':[ICpar_alim[1]], 'IC Yxs(gcél/gsub)':[ICpar_alim[2]], 'IC alfa(gprod/gcél)': [ICpar_alim[3]], 'IC beta(gprod/gcél.h)':[ICpar_alim[4]], 'IC n(adim)':[ICpar_alim[5]], 'IC Cp_estr(g/L)':[ICpar_alim[6]]})  
             if (cont_model == 8): # Lee (7p)
-                df_params_model =pd.DataFrame({'mimax(h-¹)':[param_otim_alm_alim[0]],'Ks(g/L)':[param_otim_alm_alim[1]],'Yxs(gcél/gsub)':[param_otim_alm_alim[2]], 'alfa(gprod/gcél)': [param_otim_alm_alim[3]], 'beta(gprod/gcél.h)':[param_otim_alm_alim[4]], 'm(adim)':[param_otim_alm_alim[5]], 'Cx_estr(g/L)':[param_otim_alm_alim[6]]})
-                df_params_IC = pd.DataFrame({'IC mimax(h-¹)':[ICpar[0]],'IC Ks(g/L)':[ICpar[1]],'IC Yxs(gcél/gsub)':[ICpar[2]], 'IC alfa(gprod/gcél)': [ICpar[3]], 'IC beta(gprod/gcél.h)':[ICpar[4]], 'IC m(adim)':[ICpar[5]], 'IC Cx_estr(g/L)':[ICpar[6]]}) 
+                # - Batelada:
+                df_params_model_bat =pd.DataFrame({'mimax(h-¹)':[param_otim_alm_bat[0]],'Ks(g/L)':[param_otim_alm_bat[1]],'Yxs(gcél/gsub)':[param_otim_alm_bat[2]], 'alfa(gprod/gcél)': [param_otim_alm_bat[3]], 'beta(gprod/gcél.h)':[param_otim_alm_bat[4]], 'm(adim)':[param_otim_alm_bat[5]], 'Cx_estr(g/L)':[param_otim_alm_bat[6]]})
+                df_params_IC_bat = pd.DataFrame({'IC mimax(h-¹)':[ICpar_bat[0]],'IC Ks(g/L)':[ICpar_bat[1]],'IC Yxs(gcél/gsub)':[ICpar_bat[2]], 'IC alfa(gprod/gcél)': [ICpar_bat[3]], 'IC beta(gprod/gcél.h)':[ICpar_bat[4]], 'IC m(adim)':[ICpar_bat[5]], 'IC Cx_estr(g/L)':[ICpar_bat[6]]}) 
+                # - Batelada alimentada:
+                df_params_model_alim =pd.DataFrame({'mimax(h-¹)':[param_otim_alm_alim[0]],'Ks(g/L)':[param_otim_alm_alim[1]],'Yxs(gcél/gsub)':[param_otim_alm_alim[2]], 'alfa(gprod/gcél)': [param_otim_alm_alim[3]], 'beta(gprod/gcél.h)':[param_otim_alm_alim[4]], 'm(adim)':[param_otim_alm_alim[5]], 'Cx_estr(g/L)':[param_otim_alm_alim[6]]})
+                df_params_IC_alim = pd.DataFrame({'IC mimax(h-¹)':[ICpar_alim[0]],'IC Ks(g/L)':[ICpar_alim[1]],'IC Yxs(gcél/gsub)':[ICpar_alim[2]], 'IC alfa(gprod/gcél)': [ICpar_alim[3]], 'IC beta(gprod/gcél.h)':[ICpar_alim[4]], 'IC m(adim)':[ICpar_alim[5]], 'IC Cx_estr(g/L)':[ICpar_alim[6]]}) 
             if (cont_model == 9): # mi constante (4p)
-                df_params_model =pd.DataFrame({'mi(h-¹)':[param_otim_alm_alim[0]],'Yxs(gcél/gsub)':[param_otim_alm_alim[1]], 'alfa(gprod/gcél)': [param_otim_alm_alim[2]], 'beta(gprod/gcél.h)':[param_otim_alm_alim[3]]})
-                df_params_IC = pd.DataFrame({'IC mi(h-¹)':[ICpar[0]],'IC Kd(h-¹)':[ICpar[1]],'IC Yxs(gcél/gsub)':[ICpar[1]], 'IC alfa(gprod/gcél)': [ICpar[2]], 'IC beta(gprod/gcél.h)':[ICpar[3]]})
-            df_params = pd.concat([df_params_model, df_params_IC], axis = 1)
+                df_params_model_alim =pd.DataFrame({'mi(h-¹)':[param_otim_alm_alim[0]],'Yxs(gcél/gsub)':[param_otim_alm_alim[1]], 'alfa(gprod/gcél)': [param_otim_alm_alim[2]], 'beta(gprod/gcél.h)':[param_otim_alm_alim[3]]})
+                df_params_IC_alim = pd.DataFrame({'IC mi(h-¹)':[ICpar_alim[0]],'IC Kd(h-¹)':[ICpar_alim[1]],'IC Yxs(gcél/gsub)':[ICpar_alim[1]], 'IC alfa(gprod/gcél)': [ICpar_alim[2]], 'IC beta(gprod/gcél.h)':[ICpar_alim[3]]})
+            # - DataFrame com o modo de operação:
+            df_tex_proces = pd.DataFrame({"OPERAÇÃO": lista_processos})
+            df_IC = pd.concat([df_params_IC_bat, df_params_IC_alim], axis = 0)
+            #df_params = pd.concat([df_params_model_bat, df_params_model_alim], axis = 0)
+            df_saida = pd.concat([df_tex_proces, df_IC], axis = 0)
             with pd.ExcelWriter('Modelagem_Parametros_Cineticos.xlsx') as writer:
-                df_params.to_excel(writer, sheet_name="Param_model")
+                df_saida.to_excel(writer, sheet_name="Param_model")
                 writer.save()
             os.system("start EXCEL Modelagem_Parametros_Cineticos.xlsx")
         Label(frame2, text = "Modelagem_Params_Cineticos.xlsx", font = "arial 8 italic", fg = "black", bg = "gray45").place(x = 1072, y = 87)
         
         ## Botões de acesso - arquivo .xlsx - parâmetros cinéticos:
         botao_excel(imagem = "Excel.png", num_frame = frame2, x = 1036, y = 80, comando = excel_param)
-        
+               
         ####### ****** FIM DA MODELAGEM ******* #########
         return()
+      
 
     # Selecionar os modelos não estruturados para a modelagem:
     ## * SAÍDA DOS VALORES OTIMIZADOS DE CADA PARÂMETRO RELACIONADO * ##
