@@ -546,16 +546,14 @@ def explorer():
     print(tf_bat)
     ## Vetores tempo e concentração:
     t_exp_bat = np.arange(excel_entrada_np[0,1], (tf_bat_cor + int_bat), int_bat)
-    print(t_exp_bat)
     C_exp_bat = (excel_entrada_np[:(len(t_exp_bat)),2:5])
-    print("bat", int_bat)
-    print("bat", t_exp_bat)
-    print("bat", C_exp_bat)
+    print("bat intervalo", int_bat)
+    print("bat t_Exp", t_exp_bat)
+    print("bat C_exp", C_exp_bat)
     # Captura dos valores de C_exp iniciais:
     cond_inic_bat = [C_exp_bat[0,0], C_exp_bat[0,1], C_exp_bat[0,2]]
     print(cond_inic_bat)
     # Vetor tempo modelo:
-    t_bat = np.arange(0, max(t_exp + 0.1), 0.1)
     
     ## * INÍCIO DA MODELAGEM * ##:
     def modelagem(cont_model):
@@ -598,7 +596,7 @@ def explorer():
         param_otim_alm_bat = tuple(param_otim_alm_bat)
         print(param_otim_alm_bat)
         ## Tempo modelo:
-        t_bat = np.arange(0, t_exp_bat[-1], 0.1)
+        t_bat = np.arange(0, (t_exp_bat[-1] + 0.1), 0.1)
            
         ### ** Separação - batelada alimentada ** :
         # Tempo e concentração:
@@ -615,6 +613,7 @@ def explorer():
         cond_inic_bat_alim = [Cx0_exp_bat_alim, Cs0_exp_bat_alim, Cp0_exp_bat_alim]
         # Tempo modelo:
         t_alim = np.arange(tf_bat, max(t_exp + 0.1), 0.1)
+        print("t alim compr", len(t_alim))
         
             #*ETAPA 2*# - BATELADA ALIMENTADA
         ##*Algoritmo Genético (global)*##
@@ -1368,7 +1367,7 @@ def explorer():
         Cp0_otim_alim = C_otim_bat[:,2][len(C_otim_bat[:,2])-1]
         cond_inic_alim = [Cx0_otim_alim, Cs0_otim_alim, Cp0_otim_alim]
         C_otim_alim = odeint(func_args_alim_model, cond_inic_alim, t_alim, args = (param_otim_alm_alim))
-        
+        print("compri c alim", len(C_otim_alim[:,0]))
         
         #### **** CÁLCULO DO INTERVALO DE CONFIANÇA **** ####:
         # - Batelada - saída apenas em formato .xlsx:
@@ -1627,6 +1626,7 @@ def explorer():
         Cx = []
         Cs = []
         Cp = []
+        Ttotal = []
         bat_exp = 0
         alim_exp = 0
         bat = 0
@@ -1640,6 +1640,7 @@ def explorer():
             Cx.append(Cx_bat[bat])
             Cs.append(Cs_bat[bat])
             Cp.append(Cp_bat[bat]) 
+            Ttotal.append(t_bat[bat])
             bat = bat + 1    
         while (alim_exp < limite_alim_exp):
             Cx_exp.append(Cx_exp_alim[alim_exp])
@@ -1650,14 +1651,8 @@ def explorer():
             Cx.append(Cx_alim[alim])
             Cs.append(Cs_alim[alim])
             Cp.append(Cp_alim[alim])
+            Ttotal.append(t_alim[alim])
             alim = alim + 1
-    
-        divisor = len(Cx)
-
-        ## Vetor tempo total do processo:
-        Ttotal_exp = np.arange(0,(excel_entrada_np[len(excel_entrada_np) - 1, 1]) + int_bat_alim, int_bat_alim)
-        divisor = len(Cx)
-        Ttotal = np.linspace(0, (excel_entrada_np[len(excel_entrada_np) - 1, 1]), divisor)
     
         ## Conversão das listas para arrays - necessário para operações matemáticas:
         Cx_exp = np.asarray(Cx_exp)
@@ -1666,10 +1661,15 @@ def explorer():
         Cx = np.asarray(Cx)
         Cs = np.asarray(Cs)
         Cp = np.asarray(Cp)
+        Ttotal = np.asarray(Ttotal)
         
-        print(len(Ttotal_exp), len(Cx_exp))
-        print(Cx_exp)
-        print(len(Ttotal), len(Cx))
+        ## Vetor tempo total do processo:
+        Ttotal_exp = np.arange(0,(excel_entrada_np[len(excel_entrada_np) - 1, 1]) + int_bat_alim, int_bat_alim)
+        print("t total exp", Ttotal_exp)
+        #Ttotal = np.linspace(0, (excel_entrada_np[len(excel_entrada_np) - 1, 1]), divisor)
+        print("t total", Ttotal)
+        Ttotal_text = np.arange(0,(excel_entrada_np[len(excel_entrada_np) - 1, 1]) + 0.1, 0.1)
+        Ttotal = Ttotal
         
         ### CÁLCULO DO COEFICIENTE DE REGRESSÃO - R^2:
         # - Batelada e Batelada Alimentada:
@@ -1744,6 +1744,7 @@ def explorer():
         SQres = soma_SQres_SQtot_val[11] + soma_SQres_SQtot_val[12] + soma_SQres_SQtot_val[13]
         SQtotal = soma_SQres_SQtot_val[14] + soma_SQres_SQtot_val[15] + soma_SQres_SQtot_val[16]
         df_soma_SQres_SQtot = pd.DataFrame({'SQres':[SQres], 'SQtot':[SQtotal]})
+        print(soma_SQres_SQtot_val)
         ### Cálculo do R²:
         r2 = 1 - (SQres/SQtotal)
         r2 = round(r2,4)
@@ -1980,28 +1981,86 @@ def explorer():
         
         ### ** CÁLCULO DO COEFICIENTE DE REGRESSÃO - PRODUTIVIDADES ** ###:
         def r2_Px_Pp():
-            # Cálculo R²:
-            df_Px_Pp = pd.DataFrame({'Tempo(h)':Ttotal[1:], 'Px(gx/t)': Px, 'Pp(gp/t)': Pp})
-            df_t_exp = pd.DataFrame({'Tempo(h)': Ttotal_exp[1:]})
-            df_Px_Pp_merge = df_Px_Pp.merge(df_t_exp, how = 'inner' ,indicator=False)
-            df_Px_Pp_exp = pd.DataFrame({'Tempo_exp(h)':Ttotal_exp[1:], 'Px_exp(gx/t)': Px_exp, 'Pp_exp(gp/t)': Pp_exp})
-            del df_Px_Pp_merge['Tempo(h)']
-            del df_Px_Pp_exp['Tempo_exp(h)']
-            df_Px_Pp_merge = df_Px_Pp_merge.values
-            df_Px_Pp_exp = df_Px_Pp_exp.values
-            resid = (df_Px_Pp_merge - df_Px_Pp_exp)**2
-            resid = resid.flatten()
-            resid = sum(resid)
-            Px_medio = np.mean(df_Px_Pp_exp[:,0])
-            Pp_medio = np.mean(df_Px_Pp_exp[:,1])
-            Px_total = sum((df_Px_Pp_exp[:,0] - Px_medio)**2)
-            Pp_total = sum((df_Px_Pp_exp[:,1] - Pp_medio)**2)
-            Px_Pp_total = Px_total + Pp_total
-            r2_Px_Pp = 1 - (resid/Px_Pp_total)
-            Label(frame2, text = "", font = "batang 10",  bg = "grey40", width = 10).place(x = 1168, y = 329.2)
-            Label(frame2, text = r2_Px_Pp.round(4), font = "batang 10 italic", fg = "black", bg = "grey40", width = 10).place(x = 1168, y = 329.2)
-            print(r2_Px_Pp[0])
+            ### CÁLCULO DO COEFICIENTE DE REGRESSÃO - R^2:
+            # - Batelada e Batelada Alimentada:
+            # Cálculo do coeficiente de regressão: 
+            df_produtiv = pd.DataFrame({'Tempo(h)': Ttotal[1:], 'Px(gx/t)': Px, 'Pp(gs/t)': Pp})
+            df_produtiv_exp = pd.DataFrame({'Tempo_exp(h)': Ttotal_exp[1:],'Px_exp(gs/t)': Px_exp,'Pp_exp(gp/t)': Pp_exp})
+            df_teste = pd.DataFrame({'Tempo(h)': Ttotal[1:]})
+            df_teste_produtiv = pd.DataFrame({'Px(gx/t)': Px, 'Pp(gp/L)': Pp})
+            df_teste_exp = pd.DataFrame({'Tempo_exp(h)': Ttotal_exp[1:]})
+            df_teste_exp_produtiv = pd.DataFrame({'Px_exp(gx/t)': Px_exp,'Pp_exp(gp/t)': Pp_exp})
+
+            # Teste: qual tempo tem o menor intervalo de divisão temporal
+            control_compar = len(Ttotal[1:])
+        
+            ## Laço para comparação de tempos iguais (experimental e modelo) 
+            i_compar_exp = 0
+            i_compar_model = 0
+            temp_model=[]
+            temp_exp=[]
+            produtiv_model = []
+            produtiv_exp = []
+            while (i_compar_exp  < control_compar) and (i_compar_model < control_compar):
+                exp_teste = df_teste_exp.at[i_compar_exp, 'Tempo_exp(h)']
+                model_teste = df_teste.at[i_compar_model, 'Tempo(h)']
+                dif = np.round(exp_teste - model_teste,decimals=1)
+                if dif != 0:
+                    i_compar_model = 1 + i_compar_model
+                else:
+                    temp_model.append(model_teste)
+                    temp_exp.append(exp_teste)
+                    df_temp_model = pd.DataFrame({"Tempo(h)": temp_model})
+                    df_temp_exp = pd.DataFrame({"Tempo_exp(h)": temp_exp})
+                    debitado_model = df_teste_produtiv.loc[i_compar_model]
+                    debitado_model = pd.Series(debitado_model).values
+                    debitado_exp = df_teste_exp_produtiv.loc[i_compar_exp]
+                    debitado_exp = pd.Series(debitado_exp).values
+                    df_produtiv_model = pd.DataFrame({'Px(gx/t)':[debitado_model[0]],'Pp(gp/t)':[debitado_model[1]]})
+                    produtiv_model.append(df_produtiv_model)
+                    df_produtiv_exp = pd.DataFrame({'Px_exp(gx/t)':[debitado_exp[0]], 'Pp_exp(gp/t)':[debitado_exp[1]]})
+                    produtiv_exp.append(df_produtiv_exp)
+                    i_compar_model =  1 + i_compar_model
+                    i_compar_exp =  1 + i_compar_exp  
+            ### DataFrames de saída, desconsiderando os indexes - resultam em erros:
+            df_produtiv_model = pd.concat(produtiv_model)
+            df_produtiv_exp = pd.concat(produtiv_exp)
+            df_produtiv_model.reset_index(drop=True, inplace=True)
+            df_produtiv_exp.reset_index(drop=True, inplace=True)
+        
+            ### Cálculo do coeficiente de regressão:
+            med_produtiv = df_produtiv_exp.mean(axis=0)
+            med_produtiv_val = pd.Series(med_produtiv).values
+            df_med_produtiv = pd.DataFrame({'Pxexp_med(gx/t)':[med_produtiv_val[0]], 'Ppexp_med(gp/t)':[med_produtiv_val[1]]})
+            df_saida_compar = pd.concat ([df_temp_exp,df_produtiv_exp, df_temp_model, df_produtiv_model,df_med_produtiv], axis=1)
+        
+            ### Determinação da soma do quadrado do resíduo:
+            df_saida_compar['DQres_Px'] = (df_produtiv_exp['Px_exp(gx/t)'] - df_produtiv_model['Px(gx/t)']) ** 2
+            df_saida_compar['DQres_Pp'] = (df_produtiv_exp['Pp_exp(gp/t)'] - df_produtiv_model['Pp(gp/t)']) ** 2
+    
+            ### Determinação da soma do quadrado do resíduo:
+            Px_med = np.repeat(med_produtiv_val[0],len(temp_exp))
+            Pp_med = np.repeat(med_produtiv_val[1],len(temp_exp))
+            df_SQtotal_Px = pd.DataFrame ({'Pxexp_med(gx/t)': Px_med, 'Ppexp_med(gp/t)': Pp_med})
+            df_saida_compar['DQtot_Px'] = (df_produtiv_exp['Px_exp(gx/t)'] - df_SQtotal_Px['Pxexp_med(gx/t)']) ** 2
+            df_saida_compar['DQtot_Pp'] = (df_produtiv_exp['Pp_exp(gp/t)'] - df_SQtotal_Px['Ppexp_med(gp/t)']) ** 2
+        
+            ### Soma SQres e QStot: 
+            soma_SQres_SQtot = df_saida_compar.sum(axis=0) #pegar 11,12,13,14
+            soma_SQres_SQtot_val = pd.Series(soma_SQres_SQtot).values
+            print(soma_SQres_SQtot_val)
             
+            SQres = soma_SQres_SQtot_val[8] + soma_SQres_SQtot_val[9] 
+            SQtotal = soma_SQres_SQtot_val[10] + soma_SQres_SQtot_val[11] 
+            df_soma_SQres_SQtot = pd.DataFrame({'SQres':[SQres], 'SQtot':[SQtotal]})
+            
+            ### Cálculo do R²:
+            r2_Px_Pp = 1 - (SQres/SQtotal)
+            r2_Px_Pp = round(r2_Px_Pp, 4)
+            Label(frame2, text = "", font = "batang 10",  bg = "grey40", width = 10).place(x = 1168, y = 329.2)
+            Label(frame2, text = r2_Px_Pp, font = "batang 10 italic", fg = "black", bg = "grey40", width = 10).place(x = 1168, y = 329.2)
+            print(r2_Px_Pp)
+           
         #### **** Impressão do valor do R² concentração na interface **** ####:
         # - Botão para acesso:
         Button(frame39, text = "R²", font = "batang 12 bold", fg = "black", bg = "grey70", command = r2_Px_Pp).place(x = 452, y = 45)    
@@ -2170,6 +2229,7 @@ def explorer():
                 df_t_exp = pd.DataFrame({'Tempo(h)': Ttotal_exp})
                 df_mi_merge = df_mi.merge(df_t_exp, how = 'inner' ,indicator=False)
                 df_mi_exp = pd.DataFrame({'Tempo_exp(h)':Ttotal_exp, 'mi(h-¹)': mi_exp})
+                print(df_mi_merge)
                 del df_mi_merge['Tempo(h)']
                 del df_mi_exp['Tempo_exp(h)']
                 df_mi_merge = df_mi_merge.values
@@ -2255,10 +2315,13 @@ def explorer():
         
         ### ** CÁLCULO DO COEFICIENTE DE REGRESSÃO - VARIAÇÃO TEMPORAL DE VOLUME ** ###:
         def r2_vol():
-            df_vol = pd.DataFrame({'Tempo(h)': t_alim, 'V(L)': V_calc})
+            df_vol = pd.DataFrame({'Tempo(h)': t_alim})
             df_t_exp = pd.DataFrame({'Tempo(h)': t_exp_bat_alim})
-            df_vol_merge = df_vol.merge(df_t_exp, how = 'inner' ,indicator=False)
-            df_vol_exp = pd.DataFrame({'Tempo_exp(h)':t_exp_bat_alim, 'V(L)': V_calc_exp})
+            df_vol_merge = pd.merge(df_vol, df_t_exp, how = 'right', on = 'Tempo(h)')
+            df_vol_exp = pd.DataFrame({'Tempo_exp(h)':t_exp_bat_alim, 'Vol(L)': V_calc_exp})
+            print(df_vol_merge)
+            print(df_vol)
+            print(df_t_exp)
             del df_vol_merge['Tempo(h)']
             del df_vol_exp['Tempo_exp(h)']
             df_vol_merge = df_vol_merge.values
@@ -2267,12 +2330,12 @@ def explorer():
             resid = resid.flatten()
             resid = sum(resid)
             vol_medio = np.mean(df_vol_exp)
-            vol_total = sum((df_vol_exp - vol_medio)**2)
+            vol_total = sum((df_vol_exp- vol_medio)**2)
             r2_vol = 1 - (resid/vol_total)
             Label(frame2, text = "", font = "batang 10",  bg = "grey40", width = 10).place(x = 1168, y = 329.2)
             Label(frame2, text = r2_vol[0].round(4), font = "batang 10 italic", fg = "black", bg = "grey40", width = 10).place(x = 1168, y = 329.2)
             print(r2_vol[0])
-        
+    
         #### **** Impressão do valor do R² concentração na interface **** ####:
         ## Botão para acesso:
         Button(frame44, text = "R²", font = "batang 12 bold", fg = "black", bg = "grey70", command = r2_vol).place(x = 452, y = 45) 
@@ -2345,7 +2408,8 @@ def explorer():
         def r2_vaz():
             df_vaz = pd.DataFrame({'Tempo(h)': t_alim, 'Vazão (L/h)': Q_calc})
             df_t_exp = pd.DataFrame({'Tempo(h)': t_exp_bat_alim})
-            df_vaz_merge = df_vaz.merge(df_t_exp, how = 'inner' ,indicator=False)
+            df_vaz_merge = df_vaz.merge(df_t_exp, on = 'Tempo(h)')
+            print(df_vaz_merge)
             df_vaz_exp = pd.DataFrame({'Tempo_exp(h)':t_exp_bat_alim, 'Vazão (L/h)': Q_calc_exp})
             del df_vaz_merge['Tempo(h)']
             del df_vaz_exp['Tempo_exp(h)']
