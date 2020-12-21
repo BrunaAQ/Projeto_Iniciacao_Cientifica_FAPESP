@@ -1741,10 +1741,10 @@ def explorer():
         ### Soma SQres e QStot: 
         soma_SQres_SQtot = df_saida_compar.sum(axis=0) #pegar 11,12,13,14,15 e 16
         soma_SQres_SQtot_val= pd.Series(soma_SQres_SQtot).values
+        print(soma_SQres_SQtot_val)
         SQres = soma_SQres_SQtot_val[11] + soma_SQres_SQtot_val[12] + soma_SQres_SQtot_val[13]
         SQtotal = soma_SQres_SQtot_val[14] + soma_SQres_SQtot_val[15] + soma_SQres_SQtot_val[16]
         df_soma_SQres_SQtot = pd.DataFrame({'SQres':[SQres], 'SQtot':[SQtotal]})
-        print(soma_SQres_SQtot_val)
         ### Cálculo do R²:
         r2 = 1 - (SQres/SQtotal)
         r2 = round(r2,4)
@@ -2041,15 +2041,13 @@ def explorer():
             ### Determinação da soma do quadrado do resíduo:
             Px_med = np.repeat(med_produtiv_val[0],len(temp_exp))
             Pp_med = np.repeat(med_produtiv_val[1],len(temp_exp))
-            df_SQtotal_Px = pd.DataFrame ({'Pxexp_med(gx/t)': Px_med, 'Ppexp_med(gp/t)': Pp_med})
-            df_saida_compar['DQtot_Px'] = (df_produtiv_exp['Px_exp(gx/t)'] - df_SQtotal_Px['Pxexp_med(gx/t)']) ** 2
-            df_saida_compar['DQtot_Pp'] = (df_produtiv_exp['Pp_exp(gp/t)'] - df_SQtotal_Px['Ppexp_med(gp/t)']) ** 2
+            df_SQtotal_Produtiv = pd.DataFrame ({'Pxexp_med(gx/t)': Px_med, 'Ppexp_med(gp/t)': Pp_med})
+            df_saida_compar['DQtot_Px'] = (df_produtiv_exp['Px_exp(gx/t)'] - df_SQtotal_Produtiv['Pxexp_med(gx/t)']) ** 2
+            df_saida_compar['DQtot_Pp'] = (df_produtiv_exp['Pp_exp(gp/t)'] - df_SQtotal_Produtiv['Ppexp_med(gp/t)']) ** 2
         
             ### Soma SQres e QStot: 
-            soma_SQres_SQtot = df_saida_compar.sum(axis=0) #pegar 11,12,13,14
+            soma_SQres_SQtot = df_saida_compar.sum(axis=0) #pegar 8,9,10 e 11
             soma_SQres_SQtot_val = pd.Series(soma_SQres_SQtot).values
-            print(soma_SQres_SQtot_val)
-            
             SQres = soma_SQres_SQtot_val[8] + soma_SQres_SQtot_val[9] 
             SQtotal = soma_SQres_SQtot_val[10] + soma_SQres_SQtot_val[11] 
             df_soma_SQres_SQtot = pd.DataFrame({'SQres':[SQres], 'SQtot':[SQtotal]})
@@ -2057,7 +2055,6 @@ def explorer():
             ### Cálculo do R²:
             r2_Px_Pp = 1 - (SQres/SQtotal)
             r2_Px_Pp = round(r2_Px_Pp, 4)
-            Label(frame2, text = "", font = "batang 10",  bg = "grey40", width = 10).place(x = 1168, y = 329.2)
             Label(frame2, text = r2_Px_Pp, font = "batang 10 italic", fg = "black", bg = "grey40", width = 10).place(x = 1168, y = 329.2)
             print(r2_Px_Pp)
            
@@ -2116,25 +2113,79 @@ def explorer():
         
         ### ** CÁLCULO DO COEFICIENTE DE REGRESSÃO - PRODUTIVIDADES ** ###:
         def r2_Ppx():
-            # Cálculo R²:
-            df_Ppx = pd.DataFrame({'Tempo(h)':Ttotal, 'ppx(gp/gx)': Ppx})
-            df_t_exp = pd.DataFrame({'Tempo(h)': Ttotal_exp})
-            df_Ppx_merge = df_Ppx.merge(df_t_exp, how = 'inner' ,indicator=False)
-            df_Ppx_exp = pd.DataFrame({'Tempo_exp(h)':Ttotal_exp, 'Ppx_exp(gp/gx)': Ppx_exp})
-            del df_Ppx_merge['Tempo(h)']
-            del df_Ppx_exp['Tempo_exp(h)']
-            df_Ppx_merge = df_Ppx_merge.values
-            df_Ppx_exp = df_Ppx_exp.values
-            resid = (df_Ppx_merge - df_Ppx_exp)**2
-            resid = resid.flatten()
-            resid = sum(resid)
-            Ppx_medio = np.mean(df_Ppx_exp)
-            Ppx_total = sum((df_Ppx_exp- Ppx_medio)**2)
-            global r2_Ppx
-            r2_Ppx = 1 - (resid/Ppx_total) 
-            Label(frame2, text = "", font = "batang 10",  bg = "grey40", width = 10).place(x = 1168, y = 329.2)
-            Label(frame2, text = r2_Ppx[0].round(4), font = "batang 10 italic", fg = "black", bg = "grey40", width = 10).place(x = 1168, y = 329.2)
-            print(r2_Ppx[0])
+            # - Batelada e Batelada Alimentada:
+            # Cálculo do coeficiente de regressão: 
+            df_prod_espec = pd.DataFrame({'Tempo(h)': Ttotal, 'Ppx(gp/gx)': Ppx})
+            df_prod_espec_exp = pd.DataFrame({'Tempo_exp(h)': Ttotal_exp,'Ppx_exp(gp/gx)': Ppx_exp})
+            df_teste = pd.DataFrame({'Tempo(h)': Ttotal})
+            df_teste_prod_espec = pd.DataFrame({'Ppx(gp/gx)': Ppx})
+            df_teste_exp = pd.DataFrame({'Tempo_exp(h)': Ttotal_exp})
+            df_teste_exp_prod_espec = pd.DataFrame({'Ppx_exp(gp/gx)': Ppx_exp})
+
+            # Teste: qual tempo tem o menor intervalo de divisão temporal
+            control_compar = len(Ttotal)
+        
+            ## Laço para comparação de tempos iguais (experimental e modelo) 
+            i_compar_exp = 0
+            i_compar_model = 0
+            temp_model=[]
+            temp_exp=[]
+            prod_espec_model = []
+            prod_espec_exp = []
+            while (i_compar_exp  < control_compar) and (i_compar_model < control_compar):
+                exp_teste = df_teste_exp.at[i_compar_exp, 'Tempo_exp(h)']
+                model_teste = df_teste.at[i_compar_model, 'Tempo(h)']
+                dif = np.round(exp_teste - model_teste,decimals=1)
+                if dif != 0:
+                    i_compar_model = 1 + i_compar_model
+                else:
+                    temp_model.append(model_teste)
+                    temp_exp.append(exp_teste)
+                    df_temp_model = pd.DataFrame({"Tempo(h)": temp_model})
+                    df_temp_exp = pd.DataFrame({"Tempo_exp(h)": temp_exp})
+                    debitado_model = df_teste_prod_espec.loc[i_compar_model]
+                    debitado_model = pd.Series(debitado_model).values
+                    debitado_exp = df_teste_exp_prod_espec.loc[i_compar_exp]
+                    debitado_exp = pd.Series(debitado_exp).values
+                    df_prod_espec_model = pd.DataFrame({'Ppx(gp/gx)':[debitado_model[0]]})
+                    prod_espec_model.append(df_prod_espec_model)
+                    df_prod_espec_exp = pd.DataFrame({'Ppx_exp(gp/gx)':[debitado_exp[0]]})
+                    prod_espec_exp.append(df_prod_espec_exp)
+                    i_compar_model =  1 + i_compar_model
+                    i_compar_exp =  1 + i_compar_exp  
+            ### DataFrames de saída, desconsiderando os indexes - resultam em erros:
+            df_prod_espec_model = pd.concat(prod_espec_model)
+            df_prod_espec_exp = pd.concat(prod_espec_exp)
+            df_prod_espec_model.reset_index(drop=True, inplace=True)
+            df_prod_espec_exp.reset_index(drop=True, inplace=True)
+        
+            ### Cálculo do coeficiente de regressão:
+            med_prod_espec = df_prod_espec_exp.mean(axis=0)
+            med_prod_espec_val = pd.Series(med_prod_espec).values
+            df_med_prod_espec = pd.DataFrame({'Ppxexp_med(gp/gx)':[med_prod_espec_val[0]]})
+            df_saida_compar = pd.concat ([df_temp_exp,df_prod_espec_exp, df_temp_model, df_prod_espec_model,df_med_prod_espec], axis=1)
+        
+            ### Determinação da soma do quadrado do resíduo:
+            df_saida_compar['DQres_Ppx'] = (df_prod_espec_exp['Ppx_exp(gp/gx)'] - df_prod_espec_model['Ppx(gp/gx)']) ** 2
+    
+            ### Determinação da soma do quadrado do resíduo:
+            Ppx_med = np.repeat(med_prod_espec_val[0],len(temp_exp))
+            df_SQtotal_prod_espec = pd.DataFrame ({'Ppxexp_med(gp/gx)': Ppx_med})
+            df_saida_compar['DQtot_Ppx'] = (df_prod_espec_exp['Ppx_exp(gp/gx)'] - df_SQtotal_prod_espec['Ppxexp_med(gp/gx)']) ** 2
+        
+            ### Soma SQres e QStot: 
+            soma_SQres_SQtot = df_saida_compar.sum(axis=0) #pegar 5 e 6
+            soma_SQres_SQtot_val = pd.Series(soma_SQres_SQtot).values
+            print(soma_SQres_SQtot_val)
+            SQres = soma_SQres_SQtot_val[5] 
+            SQtotal = soma_SQres_SQtot_val[6] 
+            df_soma_SQres_SQtot = pd.DataFrame({'SQres':[SQres], 'SQtot':[SQtotal]})
+            
+            ### Cálculo do R²:
+            r2_Ppx = 1 - (SQres/SQtotal)
+            r2_Ppx = round(r2_Ppx, 4)
+            Label(frame2, text = r2_Ppx, font = "batang 10 italic", fg = "black", bg = "grey40", width = 10).place(x = 1168, y = 329.2)
+            print(r2_Ppx)
             
         #### **** Impressão do valor do R² concentração na interface **** ####:
         ## Botão para acesso:
@@ -2179,6 +2230,7 @@ def explorer():
         if (cont_model == 9): # - mi constante
             mi_exp = np.repeat(param_otim_alm_alim[0],len(Ttotal_exp))
             mi = np.repeat(param_otim_alm_alim[0],len(Ttotal))
+        mi_exp = mi_exp
         mi_exp[mi_exp<0] = 0
         mi[mi<0] = 0
         
@@ -2220,29 +2272,78 @@ def explorer():
         
         ### ** CÁLCULO DO COEFICIENTE DE REGRESSÃO - TAXA ESPECÍFICA DE CRESCIMENTO MICROBIANO ** ###:
         def r2_mi():
-            # Cálculo R²:
-            if (cont_model == 9):
-                Label(frame2, text = "", font = "batang 10",  bg = "grey40", width = 10).place(x = 1168, y = 329.2)
-                Label(frame2, text = "Não atribuído", font = "batang 10 italic", fg = "black", bg = "grey40", width = 10).place(x = 1168, y = 329.2)
-            else:
-                df_mi = pd.DataFrame({'Tempo(h)': Ttotal, 'mi(h-¹)': mi})
-                df_t_exp = pd.DataFrame({'Tempo(h)': Ttotal_exp})
-                df_mi_merge = df_mi.merge(df_t_exp, how = 'inner' ,indicator=False)
-                df_mi_exp = pd.DataFrame({'Tempo_exp(h)':Ttotal_exp, 'mi(h-¹)': mi_exp})
-                print(df_mi_merge)
-                del df_mi_merge['Tempo(h)']
-                del df_mi_exp['Tempo_exp(h)']
-                df_mi_merge = df_mi_merge.values
-                df_mi_exp = df_mi_exp.values
-                resid = (df_mi_merge - df_mi_exp)**2
-                resid = resid.flatten()
-                resid = sum(resid)
-                mi_medio = np.mean(df_mi_exp)
-                mi_total = sum((df_mi_exp- mi_medio)**2)
-                r2_mi = 1 - (resid/mi_total)
-                Label(frame2, text = "", font = "batang 10",  bg = "grey40", width = 10).place(x = 1168, y = 329.2)
-                Label(frame2, text = r2_mi[0].round(4), font = "batang 10 italic", fg = "black", bg = "grey40", width = 10).place(x = 1168, y = 329.2)
-                print(r2_mi[0])
+            # - Batelada e Batelada Alimentada:
+            # Cálculo do coeficiente de regressão: 
+            df_mi = pd.DataFrame({'Tempo(h)': Ttotal, 'mi(1/t)': mi})
+            df_mi_exp = pd.DataFrame({'Tempo_exp(h)': Ttotal_exp,'mi_exp(1/t)': mi_exp})
+            df_teste = pd.DataFrame({'Tempo(h)': Ttotal})
+            df_teste_mi = pd.DataFrame({'mi(1/t)': mi})
+            df_teste_exp = pd.DataFrame({'Tempo_exp(h)': Ttotal_exp})
+            df_teste_exp_mi = pd.DataFrame({'mi_exp(1/t)': mi_exp})
+
+            # Teste: qual tempo tem o menor intervalo de divisão temporal
+            control_compar = len(Ttotal)
+        
+            ## Laço para comparação de tempos iguais (experimental e modelo) 
+            i_compar_exp = 0
+            i_compar_model = 0
+            temp_model=[]
+            temp_exp=[]
+            mi_model = []
+            mi_exp = []
+            while (i_compar_exp  < control_compar) and (i_compar_model < control_compar):
+                exp_teste = df_teste_exp.at[i_compar_exp, 'Tempo_exp(h)']
+                model_teste = df_teste.at[i_compar_model, 'Tempo(h)']
+                dif = np.round(exp_teste - model_teste,decimals=1)
+                if dif != 0:
+                    i_compar_model = 1 + i_compar_model
+                else:
+                    temp_model.append(model_teste)
+                    temp_exp.append(exp_teste)
+                    df_temp_model = pd.DataFrame({"Tempo(h)": temp_model})
+                    df_temp_exp = pd.DataFrame({"Tempo_exp(h)": temp_exp})
+                    debitado_model = df_teste_mi.loc[i_compar_model]
+                    debitado_model = pd.Series(debitado_model).values
+                    debitado_exp = df_teste_exp_mi.loc[i_compar_exp]
+                    debitado_exp = pd.Series(debitado_exp).values
+                    df_mi_model = pd.DataFrame({'mi(1/t)':[debitado_model[0]]})
+                    mi_model.append(df_mi_model)
+                    df_mi_exp = pd.DataFrame({'mi_exp(1/t)':[debitado_exp[0]]})
+                    mi_exp.append(df_mi_exp)
+                    i_compar_model =  1 + i_compar_model
+                    i_compar_exp =  1 + i_compar_exp  
+            ### DataFrames de saída, desconsiderando os indexes - resultam em erros:
+            df_mi_model = pd.concat(mi_model)
+            df_mi_exp = pd.concat(mi_exp)
+            df_mi_model.reset_index(drop=True, inplace=True)
+            df_mi_exp.reset_index(drop=True, inplace=True)
+        
+            ### Cálculo do coeficiente de regressão:
+            med_mi = df_mi_exp.mean(axis=0)
+            med_mi_val = pd.Series(med_mi).values
+            df_med_mi = pd.DataFrame({'miexp_med(1/t)':[med_mi_val[0]]})
+            df_saida_compar = pd.concat ([df_temp_exp,df_mi_exp, df_temp_model, df_mi_model,df_med_mi], axis=1)
+        
+            ### Determinação da soma do quadrado do resíduo:
+            df_saida_compar['DQres_mi'] = (df_mi_exp['mi_exp(1/t)'] - df_mi_model['mi(1/t)']) ** 2
+    
+            ### Determinação da soma do quadrado do resíduo:
+            Ppx_med = np.repeat(med_mi_val[0],len(temp_exp))
+            df_SQtotal_mi = pd.DataFrame ({'miexp_med(1/t)': Ppx_med})
+            df_saida_compar['DQtot_mi'] = (df_mi_exp['mi_exp(1/t)'] - df_SQtotal_mi['miexp_med(1/t)']) ** 2
+        
+            ### Soma SQres e QStot: 
+            soma_SQres_SQtot = df_saida_compar.sum(axis=0) #pegar 5 e 6
+            soma_SQres_SQtot_val = pd.Series(soma_SQres_SQtot).values
+            SQres = soma_SQres_SQtot_val[5] 
+            SQtotal = soma_SQres_SQtot_val[6] 
+            df_soma_SQres_SQtot = pd.DataFrame({'SQres':[SQres], 'SQtot':[SQtotal]})
+            
+            ### Cálculo do R²:
+            r2_mi = 1 - (SQres/SQtotal)
+            r2_mi = round(r2_mi, 4)
+            Label(frame2, text = r2_mi, font = "batang 10 italic", fg = "black", bg = "grey40", width = 10).place(x = 1168, y = 329.2)
+            print(r2_mi)
                 
         #### **** Impressão do valor do R² concentração na interface **** ####:
         ## Botão para acesso:
@@ -2315,27 +2416,78 @@ def explorer():
         
         ### ** CÁLCULO DO COEFICIENTE DE REGRESSÃO - VARIAÇÃO TEMPORAL DE VOLUME ** ###:
         def r2_vol():
-            df_vol = pd.DataFrame({'Tempo(h)': t_alim})
-            df_t_exp = pd.DataFrame({'Tempo(h)': t_exp_bat_alim})
-            df_vol_merge = pd.merge(df_vol, df_t_exp, how = 'right', on = 'Tempo(h)')
-            df_vol_exp = pd.DataFrame({'Tempo_exp(h)':t_exp_bat_alim, 'Vol(L)': V_calc_exp})
-            print(df_vol_merge)
-            print(df_vol)
-            print(df_t_exp)
-            del df_vol_merge['Tempo(h)']
-            del df_vol_exp['Tempo_exp(h)']
-            df_vol_merge = df_vol_merge.values
-            df_vol_exp = df_vol_exp.values
-            resid = (df_vol_merge - df_vol_exp)**2
-            resid = resid.flatten()
-            resid = sum(resid)
-            vol_medio = np.mean(df_vol_exp)
-            vol_total = sum((df_vol_exp- vol_medio)**2)
-            r2_vol = 1 - (resid/vol_total)
-            Label(frame2, text = "", font = "batang 10",  bg = "grey40", width = 10).place(x = 1168, y = 329.2)
-            Label(frame2, text = r2_vol[0].round(4), font = "batang 10 italic", fg = "black", bg = "grey40", width = 10).place(x = 1168, y = 329.2)
-            print(r2_vol[0])
+             # - Batelada e Batelada Alimentada:
+            # Cálculo do coeficiente de regressão: 
+            df_vol = pd.DataFrame({'Tempo(h)': t_alim, 'vol(L)': V_calc})
+            df_vol_exp = pd.DataFrame({'Tempo_exp(h)': t_exp_bat_alim,'vol_exp(L)': V_calc_exp})
+            df_teste = pd.DataFrame({'Tempo(h)': t_alim})
+            df_teste_vol = pd.DataFrame({'vol(L)': V_calc})
+            df_teste_exp = pd.DataFrame({'Tempo_exp(h)': t_exp_bat_alim})
+            df_teste_exp_vol = pd.DataFrame({'vol_exp(L)': V_calc_exp})
+
+            # Teste: qual tempo tem o menor intervalo de divisão temporal
+            control_compar = len(t_alim)
+        
+            ## Laço para comparação de tempos iguais (experimental e modelo) 
+            i_compar_exp = 0
+            i_compar_model = 0
+            temp_model=[]
+            temp_exp=[]
+            vol_model = []
+            vol_exp = []
+            while (i_compar_exp  < control_compar) and (i_compar_model < control_compar):
+                exp_teste = df_teste_exp.at[i_compar_exp, 'Tempo_exp(h)']
+                model_teste = df_teste.at[i_compar_model, 'Tempo(h)']
+                dif = np.round(exp_teste - model_teste,decimals=1)
+                if dif != 0:
+                    i_compar_model = 1 + i_compar_model
+                else:
+                    temp_model.append(model_teste)
+                    temp_exp.append(exp_teste)
+                    df_temp_model = pd.DataFrame({"Tempo(h)": temp_model})
+                    df_temp_exp = pd.DataFrame({"Tempo_exp(h)": temp_exp})
+                    debitado_model = df_teste_vol.loc[i_compar_model]
+                    debitado_model = pd.Series(debitado_model).values
+                    debitado_exp = df_teste_exp_vol.loc[i_compar_exp]
+                    debitado_exp = pd.Series(debitado_exp).values
+                    df_vol_model = pd.DataFrame({'vol(L)':[debitado_model[0]]})
+                    vol_model.append(df_vol_model)
+                    df_vol_exp = pd.DataFrame({'vol_exp(L)':[debitado_exp[0]]})
+                    vol_exp.append(df_vol_exp)
+                    i_compar_model =  1 + i_compar_model
+                    i_compar_exp =  1 + i_compar_exp  
+            ### DataFrames de saída, desconsiderando os indexes - resultam em erros:
+            df_vol_model = pd.concat(vol_model)
+            df_vol_exp = pd.concat(vol_exp)
+            df_vol_model.reset_index(drop=True, inplace=True)
+            df_vol_exp.reset_index(drop=True, inplace=True)
+        
+            ### Cálculo do coeficiente de regressão:
+            med_vol = df_vol_exp.mean(axis=0)
+            med_vol_val = pd.Series(med_vol).values
+            df_med_vol = pd.DataFrame({'volexp_med(L)':[med_vol_val[0]]})
+            df_saida_compar = pd.concat ([df_temp_exp,df_vol_exp, df_temp_model, df_vol_model,df_med_vol], axis=1)
+        
+            ### Determinação da soma do quadrado do resíduo:
+            df_saida_compar['DQres_vol'] = (df_vol_exp['vol_exp(L)'] - df_vol_model['vol(L)']) ** 2
     
+            ### Determinação da soma do quadrado do resíduo:
+            vol_med = np.repeat(med_vol_val[0],len(temp_exp))
+            df_SQtotal_vol = pd.DataFrame ({'volexp_med(L)': vol_med})
+            df_saida_compar['DQtot_vol'] = (df_vol_exp['vol_exp(L)'] - df_SQtotal_vol['volexp_med(L)']) ** 2
+        
+            ### Soma SQres e QStot: 
+            soma_SQres_SQtot = df_saida_compar.sum(axis=0) #pegar 5 e 6
+            soma_SQres_SQtot_val = pd.Series(soma_SQres_SQtot).values
+            SQres = soma_SQres_SQtot_val[5] 
+            SQtotal = soma_SQres_SQtot_val[6] 
+            df_soma_SQres_SQtot = pd.DataFrame({'SQres':[SQres], 'SQtot':[SQtotal]})
+            
+            ### Cálculo do R²:
+            r2_vol = 1 - (SQres/SQtotal)
+            r2_vol = round(r2_vol, 4)
+            Label(frame2, text = r2_vol, font = "batang 10 italic", fg = "black", bg = "grey40", width = 10).place(x = 1168, y = 329.2)
+            print(r2_vol)
         #### **** Impressão do valor do R² concentração na interface **** ####:
         ## Botão para acesso:
         Button(frame44, text = "R²", font = "batang 12 bold", fg = "black", bg = "grey70", command = r2_vol).place(x = 452, y = 45) 
@@ -2406,24 +2558,78 @@ def explorer():
         
         ### ** CÁLCULO DO COEFICIENTE DE REGRESSÃO - VARIAÇÃO DA VAZÃO ** ###:
         def r2_vaz():
-            df_vaz = pd.DataFrame({'Tempo(h)': t_alim, 'Vazão (L/h)': Q_calc})
-            df_t_exp = pd.DataFrame({'Tempo(h)': t_exp_bat_alim})
-            df_vaz_merge = df_vaz.merge(df_t_exp, on = 'Tempo(h)')
-            print(df_vaz_merge)
-            df_vaz_exp = pd.DataFrame({'Tempo_exp(h)':t_exp_bat_alim, 'Vazão (L/h)': Q_calc_exp})
-            del df_vaz_merge['Tempo(h)']
-            del df_vaz_exp['Tempo_exp(h)']
-            df_vaz_merge = df_vaz_merge.values
-            df_vaz_exp = df_vaz_exp.values
-            resid = (df_vaz_merge - df_vaz_exp)**2
-            resid = resid.flatten()
-            resid = sum(resid)
-            vaz_medio = np.mean(df_vaz_exp)
-            vaz_total = sum((df_vaz_exp - vaz_medio)**2)
-            r2_vaz = 1 - (resid/vaz_total)
-            Label(frame2, text = "", font = "batang 10",  bg = "grey40", width = 10).place(x = 1168, y = 329.2)
-            Label(frame2, text = r2_vaz[0].round(4), font = "batang 10 italic", fg = "black", bg = "grey40", width = 10).place(x = 1168, y = 329.2)
-            print(r2_vaz[0])
+            # - Batelada e Batelada Alimentada:
+            # Cálculo do coeficiente de regressão: 
+            df_vaz = pd.DataFrame({'Tempo(h)': t_alim, 'vaz(L/h)': Q_calc})
+            df_vaz_exp = pd.DataFrame({'Tempo_exp(h)': t_exp_bat_alim,'vaz_exp(L/h)': Q_calc_exp})
+            df_teste = pd.DataFrame({'Tempo(h)': t_alim})
+            df_teste_vaz = pd.DataFrame({'vaz(L/h)': Q_calc})
+            df_teste_exp = pd.DataFrame({'Tempo_exp(h)': t_exp_bat_alim})
+            df_teste_exp_vaz = pd.DataFrame({'vaz_exp(L/h)': Q_calc_exp})
+
+            # Teste: qual tempo tem o menor intervalo de divisão temporal
+            control_compar = len(t_alim)
+        
+            ## Laço para comparação de tempos iguais (experimental e modelo) 
+            i_compar_exp = 0
+            i_compar_model = 0
+            temp_model=[]
+            temp_exp=[]
+            vaz_model = []
+            vaz_exp = []
+            while (i_compar_exp  < control_compar) and (i_compar_model < control_compar):
+                exp_teste = df_teste_exp.at[i_compar_exp, 'Tempo_exp(h)']
+                model_teste = df_teste.at[i_compar_model, 'Tempo(h)']
+                dif = np.round(exp_teste - model_teste,decimals=1)
+                if dif != 0:
+                    i_compar_model = 1 + i_compar_model
+                else:
+                    temp_model.append(model_teste)
+                    temp_exp.append(exp_teste)
+                    df_temp_model = pd.DataFrame({"Tempo(h)": temp_model})
+                    df_temp_exp = pd.DataFrame({"Tempo_exp(h)": temp_exp})
+                    debitado_model = df_teste_vaz.loc[i_compar_model]
+                    debitado_model = pd.Series(debitado_model).values
+                    debitado_exp = df_teste_exp_vaz.loc[i_compar_exp]
+                    debitado_exp = pd.Series(debitado_exp).values
+                    df_vaz_model = pd.DataFrame({'vaz(L/h)':[debitado_model[0]]})
+                    vaz_model.append(df_vaz_model)
+                    df_vaz_exp = pd.DataFrame({'vaz_exp(L/h)':[debitado_exp[0]]})
+                    vaz_exp.append(df_vaz_exp)
+                    i_compar_model =  1 + i_compar_model
+                    i_compar_exp =  1 + i_compar_exp  
+            ### DataFrames de saída, desconsiderando os indexes - resultam em erros:
+            df_vaz_model = pd.concat(vaz_model)
+            df_vaz_exp = pd.concat(vaz_exp)
+            df_vaz_model.reset_index(drop=True, inplace=True)
+            df_vaz_exp.reset_index(drop=True, inplace=True)
+        
+            ### Cálculo do coeficiente de regressão:
+            med_vaz = df_vaz_exp.mean(axis=0)
+            med_vaz_val = pd.Series(med_vaz).values
+            df_med_vaz = pd.DataFrame({'vazexp_med(L/h)':[med_vaz_val[0]]})
+            df_saida_compar = pd.concat ([df_temp_exp,df_vaz_exp, df_temp_model, df_vaz_model,df_med_vaz], axis=1)
+        
+            ### Determinação da soma do quadrado do resíduo:
+            df_saida_compar['DQres_vaz'] = (df_vaz_exp['vaz_exp(L/h)'] - df_vaz_model['vaz(L/h)']) ** 2
+    
+            ### Determinação da soma do quadrado do resíduo:
+            vaz_med = np.repeat(med_vaz_val[0],len(temp_exp))
+            df_SQtotal_vaz = pd.DataFrame ({'vazexp_med(L/h)': vaz_med})
+            df_saida_compar['DQtot_vaz'] = (df_vaz_exp['vaz_exp(L/h)'] - df_SQtotal_vaz['vazexp_med(L/h)']) ** 2
+        
+            ### Soma SQres e QStot: 
+            soma_SQres_SQtot = df_saida_compar.sum(axis=0) #pegar 5 e 6
+            soma_SQres_SQtot_val = pd.Series(soma_SQres_SQtot).values
+            SQres = soma_SQres_SQtot_val[5] 
+            SQtotal = soma_SQres_SQtot_val[6] 
+            df_soma_SQres_SQtot = pd.DataFrame({'SQres':[SQres], 'SQtot':[SQtotal]})
+            
+            ### Cálculo do R²:
+            r2_vaz = 1 - (SQres/SQtotal)
+            r2_vaz = round(r2_vaz, 4)
+            Label(frame2, text = r2_vaz, font = "batang 10 italic", fg = "black", bg = "grey40", width = 10).place(x = 1168, y = 329.2)
+            print(r2_vaz)
         
         #### **** Impressão do valor do R² concentração na interface **** ####:
         ## Botão para acesso:
