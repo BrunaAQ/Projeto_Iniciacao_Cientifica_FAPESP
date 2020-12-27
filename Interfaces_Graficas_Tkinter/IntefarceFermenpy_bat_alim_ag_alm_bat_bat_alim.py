@@ -178,16 +178,22 @@ def notebook_graf_simul():
     notebook_graf_simul.place(x = 401, y = 115)
     global frame22
     frame22 = ttk.Frame(notebook_graf_simul, width = 500, height = 335, borderwidth = 5, relief = tk.GROOVE)
-    notebook_graf_simul.add(frame22, text = 'Concentração')
+    notebook_graf_simul.add(frame22, text = u'Concent.t\u207b\u00b9')
     global frame23
-    frame23 = ttk.Frame(notebook_graf_simul, width = 69, height = 22, borderwidth = 5, relief = tk.GROOVE)
-    notebook_graf_simul.add(frame23, text = 'Produtividade X e P')
+    frame23 = ttk.Frame(notebook_graf_simul, width = 500, height = 335, borderwidth = 5, relief = tk.GROOVE)
+    notebook_graf_simul.add(frame23, text = 'Produtiv. (Px e Pp)')
     global frame24
-    frame24 = ttk.Frame(notebook_graf_simul, width = 69, height = 22, borderwidth = 5, relief = tk.GROOVE)
-    notebook_graf_simul.add(frame24, text = u'Produtividade P.X\u207b\u00b9')
+    frame24 = ttk.Frame(notebook_graf_simul, width = 500, height = 335, borderwidth = 5, relief = tk.GROOVE)
+    notebook_graf_simul.add(frame24, text = u'Produtiv. (p.x\u207b\u00b9)')
     global frame25
-    frame25 = ttk.Frame(notebook_graf_simul, width = 69, height = 22, borderwidth = 5, relief = tk.GROOVE)
-    notebook_graf_simul.add(frame25, text = 'Velocidade de Crescimento')
+    frame25 = ttk.Frame(notebook_graf_simul, width = 500, height = 335, borderwidth = 5, relief = tk.GROOVE)
+    notebook_graf_simul.add(frame25, text = u'Taxa \u03bcmáx.t\u207b\u00b9')
+    global frame46
+    frame46 = ttk.Frame(notebook_graf_simul, width = 500, height = 335, borderwidth = 5, relief = tk.GROOVE)
+    notebook_graf_simul.add(frame46, text = u'Volume.t\u207b\u00b9')
+    global frame47
+    frame47 = ttk.Frame(notebook_graf_simul, width = 500, height = 335, borderwidth = 5, relief = tk.GROOVE)
+    notebook_graf_simul.add(frame47, text = u'Vazão.t\u207b\u00b9')
 def notebook_docum():
     notebook_docum = ttk.Notebook(frame3)
     notebook_docum.place(x = 30, y = 165)
@@ -269,6 +275,13 @@ def carregar_imagem(frame, imagem, x, y, borderwidth, relief):
     img = Label(frame, image = render, border = 0, borderwidth = borderwidth, relief = relief)
     img.image = render
     img.place(x = x, y = y)
+# Função para impressão de imagens com bordas padronizadas:
+def image(imagem, num_frame, x, y):
+    load = Image.open(imagem)
+    render = ImageTk.PhotoImage(load)
+    img = Label(num_frame, image = render, border = 0, borderwidth = 2, relief = "sunken")
+    img.image = render
+    img.place(x = x, y = y)
 ## * BOTÃO PARA DOWNLOAD DOS ARQUIVOS EXCEL GERADOS * ##: - vincular com excel concent
 def botao_excel(imagem, num_frame, x, y, comando):
         load = Image.open(imagem)
@@ -277,9 +290,9 @@ def botao_excel(imagem, num_frame, x, y, comando):
         img.image = render
         img.place(x = x, y = y)
 ## * ACESSO AOS ARQUIVOS EXCEL DISPONÍVEIS PARA DOWNLOAD:
-def aces_arq(frame):
-    Label(frame, text = "", borderwidth=3, relief="groove", width = 33, height = 7, bg = "gray45").place(x = 1030, y = 7)
-    Label(frame, text = "Acessar Arquivos", font = "arial 8 bold", fg = "white", bg = "black", borderwidth=4, relief="sunken").place(x = 1036, y = 13)
+def aces_arq(frame, x1, x2, y1, y2):
+    Label(frame, text = "", borderwidth=3, relief="groove", width = 33, height = 7, bg = "gray45").place(x = x1, y = y1)
+    Label(frame, text = "Acessar Arquivos", font = "arial 8 bold", fg = "white", bg = "black", borderwidth=4, relief="sunken").place(x = x2, y = y2)
 ## * ENTRADA PARA PARÂMETROS BATELADA ALIMENTADA * ##
 def entry_bat_alim_geral():
     global entr_Q, entr_Cs_alim, entr_V0, entr_tf_bat
@@ -319,7 +332,110 @@ def botao_paleta_graf(frame,comando):
     img.image = render
     img.place(x = 450, y = 130)
     
+## * SAÍDAS DA SIMULAÇÃO * ##:
+# Caixas de separação:
+Label(frame1, text="", width = 52, height = 33, borderwidth = 3,  relief = "sunken", bg = "grey85").place(x = 914, y = 2)
+Label(frame1, text="", width = 53, height = 33, borderwidth = 3,  relief = "sunken", bg = "grey85").place(x = 10, y = 2)
+def caixa_equa_simul():
+    Label(frame1, text="", width = 47, height = 19, borderwidth = 5,  relief = "sunken", bg = "grey65").place(x = 920, y = 200)
+ttk.Label(frame1, text = "SELECIONE A CINÉTICA DE REAÇÃO:", font = "times 12 bold").place(x = 16, y = 10)
+v_1 = ("AUSÊNCIA DE INIBIÇÃO", "INIBIÇÃO PELO SUBSTRATO", "INIBIÇÃO PELO PRODUTO", "INIBIÇÃO PELA BIOMASSA", "CINÉTICA CONSTANTE SEM INIBIÇÃO")
+combo_1 = Combobox(frame1, values = v_1, width = 39, font = "arial 10")
+combo_1.set("-----------------------ESCOLHA-----------------------")
+combo_1.place(x = 15, y = 32)
+caixa_equa_simul()
+aces_arq(frame = frame1, x1 = 920, x2 = 926, y1 = 86, y2 = 92)
+## Caixa para plotagem dos gráficos gerados:
+notebook_graf_simul()
+
+# Caixa para acesso às equações:
+Label(frame1, text = "", borderwidth=4, relief="sunken", width = 50, height = 4, bg = "grey90").place(x = 921, y = 8)
+Label(frame1, text = "Visualizar Equações", font = "times 8 bold", fg = "white", bg = "black", borderwidth=4, relief="sunken").place(x = 1150, y = 13)
+## Função para impressão das equações e suas variáveis:
+def equac_sai_contois():
+    caixa_equa_simul()
+    image(imagem = "Equacao_Contois.png", num_frame = frame1, x = 988, y = 282)
+    Label(frame1, text = "CONTOIS", font = 'Courier 12 bold italic', fg = "black", bg = "white", relief = "raised").place(x = 930, y = 210)
+    tex_mimax = Label(frame1, text = u"\u03bcmáx = taxa específica máxima de crescimento (t\u207b\u00b9)", font = 'arial 9 italic', fg = "black", bg = "grey65").place(x = 930, y = 374)
+    tex_ksx = Label(frame1, text = u"KSX = constante de saturação (mass.mass\u207b\u00b9)", font = 'arial 9 italic', fg = "black",  bg = "grey65").place(x = 930, y = 404)
+def equac_sai_monod():
+    caixa_equa_simul()
+    image(imagem = "Equacao_Monod.png", num_frame = frame1, x = 1000, y = 282)
+    Label(frame1, text = "MONOD", font = 'Courier 12 bold italic', fg = "black", bg = "white", relief = "raised").place(x = 930, y = 210)
+    tex_mimax = Label(frame1, text = u"\u03bcmáx = taxa específica máxima de crescimento (t\u207b\u00b9)", font = 'arial 9 italic', fg = "black", bg = "grey65").place(x = 930, y = 374)
+    tex_ks = Label(frame1, text = u"Ks = constante de saturação (mass.vol\u207b\u00b9)", font = 'arial 9 italic', fg = "black", bg = "grey65").place(x = 930, y = 404)
+def equac_sai_moser():
+    caixa_equa_simul()
+    image(imagem = "Equacao_Moser.png", num_frame = frame1, x = 1000, y = 282)
+    Label(frame1, text = "MOSER", font = 'Courier 12 bold italic', fg = "black", bg = "white", relief = "raised").place(x = 930, y = 210)
+    tex_mimax = Label(frame1, text = u"\u03bcmáx = taxa específica máxima de crescimento (t\u207b\u00b9)", font = 'arial 9 italic', fg = "black", bg = "grey65").place(x = 930, y = 374)
+    tex_ks = Label(frame1, text = u"Ks = constante de saturação (mass.vol\u207b\u00b9)", font = 'arial 9 italic', fg = "black", bg = "grey65").place(x = 930, y = 404)
+    tex_u = Label(frame1, text = "u = parâmetro expoente (adim)", font = 'arial 9 italic', fg = "black", bg = "grey65").place(x = 930, y = 434)
+def equac_sai_mi_const():
+    caixa_equa_simul()
+    image(imagem = "Equacao_mi_const.png", num_frame = frame1, x = 1040, y = 278)
+    Label(frame1, text = u"\u03bc constante", font = 'Courier 12 bold italic', fg = "black", bg = "white", relief = "raised").place(x = 930, y = 210)
+    tex_mi = Label(frame1, text = u"\u03bc = taxa específica de crescimento (t\u207b\u00b9)", font = 'arial 9 italic', fg = "black", bg = "grey65").place(x = 930, y = 314)
+    tex_mi_explic = Label(frame1, text = "A velocidade de crescimento microbiano mantém-se\nconstante durante todo o tempo t de cultivo", font = 'arial 9 italic', fg = "black", bg = "grey65", relief = "sunken").place(x = 936, y = 385)
+def equac_sai_andrews(): 
+    caixa_equa_simul()
+    image(imagem = "Equacao_Andrews.png", num_frame = frame1, x = 985, y = 282)
+    Label(frame1, text = "ANDREWS", font = 'Courier 12 bold italic', fg = "black", bg = "white", relief = "raised").place(x = 930, y = 210)
+    tex_mimax = Label(frame1, text = u"\u03bcmáx = taxa específica máxima de crescimento (t\u207b\u00b9)", font = 'arial 9 italic', fg = "black", bg = "grey65").place(x = 930, y = 374)
+    tex_ks = Label(frame1, text = u"Ks = constante de saturação (mass.vol\u207b\u00b9)", font = 'arial 9 italic', fg = "black", bg = "grey65").place(x = 930, y = 404)
+    tex_kis = Label(frame1, text = u"KIS = constante inibição por substrato (mass.vol\u207b\u00b9)", font = 'arial 9 italic', fg = "black", bg = "grey65").place(x = 930, y = 434)
+def equac_sai_wu(): 
+    caixa_equa_simul()
+    image(imagem = "Equacao_Wu.png", num_frame = frame1, x = 970, y = 282)
+    Label(frame1, text = "WU et al", font = 'Courier 12 bold italic', fg = "black", bg = "white", relief = "raised").place(x = 930, y = 210)
+    tex_mimax = Label(frame1, text = u"\u03bcmáx = taxa específica máxima de crescimento (t\u207b\u00b9)", font = 'arial 9 italic', fg = "black", bg = "grey65").place(x = 930, y = 374)
+    tex_ks = Label(frame1, text = u"Ks = constante de saturação (mass.vol\u207b\u00b9)", font = 'arial 9 italic', fg = "black", bg = "grey65").place(x = 930, y = 404)
+    tex_ke = Label(frame1, text = u"KE = constante inibição por substrato (mass.vol\u207b\u00b9)", font = 'arial 9 italic', fg = "black", bg = "grey65").place(x = 930, y = 434)
+    tex_v = Label(frame1, text = "v = parâmetro expoente (adim)", font = 'arial 9 italic', fg = "black", bg = "grey65").place(x = 930, y = 464)
+def equac_sai_aiba():
+    caixa_equa_simul()
+    image(imagem = "Equacao_Aiba.png", num_frame = frame1, x = 970, y = 282) 
+    Label(frame1, text = "AIBA et al", font = 'Courier 12 bold italic', fg = "black", bg = "white", relief = "raised").place(x = 930, y = 210)
+    tex_mimax = Label(frame1, text = u"\u03bcmáx = taxa específica máxima de crescimento (t\u207b\u00b9)", font = 'arial 9 italic', fg = "black", bg = "grey65").place(x = 930, y = 374)
+    tex_ks = Label(frame1, text = u"Ks = constante de saturação (mass.vol\u207b\u00b9)", font = 'arial 9 italic', fg = "black", bg = "grey65").place(x = 930, y = 404)
+    tex_kp = Label(frame1, text = u"Kp = parâmetro expoente de inibição (vol.mass\u207b\u00b9)", font = 'arial 9 italic', fg = "black", bg = "grey65").place(x = 930, y = 434)  
+def equac_sai_hh():
+    caixa_equa_simul()      
+    image(imagem = "Equacao_Hoppe_Hansford.png", num_frame = frame1, x = 970, y = 282) 
+    Label(frame1, text = "HOPPE & HANSFORD", font = 'Courier 12 bold italic', fg = "black", bg = "white", relief = "raised").place(x = 930, y = 210)
+    tex_mimax = Label(frame1, text = u"\u03bcmáx = taxa específica máxima de crescimento (t\u207b\u00b9)", font = 'arial 9 italic', fg = "black", bg = "grey65").place(x = 930, y = 374)
+    tex_ks = Label(frame1, text = u"Ks = constante de saturação (mass.vol\u207b\u00b9)", font = 'arial 9 italic', fg = "black", bg = "grey65").place(x = 930, y = 404)
+    tex_kp = Label(frame1, text = u"Kp = constante inibição por produto (mass.vol\u207b\u00b9)", font = 'arial 9 italic', fg = "black", bg = "grey65").place(x = 930, y = 434)               
+def equac_sai_levenspiel():
+    caixa_equa_simul()
+    image(imagem = "Equacao_Levenspiel.png", num_frame = frame1, x = 970, y = 282) 
+    Label(frame1, text = "LEVENSPIEL", font = 'Courier 12 bold italic', fg = "black", bg = "white", relief = "raised").place(x = 930, y = 210)
+    tex_mimax = Label(frame1, text = u"\u03bcmáx = taxa específica máxima de crescimento (t\u207b\u00b9)", font = 'arial 9 italic', fg = "black", bg = "grey65").place(x = 930, y = 374)
+    tex_ks = Label(frame1, text = u"Ks = constante de saturação (mass.vol\u207b\u00b9)", font = 'arial 9 italic', fg = "black", bg = "grey65").place(x = 930, y = 404)
+    tex_cpestr = Label(frame1, text = u"Cp* = concentração produto crítica (mass.vol\u207b\u00b9)", font = 'arial 9 italic', fg = "black", bg = "grey65").place(x = 930, y = 434)
+    tex_n_lev = Label(frame1, text = "n = constante de Levenspiel (adim)", font = 'arial 9 italic', fg = "black", bg = "grey65").place(x = 930, y = 464)   
+def equac_sai_lee():  
+    caixa_equa_simul()
+    image(imagem = "Equacao_Lee.png", num_frame = frame1, x = 970, y = 282) 
+    Label(frame1, text = "LEE et al", font = 'Courier 12 bold italic', fg = "black", bg = "white", relief = "raised").place(x = 930, y = 210)
+    tex_mimax = Label(frame1, text = u"\u03bcmáx = taxa específica máxima de crescimento (t\u207b\u00b9)", font = 'arial 9 italic', fg = "black", bg = "grey65").place(x = 930, y = 374)
+    tex_ks = Label(frame1, text = u"Ks = constante de saturação (mass.vol\u207b\u00b9)", font = 'arial 9 italic', fg = "black", bg = "grey65").place(x = 930, y = 404)
+    tex_cxestr = Label(frame1, text = u"Cx* = concentração celular crítica (mass.vol\u207b\u00b9)", font = 'arial 9 italic', fg = "black", bg = "grey65").place(x = 930, y = 434)
+    tex_m = Label(frame1, text = "m = constante de Lee et al (adim)", font = 'arial 9 italic', fg = "black", bg = "grey65").place(x = 930, y = 464)   
+
+### * Criação botões para acesso às equações ### *:
+Button(frame1, text = "Contois", font = "Times 7 bold italic", fg = "black", bg = "white", command = equac_sai_contois).place(x = 930, y = 35)
+Button(frame1, text = "Monod", font = "Times 7 bold italic", fg = "black", bg = "white", command = equac_sai_monod).place(x = 970, y = 35)
+Button(frame1, text = "Moser", font = "Times 7 bold italic", fg = "black", bg = "white", command = equac_sai_moser).place(x = 1006, y = 35)
+Button(frame1, text = "Andrews", font = "Times 7 bold italic", fg = "black", bg = "grey90", command = equac_sai_andrews).place(x = 1040, y = 35)
+Button(frame1, text = "Wu et al", font = "Times 7 bold italic", fg = "black", bg = "grey90", command = equac_sai_wu).place(x = 1082, y = 35)
+Button(frame1, text = "Aiba et al", font = "Times 7 bold italic", fg = "black", bg = "grey80", command = equac_sai_aiba).place(x = 950, y = 56)
+Button(frame1, text = "Hoppe & Hansford", font = "Times 7 bold italic", fg = "black", bg = "grey80", command = equac_sai_hh).place(x = 997, y = 56)
+Button(frame1, text = "Levenspiel", font = "Times 7 bold italic", fg = "black", bg = "grey80", command = equac_sai_levenspiel).place(x = 1081, y = 56)
+Button(frame1, text = "Lee et al", font = "Times 7 bold italic", fg = "black", bg = "grey70", command = equac_sai_lee).place(x = 1131, y = 56)  
+Button(frame1, text = u"\u03bc constante", font = "Times 7 bold italic", fg = "white", bg = "grey50", command = equac_sai_mi_const).place(x = 1172, y = 56)    
     
+
 ## * SAÍDAS DA MODELAGEM * ##:
 ## Caixas de separação:
 Label(frame2, text="", width = 52, height = 33, borderwidth = 3,  relief = "sunken", bg = "grey85").place(x = 914, y = 2)
@@ -335,8 +451,9 @@ Label(frame2, text = "b", font = "times 42", fg = "grey40", bg = "grey40", width
 Label(frame2, text = "F. Obj:", font = "broadway 11", fg = "white", bg = "black", justify = "center",  borderwidth=4, relief ='sunken').place(x = 1095, y = 297.2)
 Label(frame2, text = u"R\u00b2:", font = "broadway 11", fg = "white", bg = "black", justify = "center",  borderwidth=4, relief ='sunken').place(x = 1124, y = 327.2)
 ## Indicação da região de acesso:
-aces_arq(frame2)
-
+aces_arq(frame2, x1 = 1030, x2 = 1036, y1 = 7, y2 = 13)
+## Caixa para plotagem dos gráficos gerados:
+notebook_graf_model()
 
 # Seleção do modo de alimentação:
 ## Combobox:
@@ -2920,8 +3037,6 @@ def explorer():
     # Botão para acesso aos modelos disponibilizados:
     Button(frame2, text="Pronto", bg = "black", fg="white", font="batang 12", command = combobox_model).place(x = 315, y = 29)
     
-# Caixa para plotagem dos gráficos gerados:
-notebook_graf_model()
     
 # Nome do arquivo excel selecionado é lançado em um label - VÍNCULO COM A FUNÇÃO EXPLORER:
 arq_sel = Label(frame2, width = 50)
