@@ -1074,6 +1074,620 @@ def entr_simul_m(frame):
     slider_m = ttk.Scale(frame, variable=input, from_= 0.0, to = 10, orient='horizontal',length = 85)
     slider_m.place(x = 208, y = 91)
 
+# Função para definição dos labels - títulos de definição:
+def labels_saida(frame):
+    labels(frame, texto = "Parâmetros Crescimento", fonte = "batang 8 bold", borda = "flat", x = 115, y = 0)
+    labels(frame, texto = u"\u03bcmáx (h\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 2, y = 14)
+    labels(frame, texto = "Parâmetros Balanço Massa", fonte = "batang 8 bold", borda = "flat", x = 100, y = 117)
+    labels(frame, texto = u"Kd (h\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 2, y = 132)
+    labels(frame, texto = u"Yxs (gx.gs\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 228, y = 132)
+    labels(frame, texto = u"\u03B1(gp.gx\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 2, y = 189)
+    labels(frame, texto = u"\u03B2[gp.(gx.h)\u207b\u00b9]", fonte = "times 9 bold", borda = "sunken", x = 226, y = 189)
+    labels(frame, texto = "Variáveis Operacionais", fonte = "batang 8 bold", borda = "flat", x = 123, y = 234)
+    labels(frame, texto = "Cx0:", fonte = "times 10 bold", borda = "flat", x = 18, y = 255)
+    labels(frame, texto = "Cs0:", fonte = "times 10 bold", borda = "flat", x = 108, y = 255)
+    labels(frame, texto = "Cp0:", fonte = "times 10 bold", borda = "flat", x = 198, y = 255)
+    labels(frame, texto = "t0(h):", fonte = "times 10 bold", borda = "flat", x = 13, y = 285)
+    labels(frame, texto = "tf(h):", fonte = "times 10 bold", borda = "flat", x = 107, y = 285)
+def labels_saida_mi_const(frame):
+    labels(frame, texto = "Parâmetros Crescimento", fonte = "batang 8 bold", borda = "flat", x = 115, y = 0)
+    labels(frame, texto = "Variáveis Operacionais", fonte = "batang 8 bold", borda = "flat", x = 123, y = 234)
+    labels(frame, texto = "Cx0:", fonte = "times 10 bold", borda = "flat", x = 18, y = 255)
+    labels(frame, texto = "t0(h):", fonte = "times 10 bold", borda = "flat", x = 13, y = 285)
+    labels(frame, texto = "tf(h):", fonte = "times 10 bold", borda = "flat", x = 107, y = 285)
+
+# Função separação física simulação:
+def separ_simul(frame):
+    caix_simul(frame, larg = 40, alt = 7, x = 5, y = 5)
+    caix_simul(frame, larg = 40, alt = 7, x = 5, y = 123)
+    caix_simul(frame, larg = 40, alt = 4, x = 5, y = 240)
+def separ_simul_infl_mi_const(frame):
+    caix_simul(frame, larg = 40, alt = 14, x = 5, y = 5)
+    caix_simul(frame, larg = 40, alt = 4, x = 5, y = 240)
+    
+# AVIS0:
+labels(frame = frame1, texto = "Por favor, entre com valores para Cx0, Cs0 e Cp0 em unidades g/L", fonte = "times 9 bold", borda = "flat", x = 15, y = 480)
+
+## Capturar o modo de alimentação selecionado e exibir o layout para entrada correspondente:
+### Caixa separadora do layout:
+Label(frame1, text = "", width = 60, height = 6, relief = "sunken", borderwidth = 3).place(x = 470, y = 4)
+### Valor do combobox:
+def print_alim_simul():
+    global def_alim
+    def_alim = combo_0.get()
+    print(def_alim)
+    status_03.configure(text = def_alim, font = "batang 12", bg = "lightgreen", relief = "raised")  
+## * ENTRADA DOS VALORES REFERENTES APENAS À BATELADA ALIMENTADA * ##
+    # Criação das indicações escritas:
+    ## Eixos:
+    eixo_Q = Label(frame1, text = u"Q(L.h\u207b\u00b9)", width = 7, font = "times 10 bold", fg = "grey45")
+    eixo_Q.place(x = 536, y = 40) 
+    eixo_Cs_alim = Label(frame1, text = u"Cs alim(gs.L\u207b\u00b9)", font = "times 10 bold", fg = "grey45")
+    eixo_Cs_alim.place(x = 641, y = 40) 
+    eixo_V0 = Label(frame1, text = "V0(L)", font = "times 10 bold", fg = "grey45")
+    eixo_V0.place(x = 549, y = 70)  
+    eixo_tf_bat = Label(frame1, text = "tf bat(h)", font = "times 10 bold", fg = "grey45")
+    eixo_tf_bat.place(x = 780, y = 40) 
+    eixo_lin_exp = Label(frame1, text = "a / beta", font = "times 10 bold", width = 5, fg = "gray45")
+    eixo_lin_exp.place(x = 670, y = 70)  
+    # Indicação para a entrada dos parâmetros referentes apenas à batelada alimentada pelo tk entry:
+    Label(frame1, text = "Insira as constantes relacionadas:", font = "courier 9 bold", bg = "gray85", relief = "raised").place(x = 480, y = 10)
+    ## Função para avaliar o tipo de alimentação:
+    if (def_alim == "Taxa de Vazão Constante"):
+        entry_bat_alim_geral(frame = frame1, x1 = 590, x2 = 730, x3 = 590, x4 = 828, x5 = 730, y1 = 40, y2 = 40, y3 = 70, y4 = 40, y5 = 70)
+        botao_envio_bat_alim(frame = frame1, comando = pegar_val_alim_const, x = 850, y = 71)
+        eixo_Q.configure(fg = "black")
+        eixo_Cs_alim.configure(fg = "black")
+        eixo_tf_bat.configure(fg = "black")
+        eixo_V0.configure(fg = "black")
+    if (def_alim == "Taxa de Vazão Linear"):
+        entry_bat_alim_geral(frame = frame1, x1 = 590, x2 = 730, x3 = 590, x4 = 828, x5 = 730, y1 = 40, y2 = 40, y3 = 70, y4 = 40, y5 = 70)
+        entry_bat_alim_lin_exp(frame = frame1, x = 730, y = 70)
+        botao_envio_bat_alim(frame = frame1, comando = pegar_val_alim_lin, x = 850, y = 71)
+        eixo_Q.configure(text = u"Q0(L.h\u207b\u00b9)", fg = "black")
+        eixo_Cs_alim.configure(fg = "black")
+        eixo_tf_bat.configure(fg = "black")
+        eixo_V0.configure(fg = "black")
+        eixo_lin_exp.configure(text = "a", fg = "black")
+    if (def_alim == "Taxa de Vazão Exponencial"):
+        entry_bat_alim_geral(frame = frame1, x1 = 590, x2 = 730, x3 = 590, x4 = 828, x5 = 730, y1 = 40, y2 = 40, y3 = 70, y4 = 40, y5 = 70)
+        entry_bat_alim_lin_exp(frame = frame1, x = 730, y = 70)
+        botao_envio_bat_alim(frame = frame1, comando = pegar_val_alim_exp, x = 850, y = 71)
+        eixo_Q.configure(text = u"Q0(L.h\u207b\u00b9)", fg = "black")
+        eixo_Cs_alim.configure(fg = "black")
+        eixo_tf_bat.configure(fg = "black")
+        eixo_V0.configure(fg = "black")
+        eixo_lin_exp.configure(text = "beta", fg = "black")
+    but_alim_model.configure(bg = "gray94", fg = "black")
+    but_alim_simul.configure(bg = "black", fg = "white")
+        
+but_alim_simul = Button(janela, text = "Enviar para simular", font = "times 8 italic bold", relief = "raised", borderwidth = 3, command = print_alim_simul)
+but_alim_simul.place(x = 668, y = 67) 
+
+## * ENTRADAS E SAÍDAS DA MODELAGEM * ##:
+## Caixas de separação:
+Label(frame2, text="", width = 52, height = 33, borderwidth = 3,  relief = "sunken", bg = "grey85").place(x = 914, y = 2)
+Label(frame2, text="", width = 50, height = 16, borderwidth = 3,  relief = "sunken", bg = "grey75").place(x = 921, y = 201)
+## Imagens - tabelas e cronômetro:  
+carregar_imagem(frame = frame2, imagem = "Tabela.png", x = 930, y = 205, borderwidth = 0, relief = "flat")
+carregar_imagem(frame = frame2, imagem = "Tabela.png", x = 930, y = 366.2, borderwidth = 0, relief = "flat")
+carregar_imagem(frame = frame2, imagem = "Cronometro.png", x = 932, y = 296, borderwidth = 0, relief = "flat")
+## Caixinhas de saída de valores:
+Label(frame2, text = "b", font = "times 18", fg = "grey40", bg = "grey40",  borderwidth=4, relief ='sunken', width = 6).place(x = 990, y = 310)
+Label(frame2, text = "b", font = "times 42", fg = "grey40", bg = "grey40", width = 3,borderwidth=4, relief ='sunken').place(x = 1160, y = 288.2)
+## Indicação escrita - valor função objetiva e R²:
+Label(frame2, text = "F. Obj:", font = "broadway 11", fg = "white", bg = "black", justify = "center",  borderwidth=4, relief ='sunken').place(x = 1095, y = 297.2)
+Label(frame2, text = u"R\u00b2:", font = "broadway 11", fg = "white", bg = "black", justify = "center",  borderwidth=4, relief ='sunken').place(x = 1124, y = 327.2)
+## Indicação da região de acesso:
+aces_arq(frame2, x1 = 1030, x2 = 1036, y1 = 7, y2 = 13)
+## Caixa para plotagem dos gráficos gerados:
+notebook_graf_model()
+## Capturar o modo de alimentação selecionado e exibir o layout para entrada correspondente:
+### Valor do combobox:
+def print_alim_modelag():
+    global def_alim
+    def_alim = combo_0.get()
+    print(def_alim)
+    status_03.configure(text = def_alim, font = "batang 12", bg = "lightgreen", relief = "raised")  
+## * ENTRADA DOS VALORES REFERENTES APENAS À BATELADA ALIMENTADA * ##
+    # Criação das indicações escritas:
+    ## Eixos:
+    eixo_Q = Label(frame2, text = u"Q(L.h\u207b\u00b9)", width = 7, font = "times 10 bold", bg = "gray85", fg = "grey45")
+    eixo_Q.place(x = 16, y = 90)
+    eixo_Cs_alim = Label(frame2, text = u"Cs alim(gs.L\u207b\u00b9)", font = "times 10 bold", bg = "gray85", fg = "grey45")
+    eixo_Cs_alim.place(x = 121, y = 90)
+    eixo_V0 = Label(frame2, text = "V0(L)", font = "times 10 bold", bg = "gray85", fg = "grey45")
+    eixo_V0.place(x = 29, y = 120)
+    eixo_tf_bat = Label(frame2, text = "tf bat(h)", font = "times 10 bold", bg = "gray85", fg = "grey45")
+    eixo_tf_bat.place(x = 260, y = 90)
+    eixo_lin_exp = Label(frame2, text = "a / beta", font = "times 10 bold", width = 5, bg = "gray85", fg = "gray45")
+    eixo_lin_exp.place(x = 150, y = 120)
+    # Indicação para a entrada dos parâmetros referentes apenas à batelada alimentada pelo tk entry:
+    Label(frame2, text = "Insira as constantes relacionadas:", font = "courier 9 bold", bg = "gray85", relief = "raised").place(x = 17, y = 60)
+    ## Função para avaliar o tipo de alimentação:
+    if (def_alim == "Taxa de Vazão Constante"):
+        entry_bat_alim_geral(frame = frame2, x1 = 70, x2 = 210, x3 = 70, x4 = 308, x5 = 210, y1 = 90, y2 = 90, y3 = 120, y4 = 90, y5 = 120)
+        botao_envio_bat_alim(frame = frame2, comando = pegar_val_alim_const, x = 313, y = 114)
+        eixo_Q.configure(fg = "black")
+        eixo_Cs_alim.configure(fg = "black")
+        eixo_tf_bat.configure(fg = "black")
+        eixo_V0.configure(fg = "black")
+    if (def_alim == "Taxa de Vazão Linear"):
+        entry_bat_alim_geral(frame = frame2, x1 = 70, x2 = 210, x3 = 70, x4 = 308, x5 = 210, y1 = 90, y2 = 90, y3 = 120, y4 = 90, y5 = 120)
+        entry_bat_alim_lin_exp(frame = frame2, x = 210, y = 120)
+        botao_envio_bat_alim(frame = frame2, comando = pegar_val_alim_lin, x = 313, y = 114)
+        eixo_Q.configure(text = u"Q0(L.h\u207b\u00b9)", fg = "black")
+        eixo_Cs_alim.configure(fg = "black")
+        eixo_tf_bat.configure(fg = "black")
+        eixo_V0.configure(fg = "black")
+        eixo_lin_exp.configure(text = "a", fg = "black")
+    if (def_alim == "Taxa de Vazão Exponencial"):
+        entry_bat_alim_geral(frame = frame2, x1 = 70, x2 = 210, x3 = 70, x4 = 308, x5 = 210, y1 = 90, y2 = 90, y3 = 120, y4 = 90, y5 = 120)
+        entry_bat_alim_lin_exp(frame = frame2, x = 210, y = 120)
+        botao_envio_bat_alim(frame = frame2, comando = pegar_val_alim_exp, x = 313, y = 114)
+        eixo_Q.configure(text = u"Q0(L.h\u207b\u00b9)", fg = "black")
+        eixo_Cs_alim.configure(fg = "black")
+        eixo_tf_bat.configure(fg = "black")
+        eixo_V0.configure(fg = "black")
+        eixo_lin_exp.configure(text = "beta", fg = "black")
+    but_alim_simul.configure(bg = "gray94", fg = "black")
+    but_alim_model.configure(bg = "black", fg = "white")
+        
+#but_alim_simul = Button(janela, text = "Enviar para simular", font = "times 8 italic bold", command = print_alim)
+#but_alim_simul.place(x = 665, y = 67)  
+but_alim_model = Button(janela, text = "Enviar para modelar", font = "times 8 italic bold", relief = "raise", borderwidth = 3, command = print_alim_modelag)
+but_alim_model.place(x = 776, y = 67)
+
+
+    
+                                            ## ** MODELAGEM ** ##
+# Caixas de separação:
+Label(frame2, text="", width = 53, height = 33, borderwidth = 3,  relief = "sunken", bg = "grey85").place(x = 10, y = 2)
+ttk.Label(frame2, text = "SELECIONE A CINÉTICA DE REAÇÃO:", font = "times 12 bold").place(x = 16, y = 10)
+# Combobox:
+v_model = ("AUSÊNCIA DE INIBIÇÃO", "INIBIÇÃO PELO SUBSTRATO", "INIBIÇÃO PELO PRODUTO", "INIBIÇÃO PELA BIOMASSA")
+combo_2 = Combobox(frame2, values = v_model, width = 39, font = "arial 10")
+combo_2.set("-----------------------ESCOLHA-----------------------")
+combo_2.place(x = 15, y = 32)
+
+# Importação módulos - modelagem:
+## Função com as equações modelo e os parâmetros atribuídos a argumentos 
+### * BATELADA * ###:
+func_args_Monod = Modulos_Monod_bat_alim.modelag_bat_Monod_func_args()
+func_args_Contois = Modulos_Contois_bat_alim.modelag_bat_Contois_func_args()
+func_args_Andrews = Modulos_Andrews_bat_alim.modelag_bat_Andrews_func_args()
+func_args_Aiba_et_al = Modulos_Aiba_et_al_bat_alim.modelag_bat_Aiba_et_al_func_args()
+func_args_Moser = Modulos_Moser_bat_alim.modelag_bat_Moser_func_args()
+func_args_Hoppe_Hansford = Modulos_Hoppe_Hansford_bat_alim.modelag_bat_Hoppe_Hansford_func_args()
+func_args_Wu_et_al = Modulos_Wu_et_al_bat_alim.modelag_bat_Wu_et_al_func_args()
+func_args_Levenspiel = Modulos_Levenspiel_bat_alim.modelag_bat_Levenspiel_func_args()
+func_args_Lee_et_al = Modulos_Lee_et_al_bat_alim.modelag_bat_Lee_et_al_func_args()
+#func_args_mi_constante_bat = Modulos_mi_constante_bat_alim.modelag_bat_mi_const_func_args()
+list_funcs_args = [func_args_Monod, func_args_Contois, func_args_Andrews, func_args_Aiba_et_al, func_args_Moser, func_args_Hoppe_Hansford, func_args_Wu_et_al, func_args_Levenspiel, func_args_Lee_et_al]
+
+# Módulo para atribuição do peso:
+dpC = Modulo_peso_limite_AG_bat_alim.peso()
+
+# Chutes iniciais para ajuste dos parêmetros:
+limites_Monod = Modulo_peso_limite_AG_bat_alim.limites()[0]
+limites_Contois = Modulo_peso_limite_AG_bat_alim.limites()[1]
+limites_Andrews = Modulo_peso_limite_AG_bat_alim.limites()[3]
+limites_Aiba_et_al = Modulo_peso_limite_AG_bat_alim.limites()[5]
+limites_Moser = Modulo_peso_limite_AG_bat_alim.limites()[2]
+limites_Hoppe_Hansford = Modulo_peso_limite_AG_bat_alim.limites()[4]
+limites_Wu_et_al = Modulo_peso_limite_AG_bat_alim.limites()[6]
+limites_Levenspiel = Modulo_peso_limite_AG_bat_alim.limites()[7]
+limites_Lee_et_al = Modulo_peso_limite_AG_bat_alim.limites()[8]
+limites_mi_constante = Modulo_peso_limite_AG_bat_alim.limites()[9]
+list_limites = [limites_Monod, limites_Contois, limites_Andrews, limites_Aiba_et_al, limites_Moser, limites_Hoppe_Hansford, limites_Wu_et_al, limites_Levenspiel, limites_Lee_et_al, limites_mi_constante]
+
+                                    ##### ***** SIMULAÇÃO ***** #####
+
+#### **** INÍCIO DO CÓDIGO-FONTE FUNCIONAL **** ####
+def simulacao(cont):
+    
+    ## Atribuição de variáveis - padronização:
+    if (def_alim == "Taxa de Vazão Constante"):
+        tf_bat = tf_bat_const
+        Q = Q_const
+        V0 = V0_const
+        Cs0_corrent_alim = Cs_alim_const
+    if (def_alim == "Taxa de Vazão Linear"):
+        tf_bat = tf_bat_lin
+        Q0 = Q_lin
+        V0 = V0_lin
+        Cs0_corrent_alim = Cs_alim_lin
+    if (def_alim == "Taxa de Vazão Exponencial"):
+        tf_bat = tf_bat_exp
+        Q0 = Q_exp
+        V0 = V0_exp
+        Cs0_corrent_alim = Cs_alim_exp
+    
+    # Vetor condição inicial:
+    # - BATELADA:
+    inic_cond_bat_simul = [Cx0, Cs0, Cp0]
+    print(inic_cond_bat_simul)
+    # Vetor tempo:
+    t_bat_simul = np.arange(t0, (tf_bat + 0.5), 0.5)
+    print(t_bat_simul)
+    
+    # - Batelada Monod:  
+    if (cont == 0):
+        def edos_int_bat_Monod(C,t):
+            Cx,Cs,Cp = C
+            mimax_sim = mimax
+            Ks_sim = Ks
+            Yxs_sim = Yxs
+            alfa_sim = alfa
+            beta_sim = beta
+        
+            mi = mimax_sim*(Cs/(Ks_sim + Cs))
+            dCxdt = mi*Cx
+            dCsdt = (-1/Yxs_sim)*mi*Cx
+            dCpdt = alfa_sim*mi*Cx+beta_sim*Cx
+            return(dCxdt,dCsdt,dCpdt)
+        # Integrando numericamente:
+        C_sim_bat = odeint(edos_int_bat_Monod,inic_cond_bat_simul,t_bat_simul)
+        print(C_sim_bat)
+        Cx_bat = C_sim_bat[:,0]
+        Cs_bat = C_sim_bat[:,1]
+        Cp_bat = C_sim_bat[:,2]
+        
+        # Vetor condição inicial:
+        # - BATELADA ALIMENTADA:
+        Cx0_simul_bat_alim = Cx_bat[len(Cx_bat)-1]   
+        Cs0_simul_bat_alim = Cs_bat[len(Cs_bat)-1]
+        Cp0_simul_bat_alim = Cp_bat[len(Cp_bat)-1] 
+        inic_cond_alim_simul = [Cx0_simul_bat_alim, Cs0_simul_bat_alim, Cp0_simul_bat_alim]
+        print(inic_cond_alim_simul)
+        # Vetor tempo:
+        tf_cor = tf + 0.5
+        t_bat_alim_simul = np.arange(tf_bat, tf_cor, 0.5)
+        print(t_bat_alim_simul)
+        
+    # - Batelada alimentada Monod:
+    ## - Monod (vazão constante): 
+    if (cont == 0 and def_alim == "Taxa de Vazão Constante"):
+        def func_simul_alim_Monod_um():
+            def func_simul_alim_Monod_const(C, t_bat_alim_simul):
+                mimax_const = mimax
+                Ks_const = Ks
+                Yxs_const = Yxs
+                alfa_const = alfa
+                beta_const = beta
+                    
+                Q_simul_const = Q
+                V0_simul_const = V0
+                Cs0_corrent_alim_simul_const = Cs0_corrent_alim
+              
+                mi = mimax_const*(C[1]/(Ks_const + C[1]))
+                D = Q_simul_const/(V0_simul_const + Q_simul_const*t_bat_alim_simul)
+                dCxdt = (mi - D)*C[0]
+                dCsdt = D*(Cs0_corrent_alim_simul_const - C[1]) - ((mi*C[0])/Yxs_const)
+                dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_const + alfa_const*mi)
+                return(dCxdt,dCsdt,dCpdt)
+            return(func_simul_alim_Monod_const)
+        func_simul_bat_alim = func_simul_alim_Monod_um()
+
+    # - Monod (vazão linear):   
+    if (cont == 0 and def_alim == "Taxa de Vazão Linear"):
+        def func_simul_alim_Monod_dois():
+            def func_simul_alim_Monod_lin(C, t_bat_alim_simul):
+                mimax_lin = mimax
+                Ks_lin = Ks
+                Yxs_lin = Yxs
+                alfa_lin = alfa
+                beta_lin = beta
+                    
+                Q0_simul_lin = Q0
+                V0_simul_lin = V0
+                Cs0_corrent_alim_simul_lin = Cs0_corrent_alim
+                a_simul = a
+        
+                mi = mimax_lin*(C[1]/(Ks_lin + C[1]))
+                D = (Q0_simul_lin*(1+a_simul*t_bat_alim_simul))/((Q0_simul_lin*(t_bat_alim_simul+(a_simul*t_bat_alim_simul**2)))+V0_simul_lin)
+                dCxdt = (mi - D)*C[0]
+                dCsdt = D*(Cs0_corrent_alim_simul_lin - C[1]) - ((mi*C[0])/Yxs_lin)
+                dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_lin + alfa_lin*mi)
+                return(dCxdt,dCsdt,dCpdt)
+            return(func_simul_alim_Monod_lin)
+        func_simul_bat_alim = func_simul_alim_Monod_dois()
+        
+    # - Monod (vazão exponencial):   
+    if (cont == 0  and def_alim == "Taxa de Vazão Exponencial"):
+        def func_simul_alim_Monod_tres():
+            def func_simul_alim_Monod_exp(C, t_bat_alim_simul):
+                mimax_exp = mimax
+                Ks_exp = Ks
+                Yxs_exp = Yxs
+                alfa_exp = alfa
+                beta_exp = beta
+                    
+                Q0_simul_exp = Q0
+                V0_simul_exp = V0
+                Cs0_corrent_alim_simul_exp = Cs0_corrent_alim
+                beta_simul_exp = beta_exp
+        
+                mi = mimax_exp*(C[1]/(Ks_exp + C[1]))
+                multiplicacao = beta_simul_exp*t_bat_alim_simul
+                exponencial = np.exp(multiplicacao)
+                D = (Q0_simul_exp*np.exp(beta_simul_exp*t_bat_alim_simul))/(((Q0_simul_exp/beta_simul_exp)*(exponencial - 1)) + V0_simul_exp)
+                dCxdt = (mi - D)*C[0]
+                dCsdt = D*(Cs0_corrent_alim_simul_exp - C[1]) - ((mi*C[0])/Yxs_exp)
+                dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_exp + alfa_exp*mi)
+                return(dCxdt,dCsdt,dCpdt)
+            return(func_simul_alim_Monod_exp)
+        func_simul_bat_alim = func_simul_alim_Monod_tres()
+            
+    # Integrando numericamente:
+    C_sim_bat_alim = odeint(func_simul_bat_alim, inic_cond_alim_simul, t_bat_alim_simul)
+    print(C_sim_bat_alim)
+    Cx_bat_alim = C_sim_bat_alim[:,0]
+    Cs_bat_alim = C_sim_bat_alim[:,1]
+    Cp_bat_alim = C_sim_bat_alim[:,2]
+    
+    # * UNIÃO DAS SAÍDAS BATELADA E BATELADA ALIMENTADA * #
+    ## Contadores gerais
+    limitebatelada = len(C_sim_bat)
+    limitebatelada_cor = limitebatelada - 1
+    print("Limite batelada",limitebatelada)
+    limitealimentada = len(C_sim_bat_alim)
+    print("Limite batelada alimentada", limitealimentada)
+
+    Cx_simul = []
+    Cs_simul = []
+    Cp_simul = []
+    bat = 0
+    batal = 0
+    
+    while (bat < limitebatelada_cor):
+        Cx_simul.append(Cx_bat[bat])
+        Cs_simul.append(Cs_bat[bat])
+        Cp_simul.append(Cp_bat[bat])
+        bat = bat +  1       
+    while (batal < limitealimentada):
+        Cx_simul.append(Cx_bat_alim[batal])
+        Cs_simul.append(Cs_bat_alim[batal])
+        Cp_simul.append(Cp_bat_alim[batal])
+        batal = batal + 1
+
+    ## Vetor tempo total do processo:
+    Ttotal_simul = np.arange(t0, tf_cor, 0.5)
+
+    ## Conversão das listas para arrays - necessário para operações matemáticas:
+    Cx_simul = np.asarray(Cx_simul)
+    Cs_simul = np.asarray(Cs_simul)
+    Cp_simul = np.asarray(Cp_simul)
+    
+    print(len(Cx_simul))
+    print(len(Cs_simul))
+    print(len(Cp_simul))
+    print(len(Ttotal_simul))
+    
+    def tamanho_graf():
+            SMALL_SIZE = 13                        
+            MEDIUM_SIZE = 16                      
+            BIGGER_SIZE = 16                      
+            plt.rc('font', size=SMALL_SIZE)          
+            plt.rc('axes', titlesize=SMALL_SIZE)     
+            plt.rc('axes', labelsize=MEDIUM_SIZE)    
+            plt.rc('xtick', labelsize=SMALL_SIZE)    
+            plt.rc('ytick', labelsize=SMALL_SIZE)    
+            plt.rc('legend', fontsize=SMALL_SIZE)    
+            plt.rc('figure', titlesize=BIGGER_SIZE) 
+    
+    # Gráfico - perfil de concentração:       
+    x = "red"
+    p = "green"
+    s = "blue"
+    def imprimir_perfil_concentracao_model_otim_exp (t_m, Cx_m, Cs_m, Cp_m):
+        tamanho_graf()
+        f = plt.figure(figsize=(8.3,6), dpi = 54) 
+        plot = f.add_subplot(111) 
+        _ = lns1 = plot.plot(Ttotal_simul, Cx_m, color = x, linewidth=3,label='Cx modelo')
+        _ = lns2 = plot.plot(Ttotal_simul, Cs_m, linestyle=":", color=s,linewidth=3,label='Cs modelo')
+        ax2 = plot.twinx()
+        _ = lns3 = ax2.plot(Ttotal_simul, Cp_m, linestyle="--", color=p,linewidth=3,label='Cp modelo') 
+        _ = plot.set_xlabel('Tempo de cultivo (h)',weight='bold')               
+        _ = plot.set_ylabel('Cx e Cs (g/L)', weight='bold')
+        ax2.set_ylabel('Cp (g/L)', weight='bold') 
+        _ = lns = lns1+lns2+lns3
+        labs = [l.get_label() for l in lns]
+        _ = plot.legend(lns, labs, loc='upper center', bbox_to_anchor=(0.5, 1.14),ncol=3, fancybox=True, shadow=True)                                                
+        plot.grid(True)
+        f.patch.set_facecolor('white')                                   
+        plt.style.use('default')
+        canvas = FigureCanvasTkAgg(f, frame22)
+        a = canvas.get_tk_widget().place(x = 0, y = 0)
+    imprimir_perfil_concentracao_model_otim_exp(Ttotal_simul, Cx_simul, Cs_simul, Cp_simul)
+        
+    if cont == 1:
+        def edos_int_bat_Contois(C,t):
+            Cx,Cs,Cp=C
+            mimax_sim = mimax
+            KSX_sim = KSX
+            Kd_sim = Kd
+            Yxs_sim = Yxs
+            alfa_sim = alfa
+            beta_sim = beta
+        
+            mi=mimax_sim*(Cs/((KSX_sim*Cx)+Cs))
+            dCxdt=(mi-Kd_sim)*Cx
+            dCsdt=(-1/Yxs_sim)*mi*Cx
+            dCpdt=alfa_sim*mi*Cx+beta_sim*Cx
+            return(dCxdt,dCsdt,dCpdt)
+        # Integrando numericamente:
+        C_sim = odeint(edos_int_bat_Contois,inic_cond_simul,t_simul)
+        print(C_sim)
+        Cx = C_sim[:,0]
+        Cs = C_sim[:,1]
+        Cp = C_sim[:,2]
+        
+    if cont == 2:
+        def edos_int_bat_Andrews(C,t):
+            Cx,Cs,Cp=C
+            mimax_sim = mimax
+            Ks_sim = Ks
+            Kd_sim = Kd
+            Yxs_sim = Yxs
+            alfa_sim = alfa
+            beta_sim = beta
+            KIS_sim = KIS
+    
+            mi=mimax_sim*(Cs/(Ks_sim+Cs+((Cs**2)/KIS_sim)))
+            dCxdt=(mi-Kd_sim)*Cx
+            dCsdt=(-1/Yxs_sim)*mi*Cx
+            dCpdt=alfa_sim*mi*Cx+beta_sim*Cx
+            return(dCxdt,dCsdt,dCpdt)
+        # Integrando numericamente:
+        C_sim = odeint(edos_int_bat_Andrews,inic_cond_simul,t_simul)
+        print(C_sim)
+        Cx = C_sim[:,0]
+        Cs = C_sim[:,1]
+        Cp = C_sim[:,2]
+        
+    if cont == 3:
+        def edos_int_bat_Aiba_et_al(C,t):
+            Cx,Cs,Cp=C
+            mimax_sim = mimax
+            Ks_sim = Ks
+            Kd_sim = Kd
+            Yxs_sim = Yxs
+            alfa_sim = alfa
+            beta_sim = beta
+            Kp_aiba_sim = Kp_aiba
+    
+            mult_exp = -Cp*Kp_aiba_sim
+            mi=mimax_sim*((Cs/(Ks_sim+Cs))*math.exp(mult_exp))
+            dCxdt=(mi-Kd_sim)*Cx
+            dCsdt=(-1/Yxs_sim)*mi*Cx
+            dCpdt=alfa_sim*mi*Cx+beta_sim*Cx
+            return(dCxdt,dCsdt,dCpdt)
+        # Integrando numericamente:
+        C_sim = odeint(edos_int_bat_Aiba_et_al,inic_cond_simul,t_simul)
+        print(C_sim)
+        Cx = C_sim[:,0]
+        Cs = C_sim[:,1]
+        Cp = C_sim[:,2]
+        
+    if cont == 4:
+        def edos_int_bat_Moser(C,t):
+            Cx,Cs,Cp=C
+            mimax_sim = mimax
+            Ks_sim = Ks
+            Kd_sim = Kd
+            Yxs_sim = Yxs
+            alfa_sim = alfa
+            beta_sim = beta
+            u_sim = u
+        
+            mi=mimax_sim*(((Cs)**u_sim)/(Ks_sim+((Cs)**u_sim)))
+            dCxdt=(mi-Kd_sim)*Cx
+            dCsdt=(-1/Yxs_sim)*mi*Cx
+            dCpdt=alfa_sim*mi*Cx+beta_sim*Cx
+            return(dCxdt,dCsdt,dCpdt)
+        # Integrando numericamente:
+        C_sim = odeint(edos_int_bat_Moser,inic_cond_simul,t_simul)
+        print(C_sim)
+        Cx = C_sim[:,0]
+        Cs = C_sim[:,1]
+        Cp = C_sim[:,2]
+        
+    if cont == 5:
+        def edos_int_bat_Hoppe_Hansford(C,t):
+            Cx,Cs,Cp=C
+            mimax_sim = mimax
+            Ks_sim = Ks
+            Kd_sim = Kd
+            Yxs_sim = Yxs
+            alfa_sim = alfa
+            beta_sim = beta
+            Kp_hope_sim = Kp_hh
+
+            mi=mimax_sim*(Cs/(Ks_sim+Cs))*(Kp_hope_sim/(Kp_hope_sim+Cp))
+            dCxdt=(mi-Kd_sim)*Cx
+            dCsdt=(-1/Yxs_sim)*mi*Cx
+            dCpdt=alfa_sim*mi*Cx+beta_sim*Cx
+            return(dCxdt,dCsdt,dCpdt)
+        # Integrando numericamente:
+        C_sim = odeint(edos_int_bat_Hoppe_Hansford,inic_cond_simul,t_simul)
+        print(C_sim)
+        Cx = C_sim[:,0]
+        Cs = C_sim[:,1]
+        Cp = C_sim[:,2]
+        
+    if cont == 6:
+        def edos_int_bat_Wu_et_al(C,t):
+            Cx,Cs,Cp=C
+            mimax_sim = mimax
+            Ks_sim = Ks
+            Kd_sim = Kd
+            Yxs_sim = Yxs
+            alfa_sim = alfa
+            beta_sim = beta
+            Ke_sim = Ke
+            v_sim = v
+
+            mi = mimax_sim * (Cs/(Ks_sim + Cs + Cs*((Cs/Ke_sim)**v_sim)))
+            dCxdt=(mi-Kd_sim)*Cx
+            dCsdt=(-1/Yxs_sim)*mi*Cx
+            dCpdt=alfa_sim*mi*Cx+beta_sim*Cx
+            return(dCxdt,dCsdt,dCpdt)
+        # Integrando numericamente:
+        C_sim = odeint(edos_int_bat_Wu_et_al,inic_cond_simul,t_simul)
+        print(C_sim)
+        Cx = C_sim[:,0]
+        Cs = C_sim[:,1]
+        Cp = C_sim[:,2]
+    
+    if cont == 7:
+        def edos_int_bat_Levenspiel(C,t):
+            Cx,Cs,Cp=C
+            mimax_sim = mimax
+            Ks_sim = Ks
+            Kd_sim = Kd
+            Yxs_sim = Yxs
+            alfa_sim = alfa
+            beta_sim = beta
+            Cp_estr_sim = Cp_estr
+            n_sim = n
+        
+            mi=mimax_sim*((Cs/(Ks_sim+Cs))*((1-(Cp/Cp_estr_sim))**n_sim))
+            dCxdt=(mi-Kd_sim)*Cx
+            dCsdt=(-1/Yxs_sim)*mi*Cx
+            dCpdt=alfa_sim*mi*Cx+beta_sim*Cx
+            return(dCxdt,dCsdt,dCpdt)
+        # Integrando numericamente:
+        C_sim = odeint(edos_int_bat_Levenspiel,inic_cond_simul,t_simul)
+        print(C_sim)
+        Cx = C_sim[:,0]
+        Cs = C_sim[:,1]
+        Cp = C_sim[:,2]
+
+    if cont == 8:
+        def edos_int_bat_Lee_et_al(C,t):
+            Cx,Cs,Cp=C
+            mimax_sim = mimax
+            Ks_sim = Ks
+            Kd_sim = Kd
+            Yxs_sim = Yxs
+            alfa_sim = alfa
+            beta_sim = beta
+            Cx_estr_sim = Cx_estr
+            m_sim = m
+        
+            mi=mimax_sim*((Cs/(Ks_sim+Cs))*((1-(Cx/Cx_estr_sim))**m_sim))
+            dCxdt=(mi-Kd_sim)*Cx
+            dCsdt=(-1/Yxs_sim)*mi*Cx
+            dCpdt=alfa_sim*mi*Cx+beta_sim*Cx
+            return(dCxdt,dCsdt,dCpdt)
+        # Integrando numericamente:
+        C_sim = odeint(edos_int_bat_Lee_et_al,inic_cond_simul,t_simul)
+        print(C_sim)
+        Cx = C_sim[:,0]
+        Cs = C_sim[:,1]
+        Cp = C_sim[:,2]
+
 # Função para capturar os valores de entrada:
 
 # * Contois * #:
@@ -1132,7 +1746,7 @@ def capt_val_esc_monod():
     alfa = float(slider_alfa_monod.get())
     beta = float(slider_beta_monod.get())
     print(Cx0, Cs0, Cp0, t0, tf, mimax, Ks, Kd, Yxs, alfa, beta)
-    #simulacao(cont = 0)
+    simulacao(cont = 0)
 
 # * Moser * #: 
 def entr_moser(frame):
@@ -1375,37 +1989,6 @@ def capt_val_esc_lee():
     print(Cx0, Cs0, Cp0, t0, tf, mimax, Ks, Kd, Yxs, alfa, beta, Cx_estr, m)
     #simulacao(cont = 8)
 
-# Função para definição dos labels - títulos de definição:
-def labels_saida(frame):
-    labels(frame, texto = "Parâmetros Crescimento", fonte = "batang 8 bold", borda = "flat", x = 115, y = 0)
-    labels(frame, texto = u"\u03bcmáx (h\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 2, y = 14)
-    labels(frame, texto = "Parâmetros Balanço Massa", fonte = "batang 8 bold", borda = "flat", x = 100, y = 117)
-    labels(frame, texto = u"Kd (h\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 2, y = 132)
-    labels(frame, texto = u"Yxs (gx.gs\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 228, y = 132)
-    labels(frame, texto = u"\u03B1(gp.gx\u207b\u00b9)", fonte = "times 9 bold", borda = "sunken", x = 2, y = 189)
-    labels(frame, texto = u"\u03B2[gp.(gx.h)\u207b\u00b9]", fonte = "times 9 bold", borda = "sunken", x = 226, y = 189)
-    labels(frame, texto = "Variáveis Operacionais", fonte = "batang 8 bold", borda = "flat", x = 123, y = 234)
-    labels(frame, texto = "Cx0:", fonte = "times 10 bold", borda = "flat", x = 18, y = 255)
-    labels(frame, texto = "Cs0:", fonte = "times 10 bold", borda = "flat", x = 108, y = 255)
-    labels(frame, texto = "Cp0:", fonte = "times 10 bold", borda = "flat", x = 198, y = 255)
-    labels(frame, texto = "t0(h):", fonte = "times 10 bold", borda = "flat", x = 13, y = 285)
-    labels(frame, texto = "tf(h):", fonte = "times 10 bold", borda = "flat", x = 107, y = 285)
-def labels_saida_mi_const(frame):
-    labels(frame, texto = "Parâmetros Crescimento", fonte = "batang 8 bold", borda = "flat", x = 115, y = 0)
-    labels(frame, texto = "Variáveis Operacionais", fonte = "batang 8 bold", borda = "flat", x = 123, y = 234)
-    labels(frame, texto = "Cx0:", fonte = "times 10 bold", borda = "flat", x = 18, y = 255)
-    labels(frame, texto = "t0(h):", fonte = "times 10 bold", borda = "flat", x = 13, y = 285)
-    labels(frame, texto = "tf(h):", fonte = "times 10 bold", borda = "flat", x = 107, y = 285)
-
-# Função separação física simulação:
-def separ_simul(frame):
-    caix_simul(frame, larg = 40, alt = 7, x = 5, y = 5)
-    caix_simul(frame, larg = 40, alt = 7, x = 5, y = 123)
-    caix_simul(frame, larg = 40, alt = 4, x = 5, y = 240)
-def separ_simul_infl_mi_const(frame):
-    caix_simul(frame, larg = 40, alt = 14, x = 5, y = 5)
-    caix_simul(frame, larg = 40, alt = 4, x = 5, y = 240)
-    
 ## Contois:
 def contois():
     separ_simul(frame13)
@@ -1597,183 +2180,7 @@ def print_me_1():
             lee()
 
 Button(frame1, text="Pronto", bg = "black", fg="white", font="batang 12", command = print_me_1).place(x = 315, y = 29)
-
-# AVIS0:
-labels(frame = frame1, texto = "Por favor, entre com valores para Cx0, Cs0 e Cp0 em unidades g/L", fonte = "times 9 bold", borda = "flat", x = 15, y = 480)
-
-## Capturar o modo de alimentação selecionado e exibir o layout para entrada correspondente:
-### Caixa separadora do layout:
-Label(frame1, text = "", width = 60, height = 6, relief = "sunken", borderwidth = 3).place(x = 470, y = 4)
-### Valor do combobox:
-def print_alim_simul():
-    global def_alim
-    def_alim = combo_0.get()
-    print(def_alim)
-    status_03.configure(text = def_alim, font = "batang 12", bg = "lightgreen", relief = "raised")  
-## * ENTRADA DOS VALORES REFERENTES APENAS À BATELADA ALIMENTADA * ##
-    # Criação das indicações escritas:
-    ## Eixos:
-    eixo_Q = Label(frame1, text = u"Q(L.h\u207b\u00b9)", width = 7, font = "times 10 bold", fg = "grey45")
-    eixo_Q.place(x = 536, y = 40) 
-    eixo_Cs_alim = Label(frame1, text = u"Cs alim(gs.L\u207b\u00b9)", font = "times 10 bold", fg = "grey45")
-    eixo_Cs_alim.place(x = 641, y = 40) 
-    eixo_V0 = Label(frame1, text = "V0(L)", font = "times 10 bold", fg = "grey45")
-    eixo_V0.place(x = 549, y = 70)  
-    eixo_tf_bat = Label(frame1, text = "tf bat(h)", font = "times 10 bold", fg = "grey45")
-    eixo_tf_bat.place(x = 780, y = 40) 
-    eixo_lin_exp = Label(frame1, text = "a / beta", font = "times 10 bold", width = 5, fg = "gray45")
-    eixo_lin_exp.place(x = 670, y = 70)  
-    # Indicação para a entrada dos parâmetros referentes apenas à batelada alimentada pelo tk entry:
-    Label(frame1, text = "Insira as constantes relacionadas:", font = "courier 9 bold", bg = "gray85", relief = "raised").place(x = 480, y = 10)
-    ## Função para avaliar o tipo de alimentação:
-    if (def_alim == "Taxa de Vazão Constante"):
-        entry_bat_alim_geral(frame = frame1, x1 = 590, x2 = 730, x3 = 590, x4 = 828, x5 = 730, y1 = 40, y2 = 40, y3 = 70, y4 = 40, y5 = 70)
-        botao_envio_bat_alim(frame = frame1, comando = pegar_val_alim_const, x = 850, y = 71)
-        eixo_Q.configure(fg = "black")
-        eixo_Cs_alim.configure(fg = "black")
-        eixo_tf_bat.configure(fg = "black")
-        eixo_V0.configure(fg = "black")
-    if (def_alim == "Taxa de Vazão Linear"):
-        entry_bat_alim_geral(frame = frame1, x1 = 590, x2 = 730, x3 = 590, x4 = 828, x5 = 730, y1 = 40, y2 = 40, y3 = 70, y4 = 40, y5 = 70)
-        entry_bat_alim_lin_exp(frame = frame1, x = 730, y = 70)
-        botao_envio_bat_alim(frame = frame1, comando = pegar_val_alim_lin, x = 850, y = 71)
-        eixo_Q.configure(text = u"Q0(L.h\u207b\u00b9)", fg = "black")
-        eixo_Cs_alim.configure(fg = "black")
-        eixo_tf_bat.configure(fg = "black")
-        eixo_V0.configure(fg = "black")
-        eixo_lin_exp.configure(text = "a", fg = "black")
-    if (def_alim == "Taxa de Vazão Exponencial"):
-        entry_bat_alim_geral(frame = frame1, x1 = 590, x2 = 730, x3 = 590, x4 = 828, x5 = 730, y1 = 40, y2 = 40, y3 = 70, y4 = 40, y5 = 70)
-        entry_bat_alim_lin_exp(frame = frame1, x = 730, y = 70)
-        botao_envio_bat_alim(frame = frame1, comando = pegar_val_alim_exp, x = 850, y = 71)
-        eixo_Q.configure(text = u"Q0(L.h\u207b\u00b9)", fg = "black")
-        eixo_Cs_alim.configure(fg = "black")
-        eixo_tf_bat.configure(fg = "black")
-        eixo_V0.configure(fg = "black")
-        eixo_lin_exp.configure(text = "beta", fg = "black")
-    but_alim_model.configure(bg = "gray94", fg = "black")
-    but_alim_simul.configure(bg = "black", fg = "white")
-        
-but_alim_simul = Button(janela, text = "Enviar para simular", font = "times 8 italic bold", relief = "raised", borderwidth = 3, command = print_alim_simul)
-but_alim_simul.place(x = 668, y = 67) 
-
-## * ENTRADAS E SAÍDAS DA MODELAGEM * ##:
-## Caixas de separação:
-Label(frame2, text="", width = 52, height = 33, borderwidth = 3,  relief = "sunken", bg = "grey85").place(x = 914, y = 2)
-Label(frame2, text="", width = 50, height = 16, borderwidth = 3,  relief = "sunken", bg = "grey75").place(x = 921, y = 201)
-## Imagens - tabelas e cronômetro:  
-carregar_imagem(frame = frame2, imagem = "Tabela.png", x = 930, y = 205, borderwidth = 0, relief = "flat")
-carregar_imagem(frame = frame2, imagem = "Tabela.png", x = 930, y = 366.2, borderwidth = 0, relief = "flat")
-carregar_imagem(frame = frame2, imagem = "Cronometro.png", x = 932, y = 296, borderwidth = 0, relief = "flat")
-## Caixinhas de saída de valores:
-Label(frame2, text = "b", font = "times 18", fg = "grey40", bg = "grey40",  borderwidth=4, relief ='sunken', width = 6).place(x = 990, y = 310)
-Label(frame2, text = "b", font = "times 42", fg = "grey40", bg = "grey40", width = 3,borderwidth=4, relief ='sunken').place(x = 1160, y = 288.2)
-## Indicação escrita - valor função objetiva e R²:
-Label(frame2, text = "F. Obj:", font = "broadway 11", fg = "white", bg = "black", justify = "center",  borderwidth=4, relief ='sunken').place(x = 1095, y = 297.2)
-Label(frame2, text = u"R\u00b2:", font = "broadway 11", fg = "white", bg = "black", justify = "center",  borderwidth=4, relief ='sunken').place(x = 1124, y = 327.2)
-## Indicação da região de acesso:
-aces_arq(frame2, x1 = 1030, x2 = 1036, y1 = 7, y2 = 13)
-## Caixa para plotagem dos gráficos gerados:
-notebook_graf_model()
-## Capturar o modo de alimentação selecionado e exibir o layout para entrada correspondente:
-### Valor do combobox:
-def print_alim_modelag():
-    global def_alim
-    def_alim = combo_0.get()
-    print(def_alim)
-    status_03.configure(text = def_alim, font = "batang 12", bg = "lightgreen", relief = "raised")  
-## * ENTRADA DOS VALORES REFERENTES APENAS À BATELADA ALIMENTADA * ##
-    # Criação das indicações escritas:
-    ## Eixos:
-    eixo_Q = Label(frame2, text = u"Q(L.h\u207b\u00b9)", width = 7, font = "times 10 bold", bg = "gray85", fg = "grey45")
-    eixo_Q.place(x = 16, y = 90)
-    eixo_Cs_alim = Label(frame2, text = u"Cs alim(gs.L\u207b\u00b9)", font = "times 10 bold", bg = "gray85", fg = "grey45")
-    eixo_Cs_alim.place(x = 121, y = 90)
-    eixo_V0 = Label(frame2, text = "V0(L)", font = "times 10 bold", bg = "gray85", fg = "grey45")
-    eixo_V0.place(x = 29, y = 120)
-    eixo_tf_bat = Label(frame2, text = "tf bat(h)", font = "times 10 bold", bg = "gray85", fg = "grey45")
-    eixo_tf_bat.place(x = 260, y = 90)
-    eixo_lin_exp = Label(frame2, text = "a / beta", font = "times 10 bold", width = 5, bg = "gray85", fg = "gray45")
-    eixo_lin_exp.place(x = 150, y = 120)
-    # Indicação para a entrada dos parâmetros referentes apenas à batelada alimentada pelo tk entry:
-    Label(frame2, text = "Insira as constantes relacionadas:", font = "courier 9 bold", bg = "gray85", relief = "raised").place(x = 17, y = 60)
-    ## Função para avaliar o tipo de alimentação:
-    if (def_alim == "Taxa de Vazão Constante"):
-        entry_bat_alim_geral(frame = frame2, x1 = 70, x2 = 210, x3 = 70, x4 = 308, x5 = 210, y1 = 90, y2 = 90, y3 = 120, y4 = 90, y5 = 120)
-        botao_envio_bat_alim(frame = frame2, comando = pegar_val_alim_const, x = 313, y = 114)
-        eixo_Q.configure(fg = "black")
-        eixo_Cs_alim.configure(fg = "black")
-        eixo_tf_bat.configure(fg = "black")
-        eixo_V0.configure(fg = "black")
-    if (def_alim == "Taxa de Vazão Linear"):
-        entry_bat_alim_geral(frame = frame2, x1 = 70, x2 = 210, x3 = 70, x4 = 308, x5 = 210, y1 = 90, y2 = 90, y3 = 120, y4 = 90, y5 = 120)
-        entry_bat_alim_lin_exp(frame = frame2, x = 210, y = 120)
-        botao_envio_bat_alim(frame = frame2, comando = pegar_val_alim_lin, x = 313, y = 114)
-        eixo_Q.configure(text = u"Q0(L.h\u207b\u00b9)", fg = "black")
-        eixo_Cs_alim.configure(fg = "black")
-        eixo_tf_bat.configure(fg = "black")
-        eixo_V0.configure(fg = "black")
-        eixo_lin_exp.configure(text = "a", fg = "black")
-    if (def_alim == "Taxa de Vazão Exponencial"):
-        entry_bat_alim_geral(frame = frame2, x1 = 70, x2 = 210, x3 = 70, x4 = 308, x5 = 210, y1 = 90, y2 = 90, y3 = 120, y4 = 90, y5 = 120)
-        entry_bat_alim_lin_exp(frame = frame2, x = 210, y = 120)
-        botao_envio_bat_alim(frame = frame2, comando = pegar_val_alim_exp, x = 313, y = 114)
-        eixo_Q.configure(text = u"Q0(L.h\u207b\u00b9)", fg = "black")
-        eixo_Cs_alim.configure(fg = "black")
-        eixo_tf_bat.configure(fg = "black")
-        eixo_V0.configure(fg = "black")
-        eixo_lin_exp.configure(text = "beta", fg = "black")
-    but_alim_simul.configure(bg = "gray94", fg = "black")
-    but_alim_model.configure(bg = "black", fg = "white")
-        
-#but_alim_simul = Button(janela, text = "Enviar para simular", font = "times 8 italic bold", command = print_alim)
-#but_alim_simul.place(x = 665, y = 67)  
-but_alim_model = Button(janela, text = "Enviar para modelar", font = "times 8 italic bold", relief = "raise", borderwidth = 3, command = print_alim_modelag)
-but_alim_model.place(x = 776, y = 67)
-
-
     
-                                            ## ** MODELAGEM ** ##
-# Caixas de separação:
-Label(frame2, text="", width = 53, height = 33, borderwidth = 3,  relief = "sunken", bg = "grey85").place(x = 10, y = 2)
-ttk.Label(frame2, text = "SELECIONE A CINÉTICA DE REAÇÃO:", font = "times 12 bold").place(x = 16, y = 10)
-# Combobox:
-v_model = ("AUSÊNCIA DE INIBIÇÃO", "INIBIÇÃO PELO SUBSTRATO", "INIBIÇÃO PELO PRODUTO", "INIBIÇÃO PELA BIOMASSA")
-combo_2 = Combobox(frame2, values = v_model, width = 39, font = "arial 10")
-combo_2.set("-----------------------ESCOLHA-----------------------")
-combo_2.place(x = 15, y = 32)
-
-# Importação módulos - modelagem:
-## Função com as equações modelo e os parâmetros atribuídos a argumentos 
-### * BATELADA * ###:
-func_args_Monod = Modulos_Monod_bat_alim.modelag_bat_Monod_func_args()
-func_args_Contois = Modulos_Contois_bat_alim.modelag_bat_Contois_func_args()
-func_args_Andrews = Modulos_Andrews_bat_alim.modelag_bat_Andrews_func_args()
-func_args_Aiba_et_al = Modulos_Aiba_et_al_bat_alim.modelag_bat_Aiba_et_al_func_args()
-func_args_Moser = Modulos_Moser_bat_alim.modelag_bat_Moser_func_args()
-func_args_Hoppe_Hansford = Modulos_Hoppe_Hansford_bat_alim.modelag_bat_Hoppe_Hansford_func_args()
-func_args_Wu_et_al = Modulos_Wu_et_al_bat_alim.modelag_bat_Wu_et_al_func_args()
-func_args_Levenspiel = Modulos_Levenspiel_bat_alim.modelag_bat_Levenspiel_func_args()
-func_args_Lee_et_al = Modulos_Lee_et_al_bat_alim.modelag_bat_Lee_et_al_func_args()
-#func_args_mi_constante_bat = Modulos_mi_constante_bat_alim.modelag_bat_mi_const_func_args()
-list_funcs_args = [func_args_Monod, func_args_Contois, func_args_Andrews, func_args_Aiba_et_al, func_args_Moser, func_args_Hoppe_Hansford, func_args_Wu_et_al, func_args_Levenspiel, func_args_Lee_et_al]
-
-# Módulo para atribuição do peso:
-dpC = Modulo_peso_limite_AG_bat_alim.peso()
-
-# Chutes iniciais para ajuste dos parêmetros:
-limites_Monod = Modulo_peso_limite_AG_bat_alim.limites()[0]
-limites_Contois = Modulo_peso_limite_AG_bat_alim.limites()[1]
-limites_Andrews = Modulo_peso_limite_AG_bat_alim.limites()[3]
-limites_Aiba_et_al = Modulo_peso_limite_AG_bat_alim.limites()[5]
-limites_Moser = Modulo_peso_limite_AG_bat_alim.limites()[2]
-limites_Hoppe_Hansford = Modulo_peso_limite_AG_bat_alim.limites()[4]
-limites_Wu_et_al = Modulo_peso_limite_AG_bat_alim.limites()[6]
-limites_Levenspiel = Modulo_peso_limite_AG_bat_alim.limites()[7]
-limites_Lee_et_al = Modulo_peso_limite_AG_bat_alim.limites()[8]
-limites_mi_constante = Modulo_peso_limite_AG_bat_alim.limites()[9]
-list_limites = [limites_Monod, limites_Contois, limites_Andrews, limites_Aiba_et_al, limites_Moser, limites_Hoppe_Hansford, limites_Wu_et_al, limites_Levenspiel, limites_Lee_et_al, limites_mi_constante]
-
 
 
 
