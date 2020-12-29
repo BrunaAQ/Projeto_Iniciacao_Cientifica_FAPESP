@@ -1364,7 +1364,158 @@ def simulacao(cont):
         # Integrando numericamente:
         C_sim_bat = odeint(edos_int_bat_Contois, inic_cond_bat_simul, t_bat_simul)
         print(C_sim_bat)
+    
+    # -  Batelada Andrews:
+    if (cont == 2):
+        def edos_int_bat_Andrews(C,t):
+            Cx,Cs,Cp=C
+            mimax_sim = mimax
+            Ks_sim = Ks
+            Kd_sim = Kd
+            Yxs_sim = Yxs
+            alfa_sim = alfa
+            beta_sim = beta
+            KIS_sim = KIS
+    
+            mi=mimax_sim*(Cs/(Ks_sim+Cs+((Cs**2)/KIS_sim)))
+            dCxdt=(mi-Kd_sim)*Cx
+            dCsdt=(-1/Yxs_sim)*mi*Cx
+            dCpdt=alfa_sim*mi*Cx+beta_sim*Cx
+            return(dCxdt,dCsdt,dCpdt)
+        # Integrando numericamente:
+        C_sim_bat = odeint(edos_int_bat_Andrews, inic_cond_bat_simul, t_bat_simul)
+        print(C_sim_bat)
+    
+    # - Batelada Aiba et al:    
+    if (cont == 3):
+        def edos_int_bat_Aiba_et_al(C,t):
+            Cx,Cs,Cp=C
+            mimax_sim = mimax
+            Ks_sim = Ks
+            Kd_sim = Kd
+            Yxs_sim = Yxs
+            alfa_sim = alfa
+            beta_sim = beta
+            Kp_aiba_sim = Kp_aiba
+    
+            mult_exp = -Cp*Kp_aiba_sim
+            mi=mimax_sim*((Cs/(Ks_sim+Cs))*math.exp(mult_exp))
+            dCxdt=(mi-Kd_sim)*Cx
+            dCsdt=(-1/Yxs_sim)*mi*Cx
+            dCpdt=alfa_sim*mi*Cx+beta_sim*Cx
+            return(dCxdt,dCsdt,dCpdt)
+        # Integrando numericamente:
+        C_sim_bat = odeint(edos_int_bat_Aiba_et_al, inic_cond_bat_simul, t_bat_simul)
+        print(C_sim_bat)
+    
+    # - Batelada Moser:
+    if (cont == 4):
+        def edos_int_bat_Moser(C,t):
+            Cx,Cs,Cp=C
+            mimax_sim = mimax
+            Ks_sim = Ks
+            Kd_sim = Kd
+            Yxs_sim = Yxs
+            alfa_sim = alfa
+            beta_sim = beta
+            u_sim = u
         
+            mi=mimax_sim*(((Cs)**u_sim)/(Ks_sim+((Cs)**u_sim)))
+            dCxdt=(mi-Kd_sim)*Cx
+            dCsdt=(-1/Yxs_sim)*mi*Cx
+            dCpdt=alfa_sim*mi*Cx+beta_sim*Cx
+            return(dCxdt,dCsdt,dCpdt)
+        # Integrando numericamente:
+        C_sim_bat = odeint(edos_int_bat_Moser, inic_cond_bat_simul, t_bat_simul)
+        print(C_sim_bat)
+    
+    # - Batelada Hoppe & Hansford:    
+    if (cont == 5):
+        def edos_int_bat_Hoppe_Hansford(C,t):
+            Cx,Cs,Cp=C
+            mimax_sim = mimax
+            Ks_sim = Ks
+            Kd_sim = Kd
+            Yxs_sim = Yxs
+            alfa_sim = alfa
+            beta_sim = beta
+            Kp_hope_sim = Kp_hh
+
+            mi = mimax_sim*(Cs/(Ks_sim+Cs))*(Kp_hope_sim/(Kp_hope_sim+Cp))
+            dCxdt=(mi-Kd_sim)*Cx
+            dCsdt=(-1/Yxs_sim)*mi*Cx
+            dCpdt=alfa_sim*mi*Cx+beta_sim*Cx
+            return(dCxdt,dCsdt,dCpdt)
+        # Integrando numericamente:
+        C_sim_bat = odeint(edos_int_bat_Hoppe_Hansford, inic_cond_bat_simul, t_bat_simul)
+        print(C_sim_bat)
+    
+    # - Batelada Wu et al:
+    if (cont == 6):
+        def edos_int_bat_Wu_et_al(C,t):
+            Cx,Cs,Cp=C
+            mimax_sim = mimax
+            Ks_sim = Ks
+            Kd_sim = Kd
+            Yxs_sim = Yxs
+            alfa_sim = alfa
+            beta_sim = beta
+            Ke_sim = Ke
+            v_sim = v
+
+            mi = mimax_sim * (Cs/(Ks_sim + Cs + Cs*((Cs/Ke_sim)**v_sim)))
+            dCxdt=(mi-Kd_sim)*Cx
+            dCsdt=(-1/Yxs_sim)*mi*Cx
+            dCpdt=alfa_sim*mi*Cx+beta_sim*Cx
+            return(dCxdt,dCsdt,dCpdt)
+        # Integrando numericamente:
+        C_sim_bat = odeint(edos_int_bat_Wu_et_al, inic_cond_bat_simul, t_bat_simul)
+        print(C_sim_bat)
+    
+    # - Batelada Levenspiel:
+    if (cont == 7):
+        def edos_int_bat_Levenspiel(C,t):
+            Cx,Cs,Cp=C
+            mimax_sim = mimax
+            Ks_sim = Ks
+            Kd_sim = Kd
+            Yxs_sim = Yxs
+            alfa_sim = alfa
+            beta_sim = beta
+            Cp_estr_sim = Cp_estr
+            n_sim = n
+        
+            mi=mimax_sim*((Cs/(Ks_sim+Cs))*((1-(Cp/Cp_estr_sim))**n_sim))
+            dCxdt=(mi-Kd_sim)*Cx
+            dCsdt=(-1/Yxs_sim)*mi*Cx
+            dCpdt=alfa_sim*mi*Cx+beta_sim*Cx
+            return(dCxdt,dCsdt,dCpdt)
+        # Integrando numericamente:
+        C_sim_bat = odeint(edos_int_bat_Levenspiel, inic_cond_bat_simul, t_bat_simul)
+        print(C_sim_bat)
+    
+    # - Batelada Lee et al:
+    if (cont == 8):
+        def edos_int_bat_Lee_et_al(C,t):
+            Cx,Cs,Cp=C
+            mimax_sim = mimax
+            Ks_sim = Ks
+            Kd_sim = Kd
+            Yxs_sim = Yxs
+            alfa_sim = alfa
+            beta_sim = beta
+            Cx_estr_sim = Cx_estr
+            m_sim = m
+        
+            mi=mimax_sim*((Cs/(Ks_sim+Cs))*((1-(Cx/Cx_estr_sim))**m_sim))
+            dCxdt=(mi-Kd_sim)*Cx
+            dCsdt=(-1/Yxs_sim)*mi*Cx
+            dCpdt=alfa_sim*mi*Cx+beta_sim*Cx
+            return(dCxdt,dCsdt,dCpdt)
+        # Integrando numericamente:
+        C_sim_bat = odeint(edos_int_bat_Lee_et_al, inic_cond_bat_simul, t_bat_simul)
+        print(C_sim_bat)
+    
     Cx_bat = C_sim_bat[:,0]
     Cs_bat = C_sim_bat[:,1]
     Cp_bat = C_sim_bat[:,2]
@@ -1529,173 +1680,559 @@ def simulacao(cont):
                 return(dCxdt,dCsdt,dCpdt)
             return(func_simul_alim_Contois_exp)
         func_simul_bat_alim = func_simul_alim_Contois_tres()
+    
+    # - Batelada alimentada Andrews:
+    ## - Andrews (vazão constante): 
+    if (cont == 2 and def_alim == "Taxa de Vazão Constante"):
+        def func_simul_alim_Andrews_um():
+            def func_simul_alim_Andrews_const(C, t_bat_alim_simul):
+                mimax_const = mimax
+                Ks_const = Ks
+                Yxs_const = Yxs
+                alfa_const = alfa
+                beta_const = beta
+                KIS_const = KIS
+                    
+                Q_simul_const = Q
+                V0_simul_const = V0
+                Cs0_corrent_alim_simul_const = Cs0_corrent_alim
+              
+                mi = mimax_const * (C[1]/(Ks_const + C[1] + ((C[1]**2)/KIS_const)))
+                D = Q_simul_const/(V0_simul_const + Q_simul_const*t_bat_alim_simul)
+                dCxdt = (mi - D)*C[0]
+                dCsdt = D*(Cs0_corrent_alim_simul_const - C[1]) - ((mi*C[0])/Yxs_const)
+                dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_const + alfa_const*mi)
+                return(dCxdt,dCsdt,dCpdt)
+            return(func_simul_alim_Andrews_const)
+        func_simul_bat_alim = func_simul_alim_Andrews_um()
+
+    # - Andrews (vazão linear):   
+    if (cont == 2 and def_alim == "Taxa de Vazão Linear"):
+        def func_simul_alim_Andrews_dois():
+            def func_simul_alim_Andrews_lin(C, t_bat_alim_simul):
+                mimax_lin = mimax
+                Ks_lin = Ks
+                Yxs_lin = Yxs
+                alfa_lin = alfa
+                beta_lin = beta
+                KIS_lin = KIS
+                    
+                Q0_simul_lin = Q0
+                V0_simul_lin = V0
+                Cs0_corrent_alim_simul_lin = Cs0_corrent_alim
+                a_simul = a
+        
+                mi = mimax_lin * (C[1]/(Ks_lin + C[1] + ((Cs[1]**2)/KIS_lin)))
+                D = (Q0_simul_lin*(1+a_simul*t_bat_alim_simul))/((Q0_simul_lin*(t_bat_alim_simul+(a_simul*t_bat_alim_simul**2)))+V0_simul_lin)
+                dCxdt = (mi - D)*C[0]
+                dCsdt = D*(Cs0_corrent_alim_simul_lin - C[1]) - ((mi*C[0])/Yxs_lin)
+                dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_lin + alfa_lin*mi)
+                return(dCxdt,dCsdt,dCpdt)
+            return(func_simul_alim_Andrews_lin)
+        func_simul_bat_alim = func_simul_alim_Andrews_dois()
+        
+    # - Andrews (vazão exponencial):   
+    if (cont == 2 and def_alim == "Taxa de Vazão Exponencial"):
+        def func_simul_alim_Andrews_tres():
+            def func_simul_alim_Andrews_exp(C, t_bat_alim_simul):
+                mimax_exp = mimax
+                Ks_exp = Ks
+                Yxs_exp = Yxs
+                alfa_exp = alfa
+                beta_exp = beta
+                KIS_exp = KIS
+                    
+                Q0_simul_exp = Q0
+                V0_simul_exp = V0
+                Cs0_corrent_alim_simul_exp = Cs0_corrent_alim
+                beta_simul_exp = beta_exp
+        
+                mi = mimax_exp * (C[1]/(Ks_exp + C[1] + ((Cs[1]**2)/KIS_exp)))
+                multiplicacao = beta_simul_exp*t_bat_alim_simul
+                exponencial = np.exp(multiplicacao)
+                D = (Q0_simul_exp*np.exp(beta_simul_exp*t_bat_alim_simul))/(((Q0_simul_exp/beta_simul_exp)*(exponencial - 1)) + V0_simul_exp)
+                dCxdt = (mi - D)*C[0]
+                dCsdt = D*(Cs0_corrent_alim_simul_exp - C[1]) - ((mi*C[0])/Yxs_exp)
+                dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_exp + alfa_exp*mi)
+                return(dCxdt,dCsdt,dCpdt)
+            return(func_simul_alim_Andrews_exp)
+        func_simul_bat_alim = func_simul_alim_Andrews_tres()
             
-    if cont == 2:
-        def edos_int_bat_Andrews(C,t):
-            Cx,Cs,Cp=C
-            mimax_sim = mimax
-            Ks_sim = Ks
-            Kd_sim = Kd
-            Yxs_sim = Yxs
-            alfa_sim = alfa
-            beta_sim = beta
-            KIS_sim = KIS
     
-            mi=mimax_sim*(Cs/(Ks_sim+Cs+((Cs**2)/KIS_sim)))
-            dCxdt=(mi-Kd_sim)*Cx
-            dCsdt=(-1/Yxs_sim)*mi*Cx
-            dCpdt=alfa_sim*mi*Cx+beta_sim*Cx
-            return(dCxdt,dCsdt,dCpdt)
-        # Integrando numericamente:
-        C_sim = odeint(edos_int_bat_Andrews,inic_cond_simul,t_simul)
-        print(C_sim)
-        Cx = C_sim[:,0]
-        Cs = C_sim[:,1]
-        Cp = C_sim[:,2]
-        
-    if cont == 3:
-        def edos_int_bat_Aiba_et_al(C,t):
-            Cx,Cs,Cp=C
-            mimax_sim = mimax
-            Ks_sim = Ks
-            Kd_sim = Kd
-            Yxs_sim = Yxs
-            alfa_sim = alfa
-            beta_sim = beta
-            Kp_aiba_sim = Kp_aiba
-    
-            mult_exp = -Cp*Kp_aiba_sim
-            mi=mimax_sim*((Cs/(Ks_sim+Cs))*math.exp(mult_exp))
-            dCxdt=(mi-Kd_sim)*Cx
-            dCsdt=(-1/Yxs_sim)*mi*Cx
-            dCpdt=alfa_sim*mi*Cx+beta_sim*Cx
-            return(dCxdt,dCsdt,dCpdt)
-        # Integrando numericamente:
-        C_sim = odeint(edos_int_bat_Aiba_et_al,inic_cond_simul,t_simul)
-        print(C_sim)
-        Cx = C_sim[:,0]
-        Cs = C_sim[:,1]
-        Cp = C_sim[:,2]
-        
-    if cont == 4:
-        def edos_int_bat_Moser(C,t):
-            Cx,Cs,Cp=C
-            mimax_sim = mimax
-            Ks_sim = Ks
-            Kd_sim = Kd
-            Yxs_sim = Yxs
-            alfa_sim = alfa
-            beta_sim = beta
-            u_sim = u
-        
-            mi=mimax_sim*(((Cs)**u_sim)/(Ks_sim+((Cs)**u_sim)))
-            dCxdt=(mi-Kd_sim)*Cx
-            dCsdt=(-1/Yxs_sim)*mi*Cx
-            dCpdt=alfa_sim*mi*Cx+beta_sim*Cx
-            return(dCxdt,dCsdt,dCpdt)
-        # Integrando numericamente:
-        C_sim = odeint(edos_int_bat_Moser,inic_cond_simul,t_simul)
-        print(C_sim)
-        Cx = C_sim[:,0]
-        Cs = C_sim[:,1]
-        Cp = C_sim[:,2]
-        
-    if cont == 5:
-        def edos_int_bat_Hoppe_Hansford(C,t):
-            Cx,Cs,Cp=C
-            mimax_sim = mimax
-            Ks_sim = Ks
-            Kd_sim = Kd
-            Yxs_sim = Yxs
-            alfa_sim = alfa
-            beta_sim = beta
-            Kp_hope_sim = Kp_hh
+    # - Batelada alimentada Aiba et al:
+    ## - Aiba (vazão constante): 
+    if (cont == 3 and def_alim == "Taxa de Vazão Constante"):
+        def func_simul_alim_Aiba_um():
+            def func_simul_alim_Aiba_const(C, t_bat_alim_simul):
+                mimax_const = mimax
+                Ks_const = Ks
+                Yxs_const = Yxs
+                alfa_const = alfa
+                beta_const = beta
+                Kp_aiba_const = Kp_aiba
+                    
+                Q_simul_const = Q
+                V0_simul_const = V0
+                Cs0_corrent_alim_simul_const = Cs0_corrent_alim
+              
+                mult_exp = -C[2] * Kp_aiba_const
+                mi = mimax_const*((C[1]/(Ks_const + C[1]))*math.exp(mult_exp))
+                D = Q_simul_const/(V0_simul_const + Q_simul_const*t_bat_alim_simul)
+                dCxdt = (mi - D)*C[0]
+                dCsdt = D*(Cs0_corrent_alim_simul_const - C[1]) - ((mi*C[0])/Yxs_const)
+                dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_const + alfa_const*mi)
+                return(dCxdt,dCsdt,dCpdt)
+            return(func_simul_alim_Aiba_const)
+        func_simul_bat_alim = func_simul_alim_Aiba_um()
 
-            mi=mimax_sim*(Cs/(Ks_sim+Cs))*(Kp_hope_sim/(Kp_hope_sim+Cp))
-            dCxdt=(mi-Kd_sim)*Cx
-            dCsdt=(-1/Yxs_sim)*mi*Cx
-            dCpdt=alfa_sim*mi*Cx+beta_sim*Cx
-            return(dCxdt,dCsdt,dCpdt)
-        # Integrando numericamente:
-        C_sim = odeint(edos_int_bat_Hoppe_Hansford,inic_cond_simul,t_simul)
-        print(C_sim)
-        Cx = C_sim[:,0]
-        Cs = C_sim[:,1]
-        Cp = C_sim[:,2]
+    # - Aiba (vazão linear):   
+    if (cont == 3 and def_alim == "Taxa de Vazão Linear"):
+        def func_simul_alim_Aiba_dois():
+            def func_simul_alim_Aiba_lin(C, t_bat_alim_simul):
+                mimax_lin = mimax
+                Ks_lin = Ks
+                Yxs_lin = Yxs
+                alfa_lin = alfa
+                beta_lin = beta
+                Kp_aiba_lin = Kp_aiba
+                    
+                Q0_simul_lin = Q0
+                V0_simul_lin = V0
+                Cs0_corrent_alim_simul_lin = Cs0_corrent_alim
+                a_simul = a
         
-    if cont == 6:
-        def edos_int_bat_Wu_et_al(C,t):
-            Cx,Cs,Cp=C
-            mimax_sim = mimax
-            Ks_sim = Ks
-            Kd_sim = Kd
-            Yxs_sim = Yxs
-            alfa_sim = alfa
-            beta_sim = beta
-            Ke_sim = Ke
-            v_sim = v
+                mult_exp = -C[2] * Kp_aiba_lin
+                mi = mimax_lin*((C[1]/(Ks_lin + C[1]))*math.exp(mult_exp))
+                D = (Q0_simul_lin*(1+a_simul*t_bat_alim_simul))/((Q0_simul_lin*(t_bat_alim_simul+(a_simul*t_bat_alim_simul**2)))+V0_simul_lin)
+                dCxdt = (mi - D)*C[0]
+                dCsdt = D*(Cs0_corrent_alim_simul_lin - C[1]) - ((mi*C[0])/Yxs_lin)
+                dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_lin + alfa_lin*mi)
+                return(dCxdt,dCsdt,dCpdt)
+            return(func_simul_alim_Aiba_lin)
+        func_simul_bat_alim = func_simul_alim_Aiba_dois()
+        
+    # - Aiba (vazão exponencial):   
+    if (cont == 3 and def_alim == "Taxa de Vazão Exponencial"):
+        def func_simul_alim_Aiba_tres():
+            def func_simul_alim_Aiba_exp(C, t_bat_alim_simul):
+                mimax_exp = mimax
+                Ks_exp = Ks
+                Yxs_exp = Yxs
+                alfa_exp = alfa
+                beta_exp = beta
+                Kp_aiba_exp = Kp_aiba
+                    
+                Q0_simul_exp = Q0
+                V0_simul_exp = V0
+                Cs0_corrent_alim_simul_exp = Cs0_corrent_alim
+                beta_simul_exp = beta_exp
+        
+                mult_exp = -C[2] * Kp_aiba_exp
+                mi = mimax_exp*((C[1]/(Ks_exp + C[1]))*math.exp(mult_exp))
+                multiplicacao = beta_simul_exp*t_bat_alim_simul
+                exponencial = np.exp(multiplicacao)
+                D = (Q0_simul_exp*np.exp(beta_simul_exp*t_bat_alim_simul))/(((Q0_simul_exp/beta_simul_exp)*(exponencial - 1)) + V0_simul_exp)
+                dCxdt = (mi - D)*C[0]
+                dCsdt = D*(Cs0_corrent_alim_simul_exp - C[1]) - ((mi*C[0])/Yxs_exp)
+                dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_exp + alfa_exp*mi)
+                return(dCxdt,dCsdt,dCpdt)
+            return(func_simul_alim_Monod_exp)
+        func_simul_bat_alim = func_simul_alim_Monod_tres()
+    
+    # - Batelada alimentada Moser:
+    ## - Moser (vazão constante): 
+    if (cont == 4 and def_alim == "Taxa de Vazão Constante"):
+        def func_simul_alim_Moser_um():
+            def func_simul_alim_Moser_const(C, t_bat_alim_simul):
+                mimax_const = mimax
+                Ks_const = Ks
+                Yxs_const = Yxs
+                alfa_const = alfa
+                beta_const = beta
+                u_const = u
+                    
+                Q_simul_const = Q
+                V0_simul_const = V0
+                Cs0_corrent_alim_simul_const = Cs0_corrent_alim
+              
+                mi = mimax_const*(((C[1])**u_const)/(Ks_const + ((C[1])**u_const)))
+                D = Q_simul_const/(V0_simul_const + Q_simul_const*t_bat_alim_simul)
+                dCxdt = (mi - D)*C[0]
+                dCsdt = D*(Cs0_corrent_alim_simul_const - C[1]) - ((mi*C[0])/Yxs_const)
+                dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_const + alfa_const*mi)
+                return(dCxdt,dCsdt,dCpdt)
+            return(func_simul_alim_Moser_const)
+        func_simul_bat_alim = func_simul_alim_Moser_um()
 
-            mi = mimax_sim * (Cs/(Ks_sim + Cs + Cs*((Cs/Ke_sim)**v_sim)))
-            dCxdt=(mi-Kd_sim)*Cx
-            dCsdt=(-1/Yxs_sim)*mi*Cx
-            dCpdt=alfa_sim*mi*Cx+beta_sim*Cx
-            return(dCxdt,dCsdt,dCpdt)
-        # Integrando numericamente:
-        C_sim = odeint(edos_int_bat_Wu_et_al,inic_cond_simul,t_simul)
-        print(C_sim)
-        Cx = C_sim[:,0]
-        Cs = C_sim[:,1]
-        Cp = C_sim[:,2]
-    
-    if cont == 7:
-        def edos_int_bat_Levenspiel(C,t):
-            Cx,Cs,Cp=C
-            mimax_sim = mimax
-            Ks_sim = Ks
-            Kd_sim = Kd
-            Yxs_sim = Yxs
-            alfa_sim = alfa
-            beta_sim = beta
-            Cp_estr_sim = Cp_estr
-            n_sim = n
+    # - Moser (vazão linear):   
+    if (cont == 4 and def_alim == "Taxa de Vazão Linear"):
+        def func_simul_alim_Moser_dois():
+            def func_simul_alim_Moser_lin(C, t_bat_alim_simul):
+                mimax_lin = mimax
+                Ks_lin = Ks
+                Yxs_lin = Yxs
+                alfa_lin = alfa
+                beta_lin = beta
+                u_lin = u
+                    
+                Q0_simul_lin = Q0
+                V0_simul_lin = V0
+                Cs0_corrent_alim_simul_lin = Cs0_corrent_alim
+                a_simul = a
         
-            mi=mimax_sim*((Cs/(Ks_sim+Cs))*((1-(Cp/Cp_estr_sim))**n_sim))
-            dCxdt=(mi-Kd_sim)*Cx
-            dCsdt=(-1/Yxs_sim)*mi*Cx
-            dCpdt=alfa_sim*mi*Cx+beta_sim*Cx
-            return(dCxdt,dCsdt,dCpdt)
-        # Integrando numericamente:
-        C_sim = odeint(edos_int_bat_Levenspiel,inic_cond_simul,t_simul)
-        print(C_sim)
-        Cx = C_sim[:,0]
-        Cs = C_sim[:,1]
-        Cp = C_sim[:,2]
+                mi = mimax_lin*(((C[1])**u_lin)/(Ks_lin + ((C[1])**u_lin)))
+                D = (Q0_simul_lin*(1+a_simul*t_bat_alim_simul))/((Q0_simul_lin*(t_bat_alim_simul+(a_simul*t_bat_alim_simul**2)))+V0_simul_lin)
+                dCxdt = (mi - D)*C[0]
+                dCsdt = D*(Cs0_corrent_alim_simul_lin - C[1]) - ((mi*C[0])/Yxs_lin)
+                dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_lin + alfa_lin*mi)
+                return(dCxdt,dCsdt,dCpdt)
+            return(func_simul_alim_Moser_lin)
+        func_simul_bat_alim = func_simul_alim_Moser_dois()
+        
+    # - Moser (vazão exponencial):   
+    if (cont == 4 and def_alim == "Taxa de Vazão Exponencial"):
+        def func_simul_alim_Moser_tres():
+            def func_simul_alim_Moser_exp(C, t_bat_alim_simul):
+                mimax_exp = mimax
+                Ks_exp = Ks
+                Yxs_exp = Yxs
+                alfa_exp = alfa
+                beta_exp = beta
+                u_exp = u
+                    
+                Q0_simul_exp = Q0
+                V0_simul_exp = V0
+                Cs0_corrent_alim_simul_exp = Cs0_corrent_alim
+                beta_simul_exp = beta_exp
+        
+                mi = mimax_exp*(((C[1])**u_exp)/(Ks_exp + ((C[1])**u_exp)))
+                multiplicacao = beta_simul_exp*t_bat_alim_simul
+                exponencial = np.exp(multiplicacao)
+                D = (Q0_simul_exp*np.exp(beta_simul_exp*t_bat_alim_simul))/(((Q0_simul_exp/beta_simul_exp)*(exponencial - 1)) + V0_simul_exp)
+                dCxdt = (mi - D)*C[0]
+                dCsdt = D*(Cs0_corrent_alim_simul_exp - C[1]) - ((mi*C[0])/Yxs_exp)
+                dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_exp + alfa_exp*mi)
+                return(dCxdt,dCsdt,dCpdt)
+            return(func_simul_alim_Moser_exp)
+        func_simul_bat_alim = func_simul_alim_Moser_tres()
+    
+    # - Batelada alimentada Hoppe & Hansford:
+    ## - HH (vazão constante): 
+    if (cont == 5 and def_alim == "Taxa de Vazão Constante"):
+        def func_simul_alim_Hoppe_Hansford_um():
+            def func_simul_alim_Hoppe_Hansford_const(C, t_bat_alim_simul):
+                mimax_const = mimax
+                Ks_const = Ks
+                Yxs_const = Yxs
+                alfa_const = alfa
+                beta_const = beta
+                Kp_hoppe_const = Kp_hh
+                    
+                Q_simul_const = Q
+                V0_simul_const = V0
+                Cs0_corrent_alim_simul_const = Cs0_corrent_alim
+              
+                mi = mimax_const*(C[1]/(Ks_const + C[1]))*(Kp_hoppe_const/(Kp_hoppe_const + C[2]))
+                D = Q_simul_const/(V0_simul_const + Q_simul_const*t_bat_alim_simul)
+                dCxdt = (mi - D)*C[0]
+                dCsdt = D*(Cs0_corrent_alim_simul_const - C[1]) - ((mi*C[0])/Yxs_const)
+                dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_const + alfa_const*mi)
+                return(dCxdt,dCsdt,dCpdt)
+            return(func_simul_alim_Hoppe_Hansford_const)
+        func_simul_bat_alim = func_simul_alim_Hoppe_Hansford_um()
 
-    if cont == 8:
-        def edos_int_bat_Lee_et_al(C,t):
-            Cx,Cs,Cp=C
-            mimax_sim = mimax
-            Ks_sim = Ks
-            Kd_sim = Kd
-            Yxs_sim = Yxs
-            alfa_sim = alfa
-            beta_sim = beta
-            Cx_estr_sim = Cx_estr
-            m_sim = m
+    # - HH (vazão linear):   
+    if (cont == 5 and def_alim == "Taxa de Vazão Linear"):
+        def func_simul_alim_Hoppe_Hansford_dois():
+            def func_simul_alim_Hoppe_Hansford_lin(C, t_bat_alim_simul):
+                mimax_lin = mimax
+                Ks_lin = Ks
+                Yxs_lin = Yxs
+                alfa_lin = alfa
+                beta_lin = beta
+                Kp_hoppe_lin = Kp_hh
+                    
+                Q0_simul_lin = Q0
+                V0_simul_lin = V0
+                Cs0_corrent_alim_simul_lin = Cs0_corrent_alim
+                a_simul = a
         
-            mi=mimax_sim*((Cs/(Ks_sim+Cs))*((1-(Cx/Cx_estr_sim))**m_sim))
-            dCxdt=(mi-Kd_sim)*Cx
-            dCsdt=(-1/Yxs_sim)*mi*Cx
-            dCpdt=alfa_sim*mi*Cx+beta_sim*Cx
-            return(dCxdt,dCsdt,dCpdt)
-        # Integrando numericamente:
-        C_sim = odeint(edos_int_bat_Lee_et_al,inic_cond_simul,t_simul)
-        print(C_sim)
-        Cx = C_sim[:,0]
-        Cs = C_sim[:,1]
-        Cp = C_sim[:,2]
+                mi = mimax_lin*(C[1]/(Ks_lin + C[1]))*(Kp_hoppe_lin/(Kp_hoppe_lin + C[2]))
+                D = (Q0_simul_lin*(1+a_simul*t_bat_alim_simul))/((Q0_simul_lin*(t_bat_alim_simul+(a_simul*t_bat_alim_simul**2)))+V0_simul_lin)
+                dCxdt = (mi - D)*C[0]
+                dCsdt = D*(Cs0_corrent_alim_simul_lin - C[1]) - ((mi*C[0])/Yxs_lin)
+                dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_lin + alfa_lin*mi)
+                return(dCxdt,dCsdt,dCpdt)
+            return(func_simul_alim_Hoppe_Hansford_lin)
+        func_simul_bat_alim = func_simul_alim_Hoppe_Hansford_dois()
+        
+    # - HH (vazão exponencial):   
+    if (cont == 5  and def_alim == "Taxa de Vazão Exponencial"):
+        def func_simul_alim_Hoppe_Hansford_tres():
+            def func_simul_alim_Hoppe_Hansford_exp(C, t_bat_alim_simul):
+                mimax_exp = mimax
+                Ks_exp = Ks
+                Yxs_exp = Yxs
+                alfa_exp = alfa
+                beta_exp = beta
+                Kp_hoppe_exp = Kp_hh
+                    
+                Q0_simul_exp = Q0
+                V0_simul_exp = V0
+                Cs0_corrent_alim_simul_exp = Cs0_corrent_alim
+                beta_simul_exp = beta_exp
+        
+                mi = mimax_exp*(C[1]/(Ks_exp + C[1]))*(Kp_hoppe_exp/(Kp_hoppe_exp + C[2]))
+                multiplicacao = beta_simul_exp*t_bat_alim_simul
+                exponencial = np.exp(multiplicacao)
+                D = (Q0_simul_exp*np.exp(beta_simul_exp*t_bat_alim_simul))/(((Q0_simul_exp/beta_simul_exp)*(exponencial - 1)) + V0_simul_exp)
+                dCxdt = (mi - D)*C[0]
+                dCsdt = D*(Cs0_corrent_alim_simul_exp - C[1]) - ((mi*C[0])/Yxs_exp)
+                dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_exp + alfa_exp*mi)
+                return(dCxdt,dCsdt,dCpdt)
+            return(func_simul_alim_Hoppe_Hansford_exp)
+        func_simul_bat_alim = func_simul_alim_Hoppe_Hansford_tres()
     
+    # - Batelada alimentada Wu et al:
+    ## - Wu (vazão constante): 
+    if (cont == 6 and def_alim == "Taxa de Vazão Constante"):
+        def func_simul_alim_Wu_et_al_um():
+            def func_simul_alim_Wu_et_al_const(C, t_bat_alim_simul):
+                mimax_const = mimax
+                Ks_const = Ks
+                Yxs_const = Yxs
+                alfa_const = alfa
+                beta_const = beta
+                Ke_const = Ke
+                v_const = v
+                    
+                Q_simul_const = Q
+                V0_simul_const = V0
+                Cs0_corrent_alim_simul_const = Cs0_corrent_alim
+              
+                mi = mimax_const * (C[1]/(Ks_const + C[1] + C[1]*((C[1]/Ke_const)**v_const)))
+                D = Q_simul_const/(V0_simul_const + Q_simul_const*t_bat_alim_simul)
+                dCxdt = (mi - D)*C[0]
+                dCsdt = D*(Cs0_corrent_alim_simul_const - C[1]) - ((mi*C[0])/Yxs_const)
+                dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_const + alfa_const*mi)
+                return(dCxdt,dCsdt,dCpdt)
+            return(func_simul_alim_Wu_et_al_const)
+        func_simul_bat_alim = func_simul_alim_Wu_et_al_um()
+
+    # - Wu (vazão linear):   
+    if (cont == 6 and def_alim == "Taxa de Vazão Linear"):
+        def func_simul_alim_Wu_et_al_dois():
+            def func_simul_alim_Wu_et_al_lin(C, t_bat_alim_simul):
+                mimax_lin = mimax
+                Ks_lin = Ks
+                Yxs_lin = Yxs
+                alfa_lin = alfa
+                beta_lin = beta
+                Ke_lin = Ke
+                v_lin = v
+                    
+                Q0_simul_lin = Q0
+                V0_simul_lin = V0
+                Cs0_corrent_alim_simul_lin = Cs0_corrent_alim
+                a_simul = a
+        
+                mi = mimax_lin * (C[1]/(Ks_lin + C[1] + C[1]*((C[1]/Ke_lin)**v_lin)))
+                D = (Q0_simul_lin*(1+a_simul*t_bat_alim_simul))/((Q0_simul_lin*(t_bat_alim_simul+(a_simul*t_bat_alim_simul**2)))+V0_simul_lin)
+                dCxdt = (mi - D)*C[0]
+                dCsdt = D*(Cs0_corrent_alim_simul_lin - C[1]) - ((mi*C[0])/Yxs_lin)
+                dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_lin + alfa_lin*mi)
+                return(dCxdt,dCsdt,dCpdt)
+            return(func_simul_alim_Wu_et_al_lin)
+        func_simul_bat_alim = func_simul_alim_Wu_et_al_dois()
+        
+    # - Wu(vazão exponencial):   
+    if (cont == 6  and def_alim == "Taxa de Vazão Exponencial"):
+        def func_simul_alim_Wu_et_al_tres():
+            def func_simul_alim_Wu_et_al_exp(C, t_bat_alim_simul):
+                mimax_exp = mimax
+                Ks_exp = Ks
+                Yxs_exp = Yxs
+                alfa_exp = alfa
+                beta_exp = beta
+                Ke_exp = Ke
+                v_exp = v
+                    
+                Q0_simul_exp = Q0
+                V0_simul_exp = V0
+                Cs0_corrent_alim_simul_exp = Cs0_corrent_alim
+                beta_simul_exp = beta_exp
+        
+                mi = mimax_exp * (C[1]/(Ks_exp + C[1] + C[1]*((C[1]/Ke_exp)**v_exp)))
+                multiplicacao = beta_simul_exp*t_bat_alim_simul
+                exponencial = np.exp(multiplicacao)
+                D = (Q0_simul_exp*np.exp(beta_simul_exp*t_bat_alim_simul))/(((Q0_simul_exp/beta_simul_exp)*(exponencial - 1)) + V0_simul_exp)
+                dCxdt = (mi - D)*C[0]
+                dCsdt = D*(Cs0_corrent_alim_simul_exp - C[1]) - ((mi*C[0])/Yxs_exp)
+                dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_exp + alfa_exp*mi)
+                return(dCxdt,dCsdt,dCpdt)
+            return(func_simul_alim_Wu_et_al_exp)
+        func_simul_bat_alim = func_simul_alim_Wu_et_al_tres()
     
+    # - Batelada alimentada Levenspiel:
+    ## - Levenspiel (vazão constante): 
+    if (cont == 7 and def_alim == "Taxa de Vazão Constante"):
+        def func_simul_alim_Levenspiel_um():
+            def func_simul_alim_Levenspiel_const(C, t_bat_alim_simul):
+                mimax_const = mimax
+                Ks_const = Ks
+                Yxs_const = Yxs
+                alfa_const = alfa
+                beta_const = beta
+                Cp_estr_const = Cp_estr
+                n_const = n
+                    
+                Q_simul_const = Q
+                V0_simul_const = V0
+                Cs0_corrent_alim_simul_const = Cs0_corrent_alim
+              
+                mi = mimax_const*((C[1]/(Ks_const + C[1]))*((1 - (C[2]/Cp_estr_const))**n_const))
+                D = Q_simul_const/(V0_simul_const + Q_simul_const*t_bat_alim_simul)
+                dCxdt = (mi - D)*C[0]
+                dCsdt = D*(Cs0_corrent_alim_simul_const - C[1]) - ((mi*C[0])/Yxs_const)
+                dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_const + alfa_const*mi)
+                return(dCxdt,dCsdt,dCpdt)
+            return(func_simul_alim_Levenspiel_const)
+        func_simul_bat_alim = func_simul_alim_Levenspiel_um()
+
+    # - Levenspiel (vazão linear):   
+    if (cont == 7 and def_alim == "Taxa de Vazão Linear"):
+        def func_simul_alim_Levenspiel_dois():
+            def func_simul_alim_Levenspiel_lin(C, t_bat_alim_simul):
+                mimax_lin = mimax
+                Ks_lin = Ks
+                Yxs_lin = Yxs
+                alfa_lin = alfa
+                beta_lin = beta
+                Cp_estr_lin = Cp_estr
+                n_lin= n
+                    
+                Q0_simul_lin = Q0
+                V0_simul_lin = V0
+                Cs0_corrent_alim_simul_lin = Cs0_corrent_alim
+                a_simul = a
+        
+                mi = mimax_lin*((C[1]/(Ks_lin + C[1]))*((1 - (C[2]/Cp_estr_lin))**n_lin))
+                D = (Q0_simul_lin*(1+a_simul*t_bat_alim_simul))/((Q0_simul_lin*(t_bat_alim_simul+(a_simul*t_bat_alim_simul**2)))+V0_simul_lin)
+                dCxdt = (mi - D)*C[0]
+                dCsdt = D*(Cs0_corrent_alim_simul_lin - C[1]) - ((mi*C[0])/Yxs_lin)
+                dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_lin + alfa_lin*mi)
+                return(dCxdt,dCsdt,dCpdt)
+            return(func_simul_alim_Levenspiel_lin)
+        func_simul_bat_alim = func_simul_alim_Levespiel_dois()
+        
+    # - Levenspiel (vazão exponencial):   
+    if (cont == 7  and def_alim == "Taxa de Vazão Exponencial"):
+        def func_simul_alim_Levenspiel_tres():
+            def func_simul_alim_Levenspiel_exp(C, t_bat_alim_simul):
+                mimax_exp = mimax
+                Ks_exp = Ks
+                Yxs_exp = Yxs
+                alfa_exp = alfa
+                beta_exp = beta
+                Cp_estr_exp = Cp_estr
+                n_exp = n
+                    
+                Q0_simul_exp = Q0
+                V0_simul_exp = V0
+                Cs0_corrent_alim_simul_exp = Cs0_corrent_alim
+                beta_simul_exp = beta_exp
+        
+                mi = mimax_exp*((C[1]/(Ks_exp + C[1]))*((1 - (C[2]/Cp_estr_exp))**n_exp))
+                multiplicacao = beta_simul_exp*t_bat_alim_simul
+                exponencial = np.exp(multiplicacao)
+                D = (Q0_simul_exp*np.exp(beta_simul_exp*t_bat_alim_simul))/(((Q0_simul_exp/beta_simul_exp)*(exponencial - 1)) + V0_simul_exp)
+                dCxdt = (mi - D)*C[0]
+                dCsdt = D*(Cs0_corrent_alim_simul_exp - C[1]) - ((mi*C[0])/Yxs_exp)
+                dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_exp + alfa_exp*mi)
+                return(dCxdt,dCsdt,dCpdt)
+            return(func_simul_alim_Levenspiel_exp)
+        func_simul_bat_alim = func_simul_alim_Levenspiel_tres()
+    
+    # - Batelada alimentada Lee et al:
+    ## - Lee (vazão constante): 
+    if (cont == 8 and def_alim == "Taxa de Vazão Constante"):
+        def func_simul_alim_Lee_et_al_um():
+            def func_simul_alim_Lee_et_al_const(C, t_bat_alim_simul):
+                mimax_const = mimax
+                Ks_const = Ks
+                Yxs_const = Yxs
+                alfa_const = alfa
+                beta_const = beta
+                Cx_estr_const = Cx_estr
+                m_const = m
+                    
+                Q_simul_const = Q
+                V0_simul_const = V0
+                Cs0_corrent_alim_simul_const = Cs0_corrent_alim
+              
+                mi = mimax_const*((C[1]/(Ks_const + C[1]))*((1 - (C[0]/Cx_estr_const))**m_const))
+                D = Q_simul_const/(V0_simul_const + Q_simul_const*t_bat_alim_simul)
+                dCxdt = (mi - D)*C[0]
+                dCsdt = D*(Cs0_corrent_alim_simul_const - C[1]) - ((mi*C[0])/Yxs_const)
+                dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_const + alfa_const*mi)
+                return(dCxdt,dCsdt,dCpdt)
+            return(func_simul_alim_Lee_et_al_const)
+        func_simul_bat_alim = func_simul_alim_Lee_et_al_um()
+
+    # - Lee (vazão linear):   
+    if (cont == 8 and def_alim == "Taxa de Vazão Linear"):
+        def func_simul_alim_Lee_et_al_dois():
+            def func_simul_alim_Lee_et_al_lin(C, t_bat_alim_simul):
+                mimax_lin = mimax
+                Ks_lin = Ks
+                Yxs_lin = Yxs
+                alfa_lin = alfa
+                beta_lin = beta
+                Cx_estr_lin = Cx_estr
+                m_lin = m
+                    
+                Q0_simul_lin = Q0
+                V0_simul_lin = V0
+                Cs0_corrent_alim_simul_lin = Cs0_corrent_alim
+                a_simul = a
+        
+                mi = mimax_lin*((C[1]/(Ks_lin + C[1]))*((1 - (C[0]/Cx_estr_lin))**m_lin))
+                D = (Q0_simul_lin*(1+a_simul*t_bat_alim_simul))/((Q0_simul_lin*(t_bat_alim_simul+(a_simul*t_bat_alim_simul**2)))+V0_simul_lin)
+                dCxdt = (mi - D)*C[0]
+                dCsdt = D*(Cs0_corrent_alim_simul_lin - C[1]) - ((mi*C[0])/Yxs_lin)
+                dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_lin + alfa_lin*mi)
+                return(dCxdt,dCsdt,dCpdt)
+            return(func_simul_alim_Lee_et_al_lin)
+        func_simul_bat_alim = func_simul_alim_Lee_et_al_dois()
+        
+    # - Lee (vazão exponencial):   
+    if (cont == 8  and def_alim == "Taxa de Vazão Exponencial"):
+        def func_simul_alim_Lee_et_al_tres():
+            def func_simul_alim_Lee_et_al_exp(C, t_bat_alim_simul):
+                mimax_exp = mimax
+                Ks_exp = Ks
+                Yxs_exp = Yxs
+                alfa_exp = alfa
+                beta_exp = beta
+                Cx_estr_exp = Cx_estr
+                m_exp = m
+                    
+                Q0_simul_exp = Q0
+                V0_simul_exp = V0
+                Cs0_corrent_alim_simul_exp = Cs0_corrent_alim
+                beta_simul_exp = beta_exp
+        
+                mi = mimax_exp*((C[1]/(Ks_exp + C[1]))*((1 - (C[0]/Cx_estr_exp))**m_exp))
+                multiplicacao = beta_simul_exp*t_bat_alim_simul
+                exponencial = np.exp(multiplicacao)
+                D = (Q0_simul_exp*np.exp(beta_simul_exp*t_bat_alim_simul))/(((Q0_simul_exp/beta_simul_exp)*(exponencial - 1)) + V0_simul_exp)
+                dCxdt = (mi - D)*C[0]
+                dCsdt = D*(Cs0_corrent_alim_simul_exp - C[1]) - ((mi*C[0])/Yxs_exp)
+                dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_exp + alfa_exp*mi)
+                return(dCxdt,dCsdt,dCpdt)
+            return(func_simul_alim_Lee_et_al_exp)
+        func_simul_bat_alim = func_simul_alim_Lee_et_al_tres()
+            
     # Integrando numericamente:
     C_sim_bat_alim = odeint(func_simul_bat_alim, inic_cond_alim_simul, t_bat_alim_simul)
     print(C_sim_bat_alim)
@@ -2049,7 +2586,7 @@ def capt_val_esc_moser():
     beta = float(slider_beta_moser.get())
     u = float(slider_u.get())
     print(Cx0, Cs0, Cp0, t0, tf, mimax, Ks, Kd, Yxs, alfa, beta, u)
-    #simulacao(cont = 4)
+    simulacao(cont = 4)
 
 # * mi constante * #:
 def entr_mi_const(frame):
@@ -2077,7 +2614,7 @@ def capt_val_esc_mi_const():
     alfa = float(slider_alfa_mi_const.get())
     beta = float(slider_beta_mi_const.get())
     print(Cx0, Cs0, Cp0, t0, tf, mimax, Kd, Yxs, alfa, beta)
-    #simulacao(cont = 9)
+    simulacao(cont = 9)
 
 # * Andrews * #:  
 def entr_andrews(frame):
@@ -2107,7 +2644,7 @@ def capt_val_esc_andrews():
     beta = float(slider_beta_andrews.get())
     KIS = float(slider_kis.get())
     print(Cx0, Cs0, Cp0, t0, tf, Cx0, Cs0, Cp0, t0, tf, mimax, Ks, Kd, Yxs, alfa, beta, KIS)
-    #simulacao(cont = 2)
+    simulacao(cont = 2)
 
 # * Wu et al * #:
 def entr_wu(frame):
@@ -2138,7 +2675,7 @@ def capt_val_esc_wu():
     Ke = float(slider_ke.get())
     v = float(slider_v.get())
     print(Cx0, Cs0, Cp0, t0, tf, mimax, Ks, Kd, Yxs, alfa, beta, Ke, v)
-    #simulacao(cont = 6)
+    simulacao(cont = 6)
 
 # * Aiba et al * #: 
 def entr_aiba(frame):
@@ -2168,7 +2705,7 @@ def capt_val_esc_aiba():
     beta = float(slider_beta_aiba.get())
     Kp_aiba = float(slider_kp_aiba.get())
     print(Cx0, Cs0, Cp0, t0, tf, mimax, Ks, Kd, Yxs, alfa, beta, Kp_aiba)
-    #simulacao(cont = 3)
+    simulacao(cont = 3)
 
 # * Hoppe & Hansford * #: 
 def entr_h_h(frame):
@@ -2198,7 +2735,7 @@ def capt_val_esc_h_h():
     beta = float(slider_beta_h_h.get())
     Kp_hh = float(slider_kp_h_h.get())
     print(Cx0, Cs0, Cp0, t0, tf, mimax, Ks, Kd, Yxs, alfa, beta, Kp_hh)
-    #simulacao(cont = 5)
+    simulacao(cont = 5)
 
 # * Levenspiel * #:
 def entr_levenspiel(frame):
@@ -2229,7 +2766,7 @@ def capt_val_esc_levenspiel():
     Cp_estr = float(slider_cp_estr.get())
     n = float(slider_n.get())
     print(Cx0, Cs0, Cp0, t0, tf, mimax, Ks, Kd, Yxs, alfa, beta, Cp_estr, n)
-    #simulacao(cont = 7)
+    simulacao(cont = 7)
 
 # * Lee et al * #
 def entr_lee(frame):
@@ -2260,7 +2797,7 @@ def capt_val_esc_lee():
     Cx_estr = float(slider_cx_estr.get())
     m = float(slider_m.get())
     print(Cx0, Cs0, Cp0, t0, tf, mimax, Ks, Kd, Yxs, alfa, beta, Cx_estr, m)
-    #simulacao(cont = 8)
+    simulacao(cont = 8)
 
 ## Contois:
 def contois():
