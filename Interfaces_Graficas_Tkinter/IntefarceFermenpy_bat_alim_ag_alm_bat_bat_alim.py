@@ -78,7 +78,7 @@ Label(janela, text = "Simulação e Modelagem para Batelada Alimentada", font = 
 # Criação do notebook - abas seleção simulação ou modelagem
 notebook = ttk.Notebook(janela)
 notebook.grid(row=3, column =3, sticky=tk.E + tk.W + tk.N + tk.S, padx=30, pady=110)
-frame1 = ttk.Frame(notebook, width = 1300, height = 510, borderwidth = 5, relief = tk.SUNKEN)
+frame1 = ttk.Frame(notebook, width = 1100, height = 510, borderwidth = 5, relief = tk.SUNKEN)
 notebook.add(frame1, text = 'SIMULAÇÃO')
 frame2 = ttk.Frame(notebook, width = 1300, height = 510, borderwidth = 5, relief = tk.SUNKEN)
 notebook.add(frame2, text = 'MODELAGEM')
@@ -331,6 +331,18 @@ def botao_paleta_graf(frame,comando):
     img = Button(frame, image = render, border = 0, command = comando)
     img.image = render
     img.place(x = 450, y = 130)
+## * PADRÃO DE ESTILO VISUAL DOS GRÁFICOS * ##:
+def tamanho_graf():
+    SMALL_SIZE = 13                        
+    MEDIUM_SIZE = 16                      
+    BIGGER_SIZE = 16                      
+    plt.rc('font', size=SMALL_SIZE)          
+    plt.rc('axes', titlesize=SMALL_SIZE)     
+    plt.rc('axes', labelsize=MEDIUM_SIZE)    
+    plt.rc('xtick', labelsize=SMALL_SIZE)    
+    plt.rc('ytick', labelsize=SMALL_SIZE)    
+    plt.rc('legend', fontsize=SMALL_SIZE)    
+    plt.rc('figure', titlesize=BIGGER_SIZE) 
     
             #### **** CODIFICAÇÃO PARA A PARTE REFERENTE À BATELADA ALIMENTADA - simulação e modelagem **** ####
 ## Combobox:
@@ -489,6 +501,9 @@ def caix_simul(frame, larg, alt, x, y):
 # Escritos:
 def labels(frame, texto, fonte, borda, x, y):
     Label(frame, text = texto, font = fonte, relief = borda).place(x = x, y = y)
+# Saída arquivos simulação:
+sai_resul_simul = Label(frame1, bg = "gray45")
+sai_resul_simul .place(x = 962, y = 143)
     
 # Função para entradas numéricas:
 # - Parâmetro: mi_máximo - #:
@@ -1329,21 +1344,42 @@ def simulacao(cont):
         # Integrando numericamente:
         C_sim_bat = odeint(edos_int_bat_Monod,inic_cond_bat_simul,t_bat_simul)
         print(C_sim_bat)
-        Cx_bat = C_sim_bat[:,0]
-        Cs_bat = C_sim_bat[:,1]
-        Cp_bat = C_sim_bat[:,2]
         
-        # Vetor condição inicial:
-        # - BATELADA ALIMENTADA:
-        Cx0_simul_bat_alim = Cx_bat[len(Cx_bat)-1]   
-        Cs0_simul_bat_alim = Cs_bat[len(Cs_bat)-1]
-        Cp0_simul_bat_alim = Cp_bat[len(Cp_bat)-1] 
-        inic_cond_alim_simul = [Cx0_simul_bat_alim, Cs0_simul_bat_alim, Cp0_simul_bat_alim]
-        print(inic_cond_alim_simul)
-        # Vetor tempo:
-        tf_cor = tf + 0.5
-        t_bat_alim_simul = np.arange(tf_bat, tf_cor, 0.5)
-        print(t_bat_alim_simul)
+    # - Batelada Contois:
+    if (cont == 1):
+        def edos_int_bat_Contois(C,t):
+            Cx,Cs,Cp=C
+            mimax_sim = mimax
+            KSX_sim = KSX
+            Kd_sim = Kd
+            Yxs_sim = Yxs
+            alfa_sim = alfa
+            beta_sim = beta
+        
+            mi=mimax_sim*(Cs/((KSX_sim*Cx)+Cs))
+            dCxdt=(mi-Kd_sim)*Cx
+            dCsdt=(-1/Yxs_sim)*mi*Cx
+            dCpdt=alfa_sim*mi*Cx+beta_sim*Cx
+            return(dCxdt,dCsdt,dCpdt)
+        # Integrando numericamente:
+        C_sim_bat = odeint(edos_int_bat_Contois, inic_cond_bat_simul, t_bat_simul)
+        print(C_sim_bat)
+        
+    Cx_bat = C_sim_bat[:,0]
+    Cs_bat = C_sim_bat[:,1]
+    Cp_bat = C_sim_bat[:,2]
+        
+    # Vetor condição inicial:
+    # - BATELADA ALIMENTADA:
+    Cx0_simul_bat_alim = Cx_bat[len(Cx_bat)-1]   
+    Cs0_simul_bat_alim = Cs_bat[len(Cs_bat)-1]
+    Cp0_simul_bat_alim = Cp_bat[len(Cp_bat)-1] 
+    inic_cond_alim_simul = [Cx0_simul_bat_alim, Cs0_simul_bat_alim, Cp0_simul_bat_alim]
+    print(inic_cond_alim_simul)
+    # Vetor tempo:
+    tf_cor = tf + 0.5
+    t_bat_alim_simul = np.arange(tf_bat, tf_cor, 0.5)
+    print(t_bat_alim_simul)
         
     # - Batelada alimentada Monod:
     ## - Monod (vazão constante): 
@@ -1419,110 +1455,81 @@ def simulacao(cont):
             return(func_simul_alim_Monod_exp)
         func_simul_bat_alim = func_simul_alim_Monod_tres()
             
-    # Integrando numericamente:
-    C_sim_bat_alim = odeint(func_simul_bat_alim, inic_cond_alim_simul, t_bat_alim_simul)
-    print(C_sim_bat_alim)
-    Cx_bat_alim = C_sim_bat_alim[:,0]
-    Cs_bat_alim = C_sim_bat_alim[:,1]
-    Cp_bat_alim = C_sim_bat_alim[:,2]
-    
-    # * UNIÃO DAS SAÍDAS BATELADA E BATELADA ALIMENTADA * #
-    ## Contadores gerais
-    limitebatelada = len(C_sim_bat)
-    limitebatelada_cor = limitebatelada - 1
-    print("Limite batelada",limitebatelada)
-    limitealimentada = len(C_sim_bat_alim)
-    print("Limite batelada alimentada", limitealimentada)
-
-    Cx_simul = []
-    Cs_simul = []
-    Cp_simul = []
-    bat = 0
-    batal = 0
-    
-    while (bat < limitebatelada_cor):
-        Cx_simul.append(Cx_bat[bat])
-        Cs_simul.append(Cs_bat[bat])
-        Cp_simul.append(Cp_bat[bat])
-        bat = bat +  1       
-    while (batal < limitealimentada):
-        Cx_simul.append(Cx_bat_alim[batal])
-        Cs_simul.append(Cs_bat_alim[batal])
-        Cp_simul.append(Cp_bat_alim[batal])
-        batal = batal + 1
-
-    ## Vetor tempo total do processo:
-    Ttotal_simul = np.arange(t0, tf_cor, 0.5)
-
-    ## Conversão das listas para arrays - necessário para operações matemáticas:
-    Cx_simul = np.asarray(Cx_simul)
-    Cs_simul = np.asarray(Cs_simul)
-    Cp_simul = np.asarray(Cp_simul)
-    
-    print(len(Cx_simul))
-    print(len(Cs_simul))
-    print(len(Cp_simul))
-    print(len(Ttotal_simul))
-    
-    def tamanho_graf():
-            SMALL_SIZE = 13                        
-            MEDIUM_SIZE = 16                      
-            BIGGER_SIZE = 16                      
-            plt.rc('font', size=SMALL_SIZE)          
-            plt.rc('axes', titlesize=SMALL_SIZE)     
-            plt.rc('axes', labelsize=MEDIUM_SIZE)    
-            plt.rc('xtick', labelsize=SMALL_SIZE)    
-            plt.rc('ytick', labelsize=SMALL_SIZE)    
-            plt.rc('legend', fontsize=SMALL_SIZE)    
-            plt.rc('figure', titlesize=BIGGER_SIZE) 
-    
-    # Gráfico - perfil de concentração:       
-    x = "red"
-    p = "green"
-    s = "blue"
-    def imprimir_perfil_concentracao_model_otim_exp (t_m, Cx_m, Cs_m, Cp_m):
-        tamanho_graf()
-        f = plt.figure(figsize=(8.3,6), dpi = 54) 
-        plot = f.add_subplot(111) 
-        _ = lns1 = plot.plot(Ttotal_simul, Cx_m, color = x, linewidth=3,label='Cx modelo')
-        _ = lns2 = plot.plot(Ttotal_simul, Cs_m, linestyle=":", color=s,linewidth=3,label='Cs modelo')
-        ax2 = plot.twinx()
-        _ = lns3 = ax2.plot(Ttotal_simul, Cp_m, linestyle="--", color=p,linewidth=3,label='Cp modelo') 
-        _ = plot.set_xlabel('Tempo de cultivo (h)',weight='bold')               
-        _ = plot.set_ylabel('Cx e Cs (g/L)', weight='bold')
-        ax2.set_ylabel('Cp (g/L)', weight='bold') 
-        _ = lns = lns1+lns2+lns3
-        labs = [l.get_label() for l in lns]
-        _ = plot.legend(lns, labs, loc='upper center', bbox_to_anchor=(0.5, 1.14),ncol=3, fancybox=True, shadow=True)                                                
-        plot.grid(True)
-        f.patch.set_facecolor('white')                                   
-        plt.style.use('default')
-        canvas = FigureCanvasTkAgg(f, frame22)
-        a = canvas.get_tk_widget().place(x = 0, y = 0)
-    imprimir_perfil_concentracao_model_otim_exp(Ttotal_simul, Cx_simul, Cs_simul, Cp_simul)
         
-    if cont == 1:
-        def edos_int_bat_Contois(C,t):
-            Cx,Cs,Cp=C
-            mimax_sim = mimax
-            KSX_sim = KSX
-            Kd_sim = Kd
-            Yxs_sim = Yxs
-            alfa_sim = alfa
-            beta_sim = beta
+    # - Batelada alimentada Contois:
+    ## - Contois (vazão constante): 
+    if (cont == 1 and def_alim == "Taxa de Vazão Constante"):
+        def func_simul_alim_Contois_um():
+            def func_simul_alim_Contois_const(C, t_bat_alim_simul):
+                mimax_const = mimax
+                KSX_const = KSX
+                Yxs_const = Yxs
+                alfa_const = alfa
+                beta_const = beta
+                    
+                Q_simul_const = Q
+                V0_simul_const = V0
+                Cs0_corrent_alim_simul_const = Cs0_corrent_alim
+              
+                mi = mimax_const*(C[1]/((KSX_const*C[0]) + C[1]))
+                D = Q_simul_const/(V0_simul_const + Q_simul_const*t_bat_alim_simul)
+                dCxdt = (mi - D)*C[0]
+                dCsdt = D*(Cs0_corrent_alim_simul_const - C[1]) - ((mi*C[0])/Yxs_const)
+                dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_const + alfa_const*mi)
+                return(dCxdt,dCsdt,dCpdt)
+            return(func_simul_alim_Contois_const)
+        func_simul_bat_alim = func_simul_alim_Contois_um()
+
+    # - Contois (vazão linear):   
+    if (cont == 1 and def_alim == "Taxa de Vazão Linear"):
+        def func_simul_alim_Contois_dois():
+            def func_simul_alim_Contois_lin(C, t_bat_alim_simul):
+                mimax_lin = mimax
+                KSX_lin = KSX
+                Yxs_lin = Yxs
+                alfa_lin = alfa
+                beta_lin = beta
+                    
+                Q0_simul_lin = Q0
+                V0_simul_lin = V0
+                Cs0_corrent_alim_simul_lin = Cs0_corrent_alim
+                a_simul = a
         
-            mi=mimax_sim*(Cs/((KSX_sim*Cx)+Cs))
-            dCxdt=(mi-Kd_sim)*Cx
-            dCsdt=(-1/Yxs_sim)*mi*Cx
-            dCpdt=alfa_sim*mi*Cx+beta_sim*Cx
-            return(dCxdt,dCsdt,dCpdt)
-        # Integrando numericamente:
-        C_sim = odeint(edos_int_bat_Contois,inic_cond_simul,t_simul)
-        print(C_sim)
-        Cx = C_sim[:,0]
-        Cs = C_sim[:,1]
-        Cp = C_sim[:,2]
+                mi = mimax_lin*(C[1]/((KSX_lin*C[0]) + C[1]))
+                D = (Q0_simul_lin*(1+a_simul*t_bat_alim_simul))/((Q0_simul_lin*(t_bat_alim_simul+(a_simul*t_bat_alim_simul**2)))+V0_simul_lin)
+                dCxdt = (mi - D)*C[0]
+                dCsdt = D*(Cs0_corrent_alim_simul_lin - C[1]) - ((mi*C[0])/Yxs_lin)
+                dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_lin + alfa_lin*mi)
+                return(dCxdt,dCsdt,dCpdt)
+            return(func_simul_alim_Contois_lin)
+        func_simul_bat_alim = func_simul_alim_Contois_dois()
         
+    # - Contois (vazão exponencial):   
+    if (cont == 1  and def_alim == "Taxa de Vazão Exponencial"):
+        def func_simul_alim_Contois_tres():
+            def func_simul_alim_Contois_exp(C, t_bat_alim_simul):
+                mimax_exp = mimax
+                KSX_exp = KSX
+                Yxs_exp = Yxs
+                alfa_exp = alfa
+                beta_exp = beta
+                    
+                Q0_simul_exp = Q0
+                V0_simul_exp = V0
+                Cs0_corrent_alim_simul_exp = Cs0_corrent_alim
+                beta_simul_exp = beta_exp
+        
+                mi = mimax_exp*(C[1]/((KSX_exp*C[0]) + C[1]))
+                multiplicacao = beta_simul_exp*t_bat_alim_simul
+                exponencial = np.exp(multiplicacao)
+                D = (Q0_simul_exp*np.exp(beta_simul_exp*t_bat_alim_simul))/(((Q0_simul_exp/beta_simul_exp)*(exponencial - 1)) + V0_simul_exp)
+                dCxdt = (mi - D)*C[0]
+                dCsdt = D*(Cs0_corrent_alim_simul_exp - C[1]) - ((mi*C[0])/Yxs_exp)
+                dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_exp + alfa_exp*mi)
+                return(dCxdt,dCsdt,dCpdt)
+            return(func_simul_alim_Contois_exp)
+        func_simul_bat_alim = func_simul_alim_Contois_tres()
+            
     if cont == 2:
         def edos_int_bat_Andrews(C,t):
             Cx,Cs,Cp=C
@@ -1687,6 +1694,272 @@ def simulacao(cont):
         Cx = C_sim[:,0]
         Cs = C_sim[:,1]
         Cp = C_sim[:,2]
+    
+    
+    # Integrando numericamente:
+    C_sim_bat_alim = odeint(func_simul_bat_alim, inic_cond_alim_simul, t_bat_alim_simul)
+    print(C_sim_bat_alim)
+    Cx_bat_alim = C_sim_bat_alim[:,0]
+    Cs_bat_alim = C_sim_bat_alim[:,1]
+    Cp_bat_alim = C_sim_bat_alim[:,2]
+    
+    # * UNIÃO DAS SAÍDAS BATELADA E BATELADA ALIMENTADA * #
+    ## Contadores gerais
+    limitebatelada = len(C_sim_bat)
+    limitebatelada_cor = limitebatelada - 1
+    print("Limite batelada",limitebatelada)
+    limitealimentada = len(C_sim_bat_alim)
+    print("Limite batelada alimentada", limitealimentada)
+
+    Cx_simul = []
+    Cs_simul = []
+    Cp_simul = []
+    bat = 0
+    batal = 0
+    
+    while (bat < limitebatelada_cor):
+        Cx_simul.append(Cx_bat[bat])
+        Cs_simul.append(Cs_bat[bat])
+        Cp_simul.append(Cp_bat[bat])
+        bat = bat +  1       
+    while (batal < limitealimentada):
+        Cx_simul.append(Cx_bat_alim[batal])
+        Cs_simul.append(Cs_bat_alim[batal])
+        Cp_simul.append(Cp_bat_alim[batal])
+        batal = batal + 1
+
+    ## Vetor tempo total do processo:
+    Ttotal_simul = np.arange(t0, tf_cor, 0.5)
+
+    ## Conversão das listas para arrays - necessário para operações matemáticas:
+    Cx_simul = np.asarray(Cx_simul)
+    Cs_simul = np.asarray(Cs_simul)
+    Cp_simul = np.asarray(Cp_simul)
+    
+    print(len(Cx_simul))
+    print(len(Cs_simul))
+    print(len(Cp_simul))
+    print(len(Ttotal_simul))
+    
+    #### **** PLOTAGEM GRÁFICA **** ####:
+    
+    # * - CONCENTRAÇÃO:
+    # Gráfico - perfil de concentração:       
+    x = "red"
+    p = "green"
+    s = "blue"
+    def imprimir_perfil_concentracao_model_otim_exp (t_m, Cx_m, Cs_m, Cp_m):
+        tamanho_graf()
+        f = plt.figure(figsize=(8.3,6), dpi = 54) 
+        plot = f.add_subplot(111) 
+        _ = lns1 = plot.plot(Ttotal_simul, Cx_m, color = x, linewidth=3,label='Cx modelo')
+        _ = lns2 = plot.plot(Ttotal_simul, Cs_m, linestyle=":", color=s,linewidth=3,label='Cs modelo')
+        ax2 = plot.twinx()
+        _ = lns3 = ax2.plot(Ttotal_simul, Cp_m, linestyle="--", color=p,linewidth=3,label='Cp modelo') 
+        _ = plot.axvline(x = tf_bat, color = "grey", linestyle="dashed", linewidth=3)
+        _ = plot.set_xlabel('Tempo de cultivo (h)',weight='bold')               
+        _ = plot.set_ylabel('Cx e Cs (g/L)', weight='bold')
+        ax2.set_ylabel('Cp (g/L)', weight='bold') 
+        _ = lns = lns1+lns2+lns3
+        labs = [l.get_label() for l in lns]
+        _ = plot.legend(lns, labs, loc='upper center', bbox_to_anchor=(0.5, 1.14),ncol=3, fancybox=True, shadow=True)                                                
+        plot.grid(True)
+        f.patch.set_facecolor('white')                                   
+        plt.style.use('default')
+        canvas = FigureCanvasTkAgg(f, frame22)
+        a = canvas.get_tk_widget().place(x = 0, y = 0)
+    imprimir_perfil_concentracao_model_otim_exp(Ttotal_simul, Cx_simul, Cs_simul, Cp_simul)
+    
+    # * - PRODUTIVIDADE CELULAR E DO METABÓLITO:
+    ## Cálculos:
+    Px = Cx_simul[1:]/Ttotal_simul[1:]
+    Pp = Cp_simul[1:]/Ttotal_simul[1:]
+    
+    ## Plotando a figura gráfica - produtividades:
+    # Gráfico - produtividades:
+    def graf_produtiv(px, pp):
+        def imprimir_produtividade_celular_produto(t_m,Px_m, Pp_m):
+            tamanho_graf()
+            f = plt.figure(figsize=(8.3,6), dpi = 54) 
+            _ = plot = f.add_subplot(111)  
+            _ = lns1 = plot.plot(t_m ,Px_m,color = px,linewidth=3,label='Produtividade Celular')
+            ax2 = plot.twinx()
+            _ = lns2 = ax2.plot(t_m,Pp_m,linestyle=":", color = pp,linewidth=3,label='Produtividade do Produto')
+            _ = plot.axvline(x = tf_bat, color = "grey", linestyle="dashed", linewidth=3)
+            _ = plot.set_xlabel('Tempo de cultivo (h)',weight='bold')               
+            _ = plot.set_ylabel('Produtividade Celular (gx/L.h)', weight='bold')
+            ax2.set_ylabel('Produtividade Produto (gp/L.h)', weight='bold') 
+            lns = lns1+lns2
+            labs = [l.get_label() for l in lns]
+            _ = plot.legend(lns, labs, loc='upper center', bbox_to_anchor=(0.5, 1.14),ncol=2, fancybox=True, shadow=True )                                                
+            _ =plot.grid(True)
+            f.patch.set_facecolor('white')                                   
+            plt.style.use('default')    
+            canvas = FigureCanvasTkAgg(f, frame23)
+            a = canvas.get_tk_widget().place(x = 0, y = 0)
+        imprimir_produtividade_celular_produto(Ttotal_simul[1:], Px, Pp)
+    graf_produtiv(px = "red", pp = "green")
+    
+    # * PRODUTIVIDADE ESPECÍFICA * #:
+    # Cálculo produtivida específica:
+    Ppx = Cp_simul * (1 / Cx_simul)
+    Ppx[Ppx<0] = 0
+    # Gráfico produtividade específica:
+    def graf_produtiv_espec(Ppx_cor):
+        def imprimir_produtividade_especifica_model_otim_exp (t_m, Ppx_m):
+            tamanho_graf()
+            f = plt.figure(figsize=(8.3,6), dpi = 54) 
+            plot = f.add_subplot(111)  
+            _ = plt.plot(t_m,Ppx_m,color = Ppx_cor,linewidth=3, label='Simulado')
+            _ = plot.axvline(x = tf_bat, color = "grey", linestyle="dashed", linewidth=3)
+            _ = plt.xlabel('Tempo de cultivo (h)',weight='bold')               
+            _ = plt.ylabel('Produtividade Específica (gp/gx)', weight='bold')
+            _ = plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.14),ncol=2, fancybox=True, shadow=True )
+            _ = plt.grid(True)  
+            f.patch.set_facecolor('white')                                   
+            plt.style.use('default')                       
+            canvas = FigureCanvasTkAgg(f, frame24)
+            a = canvas.get_tk_widget().place(x = 0, y = 0)
+        imprimir_produtividade_especifica_model_otim_exp(Ttotal_simul, Ppx)
+    graf_produtiv_espec(Ppx_cor = "red")
+    
+    ### *** TAXA ESPECÍFICA DE CRESCIMENTO MICROBIANO *** ###:
+    # Cálculo taxa mi:
+    if (cont == 0):
+        mi = mimax*(Cs_simul/(Ks + Cs_simul))
+    if (cont == 1):
+        mi = mimax*(Cs_simul/(KSX*Cx_simul + Cs_simul))
+    if (cont == 2):
+        mi = mimax*(Cs_simul/(Ks + Cs_simul + ((Cs_simul**2)/KIS)))
+    if (cont == 3):
+        mult = -Kp_aiba*Cp_simul
+        mi = mimax*((Cs_simul/(Ks + Cs_simul))*np.exp(mult))
+    if (cont == 4):
+        mi = mimax*((Cs_simul**u)/(Ks + (Cs_simul**u)))
+    if (cont == 5):
+        mi = mimax*(Cs_simul/(Ks + Cs_simul))*(Kp_hh/(Kp_hh + Cp_simul))
+    if (cont == 6):
+        mi = mimax*(Cs_simul/(Ks + Cs_simul + (Cs_simul*((Cs_simul/Ke)**v))))
+    if (cont == 7):
+        mi = mimax*((Cs_simul/(Ks + Cs_simul))*((1-(Cp_simul/Cp_estr))**n))
+    if (cont == 8):
+        mi = mimax*((Cs_simul/(Ks + Cs_simul))*((1-(Cx_simul/Cx_estr))**m))
+    mi[mi<0] = 0
+    # Gráfico - velocidade de crescimento microbiano:
+    def graf_mi(mi_cor):
+        def imprimir_taxa_especifica_crescimento (t_m,  mi_m):
+            tamanho_graf()
+            f = plt.figure(figsize=(8.3,6), dpi = 54) 
+            plot = f.add_subplot(111)                                             
+            _ = plt.plot(t_m,mi_m,color = mi_cor,linewidth=3, label='Simulado')
+            _ = plot.axvline(x = tf_bat, color = "grey", linestyle="dashed", linewidth=3)
+            _ = plt.xlabel('Tempo de cultivo (h)',weight='bold')               
+            _ = plt.ylabel('Taxa $\mu (h^{-1}$)', weight='bold')
+            _ = plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.14),ncol=2, fancybox=True, shadow=True )  
+            _ = plt.grid(True)  
+            f.patch.set_facecolor('white')                                   
+            plt.style.use('default')   
+            canvas = FigureCanvasTkAgg(f, frame25)
+            a = canvas.get_tk_widget().place(x = 0, y = 0)
+        imprimir_taxa_especifica_crescimento(Ttotal_simul, mi)
+    graf_mi(mi_cor = "red")
+    
+    ### *** VAZÃO *** ###:
+    
+    ### *** CÁLCULO DO PERFIL DE VARIAÇÃO DE VAZÃO - RELAÇÃO TEMPORAL DEPENDENTE DA ALIMENTAÇÃO:
+    ## ** Controle do processo - análise do perfil matemático ** ##:
+    # - ALIMENTAÇÃO CONSTANTE:
+    if (def_alim == "Taxa de Vazão Constante"):
+        Q_calc = np.repeat(Q, len(t_bat_alim_simul))
+    # - ALIMENTAÇÃO LINEAR:
+    if (def_alim == "Taxa de Vazão Linear"):
+        ### Função Q(t) original:
+        Q_calc = Q0*(1 + a*t_bat_alim_simul)
+    # - ALIMENTAÇÃO EXPONENCIAL:
+    if (def_alim == "Taxa de Vazão Exponencial"):
+        ### Função Q(t) original:
+        Q_calc = Q0 * np.exp(beta_exp * t_bat_alim_simul)
+    
+    # Gráfico - variação temporal do vazão:
+    def graf_vaz(vaz_cor):
+        def imprimir_vazao(t_m, vaz_m):
+            tamanho_graf()
+            f = plt.figure(figsize=(8.3,6), dpi = 54) 
+            plot = f.add_subplot(111)                                             
+            _ = plt.plot(t_m, vaz_m,color = vaz_cor,linewidth=3, label='Simulado')
+            _ = plot.axvline(x = tf_bat, color = "grey", linestyle="dashed", linewidth=3)
+            _ = plt.xlabel('Tempo de cultivo (h)',weight='bold')               
+            _ = plt.ylabel('Vazão (L/h)', weight='bold')
+            _ = plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.14),ncol=2, fancybox=True, shadow=True )  
+            _ = plt.grid(True)  
+            f.patch.set_facecolor('white')                                   
+            plt.style.use('default')   
+            canvas = FigureCanvasTkAgg(f, frame47)
+            a = canvas.get_tk_widget().place(x = 0, y = 0)
+        imprimir_vazao(t_bat_alim_simul, Q_calc)
+    graf_vaz(vaz_cor = "orange")   
+    
+    ### *** VOLUME *** ###:
+    
+    ### *** CÁLCULO DO PERFIL DE VARIAÇÃO DE VOLUME - RELAÇÃO TEMPORAL DEPENDENTE DA ALIMENTAÇÃO:
+    ## ** Controle do processo - análise do perfil matemático ** ##:
+    # - ALIMENTAÇÃO CONSTANTE:
+    if (def_alim == "Taxa de Vazão Constante"):
+        ## Cálculo volume(t) - integração dV/dt = Q para Q constante:
+        V_calc = Q * t_bat_alim_simul  + V0
+    # - ALIMENTAÇÃO LINEAR:
+    if (def_alim == "Taxa de Vazão Linear"):
+        ## Cálculo volume(t) - integração dV/dt = Q para descrito pela equação linear:
+        V_calc = (Q0*(t_bat_alim_simul + (a*t_bat_alim_simul**2))) + V0
+    # - ALIMENTAÇÃO EXPONENCIAL:
+    if (def_alim == "Taxa de Vazão Exponencial"):
+        ## Cálculo volume(t) - integração dV/dt = Q para Q descrito pela equação exponencial:
+        V_calc = ((Q0/beta_exp)*((np.exp(beta_exp*t_bat_alim_simul)) - 1)) + V0
+        
+    # Gráfico - variação temporal do volume:
+    def graf_vol(vol_cor):
+        def imprimir_volume(t_m, vol_m):
+            tamanho_graf()
+            f = plt.figure(figsize=(8.3,6), dpi = 54) 
+            plot = f.add_subplot(111)                                             
+            _ = plt.plot(t_m, vol_m,color = vol_cor,linewidth=3, label='Simulado')
+            _ = plot.axvline(x = tf_bat, color = "grey", linestyle="dashed", linewidth=3)
+            _ = plt.xlabel('Tempo de cultivo (h)',weight='bold')               
+            _ = plt.ylabel('Vazão (L/h)', weight='bold')
+            _ = plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.14),ncol=2, fancybox=True, shadow=True )  
+            _ = plt.grid(True)  
+            f.patch.set_facecolor('white')                                   
+            plt.style.use('default')   
+            canvas = FigureCanvasTkAgg(f, frame46)
+            a = canvas.get_tk_widget().place(x = 0, y = 0)
+        imprimir_volume(t_bat_alim_simul, V_calc)
+    graf_vol(vol_cor = "lime") 
+    
+    #### **** EXPORTAÇÃO DOS RESULTADOS PARA PLANILHAS EXCEL **** ####:
+    ## Inserindo 0 para o primeiro valor de produtividade:
+    Px_ad = np.insert(Px,0,0)
+    Pp_ad = np.insert(Pp,0,0)
+        
+    # Saída .xlsx - concentração, produtividade e taxa de crescimento:
+    def excel_concent():
+        df_sai_conc_produtiv_mi = pd.DataFrame({'Tempo(h)': Ttotal_simul, 'Cx(g/L)': Cx_simul, 'Cs(g/L)': Cs_simul, 'Cp(g/L)': Cp_simul, 'Px(gcél/L.h)': Px_ad, 'Pp(gprod/L.h)': Pp_ad, 'Ppx(gprod/gcél)': Ppx, 'mi(h-¹)': mi})
+        df_Q_V = pd.DataFrame({'Tempo_alim(h)': t_bat_alim_simul, 'Q(L/h)': Q_calc, 'V(L)': V_calc})
+        df_sai_simul = pd.concat([df_sai_conc_produtiv_mi, df_Q_V], axis = 1)
+        with pd.ExcelWriter('Simul_Conc_Produt_mi_vaz.vol.xlsx') as writer:
+            df_sai_simul.to_excel(writer, sheet_name="Saida_simulada")
+            writer.save()
+        os.system("start EXCEL Simul_Conc_Produt_mi_vaz.vol.xlsx")
+    sai_resul_simul.configure(text = "Simul_Conc_Produt_mi_vaz.vol.xlsx", font = "arial 8 italic", fg = "black")
+    # Função botão acesso excel:
+    def botao_excel(imagem, num_frame, x, y):
+        load = Image.open(imagem)
+        render = ImageTk.PhotoImage(load)
+        img = Button(num_frame, image = render, border = 0, command = excel_concent)
+        img.image = render
+        img.place(x = x, y = y)
+    
+    # Botão de acesso - arquivo .xlsx - parâmetros cinéticos:
+    botao_excel(imagem = "Excel.png", num_frame = frame1, x = 926, y = 135)
 
 # Função para capturar os valores de entrada:
 
@@ -1717,7 +1990,7 @@ def capt_val_esc_contois():
     alfa = float(slider_alfa_contois.get())
     beta = float(slider_beta_contois.get())
     print(Cx0, Cs0, Cp0, t0, tf, mimax, KSX, Kd, Yxs, alfa, beta)
-    #simulacao(cont = 1)
+    simulacao(cont = 1)
 
 # * Monod * #:
 def entr_monod(frame):
@@ -3898,7 +4171,7 @@ def explorer():
 
 ## ** // ___________________________________________GRÁFICO - TAXA ESPECÍFICA DE CRESCIMENTO____________________________________ // ** ##                   
 
-        ### ** CÁLCULO DA PRODUTIVIDADE ESPECÍFICA (Ppx) - RELAÇÃO ENTRE PRODUTO E BIOMASSA:
+        ### ** CÁLCULO DA VELOCIDADE DE CRESCIMENTO MICROBIANO:
         # -- Experimental e modelada:
         if (cont_model == 0): # - Monod
             mi_exp = param_otim_alm_alim[0]*(Cs_exp/(param_otim_alm_alim[1] + Cs_exp))
@@ -4618,7 +4891,14 @@ def explorer():
             tex_m = Label(frame12, text = "m = constante de Lee et al (adim)", font = 'arial 9 italic', fg = "black").place(x = 0, y = 274)
             Button(frame12, text = "MODELAR", bg = "gray20", fg="white", borderwidth=2, relief="ridge", font="batang 11", width = 8, command = model_lee).place(x = 112, y = 28)
             Button(frame12, text = "Preparar ambiente", bg = "gray40", fg="white", borderwidth=4, relief="raised", font="batang 8", command = click_lee).place(x = 202, y = 282)
-            
+        
+        Label(frame1, text = "Visite nossa página completa", font = "courier 12 bold", fg = "black", bg = "grey92", borderwidth = 2, relief = "groove").place(x = 10, y = 510)
+        Button(frame1, text="https://brunaaq.github.io/Documentacao_fermenpy/", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", borderwidth = 4, command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/')).place(x = 100, y = 538)
+        Label(frame2, text = "Visite nossa página completa", font = "courier 12 bold", fg = "black", bg = "grey92", borderwidth = 2, relief = "groove").place(x = 10, y = 510)
+        Button(frame2, text="https://brunaaq.github.io/Documentacao_fermenpy/", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", borderwidth = 4, command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/')).place(x = 100, y = 538)
+        Button(frame1, text="Encerrar programa", font = "Times 10 italic bold", fg = "white", bg = "black", relief = "raised", borderwidth = 4, command = janela.destroy).place(x = 1150, y = 515)
+        Button(frame2, text="Encerrar programa", font = "Times 10 italic bold", fg = "white", bg = "black", relief = "raised", borderwidth = 4, command = janela.destroy).place(x = 1150, y = 515)
+        
     # Botão para acesso aos modelos disponibilizados:
     Button(frame2, text="Pronto", bg = "black", fg="white", font="batang 12", command = combobox_model).place(x = 315, y = 29)
     
