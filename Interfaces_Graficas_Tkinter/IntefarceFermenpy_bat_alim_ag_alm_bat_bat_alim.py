@@ -1722,7 +1722,7 @@ def simulacao(cont):
                 Cs0_corrent_alim_simul_lin = Cs0_corrent_alim
                 a_simul = a
         
-                mi = mimax_lin * (C[1]/(Ks_lin + C[1] + ((Cs[1]**2)/KIS_lin)))
+                mi = mimax_lin * (C[1]/(Ks_lin + C[1] + ((C[1]**2)/KIS_lin)))
                 D = (Q0_simul_lin*(1+a_simul*t_bat_alim_simul))/((Q0_simul_lin*(t_bat_alim_simul+(a_simul*t_bat_alim_simul**2)))+V0_simul_lin)
                 dCxdt = (mi - D)*C[0]
                 dCsdt = D*(Cs0_corrent_alim_simul_lin - C[1]) - ((mi*C[0])/Yxs_lin)
@@ -2090,7 +2090,7 @@ def simulacao(cont):
                 V0_simul_const = V0
                 Cs0_corrent_alim_simul_const = Cs0_corrent_alim
               
-                mi = mimax_const*((C[1]/(Ks_const + C[1]))*((1 - (C[2]/Cp_estr_const))**n_const))
+                mi = mimax_const*((C[1]/(Ks_const + C[1]))*((abs(1 - (C[2]/Cp_estr_const)))**n_const))
                 D = Q_simul_const/(V0_simul_const + Q_simul_const*t_bat_alim_simul)
                 dCxdt = (mi - D)*C[0]
                 dCsdt = D*(Cs0_corrent_alim_simul_const - C[1]) - ((mi*C[0])/Yxs_const)
@@ -2116,14 +2116,14 @@ def simulacao(cont):
                 Cs0_corrent_alim_simul_lin = Cs0_corrent_alim
                 a_simul = a
         
-                mi = mimax_lin*((C[1]/(Ks_lin + C[1]))*((1 - (C[2]/Cp_estr_lin))**n_lin))
+                mi = mimax_lin*((C[1]/(Ks_lin + C[1]))*((abs(1 - (C[2]/Cp_estr_lin)))**n_lin))
                 D = (Q0_simul_lin*(1+a_simul*t_bat_alim_simul))/((Q0_simul_lin*(t_bat_alim_simul+(a_simul*t_bat_alim_simul**2)))+V0_simul_lin)
                 dCxdt = (mi - D)*C[0]
                 dCsdt = D*(Cs0_corrent_alim_simul_lin - C[1]) - ((mi*C[0])/Yxs_lin)
                 dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_lin + alfa_lin*mi)
                 return(dCxdt,dCsdt,dCpdt)
             return(func_simul_alim_Levenspiel_lin)
-        func_simul_bat_alim = func_simul_alim_Levespiel_dois()
+        func_simul_bat_alim = func_simul_alim_Levenspiel_dois()
         
     # - Levenspiel (vazão exponencial):   
     if (cont == 7  and def_alim == "Taxa de Vazão Exponencial"):
@@ -2142,7 +2142,7 @@ def simulacao(cont):
                 Cs0_corrent_alim_simul_exp = Cs0_corrent_alim
                 beta_simul_exp = beta_exp
         
-                mi = mimax_exp*((C[1]/(Ks_exp + C[1]))*((1 - (C[2]/Cp_estr_exp))**n_exp))
+                mi = mimax_exp*((C[1]/(Ks_exp + C[1]))*((abs(1 - (C[2]/Cp_estr_exp)))**n_exp))
                 multiplicacao = beta_simul_exp*t_bat_alim_simul
                 exponencial = np.exp(multiplicacao)
                 D = (Q0_simul_exp*np.exp(beta_simul_exp*t_bat_alim_simul))/(((Q0_simul_exp/beta_simul_exp)*(exponencial - 1)) + V0_simul_exp)
@@ -2170,7 +2170,7 @@ def simulacao(cont):
                 V0_simul_const = V0
                 Cs0_corrent_alim_simul_const = Cs0_corrent_alim
               
-                mi = mimax_const*((C[1]/(Ks_const + C[1]))*((1 - (C[0]/Cx_estr_const))**m_const))
+                mi = mimax_const*((C[1]/(Ks_const + C[1]))*((abs(1 - (C[0]/Cx_estr_const)))**m_const))
                 D = Q_simul_const/(V0_simul_const + Q_simul_const*t_bat_alim_simul)
                 dCxdt = (mi - D)*C[0]
                 dCsdt = D*(Cs0_corrent_alim_simul_const - C[1]) - ((mi*C[0])/Yxs_const)
@@ -2196,7 +2196,7 @@ def simulacao(cont):
                 Cs0_corrent_alim_simul_lin = Cs0_corrent_alim
                 a_simul = a
         
-                mi = mimax_lin*((C[1]/(Ks_lin + C[1]))*((1 - (C[0]/Cx_estr_lin))**m_lin))
+                mi = mimax_lin*((C[1]/(Ks_lin + C[1]))*((abs(1 - (C[0]/Cx_estr_lin)))**m_lin))
                 D = (Q0_simul_lin*(1+a_simul*t_bat_alim_simul))/((Q0_simul_lin*(t_bat_alim_simul+(a_simul*t_bat_alim_simul**2)))+V0_simul_lin)
                 dCxdt = (mi - D)*C[0]
                 dCsdt = D*(Cs0_corrent_alim_simul_lin - C[1]) - ((mi*C[0])/Yxs_lin)
@@ -2222,7 +2222,7 @@ def simulacao(cont):
                 Cs0_corrent_alim_simul_exp = Cs0_corrent_alim
                 beta_simul_exp = beta_exp
         
-                mi = mimax_exp*((C[1]/(Ks_exp + C[1]))*((1 - (C[0]/Cx_estr_exp))**m_exp))
+                mi = mimax_exp*((C[1]/(Ks_exp + C[1]))*((abs(1 - (C[0]/Cx_estr_exp)))**m_exp))
                 multiplicacao = beta_simul_exp*t_bat_alim_simul
                 exponencial = np.exp(multiplicacao)
                 D = (Q0_simul_exp*np.exp(beta_simul_exp*t_bat_alim_simul))/(((Q0_simul_exp/beta_simul_exp)*(exponencial - 1)) + V0_simul_exp)
@@ -2282,7 +2282,7 @@ def simulacao(cont):
     x = "red"
     p = "green"
     s = "blue"
-    def imprimir_perfil_concentracao_model_otim_exp (t_m, Cx_m, Cs_m, Cp_m):
+    def imprimir_perfil_concentracao_simul(t_m, Cx_m, Cs_m, Cp_m):
         tamanho_graf()
         f = plt.figure(figsize=(8.3,6), dpi = 54) 
         plot = f.add_subplot(111) 
@@ -2301,13 +2301,13 @@ def simulacao(cont):
         f.patch.set_facecolor('white')                                   
         plt.style.use('default')
         canvas = FigureCanvasTkAgg(f, frame22)
-        a = canvas.get_tk_widget().place(x = 0, y = 0)
-        def salvar():
-            a = asksaveasfilename(filetypes=(("PNG Image", "*.png"),("All Files", "*.*")), 
+        a_concent = canvas.get_tk_widget().place(x = 0, y = 0)
+        def salvar_concent():
+            a_concent = asksaveasfilename(filetypes=(("PNG Image", "*.png"),("All Files", "*.*")), 
             defaultextension='.png')
-            plt.savefig(a)
-        botao_com_graf(frame = frame22, comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy, x = 450, y = 176)
-    imprimir_perfil_concentracao_model_otim_exp(Ttotal_simul, Cx_simul, Cs_simul, Cp_simul)
+            plt.savefig(a_concent)
+        botao_com_graf(frame = frame22, comando_salvar = lambda : salvar_concent(), comando_destroy = canvas.get_tk_widget().destroy, x = 450, y = 176)
+    imprimir_perfil_concentracao_simul(Ttotal_simul, Cx_simul, Cs_simul, Cp_simul)
     
     def graf_cor (x,s,p): 
         tamanho_graf()
@@ -2328,7 +2328,7 @@ def simulacao(cont):
         f.patch.set_facecolor('white')                                   
         plt.style.use('default')
         canvas = FigureCanvasTkAgg(f, frame22)
-        a = canvas.get_tk_widget().place(x = 0, y = 0)
+        a_concent = canvas.get_tk_widget().place(x = 0, y = 0)
         def salvar():
             a = asksaveasfilename(filetypes=(("PNG Image", "*.png"),("All Files", "*.*")), 
             defaultextension='.png')
@@ -2394,7 +2394,7 @@ def simulacao(cont):
             f.patch.set_facecolor('white')                                   
             plt.style.use('default')    
             canvas = FigureCanvasTkAgg(f, frame23)
-            a = canvas.get_tk_widget().place(x = 0, y = 0)
+            a_produtiv = canvas.get_tk_widget().place(x = 0, y = 0)
             def salvar():
                 a = asksaveasfilename(filetypes=(("PNG Image", "*.png"),("All Files", "*.*")), 
                 defaultextension='.png')
@@ -2449,7 +2449,7 @@ def simulacao(cont):
             f.patch.set_facecolor('white')                                   
             plt.style.use('default')                       
             canvas = FigureCanvasTkAgg(f, frame24)
-            a = canvas.get_tk_widget().place(x = 0, y = 0)
+            a_produtiv_espec = canvas.get_tk_widget().place(x = 0, y = 0)
             def salvar():
                 a = asksaveasfilename(filetypes=(("PNG Image", "*.png"),("All Files", "*.*")), 
                 defaultextension='.png')
@@ -2508,7 +2508,7 @@ def simulacao(cont):
             f.patch.set_facecolor('white')                                   
             plt.style.use('default')   
             canvas = FigureCanvasTkAgg(f, frame25)
-            a = canvas.get_tk_widget().place(x = 0, y = 0)
+            a_mi = canvas.get_tk_widget().place(x = 0, y = 0)
             def salvar():
                 a = asksaveasfilename(filetypes=(("PNG Image", "*.png"),("All Files", "*.*")), 
                 defaultextension='.png')
@@ -2560,7 +2560,7 @@ def simulacao(cont):
             f.patch.set_facecolor('white')                                   
             plt.style.use('default')   
             canvas = FigureCanvasTkAgg(f, frame47)
-            a = canvas.get_tk_widget().place(x = 0, y = 0)
+            a_vaz = canvas.get_tk_widget().place(x = 0, y = 0)
             def salvar():
                 a = asksaveasfilename(filetypes=(("PNG Image", "*.png"),("All Files", "*.*")), 
                 defaultextension='.png')
@@ -2608,13 +2608,13 @@ def simulacao(cont):
             _ = plt.plot(t_m, vol_m,color = vol_cor,linewidth=3, label='Simulado')
             _ = plot.axvline(x = tf_bat, color = "grey", linestyle="dashed", linewidth=3)
             _ = plt.xlabel('Tempo de cultivo (h)',weight='bold')               
-            _ = plt.ylabel('Vazão (L/h)', weight='bold')
+            _ = plt.ylabel('Volume (L)', weight='bold')
             _ = plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.14),ncol=2, fancybox=True, shadow=True )  
             _ = plt.grid(True)  
             f.patch.set_facecolor('white')                                   
             plt.style.use('default')   
             canvas = FigureCanvasTkAgg(f, frame46)
-            a = canvas.get_tk_widget().place(x = 0, y = 0)
+            a_vol = canvas.get_tk_widget().place(x = 0, y = 0)
             def salvar():
                 a = asksaveasfilename(filetypes=(("PNG Image", "*.png"),("All Files", "*.*")), 
                 defaultextension='.png')
