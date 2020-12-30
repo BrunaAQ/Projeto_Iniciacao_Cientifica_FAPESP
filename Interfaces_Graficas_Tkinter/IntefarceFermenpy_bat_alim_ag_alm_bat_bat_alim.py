@@ -2272,15 +2272,12 @@ def simulacao(cont):
     Cx_simul = np.asarray(Cx_simul)
     Cs_simul = np.asarray(Cs_simul)
     Cp_simul = np.asarray(Cp_simul)
+  
     
-    print(len(Cx_simul))
-    print(len(Cs_simul))
-    print(len(Cp_simul))
-    print(len(Ttotal_simul))
+####__________________________________________ **** PLOTAGEM GRÁFICA **** __________________________________________####
     
-    #### **** PLOTAGEM GRÁFICA **** ####:
+#//__________________________________________ * - PERFIL DE CONCENTRAÇÃO - * _________________________________________//#
     
-    # * - CONCENTRAÇÃO:
     # Gráfico - perfil de concentração:       
     x = "red"
     p = "green"
@@ -2305,9 +2302,73 @@ def simulacao(cont):
         plt.style.use('default')
         canvas = FigureCanvasTkAgg(f, frame22)
         a = canvas.get_tk_widget().place(x = 0, y = 0)
+        def salvar():
+            a = asksaveasfilename(filetypes=(("PNG Image", "*.png"),("All Files", "*.*")), 
+            defaultextension='.png')
+            plt.savefig(a)
+        botao_com_graf(frame = frame22, comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy, x = 450, y = 176)
     imprimir_perfil_concentracao_model_otim_exp(Ttotal_simul, Cx_simul, Cs_simul, Cp_simul)
     
-    # * - PRODUTIVIDADE CELULAR E DO METABÓLITO:
+    def graf_cor (x,s,p): 
+        tamanho_graf()
+        f = plt.figure(figsize=(8.3,6), dpi = 54) 
+        plot = f.add_subplot(111) 
+        _ = lns1 = plot.plot(Ttotal_simul, Cx_simul, color = x, linewidth=3,label='Cx modelo')
+        _ = lns2 = plot.plot(Ttotal_simul, Cs_simul, linestyle=":", color = s,linewidth=3,label='Cs modelo')
+        ax2 = plot.twinx()
+        _ = lns3 = ax2.plot(Ttotal_simul, Cp_simul,linestyle="--", color = p,linewidth=3,label='Cp modelo') 
+        _ = plot.axvline(x = tf_bat, color = "grey", linestyle="dashed", linewidth=3)
+        _ = plot.set_xlabel('Tempo de cultivo (h)',weight='bold')               
+        _ = plot.set_ylabel('Cx e Cs (g/L)', weight='bold')
+        ax2.set_ylabel('Cp (g/L)', weight='bold') 
+        lns = lns1+lns2+lns3
+        labs = [l.get_label() for l in lns]
+        _ = plot.legend(lns, labs, loc='upper center', bbox_to_anchor=(0.5, 1.14),ncol=3, fancybox=True, shadow=True)                                                
+        _ = plot.grid(True)
+        f.patch.set_facecolor('white')                                   
+        plt.style.use('default')
+        canvas = FigureCanvasTkAgg(f, frame22)
+        a = canvas.get_tk_widget().place(x = 0, y = 0)
+        def salvar():
+            a = asksaveasfilename(filetypes=(("PNG Image", "*.png"),("All Files", "*.*")), 
+            defaultextension='.png')
+            plt.savefig(a)
+        botao_com_graf(frame = frame22, comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy, x = 450, y = 176)
+        
+    ## Escolha das cores:
+    def seletor_cores():
+        cor = colorchooser.askcolor(title = "Editar cores")
+        return(cor[1])
+    def cores_cx():
+        global cor_x
+        cor_x = colorchooser.askcolor(title ="Editar cores")
+        cor_x = cor_x[1]
+        fig = graf_cor (x = cor_x, p = "green", s = "blue")
+        Button(frame22, text = "Cs", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 10 bold", width = 2, command = cores_cs).place(x = 460, y = 258) 
+    def cores_cs():
+        global cor_s
+        cor_s = colorchooser.askcolor(title ="Editar cores")
+        cor_s = cor_s[1]
+        fig = graf_cor (x = cor_x, p = "green", s = cor_s)
+        Button(frame22, text = "Cs", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 10 bold", width = 2, command = cores_cs).place(x = 460, y = 258)
+        Button(frame22, text = "Cp", bg = "gray40", fg="white", borderwidth=2, relief="raised", font="batang 10 bold", width = 2, command = cores_cp).place(x = 460, y = 286)  
+    def cores_cp():
+        global cor_p
+        cor_p = colorchooser.askcolor(title ="Editar cores")
+        cor_p = cor_p[1] 
+        fig = graf_cor (x = cor_x, p = cor_p, s = cor_s)
+        Button(frame22, text = "Cp", bg = "gray40", fg="white", borderwidth=2, relief="raised", font="batang 10 bold", width = 2, command = cores_cp).place(x = 460, y = 286)
+    def cores_concent():
+        Button(frame22, text = "Cx", bg = "gray60", fg="white", borderwidth=2, relief="raised", font="batang 10 bold", width = 2, command = cores_cx).place(x = 460, y = 230)
+        botao_paleta_graf(frame = frame22, comando = cores_concent)
+    
+    botao_paleta_graf(frame = frame22, comando = cores_concent)
+
+#\\__________________________________________ * - PERFIL DE CONCENTRAÇÃO - * _________________________________________\\#
+    
+
+#//___________________________________ * - PRODUTIVIDADE CELULAR E DO PRODUTO - * ____________________________________//#    
+    
     ## Cálculos:
     Px = Cx_simul[1:]/Ttotal_simul[1:]
     Pp = Cp_simul[1:]/Ttotal_simul[1:]
@@ -2334,11 +2395,43 @@ def simulacao(cont):
             plt.style.use('default')    
             canvas = FigureCanvasTkAgg(f, frame23)
             a = canvas.get_tk_widget().place(x = 0, y = 0)
+            def salvar():
+                a = asksaveasfilename(filetypes=(("PNG Image", "*.png"),("All Files", "*.*")), 
+                defaultextension='.png')
+                plt.savefig(a)
+            botao_com_graf(frame = frame23, comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy, x = 450, y = 176)
         imprimir_produtividade_celular_produto(Ttotal_simul[1:], Px, Pp)
-    graf_produtiv(px = "red", pp = "green")
     
-    # * PRODUTIVIDADE ESPECÍFICA * #:
-    # Cálculo produtivida específica:
+    ## Escolha das cores:
+    def seletor_cores():
+        cor = colorchooser.askcolor(title = "Editar cores")
+        return(cor[1])
+    def cores_px():
+        global cor_px
+        cor_px = colorchooser.askcolor(title ="Editar cores")
+        cor_px = cor_px[1]
+        fig = graf_produtiv(px = cor_px, pp = "green")
+        Button(frame23, text = "Pp", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 10 bold", width = 2, command = cores_pp).place(x = 460, y = 258)   
+    def cores_pp():
+        global cor_pp
+        cor_pp = colorchooser.askcolor(title ="Editar cores")
+        cor_pp = cor_pp[1]
+        fig = graf_produtiv(px = cor_px, pp = cor_pp)
+        Button(frame23, text = "Pp", bg = "gray50", fg="white", borderwidth=2, relief="raised", font="batang 10 bold", width = 2, command = cores_pp).place(x = 460, y = 258)
+    def cores_produtiv():
+        Button(frame23, text = "Px", bg = "gray60", fg="white", borderwidth=2, relief="raised", font="batang 10 bold", width = 2, command = cores_px).place(x = 460, y = 230)    
+       
+    # Geração do gráfico:
+    graf_produtiv(px = "red", pp = "green")
+    ## Botão para seleção das cores:
+    botao_paleta_graf(frame23, comando = cores_produtiv)
+
+#\\___________________________________ * - PRODUTIVIDADE CELULAR E DO PRODUTO - * ____________________________________\\#
+
+
+#//_____________________________ * - PRODUTIVIDADE ESPECÍFICA (PRODUTO/BIOMASSA) - * ________________________________//#
+   
+    # Cálculo produtividade específica:
     Ppx = Cp_simul * (1 / Cx_simul)
     Ppx[Ppx<0] = 0
     # Gráfico produtividade específica:
@@ -2357,10 +2450,28 @@ def simulacao(cont):
             plt.style.use('default')                       
             canvas = FigureCanvasTkAgg(f, frame24)
             a = canvas.get_tk_widget().place(x = 0, y = 0)
+            def salvar():
+                a = asksaveasfilename(filetypes=(("PNG Image", "*.png"),("All Files", "*.*")), 
+                defaultextension='.png')
+                plt.savefig(a)
+            botao_com_graf(frame = frame24, comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy, x = 450, y = 176)
         imprimir_produtividade_especifica_model_otim_exp(Ttotal_simul, Ppx)
-    graf_produtiv_espec(Ppx_cor = "red")
     
-    ### *** TAXA ESPECÍFICA DE CRESCIMENTO MICROBIANO *** ###:
+    ## Escolha das cores:
+    def seletor_cores_Ppx():
+        cor_Ppx = colorchooser.askcolor(title ="Editar cores")
+        cor_Ppx = cor_Ppx[1]
+        graf_produtiv_espec(Ppx_cor = cor_Ppx)
+        
+    graf_produtiv_espec(Ppx_cor = "red")
+    ## Botão para seleção das cores:
+    botao_paleta_graf(frame24, comando = seletor_cores_Ppx) 
+    
+#\\_____________________________ * - PRODUTIVIDADE ESPECÍFICA (PRODUTO/BIOMASSA) - * ________________________________\\#
+
+
+#//______________________________ * - TAXA ESPECÍFICA DE CRESCIMENTO MICROBIANO - * _________________________________//#    
+
     # Cálculo taxa mi:
     if (cont == 0):
         mi = mimax*(Cs_simul/(Ks + Cs_simul))
@@ -2398,11 +2509,28 @@ def simulacao(cont):
             plt.style.use('default')   
             canvas = FigureCanvasTkAgg(f, frame25)
             a = canvas.get_tk_widget().place(x = 0, y = 0)
+            def salvar():
+                a = asksaveasfilename(filetypes=(("PNG Image", "*.png"),("All Files", "*.*")), 
+                defaultextension='.png')
+                plt.savefig(a)
+            botao_com_graf(frame = frame25, comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy, x = 450, y = 176)
         imprimir_taxa_especifica_crescimento(Ttotal_simul, mi)
+    
+    ## Escolha das cores:
+    def seletor_cores_mi():
+        cor_mi = colorchooser.askcolor(title ="Editar cores")
+        cor_mi = cor_mi[1]
+        graf_mi(mi_cor = cor_mi)
+        
     graf_mi(mi_cor = "red")
+    ## Botão para seleção das cores:
+    botao_paleta_graf(frame25, comando = seletor_cores_mi)
+
+
+#//______________________________ * - TAXA ESPECÍFICA DE CRESCIMENTO MICROBIANO - * _________________________________//# 
     
-    ### *** VAZÃO *** ###:
-    
+#//______________________________________ * - VAZÃO: VARIAÇÃO TEMPORAL - * _________________________________________//# 
+        
     ### *** CÁLCULO DO PERFIL DE VARIAÇÃO DE VAZÃO - RELAÇÃO TEMPORAL DEPENDENTE DA ALIMENTAÇÃO:
     ## ** Controle do processo - análise do perfil matemático ** ##:
     # - ALIMENTAÇÃO CONSTANTE:
@@ -2433,10 +2561,28 @@ def simulacao(cont):
             plt.style.use('default')   
             canvas = FigureCanvasTkAgg(f, frame47)
             a = canvas.get_tk_widget().place(x = 0, y = 0)
+            def salvar():
+                a = asksaveasfilename(filetypes=(("PNG Image", "*.png"),("All Files", "*.*")), 
+                defaultextension='.png')
+                plt.savefig(a)
+            botao_com_graf(frame = frame47, comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy, x = 450, y = 176)
         imprimir_vazao(t_bat_alim_simul, Q_calc)
-    graf_vaz(vaz_cor = "orange")   
+   
+    ## Escolha das cores:
+    def seletor_cores_vaz():
+        cor_vaz = colorchooser.askcolor(title ="Editar cores")
+        cor_vaz = cor_vaz[1]
+        graf_vaz(vaz_cor = cor_vaz)
+        
+    graf_vaz(vaz_cor = "orange")
+    ## Botão para seleção das cores:
+    botao_paleta_graf(frame47, comando = seletor_cores_vaz)
+
+
+#\\______________________________________ * - VAZÃO: VARIAÇÃO TEMPORAL - * _________________________________________\\# 
     
-    ### *** VOLUME *** ###:
+
+#//______________________________________ * - VOLUME: VARIAÇÃO TEMPORAL - * _________________________________________//# 
     
     ### *** CÁLCULO DO PERFIL DE VARIAÇÃO DE VOLUME - RELAÇÃO TEMPORAL DEPENDENTE DA ALIMENTAÇÃO:
     ## ** Controle do processo - análise do perfil matemático ** ##:
@@ -2469,9 +2615,28 @@ def simulacao(cont):
             plt.style.use('default')   
             canvas = FigureCanvasTkAgg(f, frame46)
             a = canvas.get_tk_widget().place(x = 0, y = 0)
+            def salvar():
+                a = asksaveasfilename(filetypes=(("PNG Image", "*.png"),("All Files", "*.*")), 
+                defaultextension='.png')
+                plt.savefig(a)
+            botao_com_graf(frame = frame46, comando_salvar = lambda : salvar(), comando_destroy = canvas.get_tk_widget().destroy, x = 450, y = 176)
         imprimir_volume(t_bat_alim_simul, V_calc)
-    graf_vol(vol_cor = "lime") 
     
+    ## Escolha das cores:
+    def seletor_cores_vol():
+        cor_vol = colorchooser.askcolor(title ="Editar cores")
+        cor_vol = cor_vol[1]
+        graf_vol(vol_cor = cor_vol)
+        
+    graf_vol(vol_cor = "lime")
+    ## Botão para seleção das cores:
+    botao_paleta_graf(frame46, comando = seletor_cores_vol)
+
+
+#//______________________________________ * - VOLUME: VARIAÇÃO TEMPORAL - * _________________________________________//#
+ 
+####_______________________________________ **** FIM DA PLOTAGEM GRÁFICA **** ______________________________________####
+
     #### **** EXPORTAÇÃO DOS RESULTADOS PARA PLANILHAS EXCEL **** ####:
     ## Inserindo 0 para o primeiro valor de produtividade:
     Px_ad = np.insert(Px,0,0)
