@@ -1570,6 +1570,8 @@ def simulacao(cont):
                 V0_simul_lin = V0
                 Cs0_corrent_alim_simul_lin = Cs0_corrent_alim
                 a_simul = a
+                
+                print(Q0_simul_lin, V0_simul_lin, Cs0_corrent_alim_simul_lin, a_simul)
         
                 mi = mimax_lin*(C[1]/(Ks_lin + C[1]))
                 D = (Q0_simul_lin*(1+a_simul*t_bat_alim_simul))/((Q0_simul_lin*(t_bat_alim_simul+(a_simul*t_bat_alim_simul**2)))+V0_simul_lin)
@@ -1588,12 +1590,14 @@ def simulacao(cont):
                 Ks_exp = Ks
                 Yxs_exp = Yxs
                 alfa_exp = alfa
-                beta_exp = beta
+                beta_exp_modelo = beta
                     
                 Q0_simul_exp = Q0
                 V0_simul_exp = V0
                 Cs0_corrent_alim_simul_exp = Cs0_corrent_alim
                 beta_simul_exp = beta_exp
+                
+                print(Q0_simul_exp, V0_simul_exp, Cs0_corrent_alim_simul_exp, beta_simul_exp)
         
                 mi = mimax_exp*(C[1]/(Ks_exp + C[1]))
                 multiplicacao = beta_simul_exp*t_bat_alim_simul
@@ -1601,7 +1605,7 @@ def simulacao(cont):
                 D = (Q0_simul_exp*np.exp(beta_simul_exp*t_bat_alim_simul))/(((Q0_simul_exp/beta_simul_exp)*(exponencial - 1)) + V0_simul_exp)
                 dCxdt = (mi - D)*C[0]
                 dCsdt = D*(Cs0_corrent_alim_simul_exp - C[1]) - ((mi*C[0])/Yxs_exp)
-                dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_exp + alfa_exp*mi)
+                dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_exp_modelo + alfa_exp*mi)
                 return(dCxdt,dCsdt,dCpdt)
             return(func_simul_alim_Monod_exp)
         func_simul_bat_alim = func_simul_alim_Monod_tres()
@@ -1663,7 +1667,7 @@ def simulacao(cont):
                 KSX_exp = KSX
                 Yxs_exp = Yxs
                 alfa_exp = alfa
-                beta_exp = beta
+                beta_exp_modelo = beta
                     
                 Q0_simul_exp = Q0
                 V0_simul_exp = V0
@@ -1676,7 +1680,7 @@ def simulacao(cont):
                 D = (Q0_simul_exp*np.exp(beta_simul_exp*t_bat_alim_simul))/(((Q0_simul_exp/beta_simul_exp)*(exponencial - 1)) + V0_simul_exp)
                 dCxdt = (mi - D)*C[0]
                 dCsdt = D*(Cs0_corrent_alim_simul_exp - C[1]) - ((mi*C[0])/Yxs_exp)
-                dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_exp + alfa_exp*mi)
+                dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_exp_modelo + alfa_exp*mi)
                 return(dCxdt,dCsdt,dCpdt)
             return(func_simul_alim_Contois_exp)
         func_simul_bat_alim = func_simul_alim_Contois_tres()
@@ -1739,7 +1743,7 @@ def simulacao(cont):
                 Ks_exp = Ks
                 Yxs_exp = Yxs
                 alfa_exp = alfa
-                beta_exp = beta
+                beta_exp_modelo = beta
                 KIS_exp = KIS
                     
                 Q0_simul_exp = Q0
@@ -1747,13 +1751,13 @@ def simulacao(cont):
                 Cs0_corrent_alim_simul_exp = Cs0_corrent_alim
                 beta_simul_exp = beta_exp
         
-                mi = mimax_exp * (C[1]/(Ks_exp + C[1] + ((Cs[1]**2)/KIS_exp)))
+                mi = mimax_exp * (C[1]/(Ks_exp + C[1] + ((C[1]**2)/KIS_exp)))
                 multiplicacao = beta_simul_exp*t_bat_alim_simul
                 exponencial = np.exp(multiplicacao)
                 D = (Q0_simul_exp*np.exp(beta_simul_exp*t_bat_alim_simul))/(((Q0_simul_exp/beta_simul_exp)*(exponencial - 1)) + V0_simul_exp)
                 dCxdt = (mi - D)*C[0]
                 dCsdt = D*(Cs0_corrent_alim_simul_exp - C[1]) - ((mi*C[0])/Yxs_exp)
-                dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_exp + alfa_exp*mi)
+                dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_exp_modelo + alfa_exp*mi)
                 return(dCxdt,dCsdt,dCpdt)
             return(func_simul_alim_Andrews_exp)
         func_simul_bat_alim = func_simul_alim_Andrews_tres()
@@ -1819,7 +1823,7 @@ def simulacao(cont):
                 Ks_exp = Ks
                 Yxs_exp = Yxs
                 alfa_exp = alfa
-                beta_exp = beta
+                beta_exp_modelo = beta
                 Kp_aiba_exp = Kp_aiba
                     
                 Q0_simul_exp = Q0
@@ -1834,10 +1838,10 @@ def simulacao(cont):
                 D = (Q0_simul_exp*np.exp(beta_simul_exp*t_bat_alim_simul))/(((Q0_simul_exp/beta_simul_exp)*(exponencial - 1)) + V0_simul_exp)
                 dCxdt = (mi - D)*C[0]
                 dCsdt = D*(Cs0_corrent_alim_simul_exp - C[1]) - ((mi*C[0])/Yxs_exp)
-                dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_exp + alfa_exp*mi)
+                dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_exp_modelo + alfa_exp*mi)
                 return(dCxdt,dCsdt,dCpdt)
-            return(func_simul_alim_Monod_exp)
-        func_simul_bat_alim = func_simul_alim_Monod_tres()
+            return(func_simul_alim_Aiba_exp)
+        func_simul_bat_alim = func_simul_alim_Aiba_tres()
     
     # - Batelada alimentada Moser:
     ## - Moser (vazão constante): 
@@ -1897,7 +1901,7 @@ def simulacao(cont):
                 Ks_exp = Ks
                 Yxs_exp = Yxs
                 alfa_exp = alfa
-                beta_exp = beta
+                beta_exp_modelo = beta
                 u_exp = u
                     
                 Q0_simul_exp = Q0
@@ -1911,7 +1915,7 @@ def simulacao(cont):
                 D = (Q0_simul_exp*np.exp(beta_simul_exp*t_bat_alim_simul))/(((Q0_simul_exp/beta_simul_exp)*(exponencial - 1)) + V0_simul_exp)
                 dCxdt = (mi - D)*C[0]
                 dCsdt = D*(Cs0_corrent_alim_simul_exp - C[1]) - ((mi*C[0])/Yxs_exp)
-                dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_exp + alfa_exp*mi)
+                dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_exp_modelo + alfa_exp*mi)
                 return(dCxdt,dCsdt,dCpdt)
             return(func_simul_alim_Moser_exp)
         func_simul_bat_alim = func_simul_alim_Moser_tres()
@@ -1974,7 +1978,7 @@ def simulacao(cont):
                 Ks_exp = Ks
                 Yxs_exp = Yxs
                 alfa_exp = alfa
-                beta_exp = beta
+                beta_exp_modelo = beta
                 Kp_hoppe_exp = Kp_hh
                     
                 Q0_simul_exp = Q0
@@ -1988,7 +1992,7 @@ def simulacao(cont):
                 D = (Q0_simul_exp*np.exp(beta_simul_exp*t_bat_alim_simul))/(((Q0_simul_exp/beta_simul_exp)*(exponencial - 1)) + V0_simul_exp)
                 dCxdt = (mi - D)*C[0]
                 dCsdt = D*(Cs0_corrent_alim_simul_exp - C[1]) - ((mi*C[0])/Yxs_exp)
-                dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_exp + alfa_exp*mi)
+                dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_exp_modelo + alfa_exp*mi)
                 return(dCxdt,dCsdt,dCpdt)
             return(func_simul_alim_Hoppe_Hansford_exp)
         func_simul_bat_alim = func_simul_alim_Hoppe_Hansford_tres()
@@ -2053,7 +2057,7 @@ def simulacao(cont):
                 Ks_exp = Ks
                 Yxs_exp = Yxs
                 alfa_exp = alfa
-                beta_exp = beta
+                beta_exp_modelo = beta
                 Ke_exp = Ke
                 v_exp = v
                     
@@ -2068,7 +2072,7 @@ def simulacao(cont):
                 D = (Q0_simul_exp*np.exp(beta_simul_exp*t_bat_alim_simul))/(((Q0_simul_exp/beta_simul_exp)*(exponencial - 1)) + V0_simul_exp)
                 dCxdt = (mi - D)*C[0]
                 dCsdt = D*(Cs0_corrent_alim_simul_exp - C[1]) - ((mi*C[0])/Yxs_exp)
-                dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_exp + alfa_exp*mi)
+                dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_exp_modelo + alfa_exp*mi)
                 return(dCxdt,dCsdt,dCpdt)
             return(func_simul_alim_Wu_et_al_exp)
         func_simul_bat_alim = func_simul_alim_Wu_et_al_tres()
@@ -2133,7 +2137,7 @@ def simulacao(cont):
                 Ks_exp = Ks
                 Yxs_exp = Yxs
                 alfa_exp = alfa
-                beta_exp = beta
+                beta_exp_modelo = beta
                 Cp_estr_exp = Cp_estr
                 n_exp = n
                     
@@ -2148,7 +2152,7 @@ def simulacao(cont):
                 D = (Q0_simul_exp*np.exp(beta_simul_exp*t_bat_alim_simul))/(((Q0_simul_exp/beta_simul_exp)*(exponencial - 1)) + V0_simul_exp)
                 dCxdt = (mi - D)*C[0]
                 dCsdt = D*(Cs0_corrent_alim_simul_exp - C[1]) - ((mi*C[0])/Yxs_exp)
-                dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_exp + alfa_exp*mi)
+                dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_exp_modelo + alfa_exp*mi)
                 return(dCxdt,dCsdt,dCpdt)
             return(func_simul_alim_Levenspiel_exp)
         func_simul_bat_alim = func_simul_alim_Levenspiel_tres()
@@ -2213,7 +2217,7 @@ def simulacao(cont):
                 Ks_exp = Ks
                 Yxs_exp = Yxs
                 alfa_exp = alfa
-                beta_exp = beta
+                beta_exp_modelo = beta
                 Cx_estr_exp = Cx_estr
                 m_exp = m
                     
@@ -2228,7 +2232,7 @@ def simulacao(cont):
                 D = (Q0_simul_exp*np.exp(beta_simul_exp*t_bat_alim_simul))/(((Q0_simul_exp/beta_simul_exp)*(exponencial - 1)) + V0_simul_exp)
                 dCxdt = (mi - D)*C[0]
                 dCsdt = D*(Cs0_corrent_alim_simul_exp - C[1]) - ((mi*C[0])/Yxs_exp)
-                dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_exp + alfa_exp*mi)
+                dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_exp_modelo + alfa_exp*mi)
                 return(dCxdt,dCsdt,dCpdt)
             return(func_simul_alim_Lee_et_al_exp)
         func_simul_bat_alim = func_simul_alim_Lee_et_al_tres()
