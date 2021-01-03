@@ -1323,7 +1323,7 @@ def simulacao(cont):
     inic_cond_bat_simul = [Cx0, Cs0, Cp0]
     print(inic_cond_bat_simul)
     # Vetor tempo:
-    t_bat_simul = np.arange(t0, (tf_bat + 0.5), 0.5)
+    t_bat_simul = np.arange(t0, tf_bat, 0.5)
     print(t_bat_simul)
     
     # - Batelada Monod:  
@@ -1529,8 +1529,7 @@ def simulacao(cont):
     inic_cond_alim_simul = [Cx0_simul_bat_alim, Cs0_simul_bat_alim, Cp0_simul_bat_alim]
     print(inic_cond_alim_simul)
     # Vetor tempo:
-    tf_cor = tf + 0.5
-    t_bat_alim_simul = np.arange(tf_bat, tf_cor, 0.5)
+    t_bat_alim_simul = np.arange(tf_bat, tf, 0.5)
     print(t_bat_alim_simul)
         
     # - Batelada alimentada Monod:
@@ -2275,7 +2274,6 @@ def simulacao(cont):
     # * UNIÃO DAS SAÍDAS BATELADA E BATELADA ALIMENTADA * #
     ## Contadores gerais
     limitebatelada = len(C_sim_bat)
-    limitebatelada_cor = limitebatelada - 1
     print("Limite batelada",limitebatelada)
     limitealimentada = len(C_sim_bat_alim)
     print("Limite batelada alimentada", limitealimentada)
@@ -2286,7 +2284,7 @@ def simulacao(cont):
     bat = 0
     batal = 0
     
-    while (bat < limitebatelada_cor):
+    while (bat < limitebatelada):
         Cx_simul.append(Cx_bat[bat])
         Cs_simul.append(Cs_bat[bat])
         Cp_simul.append(Cp_bat[bat])
@@ -2298,7 +2296,7 @@ def simulacao(cont):
         batal = batal + 1
 
     ## Vetor tempo total do processo:
-    Ttotal_simul = np.arange(t0, tf_cor, 0.5)
+    Ttotal_simul = np.arange(t0, tf, 0.5)
 
     ## Conversão das listas para arrays - necessário para operações matemáticas:
     Cx_simul = np.asarray(Cx_simul)
@@ -3251,10 +3249,9 @@ def explorer():
     ## Intervalo
     int_bat = excel_entrada_np[1,1] - excel_entrada_np[0,1]
     ## Correção no index - cópia manual do funcionamento do algoritmo python:
-    tf_bat_cor = tf_bat - int_bat
     print(tf_bat)
     ## Vetores tempo e concentração:
-    t_exp_bat = np.arange(excel_entrada_np[0,1], (tf_bat_cor + int_bat), int_bat)
+    t_exp_bat = np.arange(excel_entrada_np[0,1], tf_bat, int_bat)
     C_exp_bat = (excel_entrada_np[:(len(t_exp_bat)),2:5])
     print("bat intervalo", int_bat)
     print("bat t_Exp", t_exp_bat)
@@ -4363,9 +4360,9 @@ def explorer():
 
         ### Contadores gerais:
         #*ETAPA 1*# - BATELADA
-        limite_bat_exp = len(C_exp_bat)
+        limite_bat_exp = len(C_exp_bat) 
         limite_alim_exp = len(C_exp_bat_alim)
-        limite_bat = len(C_otim_bat)
+        limite_bat = len(C_otim_bat) 
         limite_alim = len(C_otim_alim)
 
         Cx_exp = []
@@ -4947,6 +4944,7 @@ def explorer():
         ### ** CÁLCULO DA VELOCIDADE DE CRESCIMENTO MICROBIANO:
         # -- Experimental e modelada:
         if (cont_model == 0): # - Monod
+            global mi_exp, mi
             mi_exp = param_otim_alm_alim[0]*(Cs_exp/(param_otim_alm_alim[1] + Cs_exp))
             mi = param_otim_alm_alim[0]*(Cs/(param_otim_alm_alim[1] + Cs))
         if (cont_model == 1): # - Contois 
@@ -4975,12 +4973,9 @@ def explorer():
         if (cont_model == 8): # - Lee
             mi_exp = param_otim_alm_alim[0]*((Cs_exp/(param_otim_alm_alim[1] + Cs_exp))*((1-(Cx_exp/param_otim_alm_alim[7]))**param_otim_alm_alim[6]))
             mi = param_otim_alm_alim[0]*((Cs/(param_otim_alm_alim[1] + Cs))*((1-(Cx/param_otim_alm_alim[7]))**param_otim_alm_alim[6]))
-        if (cont_model == 9): # - mi constante
-            mi_exp = np.repeat(param_otim_alm_alim[0],len(Ttotal_exp))
-            mi = np.repeat(param_otim_alm_alim[0],len(Ttotal))
-        mi_exp = mi_exp
         mi_exp[mi_exp<0] = 0
         mi[mi<0] = 0
+        
         
         ## * GRÁFICO * ##:
         # - Figura como função das entradas fornecidas pelo usuário:
@@ -5018,16 +5013,18 @@ def explorer():
         # - Botão para seleção das cores:
         botao_paleta_graf(frame41, comando = seletor_cores_mi)
         
+        print("problema", mi_exp)
+        mi_exp_r2 = mi_exp
+        mi_r2 = mi
         ### ** CÁLCULO DO COEFICIENTE DE REGRESSÃO - TAXA ESPECÍFICA DE CRESCIMENTO MICROBIANO ** ###:
         def r2_mi():
             # - Batelada e Batelada Alimentada:
             # Cálculo do coeficiente de regressão: 
-            df_mi = pd.DataFrame({'Tempo(h)': Ttotal, 'mi(1/t)': mi})
-            df_mi_exp = pd.DataFrame({'Tempo_exp(h)': Ttotal_exp,'mi_exp(1/t)': mi_exp})
+            df_mi_exp = pd.DataFrame({'Tempo_exp(h)': Ttotal_exp,'mi_exp(1/t)': mi_exp_r2})
             df_teste = pd.DataFrame({'Tempo(h)': Ttotal})
-            df_teste_mi = pd.DataFrame({'mi(1/t)': mi})
+            df_teste_mi = pd.DataFrame({'mi(1/t)': mi_r2})
             df_teste_exp = pd.DataFrame({'Tempo_exp(h)': Ttotal_exp})
-            df_teste_exp_mi = pd.DataFrame({'mi_exp(1/t)': mi_exp})
+            df_teste_exp_mi = pd.DataFrame({'mi_exp(1/t)': mi_exp_r2})
 
             # Teste: qual tempo tem o menor intervalo de divisão temporal
             control_compar = len(Ttotal)
