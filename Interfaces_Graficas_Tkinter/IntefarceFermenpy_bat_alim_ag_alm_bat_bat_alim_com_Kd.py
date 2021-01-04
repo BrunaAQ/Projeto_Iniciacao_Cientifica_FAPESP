@@ -5419,76 +5419,136 @@ def explorer():
 
         
         # Saída .xlsx - parâmetros cinéticos:
-        lista_processos = ["BATELADA", "BATELADA ALIMENTADA"]
         def excel_param():
+            const_sat_list = ['Ks(g/L)', 'KSX(g/L)', 'IC Ks(g/L)', 'IC KSX(g/L)']
+            def excel_param_defin(const_sat, const_sat_ic):
+                global df_params_model_bat, df_params_IC_bat, df_params_model_alim, df_params_IC_alim
+                # - Batelada:
+                df_params_model_bat =pd.DataFrame({'mimax(h-¹)':[param_otim_alm_bat[0]],const_sat :[param_otim_alm_bat[1]],'Kd(1/h)':[param_otim_alm_bat[2]],'Yxs(gcél/gsub)':[param_otim_alm_bat[3]], 'alfa(gprod/gcél)': [param_otim_alm_bat[4]], 'beta(gprod/gcél.h)':[param_otim_alm_bat[5]]})
+                df_params_IC_bat = pd.DataFrame({'IC mimax(h-¹)':[ICpar_bat[0]],const_sat_ic:[ICpar_bat[1]],'IC Kd(1/h)':[ICpar_bat[2]],'IC Yxs(gcél/gsub)':[ICpar_bat[3]], 'IC alfa(gprod/gcél)': [ICpar_bat[4]], 'IC beta(gprod/gcél.h)':[ICpar_bat[5]]})
+                # - Batelada alimentada:
+                df_params_model_alim =pd.DataFrame({'mimax(h-¹)':[param_otim_alm_alim[0]],const_sat:[param_otim_alm_alim[1]],'Kd(1/h)':[param_otim_alm_alim[2]],'Yxs(gcél/gsub)':[param_otim_alm_alim[3]], 'alfa(gprod/gcél)': [param_otim_alm_alim[4]], 'beta(gprod/gcél.h)':[param_otim_alm_alim[5]]})
+                df_params_IC_alim = pd.DataFrame({'IC mimax(h-¹)':[ICpar_alim[0]],const_sat_ic:[ICpar_alim[1]],'IC Kd(1/h)':[ICpar_alim[2]],'IC Yxs(gcél/gsub)':[ICpar_alim[3]], 'IC alfa(gprod/gcél)': [ICpar_alim[4]], 'IC beta(gprod/gcél.h)':[ICpar_alim[5]]})
+                return(df_params_model_bat, df_params_IC_bat, df_params_model_alim, df_params_IC_alim)
             if (cont_model == 0): # Monod (6p)
-                # - Batelada:
-                df_params_model_bat =pd.DataFrame({'mimax(h-¹)':[param_otim_alm_bat[0]],'Ks(g/L)':[param_otim_alm_bat[1]],'Kd(1/h)':[param_otim_alm_bat[2]],'Yxs(gcél/gsub)':[param_otim_alm_bat[3]], 'alfa(gprod/gcél)': [param_otim_alm_bat[4]], 'beta(gprod/gcél.h)':[param_otim_alm_bat[5]]})
-                df_params_IC_bat = pd.DataFrame({'IC mimax(h-¹)':[ICpar_bat[0]],'IC Ks(g/L)':[ICpar_bat[1]],'IC Kd(1/h)':[ICpar_bat[2]],'IC Yxs(gcél/gsub)':[ICpar_bat[3]], 'IC alfa(gprod/gcél)': [ICpar_bat[4]], 'IC beta(gprod/gcél.h)':[ICpar_bat[5]]})
-                # - Batelada alimentada:
-                df_params_model_alim =pd.DataFrame({'mimax(h-¹)':[param_otim_alm_alim[0]],'Ks(g/L)':[param_otim_alm_alim[1]],'Kd(1/h)':[param_otim_alm_alim[2]],'Yxs(gcél/gsub)':[param_otim_alm_alim[3]], 'alfa(gprod/gcél)': [param_otim_alm_alim[4]], 'beta(gprod/gcél.h)':[param_otim_alm_alim[5]]})
-                df_params_IC_alim = pd.DataFrame({'IC mimax(h-¹)':[ICpar_alim[0]],'IC Ks(g/L)':[ICpar_alim[1]],'IC Kd(1/h)':[ICpar_alim[2]],'IC Yxs(gcél/gsub)':[ICpar_alim[3]], 'IC alfa(gprod/gcél)': [ICpar_alim[4]], 'IC beta(gprod/gcél.h)':[ICpar_alim[5]]})
+                # - Batelada e Batelada Alimentada:
+                df_params_model_bat = excel_param_defin(const_sat = const_sat_list[0], const_sat_ic = const_sat_list[2])[0]
+                df_params_IC_bat = excel_param_defin(const_sat = const_sat_list[0], const_sat_ic = const_sat_list[2])[1]
+                df_params_model_alim = excel_param_defin(const_sat = const_sat_list[0], const_sat_ic = const_sat_list[2])[2]
+                df_params_IC_alim = excel_param_defin(const_sat = const_sat_list[0], const_sat_ic = const_sat_list[2])[3]
             if (cont_model == 1): # Contois (6p)
-                # - Batelada:
-                df_params_model_bat =pd.DataFrame({'mimax(h-¹)':[param_otim_alm_bat[0]],'KSX(gsub/gcél)':[param_otim_alm_bat[1]], 'Kd(1/h)':[param_otim_alm_bat[2]],'Yxs(gcél/gsub)':[param_otim_alm_bat[3]], 'alfa(gprod/gcél)': [param_otim_alm_bat[4]], 'beta(gprod/gcél.h)':[param_otim_alm_bat[5]]})
-                df_params_IC_bat = pd.DataFrame({'IC mimax(h-¹)':[ICpar_bat[0]],'IC KSX(gsub/gcél)':[ICpar_bat[1]],'IC Kd(1/h)':[ICpar_bat[2]] ,'IC Yxs(gcél/gsub)':[ICpar_bat[3]], 'IC alfa(gprod/gcél)': [ICpar_bat[4]], 'IC beta(gprod/gcél.h)':[ICpar_bat[5]]})
-                # - Batelada alimentada:
-                df_params_model_alim =pd.DataFrame({'mimax(h-¹)':[param_otim_alm_alim[0]],'KSX(gsub/gcél)':[param_otim_alm_alim[1]],'Kd(1/h)':[param_otim_alm_alim[2]],'Yxs(gcél/gsub)':[param_otim_alm_alim[3]], 'alfa(gprod/gcél)': [param_otim_alm_alim[4]], 'beta(gprod/gcél.h)':[param_otim_alm_alim[5]]})
-                df_params_IC_alim = pd.DataFrame({'IC mimax(h-¹)':[ICpar_alim[0]],'IC KSX(gsub/gcél)':[ICpar_alim[1]],'IC Kd(1/h)':[ICpar_alim[2]],'IC Yxs(gcél/gsub)':[ICpar_alim[3]], 'IC alfa(gprod/gcél)': [ICpar_alim[4]], 'IC beta(gprod/gcél.h)':[ICpar_alim[5]]})
+                # - Batelada e Batelada Alimentada:
+                df_params_model_bat = excel_param_defin(const_sat = const_sat_list[1], const_sat_ic = const_sat_list[3])[0]
+                df_params_IC_bat = excel_param_defin(const_sat = const_sat_list[1], const_sat_ic = const_sat_list[3])[1]
+                df_params_model_alim = excel_param_defin(const_sat = const_sat_list[1], const_sat_ic = const_sat_list[3])[2]
+                df_params_IC_alim = excel_param_defin(const_sat = const_sat_list[1], const_sat_ic = const_sat_list[3])[3]
             if (cont_model == 4): # Moser (6p)
                 # - Batelada:
-                df_params_model_bat = pd.DataFrame({'mimax(h-¹)':[param_otim_alm_bat[0]],'Ks(g/L)':[param_otim_alm_bat[1]],'Kd(1/h)':[param_otim_alm_bat[2]],'Yxs(gcél/gsub)':[param_otim_alm_bat[3]], 'alfa(gprod/gcél)': [param_otim_alm_bat[4]], 'beta(gprod/gcél.h)':[param_otim_alm_bat[5]],'u(adim)':[param_otim_alm_bat[6]]})
-                df_params_IC_bat = pd.DataFrame({'IC mimax(h-¹)':[ICpar_bat[0]],'IC Ks(g/L)':[ICpar_bat[1]],'IC Kd(1/h)':[ICpar_bat[2]],'IC Yxs(gcél/gsub)':[ICpar_bat[3]], 'IC alfa(gprod/gcél)': [ICpar_bat[4]], 'IC beta(gprod/gcél.h)':[ICpar_bat[5]], 'IC mi_exp(adim)':[ICpar_bat[6]]})
+                df_params_model_bat_u = pd.DataFrame({'u(adim)':[param_otim_alm_bat[6]]})
+                df_params_IC_bat_u = pd.DataFrame({'IC u(adim)':[ICpar_bat[6]]})
+                df_params_model_bat_moser = excel_param_defin(const_sat = const_sat_list[0], const_sat_ic = const_sat_list[2])[0]
+                df_params_IC_bat_moser = excel_param_defin(const_sat = const_sat_list[0], const_sat_ic = const_sat_list[2])[1]
+                df_params_model_bat = pd.concat([df_params_model_bat_moser, df_params_model_bat_u], axis = 1)
+                df_params_IC_bat = pd.concat([df_params_IC_bat_moser, df_params_IC_bat_u], axis = 1)
                 # - Batelada alimentada:
-                df_params_model_alim = pd.DataFrame({'mimax(h-¹)':[param_otim_alm_alim[0]],'Ks(g/L)':[param_otim_alm_alim[1]],'Kd(1/h)':[param_otim_alm_alim[2]],'Yxs(gcél/gsub)':[param_otim_alm_alim[3]], 'alfa(gprod/gcél)': [param_otim_alm_alim[4]], 'beta(gprod/gcél.h)':[param_otim_alm_alim[5]],'u(adim)':[param_otim_alm_alim[6]]})
-                df_params_IC_alim = pd.DataFrame({'IC mimax(h-¹)':[ICpar_alim[0]],'IC Ks(g/L)':[ICpar_alim[1]],'IC Kd(1/h)':[ICpar_alim[2]],'IC Yxs(gcél/gsub)':[ICpar_alim[3]], 'IC alfa(gprod/gcél)': [ICpar_alim[4]], 'IC beta(gprod/gcél.h)':[ICpar_alim[5]], 'IC mi_exp(adim)':[ICpar_alim[6]]})
+                df_params_model_alim_u = pd.DataFrame({'u(adim)':[param_otim_alm_alim[6]]})
+                df_params_IC_alim_u = pd.DataFrame({'IC u(adim)':[ICpar_alim[6]]})
+                df_params_model_alim_moser = excel_param_defin(const_sat = const_sat_list[0], const_sat_ic = const_sat_list[2])[2]
+                df_params_IC_alim_moser = excel_param_defin(const_sat = const_sat_list[0], const_sat_ic = const_sat_list[2])[3]
+                df_params_model_alim = pd.concat([df_params_model_alim_moser, df_params_model_alim_u], axis = 1)
+                df_params_IC_alim = pd.concat([df_params_IC_alim_moser, df_params_IC_alim_u], axis = 1)
             if (cont_model == 2): # Andrews (7p)
                 # - Batelada:
-                df_params_model_bat = pd.DataFrame({'mimax(h-¹)':[param_otim_alm_bat[0]],'Ks(g/L)':[param_otim_alm_bat[1]],'Kd(1/h)':[param_otim_alm_bat[2]],'Yxs(gcél/gsub)':[param_otim_alm_bat[3]], 'alfa(gprod/gcél)': [param_otim_alm_bat[4]], 'beta(gprod/gcél.h)':[param_otim_alm_bat[5]], 'KSI(g/L)':[param_otim_alm_bat[6]]})
-                df_params_IC_bat = pd.DataFrame({'IC mimax(h-¹)':[ICpar_bat[0]],'IC Ks(g/L)':[ICpar_bat[1]],'IC Kd(1/h)':[ICpar_bat[2]],'IC Yxs(gcél/gsub)':[ICpar_bat[3]], 'IC alfa(gprod/gcél)': [ICpar_bat[4]], 'IC beta(gprod/gcél.h)':[ICpar_bat[5]],'IC KSI(g/L)':[ICpar_bat[6]]})
+                df_params_model_bat_KIS = pd.DataFrame({'KSI(g/L)':[param_otim_alm_bat[6]]})
+                df_params_IC_bat_KIS = pd.DataFrame({'IC KSI(g/L)':[ICpar_bat[6]]})
+                df_params_model_bat_andrews = excel_param_defin(const_sat = const_sat_list[0], const_sat_ic = const_sat_list[2])[0]
+                df_params_IC_bat_andrews = excel_param_defin(const_sat = const_sat_list[0], const_sat_ic = const_sat_list[2])[1]
+                df_params_model_bat = pd.concat([df_params_model_bat_andrews, df_params_model_bat_KIS], axis = 1)
+                df_params_IC_bat = pd.concat([df_params_IC_bat_andrews, df_params_IC_bat_KIS], axis = 1)
                 # - Batelada alimentada:
-                df_params_model_alim = pd.DataFrame({'mimax(h-¹)':[param_otim_alm_alim[0]],'Ks(g/L)':[param_otim_alm_alim[1]],'Kd(1/h)':[param_otim_alm_alim[2]],'Yxs(gcél/gsub)':[param_otim_alm_alim[3]], 'alfa(gprod/gcél)': [param_otim_alm_alim[4]], 'beta(gprod/gcél.h)':[param_otim_alm_alim[5]], 'KSI(g/L)':[param_otim_alm_alim[6]]})
-                df_params_IC_alim = pd.DataFrame({'IC mimax(h-¹)':[ICpar_alim[0]],'IC Ks(g/L)':[ICpar_alim[1]],'IC Kd(1/h)':[ICpar_alim[2]],'IC Yxs(gcél/gsub)':[ICpar_alim[3]], 'IC alfa(gprod/gcél)': [ICpar_alim[4]], 'IC beta(gprod/gcél.h)':[ICpar_alim[5]],'IC KSI(g/L)':[ICpar_alim[6]]})
+                df_params_model_alim_KIS = pd.DataFrame({'KSI(g/L)':[param_otim_alm_alim[6]]})
+                df_params_IC_alim_KIS = pd.DataFrame({'IC KSI(g/L)':[ICpar_alim[6]]})
+                df_params_model_alim_andrews = excel_param_defin(const_sat = const_sat_list[0], const_sat_ic = const_sat_list[2])[2]
+                df_params_IC_alim_andrews = excel_param_defin(const_sat = const_sat_list[0], const_sat_ic = const_sat_list[2])[3]
+                df_params_model_alim = pd.concat([df_params_model_alim_andrews, df_params_model_alim_KIS], axis = 1)
+                df_params_IC_alim = pd.concat([df_params_IC_alim_andrews, df_params_IC_alim_KIS], axis = 1)
             if (cont_model == 5): # Hoppe_Hansford (7p)
                 # - Batelada:
-                df_params_model_bat =pd.DataFrame({'mimax(h-¹)':[param_otim_alm_bat[0]],'Ks(g/L)':[param_otim_alm_bat[1]],'Kd(1/h)':[param_otim_alm_bat[2]],'Yxs(gcél/gsub)':[param_otim_alm_bat[3]], 'alfa(gprod/gcél)': [param_otim_alm_bat[4]], 'beta(gprod/gcél.h)':[param_otim_alm_bat[5]], 'Kp(g/L)':[param_otim_alm_bat[6]]})
-                df_params_IC_bat = pd.DataFrame({'IC mimax(h-¹)':[ICpar_bat[0]],'IC Ks(g/L)':[ICpar_bat[1]],'IC Kd(1/h)':[ICpar_bat[2]],'IC Yxs(gcél/gsub)':[ICpar_bat[3]], 'IC alfa(gprod/gcél)': [ICpar_bat[4]], 'IC beta(gprod/gcél.h)':[ICpar_bat[5]], 'IC Kp(g/L)':[ICpar_bat[6]]})
+                df_params_model_bat_Kp =pd.DataFrame({'Kp(g/L)':[param_otim_alm_bat[6]]})
+                df_params_IC_bat_Kp = pd.DataFrame({'IC Kp(g/L)':[ICpar_bat[6]]})
+                df_params_model_bat_hh = excel_param_defin(const_sat = const_sat_list[0], const_sat_ic = const_sat_list[2])[0]
+                df_params_IC_bat_hh = excel_param_defin(const_sat = const_sat_list[0], const_sat_ic = const_sat_list[2])[1]
+                df_params_model_bat = pd.concat([df_params_model_bat_hh, df_params_model_bat_Kp], axis = 1)
+                df_params_IC_bat = pd.concat([df_params_IC_bat_hh, df_params_IC_bat_Kp], axis = 1)
                 # - Batelada alimentada:
-                df_params_model_alim =pd.DataFrame({'mimax(h-¹)':[param_otim_alm_alim[0]],'Ks(g/L)':[param_otim_alm_alim[1]],'Kd(1/h)':[param_otim_alm_alim[2]],'Yxs(gcél/gsub)':[param_otim_alm_alim[3]], 'alfa(gprod/gcél)': [param_otim_alm_alim[4]], 'beta(gprod/gcél.h)':[param_otim_alm_alim[5]], 'Kp(g/L)':[param_otim_alm_alim[6]]})
-                df_params_IC_alim = pd.DataFrame({'IC mimax(h-¹)':[ICpar_alim[0]],'IC Ks(g/L)':[ICpar_alim[1]],'IC Kd(1/h)':[ICpar_alim[2]],'IC Yxs(gcél/gsub)':[ICpar_alim[3]], 'IC alfa(gprod/gcél)': [ICpar_alim[4]], 'IC beta(gprod/gcél.h)':[ICpar_alim[5]], 'IC Kp(g/L)':[ICpar_alim[6]]})
+                df_params_model_alim_Kp =pd.DataFrame({'Kp(g/L)':[param_otim_alm_alim[6]]})
+                df_params_IC_alim_Kp = pd.DataFrame({'IC Kp(g/L)':[ICpar_alim[6]]})
+                df_params_model_alim_hh = excel_param_defin(const_sat = const_sat_list[0], const_sat_ic = const_sat_list[2])[2]
+                df_params_IC_alim_hh = excel_param_defin(const_sat = const_sat_list[0], const_sat_ic = const_sat_list[2])[3]
+                df_params_model_alim = pd.concat([df_params_model_alim_hh, df_params_model_alim_Kp], axis = 1)
+                df_params_IC_alim = pd.concat([df_params_IC_alim_hh, df_params_IC_alim_Kp], axis = 1)
             if (cont_model == 3): # Aiba (7p)
-                # -  Batelada:
-                df_params_model_bat = pd.DataFrame({'mimax(h-¹)':[param_otim_alm_bat[0]],'Ks(g/L)':[param_otim_alm_bat[1]],'Kd(1/h)':[param_otim_alm_bat[2]],'Yxs(gcél/gsub)':[param_otim_alm_bat[3]], 'alfa(gprod/gcél)': [param_otim_alm_bat[4]], 'beta(gprod/gcél.h)':[param_otim_alm_bat[5]],'Kp(L/g)':[param_otim_alm_bat[6]]})
-                df_params_IC_bat = pd.DataFrame({'IC mimax(h-¹)':[ICpar_bat[0]],'IC Ks(g/L)':[ICpar_bat[1]],'IC Kd(1/h)':[ICpar_bat[2]],'IC Yxs(gcél/gsub)':[ICpar_bat[3]], 'IC alfa(gprod/gcél)': [ICpar_bat[4]], 'IC beta(gprod/gcél.h)':[ICpar_bat[5]], 'IC Kp(L/g)':[ICpar_bat[6]]})
-                # -  Batelada alimentada:
-                df_params_model_alim = pd.DataFrame({'mimax(h-¹)':[param_otim_alm_alim[0]],'Ks(g/L)':[param_otim_alm_alim[1]],'Kd(1/h)':[param_otim_alm_alim[2]],'Yxs(gcél/gsub)':[param_otim_alm_alim[3]], 'alfa(gprod/gcél)': [param_otim_alm_alim[4]], 'beta(gprod/gcél.h)':[param_otim_alm_alim[5]],'Kp(L/g)':[param_otim_alm_alim[6]]})
-                df_params_IC_alim = pd.DataFrame({'IC mimax(h-¹)':[ICpar_alim[0]],'IC Ks(g/L)':[ICpar_alim[1]],'IC Kd(1/h)':[ICpar_alim[2]],'IC Yxs(gcél/gsub)':[ICpar_alim[3]], 'IC alfa(gprod/gcél)': [ICpar_alim[4]], 'IC beta(gprod/gcél.h)':[ICpar_alim[5]], 'IC Kp(L/g)':[ICpar_alim[6]]})
+                ## - Batelada:
+                df_params_model_bat_Kp =pd.DataFrame({'Kp(L/g)':[param_otim_alm_bat[6]]})
+                df_params_IC_bat_Kp = pd.DataFrame({'IC Kp(L/g)':[ICpar_bat[6]]})
+                df_params_model_bat_aiba = excel_param_defin(const_sat = const_sat_list[0], const_sat_ic = const_sat_list[2])[0]
+                df_params_IC_bat_aiba = excel_param_defin(const_sat = const_sat_list[0], const_sat_ic = const_sat_list[2])[1]
+                df_params_model_bat = pd.concat([df_params_model_bat_aiba, df_params_model_bat_Kp], axis = 1)
+                df_params_IC_bat = pd.concat([df_params_IC_bat_aiba, df_params_IC_bat_Kp], axis = 1)
+                # - Batelada alimentada:
+                df_params_model_alim_Kp =pd.DataFrame({'Kp(L/g)':[param_otim_alm_alim[6]]})
+                df_params_IC_alim_Kp = pd.DataFrame({'IC Kp(L/g)':[ICpar_alim[6]]})
+                df_params_model_alim_aiba = excel_param_defin(const_sat = const_sat_list[0], const_sat_ic = const_sat_list[2])[2]
+                df_params_IC_alim_aiba = excel_param_defin(const_sat = const_sat_list[0], const_sat_ic = const_sat_list[2])[3]
+                df_params_model_alim = pd.concat([df_params_model_alim_aiba, df_params_model_alim_Kp], axis = 1)
+                df_params_IC_alim = pd.concat([df_params_IC_alim_aiba, df_params_IC_alim_Kp], axis = 1)
             if (cont_model == 6): # Wu (8p)
                 # -  Batelada:
-                df_params_model_bat = pd.DataFrame({'mimax(h-¹)':[param_otim_alm_bat[0]],'Ks(g/L)':[param_otim_alm_bat[1]],'Kd(1/h)':[param_otim_alm_bat[2]],'Yxs(gcél/gsub)':[param_otim_alm_bat[3]], 'alfa(gprod/gcél)': [param_otim_alm_bat[4]], 'beta(gprod/gcél.h)':[param_otim_alm_bat[5]],'KE(g/L)':[param_otim_alm_bat[6]], 'v(adim)':[param_otim_alm_bat[7]]})
-                df_params_IC_bat = pd.DataFrame({'IC mimax(h-¹)':[ICpar_bat[0]],'IC Ks(g/L)':[ICpar_bat[1]],'IC Kd(1/h)':[ICpar_bat[2]],'IC Yxs(gcél/gsub)':[ICpar_bat[3]], 'IC alfa(gprod/gcél)': [ICpar_bat[4]], 'IC beta(gprod/gcél.h)':[ICpar_bat[5]], 'IC KE(g/L)':[ICpar_bat[6]], 'IC v(adim)':[ICpar_bat[7]]})
+                df_params_model_bat_v_KE = pd.DataFrame({'KE(g/L)':[param_otim_alm_bat[6]], 'v(adim)':[param_otim_alm_bat[7]]})
+                df_params_IC_bat_v_KE = pd.DataFrame({'IC KE(g/L)':[ICpar_bat[6]], 'IC v(adim)':[ICpar_bat[7]]})
+                df_params_model_bat_wu = excel_param_defin(const_sat = const_sat_list[0], const_sat_ic = const_sat_list[2])[0]
+                df_params_IC_bat_wu = excel_param_defin(const_sat = const_sat_list[0], const_sat_ic = const_sat_list[2])[1]
+                df_params_model_bat = pd.concat([df_params_model_bat_wu, df_params_model_bat_v_KE], axis = 1)
+                df_params_IC_bat = pd.concat([df_params_IC_bat_wu, df_params_IC_bat_v_KE], axis = 1)
                 # -  Batelada alimentada:
-                df_params_model_alim = pd.DataFrame({'mimax(h-¹)':[param_otim_alm_alim[0]],'Ks(g/L)':[param_otim_alm_alim[1]],'Kd(1/h)':[param_otim_alm_alim[2]],'Yxs(gcél/gsub)':[param_otim_alm_alim[3]], 'alfa(gprod/gcél)': [param_otim_alm_alim[4]], 'beta(gprod/gcél.h)':[param_otim_alm_alim[5]],'KE(g/L)':[param_otim_alm_alim[6]], 'v(adim)':[param_otim_alm_alim[7]]})
-                df_params_IC_alim = pd.DataFrame({'IC mimax(h-¹)':[ICpar_alim[0]],'IC Ks(g/L)':[ICpar_alim[1]],'IC Kd(1/h)':[ICpar_alim[2]],'IC Yxs(gcél/gsub)':[ICpar_alim[3]], 'IC alfa(gprod/gcél)': [ICpar_alim[4]], 'IC beta(gprod/gcél.h)':[ICpar_alim[5]], 'IC KE(g/L)':[ICpar_alim[6]], 'IC v(adim)':[ICpar_alim[7]]})
+                df_params_model_alim_v_KE = pd.DataFrame({'KE(g/L)':[param_otim_alm_alim[6]], 'v(adim)':[param_otim_alm_alim[7]]})
+                df_params_IC_alim_v_KE = pd.DataFrame({'IC KE(g/L)':[ICpar_alim[6]], 'IC v(adim)':[ICpar_alim[7]]})
+                df_params_model_alim_wu = excel_param_defin(const_sat = const_sat_list[0], const_sat_ic = const_sat_list[2])[2]
+                df_params_IC_alim_wu = excel_param_defin(const_sat = const_sat_list[0], const_sat_ic = const_sat_list[2])[3]
+                df_params_model_alim = pd.concat([df_params_model_alim_wu, df_params_model_alim_v_KE], axis = 1)
+                df_params_IC_alim = pd.concat([df_params_IC_alim_wu, df_params_IC_alim_v_KE], axis = 1)
             if (cont_model == 7): # Levenspiel (8p)
                 # - Batelada:
-                df_params_model_bat = pd.DataFrame({'mimax(h-¹)':[param_otim_alm_bat[0]],'Ks(g/L)':[param_otim_alm_bat[1]],'Kd(1/h)':[param_otim_alm_bat[2]],'Yxs(gcél/gsub)':[param_otim_alm_bat[3]], 'alfa(gprod/gcél)': [param_otim_alm_bat[4]], 'beta(gprod/gcél.h)':[param_otim_alm_bat[5]], 'n(adim)':[param_otim_alm_bat[6]], 'Cp_estr(g/L)':[param_otim_alm_bat[7]]})
-                df_params_IC_bat = pd.DataFrame({'IC mimax(h-¹)':[ICpar_bat[0]],'IC Ks(g/L)':[ICpar_bat[1]],'IC Kd(1/h)':[ICpar_bat[2]],'IC Yxs(gcél/gsub)':[ICpar_bat[3]], 'IC alfa(gprod/gcél)': [ICpar_bat[4]], 'IC beta(gprod/gcél.h)':[ICpar_bat[5]],  'IC n(adim)':[ICpar_bat[6]], 'IC Cp_estr(g/L)':[ICpar_bat[7]]})  
+                df_params_model_bat_n_Cp = pd.DataFrame({'n(adim)':[param_otim_alm_bat[6]], 'Cp_estr(g/L)':[param_otim_alm_bat[7]]})
+                df_params_IC_bat_n_Cp = pd.DataFrame({'IC n(adim)':[ICpar_bat[6]], 'IC Cp_estr(g/L)':[ICpar_bat[7]]})  
+                df_params_model_bat_levenspiel = excel_param_defin(const_sat = const_sat_list[0], const_sat_ic = const_sat_list[2])[0]
+                df_params_IC_bat_levenspiel = excel_param_defin(const_sat = const_sat_list[0], const_sat_ic = const_sat_list[2])[1]
+                df_params_model_bat = pd.concat([df_params_model_bat_levenspiel, df_params_model_bat_n_Cp], axis = 1)
+                df_params_IC_bat = pd.concat([df_params_IC_bat_levenspiel, df_params_IC_bat_n_Cp], axis = 1)
                 # - Batelada alimentada:
-                df_params_model_alim = pd.DataFrame({'mimax(h-¹)':[param_otim_alm_alim[0]],'Ks(g/L)':[param_otim_alm_alim[1]],'Kd(1/h)':[param_otim_alm_alim[2]],'Yxs(gcél/gsub)':[param_otim_alm_alim[3]], 'alfa(gprod/gcél)': [param_otim_alm_alim[4]], 'beta(gprod/gcél.h)':[param_otim_alm_alim[5]], 'n(adim)':[param_otim_alm_alim[6]], 'Cp_estr(g/L)':[param_otim_alm_alim[7]]})
-                df_params_IC_alim = pd.DataFrame({'IC mimax(h-¹)':[ICpar_alim[0]],'IC Ks(g/L)':[ICpar_alim[1]],'IC Kd(1/h)':[ICpar_alim[2]],'IC Yxs(gcél/gsub)':[ICpar_alim[3]], 'IC alfa(gprod/gcél)': [ICpar_alim[4]], 'IC beta(gprod/gcél.h)':[ICpar_alim[5]],  'IC n(adim)':[ICpar_alim[6]], 'IC Cp_estr(g/L)':[ICpar_alim[7]]})   
+                df_params_model_alim_n_Cp = pd.DataFrame({'n(adim)':[param_otim_alm_alim[6]], 'Cp_estr(g/L)':[param_otim_alm_alim[7]]})
+                df_params_IC_alim_n_Cp = pd.DataFrame({'IC n(adim)':[ICpar_alim[6]], 'IC Cp_estr(g/L)':[ICpar_alim[7]]}) 
+                df_params_model_alim_levenspiel = excel_param_defin(const_sat = const_sat_list[0], const_sat_ic = const_sat_list[2])[2]
+                df_params_IC_alim_levenspiel = excel_param_defin(const_sat = const_sat_list[0], const_sat_ic = const_sat_list[2])[3]
+                df_params_model_alim = pd.concat([df_params_model_alim_levenspiel, df_params_model_alim_n_Cp], axis = 1)
+                df_params_IC_alim = pd.concat([df_params_IC_alim_levenspiel, df_params_IC_alim_n_Cp], axis = 1)
             if (cont_model == 8): # Lee (8p)
                 # - Batelada:
-                df_params_model_bat =pd.DataFrame({'mimax(h-¹)':[param_otim_alm_bat[0]],'Ks(g/L)':[param_otim_alm_bat[1]],'Kd(1/h)':[param_otim_alm_bat[2]],'Yxs(gcél/gsub)':[param_otim_alm_bat[3]], 'alfa(gprod/gcél)': [param_otim_alm_bat[4]], 'beta(gprod/gcél.h)':[param_otim_alm_bat[5]], 'm(adim)':[param_otim_alm_bat[6]], 'Cx_estr(g/L)':[param_otim_alm_bat[7]]})
-                df_params_IC_bat = pd.DataFrame({'IC mimax(h-¹)':[ICpar_bat[0]],'IC Ks(g/L)':[ICpar_bat[1]],'IC Kd(1/h)':[ICpar_bat[2]],'IC Yxs(gcél/gsub)':[ICpar_bat[3]], 'IC alfa(gprod/gcél)': [ICpar_bat[4]], 'IC beta(gprod/gcél.h)':[ICpar_bat[5]],  'IC m(adim)':[ICpar_bat[6]], 'IC Cx_estr(g/L)':[ICpar_bat[7]]}) 
+                df_params_model_bat_m_Cx = pd.DataFrame({'m(adim)':[param_otim_alm_bat[6]], 'Cx_estr(g/L)':[param_otim_alm_bat[7]]})
+                df_params_IC_bat_m_Cx = pd.DataFrame({'IC m(adim)':[ICpar_bat[6]], 'IC Cx_estr(g/L)':[ICpar_bat[7]]})  
+                df_params_model_bat_lee = excel_param_defin(const_sat = const_sat_list[0], const_sat_ic = const_sat_list[2])[0]
+                df_params_IC_bat_lee = excel_param_defin(const_sat = const_sat_list[0], const_sat_ic = const_sat_list[2])[1]
+                df_params_model_bat = pd.concat([df_params_model_bat_lee, df_params_model_bat_m_Cx], axis = 1)
+                df_params_IC_bat = pd.concat([df_params_IC_bat_lee, df_params_IC_bat_m_Cx], axis = 1)
                 # - Batelada alimentada:
-                df_params_model_alim =pd.DataFrame({'mimax(h-¹)':[param_otim_alm_alim[0]],'Ks(g/L)':[param_otim_alm_alim[1]],'Kd(1/h)':[param_otim_alm_alim[2]],'Yxs(gcél/gsub)':[param_otim_alm_alim[3]], 'alfa(gprod/gcél)': [param_otim_alm_alim[4]], 'beta(gprod/gcél.h)':[param_otim_alm_alim[5]], 'm(adim)':[param_otim_alm_alim[6]], 'Cx_estr(g/L)':[param_otim_alm_alim[7]]})
-                df_params_IC_alim = pd.DataFrame({'IC mimax(h-¹)':[ICpar_alim[0]],'IC Ks(g/L)':[ICpar_alim[1]],'IC Kd(1/h)':[ICpar_alim[2]],'IC Yxs(gcél/gsub)':[ICpar_alim[3]], 'IC alfa(gprod/gcél)': [ICpar_alim[4]], 'IC beta(gprod/gcél.h)':[ICpar_alim[5]],  'IC m(adim)':[ICpar_alim[6]], 'IC Cx_estr(g/L)':[ICpar_alim[7]]}) 
+                df_params_model_alim_m_Cx = pd.DataFrame({'m(adim)':[param_otim_alm_alim[6]], 'Cx_estr(g/L)':[param_otim_alm_alim[7]]})
+                df_params_IC_alim_m_Cx = pd.DataFrame({'IC m(adim)':[ICpar_alim[6]], 'IC Cx_estr(g/L)':[ICpar_alim[7]]}) 
+                df_params_model_alim_lee = excel_param_defin(const_sat = const_sat_list[0], const_sat_ic = const_sat_list[2])[2]
+                df_params_IC_alim_lee = excel_param_defin(const_sat = const_sat_list[0], const_sat_ic = const_sat_list[2])[3]
+                df_params_model_alim = pd.concat([df_params_model_alim_lee, df_params_model_alim_m_Cx], axis = 1)
+                df_params_IC_alim = pd.concat([df_params_IC_alim_lee, df_params_IC_alim_m_Cx], axis = 1)
             # - DataFrame com o modo de operação:
-            df_tex_proces = pd.DataFrame({"OPERAÇÃO": lista_processos})
-            df_IC = pd.concat([df_params_IC_bat, df_params_IC_alim], axis = 0)
-            #df_params = pd.concat([df_params_model_bat, df_params_model_alim], axis = 0)
-            df_saida = pd.concat([df_tex_proces, df_IC], axis = 0)
+            df_saida = pd.concat([df_params_model_bat, df_params_IC_bat, df_params_model_alim, df_params_IC_alim], axis = 1)
             with pd.ExcelWriter('Modelagem_Parametros_Cineticos.xlsx') as writer:
                 df_saida.to_excel(writer, sheet_name="Param_model")
                 writer.save()
