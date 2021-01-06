@@ -359,9 +359,21 @@ status_03 = Label (janela, width = 24, height = 1, bg = "grey40")
 status_03.place (x = 1058, y = 65)
 status_03.configure(text = "Sistema aguardando", font = "batang 12", bg = "pink", relief = "raised")
 
+## * ENTRADAS E SAÍDAS DA SIMULAÇÃO * ##:
+# Caixas de separação:
+Label(frame1, text="", width = 52, height = 33, borderwidth = 3,  relief = "sunken", bg = "grey85").place(x = 914, y = 2)
+Label(frame1, text="", width = 53, height = 33, borderwidth = 3,  relief = "sunken", bg = "grey85").place(x = 10, y = 2)
+def caixa_equa_simul():
+    Label(frame1, text="", width = 47, height = 19, borderwidth = 5,  relief = "sunken", bg = "grey65").place(x = 920, y = 200)
+ttk.Label(frame1, text = "SELECIONE A CINÉTICA DE REAÇÃO:", font = "times 12 bold").place(x = 16, y = 10)
+
 def botao_envio_bat_alim(frame, comando, x, y):
+    global enviar
     enviar = Button(frame, text = "Enviar", command = comando)
     enviar.place(x = x, y = y)
+# Botão para exibição dos modelos disponíveis:
+frames_simul = Button(frame1, text="Pronto", bg = "gray70", fg = "grey40", font="batang 12")
+frames_simul.place(x = 315, y = 29)
 # Funções para capturar os valores dos entry:
 def pegar_val_alim_const():
     global Q_const, Cs_alim_const, V0_const, tf_bat_const
@@ -369,6 +381,9 @@ def pegar_val_alim_const():
     Cs_alim_const = float(entr_Cs_alim.get())
     V0_const = float(entr_V0.get())
     tf_bat_const = float(entr_tf_bat.get())
+    enviar.configure(bg = "green", fg = "white")
+    frames_simul.configure(bg = "black", fg = "white", command = print_me_1)
+    botao_carregar.configure(command = explorer)
     print(Q_const, Cs_alim_const, V0_const, tf_bat_const)
     return(Q_const, Cs_alim_const, V0_const, tf_bat_const)
 def pegar_val_alim_lin():
@@ -378,6 +393,9 @@ def pegar_val_alim_lin():
     V0_lin = float(entr_V0.get())
     tf_bat_lin = float(entr_tf_bat.get())
     a = float(entr_lin_exp.get())
+    enviar.configure(bg = "green", fg = "white")
+    frames_simul.configure(bg = "black", fg = "white", command = print_me_1)
+    botao_carregar.configure(command = explorer)
     print(Q_lin, Cs_alim_lin, V0_lin, tf_bat_lin, a)
     return(Q_lin, Cs_alim_lin, V0_lin,tf_bat_lin, a)
 def pegar_val_alim_exp():
@@ -387,17 +405,14 @@ def pegar_val_alim_exp():
     V0_exp = float(entr_V0.get())
     tf_bat_exp = float(entr_tf_bat.get())
     beta_exp = float(entr_lin_exp.get())
+    enviar.configure(bg = "green", fg = "white")
+    frames_simul.configure(bg = "black", fg = "white", command = print_me_1)
+    botao_carregar.configure(command = explorer)
     print(Q_exp, Cs_alim_exp, V0_exp, tf_bat_exp, beta_exp)
     return(Q_exp, Cs_alim_exp, V0_exp, tf_bat_exp, beta_exp)
     
-## * ENTRADAS E SAÍDAS DA SIMULAÇÃO * ##:
-# Caixas de separação:
-Label(frame1, text="", width = 52, height = 33, borderwidth = 3,  relief = "sunken", bg = "grey85").place(x = 914, y = 2)
-Label(frame1, text="", width = 53, height = 33, borderwidth = 3,  relief = "sunken", bg = "grey85").place(x = 10, y = 2)
-def caixa_equa_simul():
-    Label(frame1, text="", width = 47, height = 19, borderwidth = 5,  relief = "sunken", bg = "grey65").place(x = 920, y = 200)
-ttk.Label(frame1, text = "SELECIONE A CINÉTICA DE REAÇÃO:", font = "times 12 bold").place(x = 16, y = 10)
-
+## * ENTRADAS E SAÍDAS DA SIMULAÇÃO - CONTINUAÇÃO * ##:
+    
 # Combobox para seleção da cinética de reação:
 v_1 = ("AUSÊNCIA DE INIBIÇÃO", "INIBIÇÃO PELO SUBSTRATO", "INIBIÇÃO PELO PRODUTO", "INIBIÇÃO PELA BIOMASSA")
 combo_1 = Combobox(frame1, values = v_1, width = 39, font = "arial 10")
@@ -1197,6 +1212,9 @@ Label(frame2, text = u"R\u00b2:", font = "broadway 11", fg = "white", bg = "blac
 aces_arq(frame2, x1 = 1030, x2 = 1036, y1 = 7, y2 = 13)
 ## Caixa para plotagem dos gráficos gerados:
 notebook_graf_model()
+# Botão para acesso ao buscador de arquivos da máquina:
+botao_carregar = Button(frame2, text = "Carregar arquivo",  font="Batang 12", fg="grey40", bg="gray70", borderwidth=2, relief="raised")
+botao_carregar.place(x = 568, y = 15) 
 ## Capturar o modo de alimentação selecionado e exibir o layout para entrada correspondente:
 ### Valor do combobox:
 def print_alim_modelag():
@@ -1204,6 +1222,7 @@ def print_alim_modelag():
     def_alim = combo_0.get()
     print(def_alim)
     status_03.configure(text = def_alim, font = "batang 12", bg = "lightgreen", relief = "raised")  
+
 ## * ENTRADA DOS VALORES REFERENTES APENAS À BATELADA ALIMENTADA * ##
     # Criação das indicações escritas:
     ## Eixos:
@@ -1227,6 +1246,8 @@ def print_alim_modelag():
         eixo_Cs_alim.configure(fg = "black")
         eixo_tf_bat.configure(fg = "black")
         eixo_V0.configure(fg = "black")
+        botao_carregar.configure(fg = "white", bg = "gray17", command = '')
+        arq_sel.configure(text = '')
     if (def_alim == "Taxa de Vazão Linear"):
         entry_bat_alim_geral(frame = frame2, x1 = 70, x2 = 210, x3 = 70, x4 = 308, x5 = 210, y1 = 90, y2 = 90, y3 = 120, y4 = 90, y5 = 120)
         entry_bat_alim_lin_exp(frame = frame2, x = 210, y = 120)
@@ -1236,6 +1257,8 @@ def print_alim_modelag():
         eixo_tf_bat.configure(fg = "black")
         eixo_V0.configure(fg = "black")
         eixo_lin_exp.configure(text = "a", fg = "black")
+        botao_carregar.configure(fg = "white", bg = "gray17", command = '')
+        arq_sel.configure(text = '')
     if (def_alim == "Taxa de Vazão Exponencial"):
         entry_bat_alim_geral(frame = frame2, x1 = 70, x2 = 210, x3 = 70, x4 = 308, x5 = 210, y1 = 90, y2 = 90, y3 = 120, y4 = 90, y5 = 120)
         entry_bat_alim_lin_exp(frame = frame2, x = 210, y = 120)
@@ -1245,6 +1268,8 @@ def print_alim_modelag():
         eixo_tf_bat.configure(fg = "black")
         eixo_V0.configure(fg = "black")
         eixo_lin_exp.configure(text = "beta", fg = "black")
+        botao_carregar.configure(fg = "white", bg = "gray17", command = '')
+        arq_sel.configure(text = '')
     but_alim_simul.configure(bg = "gray94", fg = "black")
     but_alim_model.configure(bg = "black", fg = "white")
         
@@ -3184,7 +3209,7 @@ def print_me_1():
             notebook_inib_biomas_simul()
             lee()
 
-Button(frame1, text="Pronto", bg = "black", fg="white", font="batang 12", command = print_me_1).place(x = 315, y = 29)
+#Button(frame1, text="Pronto", bg = "black", fg="white", font="batang 12", command = print_me_1).place(x = 315, y = 29)
     
 
 
@@ -5733,8 +5758,6 @@ def explorer():
 # Nome do arquivo excel selecionado é lançado em um label - VÍNCULO COM A FUNÇÃO EXPLORER:
 arq_sel = Label(frame2, width = 50)
 arq_sel.place(x = 460, y = 50)
-# Botão para acesso ao buscador de arquivos da máquina:
-Button(frame2, text = "Carregar arquivo",  font="Batang 12", fg="white", bg="gray17", borderwidth=2, relief="raised", command = explorer).place(x = 568, y = 15) 
 
 # Encerramento da janela:
 janela.mainloop() 
