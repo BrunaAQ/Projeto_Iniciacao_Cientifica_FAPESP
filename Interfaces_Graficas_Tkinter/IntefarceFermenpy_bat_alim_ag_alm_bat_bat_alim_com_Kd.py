@@ -517,9 +517,10 @@ def caix_simul(frame, larg, alt, x, y):
 def labels(frame, texto, fonte, borda, x, y):
     Label(frame, text = texto, font = fonte, relief = borda).place(x = x, y = y)
 # Saída arquivos simulação:
-sai_resul_simul = Label(frame1, bg = "gray45")
-sai_resul_simul .place(x = 962, y = 143)
-    
+def label_excel_simul(x, y, xx, yy):
+    sai_resul_simul_concent = Label(frame1, text = "Simul_Conc_Produt_mi_vaz.vol.xlsx", font = "arial 8 italic", fg = "black", bg = "gray45").place(x = x, y = y)
+    sai_resul_simul_concent_rand = Label(frame1, text = "Simul_Conc_Rand.xlsx", font = "arial 8 italic", fg = "black", bg = "gray45").place(x = xx, y = yy)
+    return(sai_resul_simul_concent, sai_resul_simul_concent_rand)
 # Função para entradas numéricas:
 # - Parâmetro: mi_máximo - #:
 def entr_simul_mimax_contois(frame):
@@ -2696,7 +2697,47 @@ def simulacao(cont):
     ## Inserindo 0 para o primeiro valor de produtividade:
     Px_ad = np.insert(Px,0,0)
     Pp_ad = np.insert(Pp,0,0)
-        
+    
+    ## Atribuição de randomicidade aos dados de concentração simulados (opção ao usuário - acesso apenas no .xlsx):
+    ### Geração da matriz de concentração simulada (C_simul):
+    C_simul_rand = np.zeros((len(Ttotal_simul), 3))
+    C_simul_rand[:,0] = Cx_simul
+    C_simul_rand[:,1] = Cs_simul
+    C_simul_rand[:,2] = Cp_simul
+    ### Loop de atribuição:
+    for i in range(0,3):
+        C_simul_i = C_simul_rand[:,i]
+        C_simul_rand[:,i] = abs(C_simul_i + np.random.randn(len(C_simul_i)) * 0.5)
+    '''
+    ## Teste para a saída dos parâmetros cinéticos:
+    df_params_geral_simul = pd.DataFrame({'mimax(1/h)': [mimaximo], 'Ks(g/L)': [Ks], 'Kd(1/h)': [Kd], 'Yxs(gs/gx)': [Yxs], 'alfa(gp/gx)':[alfa]})
+    df_params_geral_simul_KSX = pd.DataFrame({'mimax(1/h)': [mimaximo], 'KSX(g/L)': [Ks], 'Kd(1/h)': [Kd], 'Yxs(gs/gx)': [Yxs], 'alfa(gp/gx)':[alfa]})
+    if (cont == 0): # Monod
+        df_params_simul = df_params_geral_simul
+    if (cont == 1): # Contois
+        df_params_simul = df_params_geral_simul_KSX
+    if (cont == 2): # Andrews
+        df_params_KIS_simul = pd.DataFrame({'KIS(g/L)': [KIS]})
+        df_params_simul = pd.concat([df_params_geral_simul, df_params_KIS_simul], axis = 1)
+    if (cont == 3): # Aiba
+        df_params_Kp_aiba_simul = pd.DataFrame({'Kp(L/g)': [Kp]})
+        df_params_simul = pd.concat([df_params_geral_simul, df_params_Kp_aiba_simul], axis = 1)
+    if (cont == 4): # Moser
+        df_params_u_simul = pd.DataFrame({'u(adim)': [u]})
+        df_params_simul = pd.concat([df_params_geral_simul, df_params_u_simul], axis = 1)
+    if (cont == 5): # Hoppe & Hansford
+        df_params_Kp_hh_simul = pd.DataFrame({'Kp(g/L)': [Kp]})
+        df_params_simul = pd.concat([df_params_geral_simul, df_params_Kp_hh_simul], axis = 1)
+    if (cont == 6): # Wu et al
+        df_params_Ke_v_simul = pd.DataFrame({'KE(g/L)': [Ke], 'v(adim)': [v]})
+        df_params_simul = pd.concat([df_params_geral_simul, df_params_Ke_v_simul], axis = 1)
+    if (cont == 7): # Levenspiel
+        df_params_Cpsat_n_simul = pd.DataFrame({'Cp_sat(g/L)': [Cp_estr], 'n(adim)': [n]})
+        df_params_simul = pd.concat([df_params_geral_simul, df_params_Cpsat_n_simul], axis = 1)
+    if (cont == 8): # Lee et al
+        df_params_Cxsat_m_simul = pd.DataFrame({'Cx_sat(g/L)': [Cx_estr], 'm(adim)': [m]})
+        df_params_simul = pd.concat([df_params_geral_simul, df_params_Cxsat_m_simul], axis = 1)
+    '''
     # Saída .xlsx - concentração, produtividade e taxa de crescimento:
     def excel_concent():
         df_sai_conc_produtiv_mi = pd.DataFrame({'Tempo(h)': Ttotal_simul, 'Cx(g/L)': Cx_simul, 'Cs(g/L)': Cs_simul, 'Cp(g/L)': Cp_simul, 'Px(gcél/L.h)': Px_ad, 'Pp(gprod/L.h)': Pp_ad, 'Ppx(gprod/gcél)': Ppx, 'mi(h-¹)': mi})
@@ -2706,17 +2747,29 @@ def simulacao(cont):
             df_sai_simul.to_excel(writer, sheet_name="Saida_simulada")
             writer.save()
         os.system("start EXCEL Simul_Conc_Produt_mi_vaz.vol.xlsx")
-    sai_resul_simul.configure(text = "Simul_Conc_Produt_mi_vaz.vol.xlsx", font = "arial 8 italic", fg = "black")
+        
+    # Saída .xlsx - concentração randomizada:
+    def excel_concent_rand():
+        df_sai_conc_rand = pd.DataFrame({'Tempo(h)': Ttotal_simul, 'Cx_rand(g/L)': C_simul_rand[:,0], 'Cs_rand(g/L)': C_simul_rand[:,1], 'Cp_rand_rand(g/L)': C_simul_rand[:,2]})
+        with pd.ExcelWriter('Simul_Concent_Rand.xlsx') as writer:
+            df_sai_conc_rand.to_excel(writer, sheet_name="Saida_simulada")
+            writer.save()
+        os.system("start EXCEL Simul_Concent_Rand.xlsx")
+   
     # Função botão acesso excel:
-    def botao_excel(imagem, num_frame, x, y):
+    def botao_excel(imagem, num_frame, x, y, comando_excel):
         load = Image.open(imagem)
         render = ImageTk.PhotoImage(load)
-        img = Button(num_frame, image = render, border = 0, command = excel_concent)
+        img = Button(num_frame, image = render, border = 0, command = comando_excel)
         img.image = render
         img.place(x = x, y = y)
     
-    # Botão de acesso - arquivo .xlsx - parâmetros cinéticos:
-    botao_excel(imagem = "Excel.png", num_frame = frame1, x = 926, y = 135)
+    # Botão de acesso - arquivos .xlsx:
+    botao_excel(imagem = "Excel.png", num_frame = frame1, x = 926, y = 119, comando_excel = excel_concent)
+    botao_excel(imagem = "Excel.png", num_frame = frame1, x = 926, y = 158, comando_excel = excel_concent_rand)
+    
+    # Saídas para os nomes dos arquivos .xlsx:
+    label_excel_simul(x = 962, y = 128, xx = 962, yy = 165)
 
 # Função para capturar os valores de entrada:
 
@@ -3211,7 +3264,7 @@ def print_me_1():
 
 #Button(frame1, text="Pronto", bg = "black", fg="white", font="batang 12", command = print_me_1).place(x = 315, y = 29)
     
-
+                                            ## ***** FIM DA SIMULAÇÃO ***** ##
 
 
 
