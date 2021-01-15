@@ -2708,41 +2708,46 @@ def simulacao(cont):
     for i in range(0,3):
         C_simul_i = C_simul_rand[:,i]
         C_simul_rand[:,i] = abs(C_simul_i + np.random.randn(len(C_simul_i)) * 0.5)
-    '''
+    
     ## Teste para a saída dos parâmetros cinéticos:
-    df_params_geral_simul = pd.DataFrame({'mimax(1/h)': [mimaximo], 'Ks(g/L)': [Ks], 'Kd(1/h)': [Kd], 'Yxs(gs/gx)': [Yxs], 'alfa(gp/gx)':[alfa]})
-    df_params_geral_simul_KSX = pd.DataFrame({'mimax(1/h)': [mimaximo], 'KSX(g/L)': [Ks], 'Kd(1/h)': [Kd], 'Yxs(gs/gx)': [Yxs], 'alfa(gp/gx)':[alfa]})
+    def params_geral_simul(const_sat_string, const_sat_entr):
+        df_params_geral_simul = pd.DataFrame({'mimax(1/h)': [mimax], const_sat_string: const_sat_entr, 'Kd(1/h)': [Kd], 'Yxs(gs/gx)': [Yxs], 'alfa(gp/gx)':[alfa], 'beta[gp/(gx.h)]':[beta]})
+        return(df_params_geral_simul)
+    if (cont !=1):
+        df_params_simul_geral = params_geral_simul(const_sat_string = 'Ks(g/L)', const_sat_entr = [Ks])
+    else:
+        df_params_simul_geral = params_geral_simul(const_sat_string = 'KSX(gs/gx)', const_sat_entr = [KSX])
     if (cont == 0): # Monod
-        df_params_simul = df_params_geral_simul
+        df_params_simul = df_params_simul_geral
     if (cont == 1): # Contois
-        df_params_simul = df_params_geral_simul_KSX
+        df_params_simul = df_params_simul_geral
     if (cont == 2): # Andrews
         df_params_KIS_simul = pd.DataFrame({'KIS(g/L)': [KIS]})
-        df_params_simul = pd.concat([df_params_geral_simul, df_params_KIS_simul], axis = 1)
+        df_params_simul = pd.concat([df_params_simul_geral, df_params_KIS_simul], axis = 1)
     if (cont == 3): # Aiba
         df_params_Kp_aiba_simul = pd.DataFrame({'Kp(L/g)': [Kp]})
-        df_params_simul = pd.concat([df_params_geral_simul, df_params_Kp_aiba_simul], axis = 1)
+        df_params_simul = pd.concat([df_params_simul_geral, df_params_Kp_aiba_simul], axis = 1)
     if (cont == 4): # Moser
         df_params_u_simul = pd.DataFrame({'u(adim)': [u]})
-        df_params_simul = pd.concat([df_params_geral_simul, df_params_u_simul], axis = 1)
+        df_params_simul = pd.concat([df_params_simul_geral, df_params_u_simul], axis = 1)
     if (cont == 5): # Hoppe & Hansford
-        df_params_Kp_hh_simul = pd.DataFrame({'Kp(g/L)': [Kp]})
-        df_params_simul = pd.concat([df_params_geral_simul, df_params_Kp_hh_simul], axis = 1)
+        df_params_Kp_hh_simul = pd.DataFrame({'Kp(g/L)': [Kp_hh]})
+        df_params_simul = pd.concat([df_params_simul_geral, df_params_Kp_hh_simul], axis = 1)
     if (cont == 6): # Wu et al
         df_params_Ke_v_simul = pd.DataFrame({'KE(g/L)': [Ke], 'v(adim)': [v]})
-        df_params_simul = pd.concat([df_params_geral_simul, df_params_Ke_v_simul], axis = 1)
+        df_params_simul = pd.concat([df_params_simul_geral, df_params_Ke_v_simul], axis = 1)
     if (cont == 7): # Levenspiel
         df_params_Cpsat_n_simul = pd.DataFrame({'Cp_sat(g/L)': [Cp_estr], 'n(adim)': [n]})
-        df_params_simul = pd.concat([df_params_geral_simul, df_params_Cpsat_n_simul], axis = 1)
+        df_params_simul = pd.concat([df_params_simul_geral, df_params_Cpsat_n_simul], axis = 1)
     if (cont == 8): # Lee et al
         df_params_Cxsat_m_simul = pd.DataFrame({'Cx_sat(g/L)': [Cx_estr], 'm(adim)': [m]})
-        df_params_simul = pd.concat([df_params_geral_simul, df_params_Cxsat_m_simul], axis = 1)
-    '''
+        df_params_simul = pd.concat([df_params_simul_geral, df_params_Cxsat_m_simul], axis = 1)
+    
     # Saída .xlsx - concentração, produtividade e taxa de crescimento:
     def excel_concent():
         df_sai_conc_produtiv_mi = pd.DataFrame({'Tempo(h)': Ttotal_simul, 'Cx(g/L)': Cx_simul, 'Cs(g/L)': Cs_simul, 'Cp(g/L)': Cp_simul, 'Px(gcél/L.h)': Px_ad, 'Pp(gprod/L.h)': Pp_ad, 'Ppx(gprod/gcél)': Ppx, 'mi(h-¹)': mi})
         df_Q_V = pd.DataFrame({'Tempo_alim(h)': t_bat_alim_simul, 'Q(L/h)': Q_calc, 'V(L)': V_calc})
-        df_sai_simul = pd.concat([df_sai_conc_produtiv_mi, df_Q_V], axis = 1)
+        df_sai_simul = pd.concat([df_sai_conc_produtiv_mi, df_Q_V, df_params_simul], axis = 1)
         with pd.ExcelWriter('Simul_Conc_Produt_mi_vaz.vol.xlsx') as writer:
             df_sai_simul.to_excel(writer, sheet_name="Saida_simulada")
             writer.save()
@@ -2751,8 +2756,9 @@ def simulacao(cont):
     # Saída .xlsx - concentração randomizada:
     def excel_concent_rand():
         df_sai_conc_rand = pd.DataFrame({'Tempo(h)': Ttotal_simul, 'Cx_rand(g/L)': C_simul_rand[:,0], 'Cs_rand(g/L)': C_simul_rand[:,1], 'Cp_rand_rand(g/L)': C_simul_rand[:,2]})
+        df_sai_rand = pd.concat([df_sai_conc_rand, df_params_simul], axis = 1)
         with pd.ExcelWriter('Simul_Concent_Rand.xlsx') as writer:
-            df_sai_conc_rand.to_excel(writer, sheet_name="Saida_simulada")
+            df_sai_rand.to_excel(writer, sheet_name="Saida_simulada")
             writer.save()
         os.system("start EXCEL Simul_Concent_Rand.xlsx")
    
