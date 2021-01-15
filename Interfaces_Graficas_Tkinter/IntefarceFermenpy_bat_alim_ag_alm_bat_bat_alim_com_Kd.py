@@ -2713,35 +2713,44 @@ def simulacao(cont):
     def params_geral_simul(const_sat_string, const_sat_entr):
         df_params_geral_simul = pd.DataFrame({'mimax(1/h)': [mimax], const_sat_string: const_sat_entr, 'Kd(1/h)': [Kd], 'Yxs(gs/gx)': [Yxs], 'alfa(gp/gx)':[alfa], 'beta[gp/(gx.h)]':[beta]})
         return(df_params_geral_simul)
+    
     if (cont !=1):
         df_params_simul_geral = params_geral_simul(const_sat_string = 'Ks(g/L)', const_sat_entr = [Ks])
     else:
         df_params_simul_geral = params_geral_simul(const_sat_string = 'KSX(gs/gx)', const_sat_entr = [KSX])
+    
+    if (def_alim == "Taxa de Vazão Constante"):
+        df_params_simul_alim = pd.DataFrame({'Q0(L/h)': [Q_const], 'Cs_alim(gs/L)': [Cs_alim_const], 'V0(L)': [V0_const], 'tf_bat(h)': [tf_bat]})
+    if (def_alim == "Taxa de Vazão Linear"):
+        df_params_simul_alim = pd.DataFrame({'Q(L/h)': [Q_lin], 'Cs_alim(gs/L)': [Cs_alim_lin], 'V0(L)': [V0_lin], 'a': [a], 'tf_bat(h)': [tf_bat]})
+    if (def_alim == "Taxa de Vazão Exponencial"):
+        df_params_simul_alim = pd.DataFrame({'Q(L/h)': [Q_exp], 'Cs_alim(gs/L)': [Cs_alim_exp], 'V0(L)': [V0_exp], 'beta_alim': [beta_exp], 'tf_bat(h)': [tf_bat]}) 
+    
     if (cont == 0): # Monod
-        df_params_simul = df_params_simul_geral
+        df_params_simul = pd.concat([df_params_simul_geral, df_params_simul_alim], axis = 1)
     if (cont == 1): # Contois
-        df_params_simul = df_params_simul_geral
+        df_params_simul = pd.concat([df_params_simul_geral, df_params_simul_alim], axis = 1)
     if (cont == 2): # Andrews
         df_params_KIS_simul = pd.DataFrame({'KIS(g/L)': [KIS]})
-        df_params_simul = pd.concat([df_params_simul_geral, df_params_KIS_simul], axis = 1)
+        df_params_simul = pd.concat([df_params_simul_geral, df_params_KIS_simul, df_params_simul_alim], axis = 1)
     if (cont == 3): # Aiba
         df_params_Kp_aiba_simul = pd.DataFrame({'Kp(L/g)': [Kp]})
-        df_params_simul = pd.concat([df_params_simul_geral, df_params_Kp_aiba_simul], axis = 1)
+        df_params_simul = pd.concat([df_params_simul_geral, df_params_Kp_aiba_simul, df_params_simul_alim], axis = 1)
     if (cont == 4): # Moser
         df_params_u_simul = pd.DataFrame({'u(adim)': [u]})
-        df_params_simul = pd.concat([df_params_simul_geral, df_params_u_simul], axis = 1)
+        df_params_simul = pd.concat([df_params_simul_geral, df_params_u_simul, df_params_simul_alim], axis = 1)
     if (cont == 5): # Hoppe & Hansford
         df_params_Kp_hh_simul = pd.DataFrame({'Kp(g/L)': [Kp_hh]})
-        df_params_simul = pd.concat([df_params_simul_geral, df_params_Kp_hh_simul], axis = 1)
+        df_params_simul = pd.concat([df_params_simul_geral, df_params_Kp_hh_simul, df_params_simul_alim], axis = 1)
     if (cont == 6): # Wu et al
         df_params_Ke_v_simul = pd.DataFrame({'KE(g/L)': [Ke], 'v(adim)': [v]})
-        df_params_simul = pd.concat([df_params_simul_geral, df_params_Ke_v_simul], axis = 1)
+        df_params_simul = pd.concat([df_params_simul_geral, df_params_Ke_v_simul, df_params_simul_alim], axis = 1)
     if (cont == 7): # Levenspiel
         df_params_Cpsat_n_simul = pd.DataFrame({'Cp_sat(g/L)': [Cp_estr], 'n(adim)': [n]})
-        df_params_simul = pd.concat([df_params_simul_geral, df_params_Cpsat_n_simul], axis = 1)
+        df_params_simul = pd.concat([df_params_simul_geral, df_params_Cpsat_n_simul, df_params_simul_alim], axis = 1)
     if (cont == 8): # Lee et al
         df_params_Cxsat_m_simul = pd.DataFrame({'Cx_sat(g/L)': [Cx_estr], 'm(adim)': [m]})
-        df_params_simul = pd.concat([df_params_simul_geral, df_params_Cxsat_m_simul], axis = 1)
+        df_params_simul = pd.concat([df_params_simul_geral, df_params_Cxsat_m_simul, df_params_simul_alim], axis = 1)
     
     # Saída .xlsx - concentração, produtividade e taxa de crescimento:
     def excel_concent():
