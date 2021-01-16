@@ -7,6 +7,7 @@ Created on Tue Dec  8 12:53:34 2020
 
             ### *** INTERFACE FERMENPY PARA SIMULAÇÃO E MODELAGEM DE PFM EM BATELADA ALIMENTADA *** ###
                                  ## ** vazão constante, linear e exponencial ** ##
+                                    # modelos cinéticos para a taxa mi variados #
 
 # Importação das bibliotecas, pacotes e módulos:
 ## Módulos propriamente construídos
@@ -26,7 +27,8 @@ import Modulos_Levenspiel_bat_alim
 import Modulos_Lee_et_al_bat_alim
 ### * Módulos auxiliares * ### - documentação e limites para convergência
 import Modulo_peso_limite_AG_bat_alim
-#import Modulo_documentacao
+import Modulo_documentacao
+import Modulo_documentacao
 ## Bibliotecas científicas
 ## ** BACK-END ** ##
 ### * Base para operações matemáticas * ### - cálculos vetoriais, com dataframes e estatísticos
@@ -343,7 +345,117 @@ def tamanho_graf():
     plt.rc('ytick', labelsize=SMALL_SIZE)    
     plt.rc('legend', fontsize=SMALL_SIZE)    
     plt.rc('figure', titlesize=BIGGER_SIZE) 
-    
+## * FUNÇÕES PARA A SEÇÃO DE DOCUMENTAÇÃO * ##
+def image_docum(imagem, num_frame, borda, x, y):
+    load = Image.open(imagem)
+    render = ImageTk.PhotoImage(load)
+    img = Label(num_frame, image = render, border = 0, borderwidth = borda, relief = "sunken")
+    img.image = render
+    img.place(x = x, y = y)
+
+#### **** CRIAÇÃO DA SEÇÃO RESERVADA À DOCUMENTAÇÃO TEÓRICA - MODELOS E ALGORITMOS **** #####
+Label(frame3, text = "Modelos Cinéticos", font = "Times 10 bold", fg = "black", bg = "grey75", borderwidth = 2, relief = "groove").place(x = 5, y = 140)
+notebook_docum()
+# Documentação para os algoritmos utilizados:
+Label(frame3, text = "Implementação computacional", font = "Times 10 bold", fg = "black", bg = "grey75", borderwidth = 2, relief = "groove").place(x = 632, y = 140)
+notebook_algorit()   
+# Visite nossa página:
+Label(frame3, text = "Visite nossa página completa", font = "Times 10 bold", fg = "black", bg = "grey75", borderwidth = 2, relief = "groove").place(x = 1030, y = 458)
+Button(frame3, text="https://brunaaq.github.io/Documentacao_fermenpy/", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/')).place(x = 1030, y = 480)
+# Documentação batelada:
+Label(frame3, text = "Batelada Alimentada", font = "Times 10 bold", fg = "black", bg = "grey75", borderwidth = 2, relief = "groove").place(x = 5, y = 0)
+Label(frame3, bg = "grey85", width = 50, height = 6, borderwidth = 2, relief = "groove").place(x = 30, y = 25)
+# Documentação balanço de massa:
+Label(frame3, text = "Balanço de massa", font = "Times 10 bold", fg = "black", bg = "grey75", borderwidth = 2, relief = "groove").place(x = 415, y = 0)
+Label(frame3, bg = "grey85", width = 118, height = 6, borderwidth = 2, relief = "groove").place(x = 442, y = 25)
+Label(frame3, bg = "grey75", width = 28, height = 5, borderwidth = 2, relief = "sunken").place(x = 448, y = 32)
+Label(frame3, bg = "grey77", width = 28, height = 5, borderwidth = 2, relief = "sunken").place(x = 654, y = 32)
+Label(frame3, bg = "grey79", width = 28, height = 5, borderwidth = 2, relief = "sunken").place(x = 860, y = 32)
+Label(frame3, bg = "grey81", width = 28, height = 5, borderwidth = 2, relief = "sunken").place(x = 1066, y = 32)
+Label(frame3, text = "Equação Geral", font = "Times 8 bold", fg = "white", bg = "black", borderwidth = 2, relief = "groove").place(x = 451, y = 36)
+Label(frame3, text = "Células", font = "Times 8 bold", fg = "white", bg = "black", borderwidth = 2, relief = "groove").place(x = 657, y = 36)
+Label(frame3, text = "Substrato", font = "Times 8 bold", fg = "white", bg = "black", borderwidth = 2, relief = "groove").place(x = 863, y = 36)
+Label(frame3, text = "Produto", font = "Times 8 bold", fg = "white", bg = "black", borderwidth = 2, relief = "groove").place(x = 1069, y = 36)
+Label(frame3, text = "Os balanços completos estão disponíveis em:", font = "Times 8 bold", fg = "black").place(x = 683, y = 1)
+Button(frame3, text="https://brunaaq.github.io/Documentacao_fermenpy/#balanco%20massa", font = "calibri 8", fg = "blue", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#balanco%20massa')).place(x = 919, y = 0)
+## Linhas para impressão das equações balanceadas:
+# Equação geral:
+Label(frame3, text = "Princípio da conservação de massa", font = "Times 8 bold", fg = "black", bg = "grey75", borderwidth = 2, relief = "flat").place(x = 450, y = 64)
+Label(frame3, text = "Entrada - Saída + Geração - Consumo = Acúmulo", font = "Times 7 bold italic", fg = "black", bg = "grey75", borderwidth = 2, relief = "flat").place(x = 451, y = 85)
+## Textos para documentação
+# Batelada alimentada:
+Modulo_documentacao.caixa_texto_batelada_alimentada(frame = frame3, altura = 5, largura = 56, x = 35, y = 30)
+Label(frame3, text = "Explicação completa em:", font = "Times 8 bold", fg = "black", bg = "gray80").place(x = 40, y = 70)
+Button(frame3, text="https://brunaaq.github.io/Documentacao_fermenpy/#batelada", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#batelada')).place(x = 40, y = 87)
+# Modelos Cinéticos:
+## Contois:
+Modulo_documentacao.caixa_texto_modelo_contois(frame = frame26, altura = 15, largura = 72, x = 0, y = 0)
+Modulo_documentacao.caixa_texto_equacao_contois(frame = frame26, altura = 6, largura = 51, x = 250, y = 180)
+Label(frame26, text = "Descrição completa em:", font = "Times 8 bold", fg = "black", bg = "gray90").place(x = 5, y = 120)
+Button(frame26, text="https://brunaaq.github.io/Documentacao_fermenpy/#ausencia%20inibicao", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#ausencia%20inibicao')).place(x = 132, y = 119)
+image_docum(imagem = "Equacao_Contois.png", num_frame = frame26, borda = 5, x = 40, y = 200)
+## Monod:
+Modulo_documentacao.caixa_texto_modelo_monod(frame = frame27, altura = 15, largura = 72, x = 0, y = 0)
+Modulo_documentacao.caixa_texto_equacao_monod(frame = frame27, altura = 5, largura = 51, x = 250, y = 187)
+Label(frame27, text = "Descrição completa em:", font = "Times 8 bold", fg = "black", bg = "gray90").place(x = 5, y = 130)
+Button(frame27, text="https://brunaaq.github.io/Documentacao_fermenpy/#ausencia%20inibicao", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#ausencia%20inibicao')).place(x = 132, y = 129)
+image_docum(imagem = "Equacao_Monod.png", num_frame = frame27, borda = 5, x = 50, y = 200)
+## Moser:
+Modulo_documentacao.caixa_texto_modelo_moser(frame = frame28, altura = 15, largura = 72, x = 0, y = 0)
+Modulo_documentacao.caixa_texto_equacao_moser(frame = frame28, altura = 6, largura = 51, x = 250, y = 180)
+Label(frame28, text = "Descrição completa em:", font = "Times 8 bold", fg = "black", bg = "gray90").place(x = 5, y = 120)
+Button(frame28, text="https://brunaaq.github.io/Documentacao_fermenpy/#ausencia%20inibicao", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#ausencia%20inibicao')).place(x = 132, y = 119)
+image_docum(imagem = "Equacao_Moser.png", num_frame = frame28, borda = 5, x = 55, y = 200)
+## Andrews:
+Modulo_documentacao.caixa_texto_modelo_andrews(frame = frame29, altura = 15, largura = 72, x = 0, y = 0)
+Modulo_documentacao.caixa_texto_equacao_andrews(frame = frame29, altura = 6, largura = 51, x = 250, y = 180)
+Label(frame29, text = "Descrição completa em:", font = "Times 8 bold", fg = "black", bg = "gray90").place(x = 5, y = 130)
+Button(frame29, text="https://brunaaq.github.io/Documentacao_fermenpy/#inibicao%20substrato", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#inibicao%20substrato')).place(x = 132, y = 129)
+image_docum(imagem = "Equacao_Andrews.png", num_frame = frame29, borda = 5, x = 20, y = 195)
+## Wu:
+Modulo_documentacao.caixa_texto_modelo_wu(frame = frame30, altura = 15, largura = 72, x = 0, y = 0)
+Modulo_documentacao.caixa_texto_equacao_wu(frame = frame30, altura = 7, largura = 51, x = 262, y = 172)
+Label(frame30, text = "Descrição completa em:", font = "Times 8 bold", fg = "black", bg = "gray90").place(x = 5, y = 130)
+Button(frame30, text="https://brunaaq.github.io/Documentacao_fermenpy/#inibicao%20substrato", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#inibicao%20substrato')).place(x = 132, y = 129)
+image_docum(imagem = "Equacao_Wu.png", num_frame = frame30, borda = 5, x = 10, y = 195)
+## Aiba:
+Modulo_documentacao.caixa_texto_modelo_aiba(frame = frame31, altura = 15, largura = 72, x = 0, y = 0)
+Modulo_documentacao.caixa_texto_equacao_aiba(frame = frame31, altura = 7, largura = 51, x = 260, y = 170)
+Label(frame31, text = "Descrição completa em:", font = "Times 8 bold", fg = "black", bg = "gray90").place(x = 5, y = 120)
+Button(frame31, text="https://brunaaq.github.io/Documentacao_fermenpy/#inibicao%20produto", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#inibicao%20produto')).place(x = 132, y = 119)
+image_docum(imagem = "Equacao_Aiba.png", num_frame = frame31, borda = 5, x = 15, y = 200)
+## Hoppe & Hansford:
+Modulo_documentacao.caixa_texto_modelo_h_h(frame = frame32, altura = 15, largura = 72, x = 0, y = 0)
+Modulo_documentacao.caixa_texto_equacao_h_h(frame = frame32, altura = 7, largura = 51, x = 260, y = 165)
+Label(frame32, text = "Descrição completa em:", font = "Times 8 bold", fg = "black", bg = "gray90").place(x = 5, y = 120)
+Button(frame32, text="https://brunaaq.github.io/Documentacao_fermenpy/#inibicao%20produto", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#inibicao%20produto')).place(x = 132, y = 119)
+image_docum(imagem = "Equacao_Hoppe_Hansford.png", num_frame = frame32, borda = 5, x = 15, y = 200)
+## Levenspiel:
+Modulo_documentacao.caixa_texto_modelo_levenspiel(frame = frame33, altura = 15, largura = 72, x = 0, y = 0)
+Modulo_documentacao.caixa_texto_equacao_levenspiel(frame = frame33, altura = 8, largura = 51, x = 268, y = 160)
+Label(frame33, text = "Descrição completa em:", font = "Times 8 bold", fg = "black", bg = "gray90").place(x = 5, y = 130)
+Button(frame33, text="https://brunaaq.github.io/Documentacao_fermenpy/#inibicao%20produto", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#inibicao%20produto')).place(x = 132, y = 129)
+image_docum(imagem = "Equacao_Levenspiel.png", num_frame = frame33, borda = 5, x = 12, y = 200)
+## Lee:
+Modulo_documentacao.caixa_texto_modelo_lee(frame = frame34, altura = 15, largura = 72, x = 0, y = 0)
+Modulo_documentacao.caixa_texto_equacao_lee(frame = frame34, altura = 7, largura = 51, x = 268, y = 165)
+Label(frame34, text = "Descrição completa em:", font = "Times 8 bold", fg = "black", bg = "gray90").place(x = 5, y = 130)
+Button(frame34, text="https://brunaaq.github.io/Documentacao_fermenpy/#inibicao%20biomassa", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#inibicao%20biomassa')).place(x = 132, y = 129)
+image_docum(imagem = "Equacao_Lee.png", num_frame = frame34, borda = 5, x = 12, y = 200)
+# ALGORITMOS:
+## Integração numérica:
+Modulo_documentacao.caixa_texto_integ_num(frame = frame35, altura = 11, largura = 72, x = 0, y = 0)
+Label(frame35, text = "Documentação completa em:", font = "Times 8 bold", fg = "black", bg = "gray90").place(x = 5, y = 170)
+Button(frame35, text="https://brunaaq.github.io/Documentacao_fermenpy/#integracao%20numerica", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#integracao%20numerica')).place(x = 158, y = 169)
+## AG:
+Modulo_documentacao.caixa_texto_ag(frame = frame36, altura = 11, largura = 72, x = 0, y = 0)
+Label(frame36, text = "Documentação completa em:", font = "Times 8 bold", fg = "black", bg = "gray90").place(x = 5, y = 190)
+Button(frame36, text="https://brunaaq.github.io/Documentacao_fermenpy/#AG", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#AG')).place(x = 158, y = 189)
+## ALM:
+Modulo_documentacao.caixa_texto_alm(frame = frame37, altura = 11, largura = 72, x = 0, y = 0)
+Label(frame37, text = "Documentação completa em:", font = "Times 8 bold", fg = "black", bg = "gray90").place(x = 5, y = 170)
+Button(frame37, text="https://brunaaq.github.io/Documentacao_fermenpy/#ALM", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#ALM')).place(x = 158, y = 169)
+
             #### **** CODIFICAÇÃO PARA A PARTE REFERENTE À BATELADA ALIMENTADA - simulação e modelagem **** ####
 ## Combobox:
 v_0 = ("Taxa de Vazão Constante", "Taxa de Vazão Linear", "Taxa de Vazão Exponencial")
@@ -2720,11 +2832,11 @@ def simulacao(cont):
         df_params_simul_geral = params_geral_simul(const_sat_string = 'KSX(gs/gx)', const_sat_entr = [KSX])
     
     if (def_alim == "Taxa de Vazão Constante"):
-        df_params_simul_alim = pd.DataFrame({'Q0(L/h)': [Q_const], 'Cs_alim(gs/L)': [Cs_alim_const], 'V0(L)': [V0_const], 'tf_bat(h)': [tf_bat]})
+        df_params_simul_alim = pd.DataFrame({'Q(L/h)': [Q_const], 'Cs0_alim(gs/L)': [Cs_alim_const], 'V0(L)': [V0_const], 'tf_bat(h)': [tf_bat]})
     if (def_alim == "Taxa de Vazão Linear"):
-        df_params_simul_alim = pd.DataFrame({'Q(L/h)': [Q_lin], 'Cs_alim(gs/L)': [Cs_alim_lin], 'V0(L)': [V0_lin], 'a': [a], 'tf_bat(h)': [tf_bat]})
+        df_params_simul_alim = pd.DataFrame({'Q0(L/h)': [Q_lin], 'Cs0_alim(gs/L)': [Cs_alim_lin], 'V0(L)': [V0_lin], 'a': [a], 'tf_bat(h)': [tf_bat]})
     if (def_alim == "Taxa de Vazão Exponencial"):
-        df_params_simul_alim = pd.DataFrame({'Q(L/h)': [Q_exp], 'Cs_alim(gs/L)': [Cs_alim_exp], 'V0(L)': [V0_exp], 'beta_alim': [beta_exp], 'tf_bat(h)': [tf_bat]}) 
+        df_params_simul_alim = pd.DataFrame({'Q0(L/h)': [Q_exp], 'Cs0_alim(gs/L)': [Cs_alim_exp], 'V0(L)': [V0_exp], 'beta_alim': [beta_exp], 'tf_bat(h)': [tf_bat]}) 
     
     if (cont == 0): # Monod
         df_params_simul = pd.concat([df_params_simul_geral, df_params_simul_alim], axis = 1)
@@ -5523,6 +5635,14 @@ def explorer():
                 df_params_model_alim =pd.DataFrame({'mimax(h-¹)':[param_otim_alm_alim[0]],const_sat:[param_otim_alm_alim[1]],'Kd(1/h)':[param_otim_alm_alim[2]],'Yxs(gcél/gsub)':[param_otim_alm_alim[3]], 'alfa(gprod/gcél)': [param_otim_alm_alim[4]], 'beta(gprod/gcél.h)':[param_otim_alm_alim[5]]})
                 df_params_IC_alim = pd.DataFrame({'IC mimax(h-¹)':[ICpar_alim[0]],const_sat_ic:[ICpar_alim[1]],'IC Kd(1/h)':[ICpar_alim[2]],'IC Yxs(gcél/gsub)':[ICpar_alim[3]], 'IC alfa(gprod/gcél)': [ICpar_alim[4]], 'IC beta(gprod/gcél.h)':[ICpar_alim[5]]})
                 return(df_params_model_bat, df_params_IC_bat, df_params_model_alim, df_params_IC_alim)
+            
+            if (def_alim == "Taxa de Vazão Constante"):
+                df_params_model_alim_vaz = pd.DataFrame({'Q(L/h)': [Q_const], 'Cs0_alim(gs/L)': [Cs_alim_const], 'V0(L)': [V0_const], 'tf_bat(h)': [tf_bat]})
+            if (def_alim == "Taxa de Vazão Linear"):
+                df_params_model_alim_vaz = pd.DataFrame({'Q0(L/h)': [Q_lin], 'Cs0_alim(gs/L)': [Cs_alim_lin], 'V0(L)': [V0_lin], 'a': [a], 'tf_bat(h)': [tf_bat]})
+            if (def_alim == "Taxa de Vazão Exponencial"):
+                df_params_model_alim_vaz = pd.DataFrame({'Q0(L/h)': [Q_exp], 'Cs0_alim(gs/L)': [Cs_alim_exp], 'V0(L)': [V0_exp], 'beta_alim': [beta_exp], 'tf_bat(h)': [tf_bat]}) 
+            
             if (cont_model == 0): # Monod (6p)
                 # - Batelada e Batelada Alimentada:
                 df_params_model_bat = excel_param_defin(const_sat = const_sat_list[0], const_sat_ic = const_sat_list[2])[0]
@@ -5641,7 +5761,7 @@ def explorer():
                 df_params_model_alim = pd.concat([df_params_model_alim_lee, df_params_model_alim_m_Cx], axis = 1)
                 df_params_IC_alim = pd.concat([df_params_IC_alim_lee, df_params_IC_alim_m_Cx], axis = 1)
             # - DataFrame com o modo de operação:
-            df_saida = pd.concat([df_params_model_bat, df_params_IC_bat, df_params_model_alim, df_params_IC_alim], axis = 1)
+            df_saida = pd.concat([df_params_model_bat, df_params_IC_bat, df_params_model_alim, df_params_IC_alim, df_params_model_alim_vaz], axis = 1)
             with pd.ExcelWriter('Modelagem_Parametros_Cineticos.xlsx') as writer:
                 df_saida.to_excel(writer, sheet_name="Param_model")
                 writer.save()
@@ -5652,6 +5772,7 @@ def explorer():
         botao_excel(imagem = "Excel.png", num_frame = frame2, x = 1036, y = 80, comando = excel_param)
                
         ####### ****** FIM DA MODELAGEM ******* #########
+        # Quebra da função para modelagem:
         return()
       
 
@@ -5827,5 +5948,5 @@ def explorer():
 arq_sel = Label(frame2, width = 50)
 arq_sel.place(x = 460, y = 50)
 
-# Encerramento da janela:
+# Encerramento da janela e do programa em si:
 janela.mainloop() 
