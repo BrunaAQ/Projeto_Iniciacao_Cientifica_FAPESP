@@ -225,7 +225,10 @@ def notebook_docum():
     notebook_docum.add(frame33, text = 'Levenspiel')
     global frame34
     frame34 = ttk.Frame(notebook_docum, width = 602, height = 310, borderwidth = 5, relief = tk.GROOVE)
-    notebook_docum.add(frame34, text = 'Lee et al')   
+    notebook_docum.add(frame34, text = 'Lee et al')  
+    global frame48
+    frame48 = ttk.Frame(notebook_docum, width = 602, height = 310, borderwidth = 5, relief = tk.GROOVE)
+    notebook_docum.add(frame48, text = u'\u03bc constante')
 def notebook_algorit():
     notebook_algorit = ttk.Notebook(frame3)
     notebook_algorit.place(x = 660, y = 165)
@@ -382,11 +385,20 @@ Button(frame3, text="https://brunaaq.github.io/Documentacao_fermenpy/#balanco%20
 # Equação geral:
 Label(frame3, text = "Princípio da conservação de massa", font = "Times 8 bold", fg = "black", bg = "grey75", borderwidth = 2, relief = "flat").place(x = 450, y = 64)
 Label(frame3, text = "Entrada - Saída + Geração - Consumo = Acúmulo", font = "Times 7 bold italic", fg = "black", bg = "grey75", borderwidth = 2, relief = "flat").place(x = 451, y = 85)
+# Células:
+Label(frame3, text = "0 - 0 + Geração - Consumo = Acúmulo", font = "Times 8 bold italic", fg = "black", bg = "grey77", borderwidth = 2, relief = "flat").place(x = 660, y = 56)
+image_docum(imagem = "Balanco_massa_Cx_alim.png", num_frame = frame3, borda = 2, x = 705, y = 77)
+# Substrato:
+Label(frame3, text = "Entra - 0 + 0 - Consumo = Acúmulo", font = "Times 8 bold italic", fg = "black", bg = "grey79", borderwidth = 2, relief = "flat").place(x = 874, y = 56)
+image_docum(imagem = "Balanco_massa_Cs_alim.png", num_frame = frame3, borda = 2, x = 895, y = 77)
+# Produto:
+Label(frame3, text = "0 - 0 + Gerado - 0 = Acúmulo", font = "Times 8 bold italic", fg = "black", bg = "grey81", borderwidth = 2, relief = "flat").place(x = 1092, y = 56)
+image_docum(imagem = "Balanco_massa_Cp_alim.png", num_frame = frame3, borda = 2, x = 1092, y = 77)
 ## Textos para documentação
 # Batelada alimentada:
 Modulo_documentacao.caixa_texto_batelada_alimentada(frame = frame3, altura = 5, largura = 56, x = 35, y = 30)
 Label(frame3, text = "Explicação completa em:", font = "Times 8 bold", fg = "black", bg = "gray80").place(x = 40, y = 70)
-Button(frame3, text="https://brunaaq.github.io/Documentacao_fermenpy/#batelada", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#batelada')).place(x = 40, y = 87)
+Button(frame3, text="https://brunaaq.github.io/Documentacao_fermenpy/#batelada%20alimentada", font = "calibri 7", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#batelada')).place(x = 40, y = 87)
 # Modelos Cinéticos:
 ## Contois:
 Modulo_documentacao.caixa_texto_modelo_contois(frame = frame26, altura = 15, largura = 72, x = 0, y = 0)
@@ -406,6 +418,12 @@ Modulo_documentacao.caixa_texto_equacao_moser(frame = frame28, altura = 6, largu
 Label(frame28, text = "Descrição completa em:", font = "Times 8 bold", fg = "black", bg = "gray90").place(x = 5, y = 120)
 Button(frame28, text="https://brunaaq.github.io/Documentacao_fermenpy/#ausencia%20inibicao", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#ausencia%20inibicao')).place(x = 132, y = 119)
 image_docum(imagem = "Equacao_Moser.png", num_frame = frame28, borda = 5, x = 55, y = 200)
+## mi constante:
+Modulo_documentacao.caixa_texto_modelo_mi_constante(frame = frame48, altura = 15, largura = 72, x = 0, y = 0)
+Modulo_documentacao.caixa_texto_equacao_mi_constante(frame = frame48, altura = 2, largura = 51, x = 205, y = 195)
+Label(frame48, text = "Descrição completa em:", font = "Times 8 bold", fg = "black", bg = "gray90").place(x = 5, y = 120)
+Button(frame48, text="https://brunaaq.github.io/Documentacao_fermenpy/#ausencia%20inibicao", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#ausencia%20inibicao')).place(x = 132, y = 119)
+image_docum(imagem = "Equacao_mi_const.png", num_frame = frame48, borda = 5, x = 120, y = 200)
 ## Andrews:
 Modulo_documentacao.caixa_texto_modelo_andrews(frame = frame29, altura = 15, largura = 72, x = 0, y = 0)
 Modulo_documentacao.caixa_texto_equacao_andrews(frame = frame29, altura = 6, largura = 51, x = 250, y = 180)
