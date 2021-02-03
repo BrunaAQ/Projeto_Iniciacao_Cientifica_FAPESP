@@ -9,7 +9,7 @@ Created on Sat Oct 31 14:25:10 2020
              ## MODELAGEM BATELADA ALIMENTADA VAZÃO LINEAR CONSTANTE CINÉTICA CLÁSSICA ##
 
 # Importação das bibliotecas necessárias para as partes não modulares:
-import Modulos_Monod_bat_alim
+import Modulos_Monod_bat_alim_sem_Kd
 import Modulos_configuracao_graficos
 import Modulo_peso_limite_AG
 from scipy.integrate import odeint
@@ -26,7 +26,7 @@ import time
      #*ETAPA 1*# - BATELADA
 ## Módulos:
 ### Valores dos parâmetros do modelo e condição inicial:
-dad_entr_geral = Modulos_Monod_bat_alim.entr_Monod()
+dad_entr_geral = Modulos_Monod_bat_alim_sem_Kd.entr_Monod()
 ## Valor de entrada dos parâmetros cinéticos
 pars_entr = dad_entr_geral[0]
 mimaximo = pars_entr[0]
@@ -89,7 +89,7 @@ start_tempo = time.time()
   ##*Algoritmo Genético (global)*##
 # Módulos
 ## Função com as equações modelo com os parâmetros atribuídos a argumentos:
-func_args_bat = Modulos_Monod_bat_alim.modelag_bat_Monod_func_args()
+func_args_bat = Modulos_Monod_bat_alim_sem_Kd.modelag_bat_Monod_func_args()
 ## Atribuição de pesos a Cx, Cs e Cp para a modelagem (tendência de convergência - ideia de prioridade):
 dpC = Modulo_peso_limite_AG.peso()
 ## Função objetiva, compara os pontos experimentais com o sistema cinético adotado:
