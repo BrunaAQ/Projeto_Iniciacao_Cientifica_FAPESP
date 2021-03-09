@@ -8,7 +8,7 @@ Created on Thu Nov 19 15:27:07 2020
                     ## MODELAGEM BATELADA ALIMENTADA À VAZÃO LINEAR CINÉTICA DE WU ET AL ##
 
 # Importação das bibliotecas necessárias para as partes não modulares:
-import Modulos_Wu_et_al_bat_alim
+import Modulos_Wu_et_al_bat_alim_sem_Kd
 import Modulo_peso_limite_AG
 from scipy.integrate import odeint
 import matplotlib.pyplot as plt
@@ -25,7 +25,7 @@ import time
         #*ETAPA 1*# - BATELADA
 ## Módulos:
 ### Valores dos parâmetros do modelo e condição inicial:
-dad_entr_geral = Modulos_Wu_et_al_bat_alim.entr_Wu_et_al()
+dad_entr_geral = Modulos_Wu_et_al_bat_alim_sem_Kd.entr_Wu_et_al()
 ## Valor de entrada dos parâmetros cinéticos
 pars_entr = dad_entr_geral[0]
 mimaximo = pars_entr[0]
@@ -63,7 +63,7 @@ a = param_oper_alim[6]
 def bat_alim_Wu_et_al(Concent,t_exp_alim):
     Cx,Cs,Cp = Concent
     mi = mimaximo * (Cs/(Ks + Cs + Cs*((Cs/KE)**v)))
-    D = (Q0*(1 + a*t_exp_alim))/((Q0*(t_exp_alim + (a*t_exp_alim**2))) + V0)
+    D = (Q0*(1 + a*t_exp_alim))/((Q0*(t_exp_alim + (a*((t_exp_alim**2)/2)))) + V0)
     dCxdt = (mi-D)*Cx
     dCsdt = D*(Cs0_corrent_alim-Cs)-((mi*Cx)/Yxs)
     dCpdt = D*(Cp0_alim-Cp)+Cx*(beta+alfa*mi)
@@ -88,7 +88,7 @@ start_tempo = time.time()
   ##*Algoritmo Genético (global)*##
 # Módulos
 ## Função com as equações modelo com os parâmetros atribuídos a argumentos:
-func_args_bat = Modulos_Wu_et_al_bat_alim.modelag_bat_Wu_et_al_func_args()
+func_args_bat = Modulos_Wu_et_al_bat_alim_sem_Kd.modelag_bat_Wu_et_al_func_args()
 ## Atribuição de pesos a Cx, Cs e Cp para a modelagem (tendência de convergência - ideia de prioridade):
 dpC = Modulo_peso_limite_AG.peso()
 ## Função objetiva, compara os pontos experimentais com o sistema cinético adotado:
@@ -156,7 +156,7 @@ def func_args_alim(C, t_exp_alim, *args):
     v = args[6]
         
     mi = mimaximo * (C[1]/(Ks + C[1] + C[1]*((C[1]/KE)**v)))
-    D = (Q0*(1 + a*t_exp_alim))/((Q0*(t_exp_alim + (a*t_exp_alim**2))) + V0)
+    D = (Q0*(1 + a*t_exp_alim))/((Q0*(t_exp_alim + (a*((t_exp_alim**2))))) + V0)
     dCxdt = (mi - D)*C[0]
     dCsdt = D*(Cs0_corrent_alim - C[1]) - ((mi*C[0])/Yxs)
     dCpdt = D*(Cp0_alim - C[2]) + C[0]*(beta + alfa*mi)
@@ -504,5 +504,3 @@ f.set_figwidth(14)
 f.patch.set_facecolor('white')                                   
 plt.style.use('default')                       
 plt.show() 
-
-
