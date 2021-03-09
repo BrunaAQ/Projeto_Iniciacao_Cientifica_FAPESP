@@ -5,10 +5,10 @@ Created on Thu Nov 19 15:22:29 2020
 @author: Bruna Aparecida
 """
 
-                    ## MODELAGEM BATELADA ALIMENTADA À VAZÃO LINEAR CINÉTICA DE LEE ET AL ##
+                    ## MODELAGEM BATELADA ALIMENTADA À VAZÃO LINEAR CINÉTICA DE LEVENSPIEL ##
 
 # Importação das bibliotecas necessárias para as partes não modulares:
-import Modulos_Lee_et_al_bat_alim
+import Modulos_Levenspiel_bat_alim_sem_Kd
 import Modulo_peso_limite_AG
 from scipy.integrate import odeint
 import matplotlib.pyplot as plt
@@ -25,7 +25,7 @@ import time
         #*ETAPA 1*# - BATELADA
 ## Módulos:
 ### Valores dos parâmetros do modelo e condição inicial:
-dad_entr_geral = Modulos_Lee_et_al_bat_alim.entr_Lee_et_al()
+dad_entr_geral = Modulos_Levenspiel_bat_alim_sem_Kd.entr_Levenspiel()
 ## Valor de entrada dos parâmetros cinéticos
 pars_entr = dad_entr_geral[0]
 mimaximo = pars_entr[0]
@@ -33,12 +33,12 @@ Ks = pars_entr[1]
 Yxs = pars_entr[7]
 alfa = pars_entr[8]
 beta = pars_entr[9]
-m = pars_entr[10]
-Cx_estr = pars_entr[11]
+n = pars_entr[10]
+Cp_estr = pars_entr[11]
 ## Integração numérica (sistema de EDOs):
 def bat_Lee_et_al(Concent,t_exp_bat):
     Cx,Cs,Cp = Concent
-    mi = mimaximo*((Cs/(Ks+Cs))*((abs(1-(Cx/Cx_estr)))**m))
+    mi = mimaximo*((Cs/(Ks+Cs))*((abs(1-(Cp/Cp_estr)))**n))
     dCxdt = mi*Cx
     dCsdt = (-1/Yxs)*mi*Cx
     dCpdt = alfa*mi*Cx+beta*Cx
@@ -62,8 +62,8 @@ a = param_oper_alim[6]
 ## Integração numérica (sistema de EDOs):
 def bat_alim_Lee_et_al(Concent,t_exp_alim):
     Cx,Cs,Cp = Concent
-    mi = mimaximo*((Cs/(Ks+Cs))*((abs(1-(Cx/Cx_estr)))**m))
-    D = (Q0*(1 + a*t_exp_alim))/((Q0*(t_exp_alim + (a*t_exp_alim**2))) + V0)
+    mi = mimaximo*((Cs/(Ks+Cs))*((abs(1-(Cp/Cp_estr)))**n))
+    D = (Q0*(1 + a*t_exp_alim))/((Q0*(t_exp_alim + (a*((t_exp_alim**2)/2)))) + V0)
     dCxdt = (mi-D)*Cx
     dCsdt = D*(Cs0_corrent_alim-Cs)-((mi*Cx)/Yxs)
     dCpdt = D*(Cp0_alim-Cp)+Cx*(beta+alfa*mi)
@@ -88,7 +88,7 @@ start_tempo = time.time()
   ##*Algoritmo Genético (global)*##
 # Módulos
 ## Função com as equações modelo com os parâmetros atribuídos a argumentos:
-func_args_bat = Modulos_Lee_et_al_bat_alim.modelag_bat_Lee_et_al_func_args()
+func_args_bat = Modulos_Levenspiel_bat_alim_sem_Kd.modelag_bat_Levenspiel_func_args()
 ## Atribuição de pesos a Cx, Cs e Cp para a modelagem (tendência de convergência - ideia de prioridade):
 dpC = Modulo_peso_limite_AG.peso()
 ## Função objetiva, compara os pontos experimentais com o sistema cinético adotado:
@@ -156,7 +156,7 @@ def func_args_alim(C, t_exp_alim, *args):
     Cx_estr = args[6]
         
     mi = mimaximo*((C[1]/(Ks+C[1]))*((abs(1-(C[0]/Cx_estr)))**m))
-    D = (Q0*(1 + a*t_exp_alim))/((Q0*(t_exp_alim + (a*t_exp_alim**2))) + V0)
+    D = (Q0*(1 + a*t_exp_alim))/((Q0*(t_exp_alim + (a*((t_exp_alim**2)/2)))) + V0)
     dCxdt = (mi - D)*C[0]
     dCsdt = D*(Cs0_corrent_alim - C[1]) - ((mi*C[0])/Yxs)
     dCpdt = D*(Cp0_alim - C[2]) + C[0]*(beta + alfa*mi)
@@ -504,5 +504,3 @@ f.set_figwidth(14)
 f.patch.set_facecolor('white')                                   
 plt.style.use('default')                       
 plt.show() 
-
-
