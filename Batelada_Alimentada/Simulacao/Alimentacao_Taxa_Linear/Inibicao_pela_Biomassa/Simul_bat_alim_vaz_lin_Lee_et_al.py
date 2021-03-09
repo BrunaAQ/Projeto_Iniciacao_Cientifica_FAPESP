@@ -114,7 +114,7 @@ with pd.ExcelWriter('Output_batelada_processos_fermentativos.xlsx',engine = 'ope
 def modeloscrescimentoalimentada (Concent,tal):
     Cx,Cs,Cp = Concent
     mi = mimaximo*((Cs/(Ks+Cs))*((abs(1-(Cx/Cx_estr)))**m))
-    D = (Q0*(1 + a*tal))/((Q0*(tal+(a*tal**2))) + V0)
+    D = (Q0*(1 + a*tal))/((Q0*(tal+((a*tal**2)/2))) + V0)
     dCxdt = (mi-D)*Cx
     dCsdt = D*(Cs0alimentacao-Cs)-((mi*Cx)/Yxs)
     dCpdt = D*(Cp0ba-Cp)+Cx*(beta+alfa*mi)
@@ -300,7 +300,7 @@ plt.show()
 t_ba = Tfba - Tfbatelada
 t_total_ba = np.arange(Tfbatelada, t_ba, Intervaloba)
 ## Cálculo volume(t) - integração dV/dt = Q para descrito pela equação linear:
-V_calc = (Q0*(t_total_ba + (a*t_total_ba**2))) + V0
+V_calc = (Q0*(t_total_ba + (a*((t_total_ba**2)/2)))) + V0
 
 ## Plotando a figura gráfica - variação do volume do tanque: 
 tam_graf()   
