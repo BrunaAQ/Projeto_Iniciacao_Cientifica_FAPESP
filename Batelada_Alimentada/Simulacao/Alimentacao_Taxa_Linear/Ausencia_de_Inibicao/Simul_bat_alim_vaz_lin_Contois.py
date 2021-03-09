@@ -111,7 +111,7 @@ with pd.ExcelWriter('Output_batelada_processos_fermentativos.xlsx',engine = 'ope
 def modeloscrescimentoalimentada (Concent,tal):
     Cx,Cs,Cp=Concent
     mi = mimaximo*(Cs/(KSX*Cx+Cs))
-    D = (Q0*(1 + a*tal))/((Q0*(tal+(a*tal**2))) + V0)
+    D = (Q0*(1 + a*tal))/((Q0*(tal+((a*tal**2)/2))) + V0)
     dCxdt = (mi-D)*Cx
     dCsdt = D*(Cs0alimentacao-Cs)-((mi*Cx)/Yxs)
     dCpdt = D*(Cp0ba-Cp)+Cx*(beta+alfa*mi)
@@ -314,7 +314,7 @@ _ = plt.style.use('default')
 
 ## Variação linear temporal da vazão de alimentação:
 ### Função Q(t) original:
-Q_calc = Q0*(1 + a*t_total_ba)
+Q_calc = Q0*(1 + ((a*t_total_ba)/2))
 
 
 ## Plotando a figura gráfica - Vazão:  
@@ -330,6 +330,3 @@ _ = f.set_figheight(9)
 _ = f.set_figwidth(14) 
 _ = f.patch.set_facecolor('white')                                   
 _ = plt.style.use('default')    
-
-
-
