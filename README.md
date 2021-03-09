@@ -1,5 +1,8 @@
-# Projeto de pesquisa Iniciação Científica N°2019/24737-9
+# 🖥️ 🔬 Projeto de pesquisa Iniciação Científica N°2019/24737-9 🧫 🦠
 As pastas que trazem os arquivos escritos em Python (._py_) ou ainda salvos em outra extensão (._xlsx_ e ._png_) que contemplam os resultados apresentados e discutidos no Relatório Parcial submetido à FAPESP para análise foram criadas seguindo o esquema descrito abaixo (o repositório utilizado na rotina de trabalho para desenvolvimento do projeto, com todos os commits (alterações e versionamentos) realizados, encontra-se nomeado por "Projeto_fermenpy" e associado à mesma conta deste aqui tratado). 
+
+## Pastas inseridas referentes ao Relatório Científico Final:
+  - 
 
 - ___"Partes_Modulares.py":___ Guarda os códigos cujas linhas de comandos descrevem funções que permitem a importação automatizada dos valores fornecidos a cada um dos parâmetros cinéticos envolvidos nos equacionamentos cinéticos estudados para a automatização da simulação, bem como a de funções objetivas e dos sistemas de equações não lineares empregados nas etapas de modelagem computacional. Ainda, os módulos atuam na definição dos limites (_bounds_) e pesos necessários à satisfatória definição do algoritmo de evolução diferencial através do _differential evolution_, bem como permitem a construção da documentação que será inserida na interface Fermenpy. São importados para os códigos .py principais, necessitando, para tanto, estarem alocados no mesmo diretório em que os mesmos se encontram armazenados na máquina de operação dos algoritmos;
 
