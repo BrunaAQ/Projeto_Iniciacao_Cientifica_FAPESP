@@ -29,15 +29,17 @@ Tfbatelada = 10
 ##Intervalo de tempo (passo):
 Intervalobatelada = 0.5
 ##Entrada para a taxa específica de crescimento:
-mimaximo = 0.4
+mimaximo_bat = 0.4
 ##Entrada para a constante Ks:
-Ks = 2
+Ks_bat = 2
 ##Entrada para o coeficiente Yx/s:
-Yxs = 0.3
+Yxs_bat = 0.3
 ##Entrada para a constante alfa:
-alfa = 0.3
+alfa_bat = 0.3
 ##Entrada para a constante beta:
-beta = 0.1
+beta_bat = 0.1
+##Entrada para a constande de morte Kd:
+Kd_bat = 0.001
 
 #BATELADA ALIMENTADA
 ##Concentração de substrato na corrente de alimentação:
@@ -55,17 +57,19 @@ Vf = 6
 ##Vazão inicial de alimentação:
 Q0 = 2
 ##Parâmetro do modelo de alimentação:
-a = 1000
+a = 0.1
 ##Entrada para a taxa específica de crescimento:
-mimaximo = 0.3
+mimaximo_ba = 0.3
 ##Entrada para a constante Ks:
-Ks = 3.1
+Ks_ba = 3.1
 ##Entrada para o coeficiente Yx/s:
-Yxs = 0.3
+Yxs_ba= 0.3
 ##Entrada para a constante alfa:
-alfa = 0.3
+alfa_ba = 0.3
 ##Entrada para a constante beta:
-beta = 0.1
+beta_ba = 0.1
+##Entrada para a constande de morte Kd:
+Kd_ba = 0.001
 
                                 ## INTEGRAÇÃO NUMÉRICO-COMPUTACIONAL DE EDOs ##
 
@@ -73,10 +77,10 @@ beta = 0.1
 #Definindo o sistema de EDOs:
 def modeloscrescimentobatelada (Concent,tbatelada):
     Cx,Cs,Cp = Concent
-    mi = mimaximo*(Cs/(Ks+Cs))
-    dCxdt = mi*Cx
-    dCsdt = (-1/Yxs)*mi*Cx
-    dCpdt = alfa*mi*Cx+beta*Cx
+    mi = mimaximo_bat * (Cs / (Ks_bat + Cs))
+    dCxdt = (mi - Kd_bat) * Cx
+    dCsdt = (-1 / Yxs_bat) * mi * Cx
+    dCpdt = alfa_bat * mi* Cx + beta_bat * Cx
     return(dCxdt,dCsdt,dCpdt)
 
 # Condições iniciais:
@@ -110,11 +114,11 @@ with pd.ExcelWriter('Output_batelada_processos_fermentativos.xlsx',engine = 'ope
 # Definindo o sistema de EDOs:
 def modeloscrescimentoalimentada (Concent,tal):
     Cx,Cs,Cp = Concent
-    mi = mimaximo*(Cs/(Ks+Cs))
-    D = (Q0*(1 + a*tal))/((Q0*(tal+(a*tal**2))) + V0)
-    dCxdt = (mi-D)*Cx
-    dCsdt = D*(Cs0alimentacao-Cs)-((mi*Cx)/Yxs)
-    dCpdt = D*(Cp0ba-Cp)+Cx*(beta+alfa*mi)
+    mi = mimaximo_ba * (Cs / (Ks_ba + Cs))
+    D = (Q0 * (1 + a * tal)) / ((Q0 * (tal + (a * ((tal ** 2)/2)))) + V0)
+    dCxdt = (mi - Kd_ba - D) * Cx
+    dCsdt = D * (Cs0alimentacao - Cs) - ((mi * Cx) / Yxs_ba)
+    dCpdt = D * (Cp0ba - Cp) + Cx * (beta_ba + alfa_ba * mi)
     return(dCxdt,dCsdt,dCpdt)
     
 # Condições iniciais:
@@ -273,8 +277,8 @@ _ = f.patch.set_facecolor('white')
 _ = plt.style.use('default')    
 plt.show()
 
-## Cálculo mi:
-mi = mimaximo*(concentotals/(Ks+concentotals))
+## Cálculo mi: * manter a batelada alimentada (teoricamente se mantém igual à batelada)
+mi = mimaximo_ba * (concentotals / (Ks_ba + concentotals))
 
 ## Plotando a figura gráfica - velocidade de crescimento: 
 tam_graf()   
@@ -296,7 +300,7 @@ plt.show()
 t_ba = Tfba - Tfbatelada
 t_total_ba = np.arange(Tfbatelada, t_ba, Intervaloba)
 ## Cálculo volume(t) - integração dV/dt = Q para descrito pela equação linear:
-V_calc = (Q0*(t_total_ba + (a*t_total_ba**2))) + V0
+V_calc = (Q0*(t_total_ba + (a*((t_total_ba**2)/2)))) + V0
 
 ## Plotando a figura gráfica - variação do volume do tanque: 
 tam_graf()   
@@ -329,5 +333,3 @@ _ = f.set_figheight(9)
 _ = f.set_figwidth(14) 
 _ = f.patch.set_facecolor('white')                                   
 _ = plt.style.use('default')    
-
-
