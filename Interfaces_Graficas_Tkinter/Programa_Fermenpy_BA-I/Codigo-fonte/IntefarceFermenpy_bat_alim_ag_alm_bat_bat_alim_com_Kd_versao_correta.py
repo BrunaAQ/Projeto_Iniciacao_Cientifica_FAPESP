@@ -28,7 +28,6 @@ import Modulos_Lee_et_al_bat_alim
 ### * Módulos auxiliares * ### - documentação e limites para convergência
 import Modulo_peso_limite_AG_bat_alim
 import Modulo_documentacao
-import Modulo_documentacao
 ## Bibliotecas científicas
 ## ** BACK-END ** ##
 ### * Base para operações matemáticas * ### - cálculos vetoriais, com dataframes e estatísticos
@@ -363,8 +362,8 @@ notebook_docum()
 Label(frame3, text = "Implementação computacional", font = "Times 10 bold", fg = "black", bg = "grey75", borderwidth = 2, relief = "groove").place(x = 632, y = 140)
 notebook_algorit()   
 # Visite nossa página:
-Label(frame3, text = "Visite nossa página completa", font = "Times 10 bold", fg = "black", bg = "grey75", borderwidth = 2, relief = "groove").place(x = 1030, y = 458)
-Button(frame3, text="https://brunaaq.github.io/Documentacao_fermenpy/", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/')).place(x = 1030, y = 480)
+Label(frame3, text = "Visite nossa página completa", font = "Times 10 bold", fg = "black", bg = "grey75", borderwidth = 2, relief = "groove").place(x = 1132, y = 458)
+Button(frame3, text="https://brunaaq.github.io/Documentacao_Projeto_FermenPy_FAPESP/index.html", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_Projeto_FermenPy_FAPESP/index.html')).place(x = 905, y = 480)
 # Documentação batelada:
 Label(frame3, text = "Batelada Alimentada", font = "Times 10 bold", fg = "black", bg = "grey75", borderwidth = 2, relief = "groove").place(x = 5, y = 0)
 Label(frame3, bg = "grey85", width = 50, height = 6, borderwidth = 2, relief = "groove").place(x = 30, y = 25)
@@ -379,8 +378,8 @@ Label(frame3, text = "Equação Geral", font = "Times 8 bold", fg = "white", bg 
 Label(frame3, text = "Células", font = "Times 8 bold", fg = "white", bg = "black", borderwidth = 2, relief = "groove").place(x = 657, y = 36)
 Label(frame3, text = "Substrato", font = "Times 8 bold", fg = "white", bg = "black", borderwidth = 2, relief = "groove").place(x = 863, y = 36)
 Label(frame3, text = "Produto", font = "Times 8 bold", fg = "white", bg = "black", borderwidth = 2, relief = "groove").place(x = 1069, y = 36)
-Label(frame3, text = "Os balanços completos estão disponíveis em:", font = "Times 8 bold", fg = "black").place(x = 683, y = 1)
-Button(frame3, text="https://brunaaq.github.io/Documentacao_fermenpy/#balanco%20massa", font = "calibri 8", fg = "blue", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#balanco%20massa')).place(x = 919, y = 0)
+Label(frame3, text = "Os balanços completos estão disponíveis em:", font = "Times 8 bold", fg = "black").place(x = 643, y = 1)
+Button(frame3, text="https://brunaaq.github.io/Documentacao_Projeto_FermenPy_FAPESP/documentacao.html#balanco_massa", font = "calibri 7", fg = "blue", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_Projeto_FermenPy_FAPESP/documentacao.html#balanco_massa')).place(x = 879, y = 2)
 ## Linhas para impressão das equações balanceadas:
 # Equação geral:
 Label(frame3, text = "Princípio da conservação de massa", font = "Times 8 bold", fg = "black", bg = "grey75", borderwidth = 2, relief = "flat").place(x = 450, y = 64)
@@ -398,81 +397,81 @@ image_docum(imagem = "Balanco_massa_Cp_alim.png", num_frame = frame3, borda = 2,
 # Batelada alimentada:
 Modulo_documentacao.caixa_texto_batelada_alimentada(frame = frame3, altura = 5, largura = 56, x = 35, y = 30)
 Label(frame3, text = "Explicação completa em:", font = "Times 8 bold", fg = "black", bg = "gray80").place(x = 40, y = 70)
-Button(frame3, text="https://brunaaq.github.io/Documentacao_fermenpy/#batelada%20alimentada", font = "calibri 7", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#batelada')).place(x = 40, y = 87)
+Button(frame3, text="https://brunaaq.github.io/Documentacao_Projeto_FermenPy_FAPESP/documentacao.html#batelada_alimentada", font = "calibri 5", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_Projeto_FermenPy_FAPESP/documentacao.html#batelada_alimentada')).place(x = 40, y = 87)
 # Modelos Cinéticos:
 ## Contois:
 Modulo_documentacao.caixa_texto_modelo_contois(frame = frame26, altura = 15, largura = 72, x = 0, y = 0)
 Modulo_documentacao.caixa_texto_equacao_contois(frame = frame26, altura = 6, largura = 51, x = 250, y = 180)
 Label(frame26, text = "Descrição completa em:", font = "Times 8 bold", fg = "black", bg = "gray90").place(x = 5, y = 120)
-Button(frame26, text="https://brunaaq.github.io/Documentacao_fermenpy/#ausencia%20inibicao", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#ausencia%20inibicao')).place(x = 132, y = 119)
+Button(frame26, text="https://brunaaq.github.io/Documentacao_Projeto_FermenPy_FAPESP/documentacao.html#ausencia_inibicao", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_Projeto_FermenPy_FAPESP/documentacao.html#ausencia_inibicao')).place(x = 7, y = 139)
 image_docum(imagem = "Equacao_Contois.png", num_frame = frame26, borda = 5, x = 40, y = 200)
 ## Monod:
 Modulo_documentacao.caixa_texto_modelo_monod(frame = frame27, altura = 15, largura = 72, x = 0, y = 0)
 Modulo_documentacao.caixa_texto_equacao_monod(frame = frame27, altura = 5, largura = 51, x = 250, y = 187)
 Label(frame27, text = "Descrição completa em:", font = "Times 8 bold", fg = "black", bg = "gray90").place(x = 5, y = 130)
-Button(frame27, text="https://brunaaq.github.io/Documentacao_fermenpy/#ausencia%20inibicao", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#ausencia%20inibicao')).place(x = 132, y = 129)
+Button(frame27, text="https://brunaaq.github.io/Documentacao_Projeto_FermenPy_FAPESP/documentacao.html#ausencia_inibicao", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_Projeto_FermenPy_FAPESP/documentacao.html#ausencia_inibicao')).place(x = 7, y = 149)
 image_docum(imagem = "Equacao_Monod.png", num_frame = frame27, borda = 5, x = 50, y = 200)
 ## Moser:
 Modulo_documentacao.caixa_texto_modelo_moser(frame = frame28, altura = 15, largura = 72, x = 0, y = 0)
 Modulo_documentacao.caixa_texto_equacao_moser(frame = frame28, altura = 6, largura = 51, x = 250, y = 180)
 Label(frame28, text = "Descrição completa em:", font = "Times 8 bold", fg = "black", bg = "gray90").place(x = 5, y = 120)
-Button(frame28, text="https://brunaaq.github.io/Documentacao_fermenpy/#ausencia%20inibicao", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#ausencia%20inibicao')).place(x = 132, y = 119)
+Button(frame28, text="https://brunaaq.github.io/Documentacao_Projeto_FermenPy_FAPESP/documentacao.html#ausencia_inibicao", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_Projeto_FermenPy_FAPESP/documentacao.html#ausencia_inibicao')).place(x = 7, y = 139)
 image_docum(imagem = "Equacao_Moser.png", num_frame = frame28, borda = 5, x = 55, y = 200)
 ## mi constante:
 Modulo_documentacao.caixa_texto_modelo_mi_constante(frame = frame48, altura = 15, largura = 72, x = 0, y = 0)
 Modulo_documentacao.caixa_texto_equacao_mi_constante(frame = frame48, altura = 2, largura = 51, x = 205, y = 195)
 Label(frame48, text = "Descrição completa em:", font = "Times 8 bold", fg = "black", bg = "gray90").place(x = 5, y = 120)
-Button(frame48, text="https://brunaaq.github.io/Documentacao_fermenpy/#ausencia%20inibicao", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#ausencia%20inibicao')).place(x = 132, y = 119)
+Button(frame48, text="https://brunaaq.github.io/Documentacao_Projeto_FermenPy_FAPESP/documentacao.html#ausencia_inibicao", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_Projeto_FermenPy_FAPESP/documentacao.html#ausencia_inibicao')).place(x = 7, y = 139)
 image_docum(imagem = "Equacao_mi_const.png", num_frame = frame48, borda = 5, x = 120, y = 200)
 ## Andrews:
 Modulo_documentacao.caixa_texto_modelo_andrews(frame = frame29, altura = 15, largura = 72, x = 0, y = 0)
 Modulo_documentacao.caixa_texto_equacao_andrews(frame = frame29, altura = 6, largura = 51, x = 250, y = 180)
 Label(frame29, text = "Descrição completa em:", font = "Times 8 bold", fg = "black", bg = "gray90").place(x = 5, y = 130)
-Button(frame29, text="https://brunaaq.github.io/Documentacao_fermenpy/#inibicao%20substrato", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#inibicao%20substrato')).place(x = 132, y = 129)
+Button(frame29, text="https://brunaaq.github.io/Documentacao_Projeto_FermenPy_FAPESP/documentacao.html#inibicao_substrato", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_Projeto_FermenPy_FAPESP/documentacao.html#inibicao_substrato')).place(x = 7, y = 149)
 image_docum(imagem = "Equacao_Andrews.png", num_frame = frame29, borda = 5, x = 20, y = 195)
 ## Wu:
 Modulo_documentacao.caixa_texto_modelo_wu(frame = frame30, altura = 15, largura = 72, x = 0, y = 0)
 Modulo_documentacao.caixa_texto_equacao_wu(frame = frame30, altura = 7, largura = 51, x = 262, y = 172)
 Label(frame30, text = "Descrição completa em:", font = "Times 8 bold", fg = "black", bg = "gray90").place(x = 5, y = 130)
-Button(frame30, text="https://brunaaq.github.io/Documentacao_fermenpy/#inibicao%20substrato", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#inibicao%20substrato')).place(x = 132, y = 129)
+Button(frame30, text="https://brunaaq.github.io/Documentacao_Projeto_FermenPy_FAPESP/documentacao.html#inibicao_substrato", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_Projeto_FermenPy_FAPESP/documentacao.html#inibicao_substrato')).place(x = 7, y = 149)
 image_docum(imagem = "Equacao_Wu.png", num_frame = frame30, borda = 5, x = 10, y = 195)
 ## Aiba:
 Modulo_documentacao.caixa_texto_modelo_aiba(frame = frame31, altura = 15, largura = 72, x = 0, y = 0)
 Modulo_documentacao.caixa_texto_equacao_aiba(frame = frame31, altura = 7, largura = 51, x = 260, y = 170)
 Label(frame31, text = "Descrição completa em:", font = "Times 8 bold", fg = "black", bg = "gray90").place(x = 5, y = 120)
-Button(frame31, text="https://brunaaq.github.io/Documentacao_fermenpy/#inibicao%20produto", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#inibicao%20produto')).place(x = 132, y = 119)
+Button(frame31, text="https://brunaaq.github.io/Documentacao_Projeto_FermenPy_FAPESP/documentacao.html#inibicao_produto", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_Projeto_FermenPy_FAPESP/documentacao.html#inibicao_produto')).place(x = 7, y = 139)
 image_docum(imagem = "Equacao_Aiba.png", num_frame = frame31, borda = 5, x = 15, y = 200)
 ## Hoppe & Hansford:
 Modulo_documentacao.caixa_texto_modelo_h_h(frame = frame32, altura = 15, largura = 72, x = 0, y = 0)
 Modulo_documentacao.caixa_texto_equacao_h_h(frame = frame32, altura = 7, largura = 51, x = 260, y = 165)
 Label(frame32, text = "Descrição completa em:", font = "Times 8 bold", fg = "black", bg = "gray90").place(x = 5, y = 120)
-Button(frame32, text="https://brunaaq.github.io/Documentacao_fermenpy/#inibicao%20produto", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#inibicao%20produto')).place(x = 132, y = 119)
+Button(frame32, text="https://brunaaq.github.io/Documentacao_Projeto_FermenPy_FAPESP/documentacao.html#inibicao_produto", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_Projeto_FermenPy_FAPESP/documentacao.html#inibicao_produto')).place(x = 7, y = 139)
 image_docum(imagem = "Equacao_Hoppe_Hansford.png", num_frame = frame32, borda = 5, x = 15, y = 200)
 ## Levenspiel:
 Modulo_documentacao.caixa_texto_modelo_levenspiel(frame = frame33, altura = 15, largura = 72, x = 0, y = 0)
 Modulo_documentacao.caixa_texto_equacao_levenspiel(frame = frame33, altura = 8, largura = 51, x = 268, y = 160)
 Label(frame33, text = "Descrição completa em:", font = "Times 8 bold", fg = "black", bg = "gray90").place(x = 5, y = 130)
-Button(frame33, text="https://brunaaq.github.io/Documentacao_fermenpy/#inibicao%20produto", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#inibicao%20produto')).place(x = 132, y = 129)
+Button(frame33, text="https://brunaaq.github.io/Documentacao_Projeto_FermenPy_FAPESP/documentacao.html#inibicao_produto", font = "calibri 7", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_Projeto_FermenPy_FAPESP/documentacao.html#inibicao_produto')).place(x = 132, y = 132)
 image_docum(imagem = "Equacao_Levenspiel.png", num_frame = frame33, borda = 5, x = 12, y = 200)
 ## Lee:
 Modulo_documentacao.caixa_texto_modelo_lee(frame = frame34, altura = 15, largura = 72, x = 0, y = 0)
 Modulo_documentacao.caixa_texto_equacao_lee(frame = frame34, altura = 7, largura = 51, x = 268, y = 165)
 Label(frame34, text = "Descrição completa em:", font = "Times 8 bold", fg = "black", bg = "gray90").place(x = 5, y = 130)
-Button(frame34, text="https://brunaaq.github.io/Documentacao_fermenpy/#inibicao%20biomassa", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#inibicao%20biomassa')).place(x = 132, y = 129)
+Button(frame34, text="https://brunaaq.github.io/Documentacao_Projeto_FermenPy_FAPESP/documentacao.html#inibicao_biomassa", font = "calibri 7", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_Projeto_FermenPy_FAPESP/documentacao.html#inibicao_biomassa')).place(x = 132, y = 132)
 image_docum(imagem = "Equacao_Lee.png", num_frame = frame34, borda = 5, x = 12, y = 200)
 # ALGORITMOS:
 ## Integração numérica:
 Modulo_documentacao.caixa_texto_integ_num(frame = frame35, altura = 11, largura = 72, x = 0, y = 0)
 Label(frame35, text = "Documentação completa em:", font = "Times 8 bold", fg = "black", bg = "gray90").place(x = 5, y = 170)
-Button(frame35, text="https://brunaaq.github.io/Documentacao_fermenpy/#integracao%20numerica", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#integracao%20numerica')).place(x = 158, y = 169)
+Button(frame35, text="https://brunaaq.github.io/Documentacao_Projeto_FermenPy_FAPESP/documentacao.html#integracao_numerica", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_Projeto_FermenPy_FAPESP/documentacao.html#integracao_numerica')).place(x = 5, y = 189)
 ## AG:
 Modulo_documentacao.caixa_texto_ag(frame = frame36, altura = 11, largura = 72, x = 0, y = 0)
 Label(frame36, text = "Documentação completa em:", font = "Times 8 bold", fg = "black", bg = "gray90").place(x = 5, y = 190)
-Button(frame36, text="https://brunaaq.github.io/Documentacao_fermenpy/#AG", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#AG')).place(x = 158, y = 189)
+Button(frame36, text="https://brunaaq.github.io/Documentacao_Projeto_FermenPy_FAPESP/documentacao.html#algoritmo_genetico", font = "calibri 7", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_Projeto_FermenPy_FAPESP/documentacao.html#algoritmo_genetico')).place(x = 158, y = 191)
 ## ALM:
 Modulo_documentacao.caixa_texto_alm(frame = frame37, altura = 11, largura = 72, x = 0, y = 0)
 Label(frame37, text = "Documentação completa em:", font = "Times 8 bold", fg = "black", bg = "gray90").place(x = 5, y = 170)
-Button(frame37, text="https://brunaaq.github.io/Documentacao_fermenpy/#ALM", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/#ALM')).place(x = 158, y = 169)
+Button(frame37, text="https://brunaaq.github.io/Documentacao_Projeto_FermenPy_FAPESP/documentacao.html#algoritmo_lm", font = "calibri 7", fg = "blue", bg = "gray80", relief = "raised", command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_Projeto_FermenPy_FAPESP/documentacao.html#algoritmo_lm')).place(x = 158, y = 170)
 
             #### **** CODIFICAÇÃO PARA A PARTE REFERENTE À BATELADA ALIMENTADA - simulação e modelagem **** ####
 ## Combobox:
@@ -1732,7 +1731,7 @@ def simulacao(cont):
                 print(Q0_simul_lin, V0_simul_lin, Cs0_corrent_alim_simul_lin, a_simul)
         
                 mi = mimax_lin*(C[1]/(Ks_lin + C[1]))
-                D = (Q0_simul_lin*(1+a_simul*t_bat_alim_simul))/((Q0_simul_lin*(t_bat_alim_simul+(a_simul*t_bat_alim_simul**2)))+V0_simul_lin)
+                D = (Q0_simul_lin*(1+a_simul*t_bat_alim_simul))/((Q0_simul_lin*(t_bat_alim_simul+(a_simul*((t_bat_alim_simul**2)/2))))+V0_simul_lin)
                 dCxdt = (mi - Kd_lin - D)*C[0]
                 dCsdt = D*(Cs0_corrent_alim_simul_lin - C[1]) - ((mi*C[0])/Yxs_lin)
                 dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_lin + alfa_lin*mi)
@@ -1812,7 +1811,7 @@ def simulacao(cont):
                 a_simul = a
         
                 mi = mimax_lin*(C[1]/((KSX_lin*C[0]) + C[1]))
-                D = (Q0_simul_lin*(1+a_simul*t_bat_alim_simul))/((Q0_simul_lin*(t_bat_alim_simul+(a_simul*t_bat_alim_simul**2)))+V0_simul_lin)
+                D = (Q0_simul_lin*(1+a_simul*t_bat_alim_simul))/((Q0_simul_lin*(t_bat_alim_simul+(a_simul*((t_bat_alim_simul**2)/2)))) +V0_simul_lin)
                 dCxdt = (mi - Kd_lin - D)*C[0]
                 dCsdt = D*(Cs0_corrent_alim_simul_lin - C[1]) - ((mi*C[0])/Yxs_lin)
                 dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_lin + alfa_lin*mi)
@@ -1891,7 +1890,7 @@ def simulacao(cont):
                 a_simul = a
         
                 mi = mimax_lin * (C[1]/(Ks_lin + C[1] + ((C[1]**2)/KIS_lin)))
-                D = (Q0_simul_lin*(1+a_simul*t_bat_alim_simul))/((Q0_simul_lin*(t_bat_alim_simul+(a_simul*t_bat_alim_simul**2)))+V0_simul_lin)
+                D = (Q0_simul_lin*(1+a_simul*t_bat_alim_simul))/((Q0_simul_lin*(t_bat_alim_simul+(a_simul*((t_bat_alim_simul**2)/2))))+V0_simul_lin)
                 dCxdt = (mi - Kd_lin - D)*C[0]
                 dCsdt = D*(Cs0_corrent_alim_simul_lin - C[1]) - ((mi*C[0])/Yxs_lin)
                 dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_lin + alfa_lin*mi)
@@ -1974,7 +1973,7 @@ def simulacao(cont):
         
                 mult_exp = -C[2] * Kp_aiba_lin
                 mi = mimax_lin*((C[1]/(Ks_lin + C[1]))*math.exp(mult_exp))
-                D = (Q0_simul_lin*(1+a_simul*t_bat_alim_simul))/((Q0_simul_lin*(t_bat_alim_simul+(a_simul*t_bat_alim_simul**2)))+V0_simul_lin)
+                D = (Q0_simul_lin*(1+a_simul*t_bat_alim_simul))/((Q0_simul_lin*(t_bat_alim_simul+(a_simul*((t_bat_alim_simul**2)/2))))+V0_simul_lin)
                 dCxdt = (mi - Kd_lin - D)*C[0]
                 dCsdt = D*(Cs0_corrent_alim_simul_lin - C[1]) - ((mi*C[0])/Yxs_lin)
                 dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_lin + alfa_lin*mi)
@@ -2055,7 +2054,7 @@ def simulacao(cont):
                 a_simul = a
         
                 mi = mimax_lin*(((C[1])**u_lin)/(Ks_lin + ((C[1])**u_lin)))
-                D = (Q0_simul_lin*(1+a_simul*t_bat_alim_simul))/((Q0_simul_lin*(t_bat_alim_simul+(a_simul*t_bat_alim_simul**2)))+V0_simul_lin)
+                D = (Q0_simul_lin*(1+a_simul*t_bat_alim_simul))/((Q0_simul_lin*(t_bat_alim_simul+(a_simul*((t_bat_alim_simul**2)/2))))+V0_simul_lin)
                 dCxdt = (mi - Kd_lin - D)*C[0]
                 dCsdt = D*(Cs0_corrent_alim_simul_lin - C[1]) - ((mi*C[0])/Yxs_lin)
                 dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_lin + alfa_lin*mi)
@@ -2135,7 +2134,7 @@ def simulacao(cont):
                 a_simul = a
         
                 mi = mimax_lin*(C[1]/(Ks_lin + C[1]))*(Kp_hoppe_lin/(Kp_hoppe_lin + C[2]))
-                D = (Q0_simul_lin*(1+a_simul*t_bat_alim_simul))/((Q0_simul_lin*(t_bat_alim_simul+(a_simul*t_bat_alim_simul**2)))+V0_simul_lin)
+                D = (Q0_simul_lin*(1+a_simul*t_bat_alim_simul))/((Q0_simul_lin*(t_bat_alim_simul+(a_simul*((t_bat_alim_simul**2)/2))))+V0_simul_lin)
                 dCxdt = (mi - Kd_lin - D)*C[0]
                 dCsdt = D*(Cs0_corrent_alim_simul_lin - C[1]) - ((mi*C[0])/Yxs_lin)
                 dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_lin + alfa_lin*mi)
@@ -2217,7 +2216,7 @@ def simulacao(cont):
                 a_simul = a
         
                 mi = mimax_lin * (C[1]/(Ks_lin + C[1] + C[1]*((C[1]/Ke_lin)**v_lin)))
-                D = (Q0_simul_lin*(1+a_simul*t_bat_alim_simul))/((Q0_simul_lin*(t_bat_alim_simul+(a_simul*t_bat_alim_simul**2)))+V0_simul_lin)
+                D = (Q0_simul_lin*(1+a_simul*t_bat_alim_simul))/((Q0_simul_lin*(t_bat_alim_simul+(a_simul*((t_bat_alim_simul**2)/2))))+V0_simul_lin)
                 dCxdt = (mi - Kd_lin - D)*C[0]
                 dCsdt = D*(Cs0_corrent_alim_simul_lin - C[1]) - ((mi*C[0])/Yxs_lin)
                 dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_lin + alfa_lin*mi)
@@ -2300,7 +2299,7 @@ def simulacao(cont):
                 a_simul = a
         
                 mi = mimax_lin*((C[1]/(Ks_lin + C[1]))*((abs(1 - (C[2]/Cp_estr_lin)))**n_lin))
-                D = (Q0_simul_lin*(1+a_simul*t_bat_alim_simul))/((Q0_simul_lin*(t_bat_alim_simul+(a_simul*t_bat_alim_simul**2)))+V0_simul_lin)
+                D = (Q0_simul_lin*(1+a_simul*t_bat_alim_simul))/((Q0_simul_lin*(t_bat_alim_simul+(a_simul*((t_bat_alim_simul**2)/2))))+V0_simul_lin)
                 dCxdt = (mi - Kd_lin - D)*C[0]
                 dCsdt = D*(Cs0_corrent_alim_simul_lin - C[1]) - ((mi*C[0])/Yxs_lin)
                 dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_lin + alfa_lin*mi)
@@ -2383,7 +2382,7 @@ def simulacao(cont):
                 a_simul = a
         
                 mi = mimax_lin*((C[1]/(Ks_lin + C[1]))*((abs(1 - (C[0]/Cx_estr_lin)))**m_lin))
-                D = (Q0_simul_lin*(1+a_simul*t_bat_alim_simul))/((Q0_simul_lin*(t_bat_alim_simul+(a_simul*t_bat_alim_simul**2)))+V0_simul_lin)
+                D = (Q0_simul_lin*(1+a_simul*t_bat_alim_simul))/((Q0_simul_lin*(t_bat_alim_simul+(a_simul*((t_bat_alim_simul**2)/2))))+V0_simul_lin)
                 dCxdt = (mi - Kd_lin - D)*C[0]
                 dCsdt = D*(Cs0_corrent_alim_simul_lin - C[1]) - ((mi*C[0])/Yxs_lin)
                 dCpdt = D*(Cp0_simul_bat_alim - C[2]) + C[0]*(beta_lin + alfa_lin*mi)
@@ -3591,7 +3590,7 @@ def explorer():
                     a_model = a
         
                     mi = mimaximo*(C[1]/(Ks+C[1]))
-                    D = (Q0_model_lin*(1+a_model*t_exp_bat_alim))/((Q0_model_lin*(t_exp_bat_alim+(a_model*t_exp_bat_alim**2)))+V0_model_lin)
+                    D = (Q0_model_lin*(1+a_model*t_exp_bat_alim))/((Q0_model_lin*(t_exp_bat_alim+(a_model*((t_exp_bat_alim**2)/2))))+V0_model_lin)
                     dCxdt = (mi - Kd - D)*C[0]
                     dCsdt = D*(Cs0_corrent_alim_model_lin - C[1]) - ((mi*C[0])/Yxs)
                     dCpdt = D*(Cp0_exp_bat_alim - C[2]) + C[0]*(beta + alfa*mi)
@@ -3667,7 +3666,7 @@ def explorer():
                     a_model = a
               
                     mi = mimaximo*(C[1]/((KSX*C[0]) + C[1]))
-                    D = (Q0_model_lin*(1+a_model*t_exp_bat_alim))/((Q0_model_lin*(t_exp_bat_alim+(a_model*t_exp_bat_alim**2)))+V0_model_lin)
+                    D = (Q0_model_lin*(1+a_model*t_exp_bat_alim))/((Q0_model_lin*(t_exp_bat_alim+(a_model*((t_exp_bat_alim**2)/2))))+V0_model_lin)
                     dCxdt = (mi - Kd - D)*C[0]
                     dCsdt = D*(Cs0_corrent_alim_model_lin - C[1]) - ((mi*C[0])/Yxs)
                     dCpdt = D*(Cp0_exp_bat_alim - C[2]) + C[0]*(beta + alfa*mi)
@@ -3741,7 +3740,7 @@ def explorer():
                     a_model = a
              
                     mi = mimaximo*(((C[1])**u)/(Ks+((C[1])**u)))
-                    D = (Q0_model_lin*(1+a_model*t_exp_bat_alim))/((Q0_model_lin*(t_exp_bat_alim+(a_model*t_exp_bat_alim**2)))+V0_model_lin)
+                    D = (Q0_model_lin*(1+a_model*t_exp_bat_alim))/((Q0_model_lin*(t_exp_bat_alim+(a_model*((t_exp_bat_alim**2)/2))))+V0_model_lin)
                     dCxdt = (mi - Kd - D)*C[0]
                     dCsdt = D*(Cs0_corrent_alim_model_lin - C[1]) - ((mi*C[0])/Yxs)
                     dCpdt = D*(Cp0_exp_bat_alim - C[2]) + C[0]*(beta + alfa*mi)
@@ -3825,7 +3824,7 @@ def explorer():
              
                     mult_exp = -Kp*C[2]
                     mi = mimaximo*((C[1]/(Ks + C[1]))*np.exp(mult_exp))
-                    D = (Q0_model_lin*(1+a_model*t_exp_bat_alim))/((Q0_model_lin*(t_exp_bat_alim+(a_model*t_exp_bat_alim**2)))+V0_model_lin)
+                    D = (Q0_model_lin*(1+a_model*t_exp_bat_alim))/((Q0_model_lin*(t_exp_bat_alim+(a_model*((t_exp_bat_alim**2)/2))))+V0_model_lin)
                     dCxdt = (mi - Kd - D)*C[0]
                     dCsdt = D*(Cs0_corrent_alim_model_lin - C[1]) - ((mi*C[0])/Yxs)
                     dCpdt = D*(Cp0_exp_bat_alim - C[2]) + C[0]*(beta + alfa*mi)
@@ -3905,7 +3904,7 @@ def explorer():
                     a_model = a
              
                     mi = mimaximo*(C[1]/(Ks + C[1]))*(Kp/(Kp + C[2]))
-                    D = (Q0_model_lin*(1+a_model*t_exp_bat_alim))/((Q0_model_lin*(t_exp_bat_alim+(a_model*t_exp_bat_alim**2)))+V0_model_lin)
+                    D = (Q0_model_lin*(1+a_model*t_exp_bat_alim))/((Q0_model_lin*(t_exp_bat_alim+(a_model*((t_exp_bat_alim**2)/2))))+V0_model_lin)
                     dCxdt = (mi - Kd - D)*C[0]
                     dCsdt = D*(Cs0_corrent_alim_model_lin - C[1]) - ((mi*C[0])/Yxs)
                     dCpdt = D*(Cp0_exp_bat_alim - C[2]) + C[0]*(beta + alfa*mi)
@@ -3986,7 +3985,7 @@ def explorer():
                     a_model = a
              
                     mi = mimaximo*((C[1]/(Ks+C[1]))*((abs(1-(C[2]/Cp_estr)))**n))
-                    D = (Q0_model_lin*(1+a_model*t_exp_bat_alim))/((Q0_model_lin*(t_exp_bat_alim+(a_model*t_exp_bat_alim**2)))+V0_model_lin)
+                    D = (Q0_model_lin*(1+a_model*t_exp_bat_alim))/((Q0_model_lin*(t_exp_bat_alim+(a_model*((t_exp_bat_alim**2)/2))))+V0_model_lin)
                     dCxdt = (mi - Kd - D)*C[0]
                     dCsdt = D*(Cs0_corrent_alim_model_lin - C[1]) - ((mi*C[0])/Yxs)
                     dCpdt = D*(Cp0_exp_bat_alim - C[2]) + C[0]*(beta + alfa*mi)
@@ -4069,7 +4068,7 @@ def explorer():
                     a_model = a
              
                     mi = mimaximo*(C[1]/(Ks + C[1] + ((C[1]**2)/KIS)))
-                    D = (Q0_model_lin*(1+a_model*t_exp_bat_alim))/((Q0_model_lin*(t_exp_bat_alim+(a_model*t_exp_bat_alim**2)))+V0_model_lin)
+                    D = (Q0_model_lin*(1+a_model*t_exp_bat_alim))/((Q0_model_lin*(t_exp_bat_alim+(a_model*((t_exp_bat_alim**2)/2))))+V0_model_lin)
                     dCxdt = (mi - Kd - D)*C[0]
                     dCsdt = D*(Cs0_corrent_alim_model_lin - C[1]) - ((mi*C[0])/Yxs)
                     dCpdt = D*(Cp0_exp_bat_alim - C[2]) + C[0]*(beta + alfa*mi)
@@ -4150,7 +4149,7 @@ def explorer():
                     a_model = a
              
                     mi = mimaximo * (C[1]/(Ks + C[1] + C[1]*((C[1]/KE)**v)))
-                    D = (Q0_model_lin*(1+a_model*t_exp_bat_alim))/((Q0_model_lin*(t_exp_bat_alim+(a_model*t_exp_bat_alim**2)))+V0_model_lin)
+                    D = (Q0_model_lin*(1+a_model*t_exp_bat_alim))/((Q0_model_lin*(t_exp_bat_alim+(a_model*((t_exp_bat_alim**2)/2))))+V0_model_lin)
                     dCxdt = (mi - Kd - D)*C[0]
                     dCsdt = D*(Cs0_corrent_alim_model_lin - C[1]) - ((mi*C[0])/Yxs)
                     dCpdt = D*(Cp0_exp_bat_alim - C[2]) + C[0]*(beta + alfa*mi)
@@ -4233,7 +4232,7 @@ def explorer():
                     a_model = a
              
                     mi = mimaximo*((C[1]/(Ks+C[1]))*((abs(1-(C[0]/Cx_estr)))**m))
-                    D = (Q0_model_lin*(1+a_model*t_exp_bat_alim))/((Q0_model_lin*(t_exp_bat_alim+(a_model*t_exp_bat_alim**2)))+V0_model_lin)
+                    D = (Q0_model_lin*(1+a_model*t_exp_bat_alim))/((Q0_model_lin*(t_exp_bat_alim+(a_model*((t_exp_bat_alim**2)/2))))+V0_model_lin)
                     dCxdt = (mi - Kd - D)*C[0]
                     dCsdt = D*(Cs0_corrent_alim_model_lin - C[1]) - ((mi*C[0])/Yxs)
                     dCpdt = D*(Cp0_exp_bat_alim - C[2]) + C[0]*(beta + alfa*mi)
@@ -5955,9 +5954,9 @@ def explorer():
             Button(frame12, text = "Preparar ambiente", bg = "gray40", fg="white", borderwidth=4, relief="raised", font="batang 8", command = click_lee).place(x = 202, y = 282)
         
         Label(frame1, text = "Visite nossa página completa", font = "courier 12 bold", fg = "black", bg = "grey92", borderwidth = 2, relief = "groove").place(x = 10, y = 510)
-        Button(frame1, text="https://brunaaq.github.io/Documentacao_fermenpy/", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", borderwidth = 4, command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/')).place(x = 100, y = 538)
+        Button(frame1, text="https://brunaaq.github.io/Documentacao_Projeto_FermenPy_FAPESP/index.html", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", borderwidth = 4, command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_Projeto_FermenPy_FAPESP/index.html')).place(x = 10, y = 538)
         Label(frame2, text = "Visite nossa página completa", font = "courier 12 bold", fg = "black", bg = "grey92", borderwidth = 2, relief = "groove").place(x = 10, y = 510)
-        Button(frame2, text="https://brunaaq.github.io/Documentacao_fermenpy/", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", borderwidth = 4, command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_fermenpy/')).place(x = 100, y = 538)
+        Button(frame2, text="https://brunaaq.github.io/Documentacao_Projeto_FermenPy_FAPESP/index.html", font = "calibri 8", fg = "blue", bg = "gray80", relief = "raised", borderwidth = 4, command=lambda: webbrowser.open('https://brunaaq.github.io/Documentacao_Projeto_FermenPy_FAPESP/index.html')).place(x = 10, y = 538)
         Button(frame1, text="Encerrar programa", font = "Times 10 italic bold", fg = "white", bg = "black", relief = "raised", borderwidth = 4, command = janela.destroy).place(x = 1150, y = 515)
         Button(frame2, text="Encerrar programa", font = "Times 10 italic bold", fg = "white", bg = "black", relief = "raised", borderwidth = 4, command = janela.destroy).place(x = 1150, y = 515)
         
