@@ -1,4 +1,4 @@
-# 🖥️ 🔬 Projeto de pesquisa Iniciação Científica N°2019/24737-9 🧫 🦠
+# 🖥️🔬Projeto de pesquisa Iniciação Científica N°2019/24737-9🧫🦠
 As pastas que trazem os arquivos escritos em Python (._py_) ou ainda salvos em outra extensão (._xlsx_ e ._png_) que contemplam os resultados apresentados e discutidos no Relatório Parcial submetido à FAPESP para análise foram criadas seguindo o esquema descrito abaixo (o repositório utilizado na rotina de trabalho para desenvolvimento do projeto, com todos os commits (alterações e versionamentos) realizados, encontra-se nomeado por "Projeto_fermenpy" e associado à mesma conta deste aqui tratado). 
 
 ## Pastas inseridas referentes ao Relatório Científico Final:
